@@ -1,0 +1,10 @@
+﻿Add ''based on' class for custom implementation.
+
+Method implementation
+
+Methods conditions
+
+Auto-resolve method values
+
+Dedicated IValueProvider<T> class for single-method implementation
+
