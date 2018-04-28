@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoApp", "DemoApp\DemoApp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GalvanizedSoftware.Beethoven", "GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj", "{49F5B760-8F8D-4A0B-978E-142266A03389}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GalvanizedSoftware.Beethoven.Test", "GalvanizedSoftware.Beethoven.Test\GalvanizedSoftware.Beethoven.Test.csproj", "{A6AB0BE5-8474-4F48-BDE0-F2966ED205BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GalvanizedSoftware.Beethoven.Test", "GalvanizedSoftware.Beethoven.Test\GalvanizedSoftware.Beethoven.Test.csproj", "{427D067D-91CF-43C3-BD58-111311C2234F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{49F5B760-8F8D-4A0B-978E-142266A03389}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49F5B760-8F8D-4A0B-978E-142266A03389}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49F5B760-8F8D-4A0B-978E-142266A03389}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6AB0BE5-8474-4F48-BDE0-F2966ED205BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6AB0BE5-8474-4F48-BDE0-F2966ED205BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6AB0BE5-8474-4F48-BDE0-F2966ED205BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6AB0BE5-8474-4F48-BDE0-F2966ED205BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{427D067D-91CF-43C3-BD58-111311C2234F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{427D067D-91CF-43C3-BD58-111311C2234F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{427D067D-91CF-43C3-BD58-111311C2234F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{427D067D-91CF-43C3-BD58-111311C2234F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
