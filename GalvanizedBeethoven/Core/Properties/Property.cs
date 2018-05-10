@@ -19,6 +19,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
 
     public string Name { get; }
 
+    public abstract Type PropertyType { get; }
+
     internal abstract object InvokeGet();
 
     internal abstract void InvokeSet(object newValue);

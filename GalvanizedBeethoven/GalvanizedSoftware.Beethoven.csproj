@@ -57,6 +57,7 @@
     <Compile Include="Core\Methods\MethodsWithInstance.cs" />
     <Compile Include="Core\Properties\PropertyMapper.cs" />
     <Compile Include="Core\Methods\FuncMethod.cs" />
+    <Compile Include="Core\SignatureChecker.cs" />
     <Compile Include="Extentions\TypeExtentions.cs" />
     <Compile Include="Core\Events\EventAddInterceptor.cs" />
     <Compile Include="Core\Events\EventRemoveInterceptor.cs" />

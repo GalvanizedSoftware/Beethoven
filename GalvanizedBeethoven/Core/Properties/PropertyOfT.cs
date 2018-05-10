@@ -43,6 +43,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       return true;
     }
 
+    public override Type PropertyType { get; } = typeof(T);
+
     internal override object InvokeGet()
     {
       T value = default(T);
@@ -53,7 +55,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
 
     internal override void InvokeSet(object newValue)
     {
-      InvokeSetter((T) newValue);
+      InvokeSetter((T)newValue);
     }
   }
 }

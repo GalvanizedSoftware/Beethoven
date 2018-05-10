@@ -13,12 +13,14 @@ namespace GalvanizedSoftware.Beethoven.Core
   {
     private readonly Dictionary<Type, object> masters = new Dictionary<Type, object>();
     private readonly IObjectProvider objectProviderHandler;
+    private readonly SignatureChecker<T> signatureChecker = new SignatureChecker<T>();
 
     public InstanceContainer(object[] partDefinitions)
     {
       AddMaster(new TargetBindingParent(this));
       EventInvokers eventInvokers = AddMaster(new EventInvokers(this));
       object[] wrappers = GetWrappers(partDefinitions).ToArray();
+      signatureChecker.CheckSignatures(wrappers);
       MasterInterceptor masterInterceptor = new MasterInterceptor(
         new PropertiesFactory(wrappers.OfType<Property>()),
         new MethodsFactory(wrappers.OfType<Method>()),
