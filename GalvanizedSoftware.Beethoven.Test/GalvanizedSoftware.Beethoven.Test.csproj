@@ -48,11 +48,19 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="ITest.cs" />
+    <Compile Include="PropertySetterGetter.cs" />
+    <Compile Include="PropertyConstant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj">
+      <Project>{49f5b760-8f8d-4a0b-978e-142266a03389}</Project>
+      <Name>GalvanizedSoftware.Beethoven</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
