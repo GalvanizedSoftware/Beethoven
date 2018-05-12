@@ -3,11 +3,11 @@ using GalvanizedSoftware.Beethoven.Core.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
-  public class DelegateGetter<T> : IPropertyDefinition<T>
+  public class DelegatedGetter<T> : IPropertyDefinition<T>
   {
     private readonly Func<T> delegateFunc;
 
-    public DelegateGetter(Func<T> delegateFunc)
+    public DelegatedGetter(Func<T> delegateFunc)
     {
       this.delegateFunc = delegateFunc;
     }

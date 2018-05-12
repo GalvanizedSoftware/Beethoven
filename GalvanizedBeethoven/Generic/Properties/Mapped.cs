@@ -3,13 +3,13 @@ using GalvanizedSoftware.Beethoven.Core.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
-  public class PropertyMapped<T> : IPropertyDefinition<T>
+  public class Mapped<T> : IPropertyDefinition<T>
   {
     private readonly object main;
     private readonly string name;
     private readonly PropertyInfo propertyInfo;
 
-    public PropertyMapped(string name, object main)
+    public Mapped(string name, object main)
     {
       this.name = name;
       this.main = main;

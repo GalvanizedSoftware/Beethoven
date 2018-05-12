@@ -79,8 +79,8 @@
     <Compile Include="Core\IObjectProvider.cs" />
     <Compile Include="Generic\FactoryHelper.cs" />
     <Compile Include="Generic\Properties\DelegatedSetter.cs" />
-    <Compile Include="Generic\Properties\DelegateGetter.cs" />
-    <Compile Include="Generic\Properties\PropertyMapped.cs" />
+    <Compile Include="Generic\Properties\DelegatedGetter.cs" />
+    <Compile Include="Generic\Properties\Mapped.cs" />
     <Compile Include="MVVM\Properties\NotifyChanged.cs" />
     <Compile Include="Core\Properties\Property.cs" />
     <Compile Include="Core\Properties\IPropertyDefinition.cs" />

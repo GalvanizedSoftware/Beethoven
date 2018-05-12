@@ -39,17 +39,27 @@ namespace GalvanizedSoftware.Beethoven.Extentions
 
     public static Property<T> MappedFrom<T>(this Property<T> property, object main)
     {
-      return new Property<T>(property, new NotifyChanged<T>(property.Name));
+      return new Property<T>(property, new Mapped<T>(property.Name, main));
     }
 
     public static Property<T> MappedGetter<T>(this Property<T> property, Func<T> getterFunc)
     {
-      return new Property<T>(property, new DelegateGetter<T>(getterFunc));
+      return new Property<T>(property, new DelegatedGetter<T>(getterFunc));
     }
 
     public static Property<T> Constant<T>(this Property<T> property, T value)
     {
       return new Property<T>(property, new Constant<T>(value));
+    }
+
+    public static Property<T> DelegatedSetter<T>(this Property<T> property, Action<T> action)
+    {
+      return new Property<T>(property, new DelegatedSetter<T>(action));
+    }
+
+    public static Property<T> DelegatedGetter<T>(this Property<T> property, Func<T> func)
+    {
+      return new Property<T>(property, new DelegatedGetter<T>(func));
     }
   }
 }

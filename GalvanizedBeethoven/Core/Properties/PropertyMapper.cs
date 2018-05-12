@@ -43,7 +43,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
 
     private static Property CreateProperty<T>(string name, object baseObject)
     {
-      return new PropertyMapped<T>(name, baseObject).CreateMasterProperty();
+      return new Mapped<T>(name, baseObject).CreateMasterProperty();
     }
   }
 }
