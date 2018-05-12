@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeethovenFactory.cs" />
-    <Compile Include="Core\CreatorMethodMapper.cs" />
+    <Compile Include="Core\MethodMapperCreator.cs" />
     <Compile Include="Core\CompositeInterceptor.cs" />
     <Compile Include="Core\Events\ActionEventInvoker.cs" />
     <Compile Include="Core\Events\EventInvoker.cs" />

@@ -7,12 +7,12 @@ using GalvanizedSoftware.Beethoven.Core.Methods;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
-  public class CreatorMethodMapper<TMain, TChild> : IEnumerable<Method>, IBindingParent where TMain : class
+  public class MethodMapperCreator<TMain, TChild> : IEnumerable<Method>, IBindingParent where TMain : class
   {
     private readonly Func<TMain, TChild> creatorFunc;
-    private readonly List<MethodsWithInstance> methods; // TODO: Add extra layer: NamedMethod with ConcreteMethod
+    private readonly List<MethodsWithInstance> methods;
 
-    public CreatorMethodMapper(Func<TMain, TChild> creatorFunc)
+    public MethodMapperCreator(Func<TMain, TChild> creatorFunc)
     {
       this.creatorFunc = creatorFunc;
       methods = new List<MethodsWithInstance>(

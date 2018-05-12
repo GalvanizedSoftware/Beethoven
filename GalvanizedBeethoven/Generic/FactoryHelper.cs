@@ -9,9 +9,9 @@ namespace GalvanizedSoftware.Beethoven.Generic
   /// <typeparam name="T"></typeparam>
   public class FactoryHelper<T> where T : class
   {
-    public CreatorMethodMapper<T, TChild> MethodMapper<TChild>(Func<T, TChild> creatorFunc)
+    public MethodMapperCreator<T, TChild> MethodMapper<TChild>(Func<T, TChild> creatorFunc)
     {
-      return new CreatorMethodMapper<T, TChild>(creatorFunc);
+      return new MethodMapperCreator<T, TChild>(creatorFunc);
     }
   }
 }
