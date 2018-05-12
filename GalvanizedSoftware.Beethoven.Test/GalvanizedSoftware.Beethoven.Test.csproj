@@ -49,6 +49,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITest.cs" />
+    <Compile Include="PropertyDelegatedGetter.cs" />
+    <Compile Include="PropertyValidityCheck.cs" />
+    <Compile Include="PropertySkipIfChanged.cs" />
+    <Compile Include="PropertyDelegatedSetter.cs" />
+    <Compile Include="PropertyNotSupported.cs" />
+    <Compile Include="PropertyMapped.cs" />
+    <Compile Include="PropertyRangeCheck.cs" />
     <Compile Include="PropertySetterGetter.cs" />
     <Compile Include="PropertyConstant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
