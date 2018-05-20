@@ -1,10 +1,8 @@
-﻿Add ''based on' class for custom implementation.
-
-Method implementation
+﻿Method implementation with bool and ref for return vakue
 
 Methods conditions
 
 Auto-resolve method values
 
-Dedicated IValueProvider<T> class for single-method implementation
+Auto-create with custom IOC container
 
