@@ -10,13 +10,13 @@ namespace GalvanizedSoftware.Beethoven.Core
   internal class SignatureChecker<T>
   {
     private readonly Dictionary<string, Type> properties;
-    private Dictionary<string, MethodInfo> methods;
+    private readonly MethodInfo[] methods;
 
     public SignatureChecker()
     {
       Type type = typeof(T);
       properties = type.GetProperties().ToDictionary(info => info.Name, info => info.PropertyType);
-      methods = type.GetMethods().ToDictionary(info => info.Name, info => info);
+      methods = type.GetMethods();
     }
 
     public void CheckSignatures(object[] wrappers)

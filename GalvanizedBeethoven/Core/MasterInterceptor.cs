@@ -28,8 +28,9 @@ namespace GalvanizedSoftware.Beethoven.Core
 
     public void Intercept(IInvocation invocation)
     {
+      string methodName = invocation.Method.Name;
       interceptorsMap
-        .Where(pair => pair.Key == invocation.Method.Name)
+        .Where(pair => pair.Key == methodName)
         .Select(pair => pair.Value)
         .Single()
         .Intercept(invocation);

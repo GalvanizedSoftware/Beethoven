@@ -12,8 +12,8 @@ namespace GalvanizedSoftware.Beethoven.Test
     public void TestMethodPropertyValidityCheck1()
     {
       BeethovenFactory factory = new BeethovenFactory();
-      ITest test = factory.Generate<ITest>(
-        new Property<int>(nameof(ITest.Property1))
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new Property<int>(nameof(ITestProperties.Property1))
         .ValidityCheck(value => value % 2 == 0)
         .SetterGetter());
       Assert.AreEqual(0, test.Property1);
@@ -26,8 +26,8 @@ namespace GalvanizedSoftware.Beethoven.Test
     public void TestMethodPropertyValidityCheck2()
     {
       BeethovenFactory factory = new BeethovenFactory();
-      ITest test = factory.Generate<ITest>(
-        new Property<int>(nameof(ITest.Property1))
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new Property<int>(nameof(ITestProperties.Property1))
           .ValidityCheck(value => value % 2 == 0));
       test.Property1 = 1;
       Assert.Fail();

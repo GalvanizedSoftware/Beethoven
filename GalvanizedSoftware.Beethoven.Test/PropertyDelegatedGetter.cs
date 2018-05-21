@@ -16,8 +16,8 @@ namespace GalvanizedSoftware.Beethoven.Test
       // ReSharper disable once AccessToModifiedClosure
       Func<int> action = () => value;
       BeethovenFactory factory = new BeethovenFactory();
-      ITest test = factory.Generate<ITest>(
-        new Property<int>(nameof(ITest.Property1))
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new Property<int>(nameof(ITestProperties.Property1))
         .DelegatedGetter(action));
       Assert.AreEqual(0, test.Property1);
       value = 5;
@@ -34,8 +34,8 @@ namespace GalvanizedSoftware.Beethoven.Test
         return 55;
       };
       BeethovenFactory factory = new BeethovenFactory();
-      ITest test = factory.Generate<ITest>(
-        new Property<int>(nameof(ITest.Property1))
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new Property<int>(nameof(ITestProperties.Property1))
           .DelegatedGetter(action));
       Assert.AreEqual(0, getCount);
       Assert.AreEqual(55, test.Property1);

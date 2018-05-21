@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeethovenFactory.cs" />
+    <Compile Include="Core\Methods\EquivalentMethodComparer.cs" />
+    <Compile Include="Core\Methods\MethodMapper.cs" />
     <Compile Include="Core\MethodMapperCreator.cs" />
     <Compile Include="Core\CompositeInterceptor.cs" />
     <Compile Include="Core\Events\ActionEventInvoker.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="Core\Properties\PropertyMapper.cs" />
     <Compile Include="Core\Methods\FuncMethod.cs" />
     <Compile Include="Core\SignatureChecker.cs" />
+    <Compile Include="Extentions\MethodInfoExtentions.cs" />
     <Compile Include="Extentions\TypeExtentions.cs" />
     <Compile Include="Core\Events\EventAddInterceptor.cs" />
     <Compile Include="Core\Events\EventRemoveInterceptor.cs" />

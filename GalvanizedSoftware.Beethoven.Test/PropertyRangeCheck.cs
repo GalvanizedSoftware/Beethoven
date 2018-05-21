@@ -12,8 +12,8 @@ namespace GalvanizedSoftware.Beethoven.Test
     public void TestMethodPropertyRangeCheck1()
     {
       BeethovenFactory factory = new BeethovenFactory();
-      ITest test = factory.Generate<ITest>(
-        new Property<int>(nameof(ITest.Property1))
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new Property<int>(nameof(ITestProperties.Property1))
         .RangeCheck(0, 42)
         .SetterGetter());
       Assert.AreEqual(0, test.Property1);
@@ -26,8 +26,8 @@ namespace GalvanizedSoftware.Beethoven.Test
     public void TestMethodPropertyRangeCheck2()
     {
       BeethovenFactory factory = new BeethovenFactory();
-      ITest test = factory.Generate<ITest>(
-        new Property<int>(nameof(ITest.Property1))
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new Property<int>(nameof(ITestProperties.Property1))
           .RangeCheck(0, 42));
       test.Property1 = 43;
       Assert.Fail();
@@ -38,8 +38,8 @@ namespace GalvanizedSoftware.Beethoven.Test
     public void TestMethodPropertyRangeCheck3()
     {
       BeethovenFactory factory = new BeethovenFactory();
-      ITest test = factory.Generate<ITest>(
-        new Property<int>(nameof(ITest.Property1))
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new Property<int>(nameof(ITestProperties.Property1))
           .RangeCheck(0, 42));
       test.Property1 = -1;
       Assert.Fail();
