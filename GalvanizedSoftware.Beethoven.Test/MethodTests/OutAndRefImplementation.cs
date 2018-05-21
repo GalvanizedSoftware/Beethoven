@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace GalvanizedSoftware.Beethoven.Test
+namespace GalvanizedSoftware.Beethoven.Test.MethodTests
 {
   internal class OutAndRefImplementation
   {

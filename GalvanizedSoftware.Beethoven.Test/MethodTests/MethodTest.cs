@@ -1,8 +1,7 @@
-﻿using System;
-using FakeItEasy;
+﻿using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GalvanizedSoftware.Beethoven.Test
+namespace GalvanizedSoftware.Beethoven.Test.MethodTests
 {
   [TestClass]
   public class MethodTest
@@ -67,12 +66,16 @@ namespace GalvanizedSoftware.Beethoven.Test
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
-    public void MethodInvalidSignature1()
+    public void MethodMultiObjects()
     {
+      SimpleImplementation obj1 = new SimpleImplementation();
+      OutAndRefImplementation obj2 = new OutAndRefImplementation();
       BeethovenFactory factory = new BeethovenFactory();
-      ITestMethods test = factory.Generate<ITestMethods>(new InvalidSignature());
+      ITestMethods test = factory.Generate<ITestMethods>(obj1, obj2);
+      string text1 = "abc";
+      Assert.AreEqual(19, test.OutAndRef(out string _, ref text1, 5));
       test.Simple();
     }
+
   }
 }

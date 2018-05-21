@@ -51,21 +51,23 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InvalidSignature.cs" />
-    <Compile Include="ITestMethods.cs" />
-    <Compile Include="ITestProperties.cs" />
-    <Compile Include="OutAndRefImplementation.cs" />
-    <Compile Include="PropertyDelegatedGetter.cs" />
-    <Compile Include="PropertyValidityCheck.cs" />
-    <Compile Include="PropertySkipIfChanged.cs" />
-    <Compile Include="PropertyDelegatedSetter.cs" />
-    <Compile Include="PropertyNotSupported.cs" />
-    <Compile Include="PropertyMapped.cs" />
-    <Compile Include="PropertyRangeCheck.cs" />
-    <Compile Include="PropertySetterGetter.cs" />
-    <Compile Include="PropertyConstant.cs" />
+    <Compile Include="MethodTests\InvalidSignature.cs" />
+    <Compile Include="MethodTests\ITestMethods.cs" />
+    <Compile Include="PropertyTests\ITestProperties.cs" />
+    <Compile Include="MethodTests\MethodTestInvalidSignature.cs" />
+    <Compile Include="MethodTests\OutAndRefImplementation.cs" />
+    <Compile Include="PropertyTests\PropertyDelegatedGetter.cs" />
+    <Compile Include="PropertyTests\PropertyValidityCheck.cs" />
+    <Compile Include="PropertyTests\PropertySkipIfChanged.cs" />
+    <Compile Include="PropertyTests\PropertyDelegatedSetter.cs" />
+    <Compile Include="PropertyTests\PropertyNotSupported.cs" />
+    <Compile Include="PropertyTests\PropertyMapped.cs" />
+    <Compile Include="PropertyTests\PropertyRangeCheck.cs" />
+    <Compile Include="PropertyTests\PropertySetterGetter.cs" />
+    <Compile Include="PropertyTests\PropertyConstant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MethodTest.cs" />
+    <Compile Include="MethodTests\MethodTest.cs" />
+    <Compile Include="MethodTests\SimpleImplementation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -75,6 +77,9 @@
       <Project>{49f5b760-8f8d-4a0b-978e-142266a03389}</Project>
       <Name>GalvanizedSoftware.Beethoven</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EventTests\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

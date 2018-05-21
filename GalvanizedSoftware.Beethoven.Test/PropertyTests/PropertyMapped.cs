@@ -1,8 +1,8 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Properties;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GalvanizedSoftware.Beethoven.Extentions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GalvanizedSoftware.Beethoven.Test
+namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
 {
   [TestClass]
   public class PropertyMapped

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Castle.DynamicProxy.Generators;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {

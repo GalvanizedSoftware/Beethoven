@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GalvanizedSoftware.Beethoven.Test
+namespace GalvanizedSoftware.Beethoven.Test.MethodTests
 {
   public class InvalidSignature
   {
@@ -9,7 +9,7 @@ namespace GalvanizedSoftware.Beethoven.Test
       throw new NotImplementedException();
     }
 
-    public string ReturnValue()
+    public void ReturnValue()
     {
       throw new NotImplementedException();
     }

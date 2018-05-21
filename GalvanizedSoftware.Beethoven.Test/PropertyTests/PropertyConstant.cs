@@ -1,48 +1,43 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Properties;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extentions;
-using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GalvanizedSoftware.Beethoven.Test
+namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
 {
   [TestClass]
-  public class PropertyRangeCheck
+  public class PropertyConstant
   {
+
     [TestMethod]
-    public void TestMethodPropertyRangeCheck1()
+    public void TestMethodProperty1()
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
         new Property<int>(nameof(ITestProperties.Property1))
-        .RangeCheck(0, 42)
-        .SetterGetter());
-      Assert.AreEqual(0, test.Property1);
+        .Constant(5));
+      Assert.AreEqual(5, test.Property1);
+    }
+
+    [TestMethod]
+    public void TestMethodProperty2()
+    {
+      BeethovenFactory factory = new BeethovenFactory();
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new Property<int>(nameof(ITestProperties.Property1))
+        .Constant(5));
+      test.Property1 = 5;
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentOutOfRangeException))]
+    public void TestMethodProperty3()
+    {
+      BeethovenFactory factory = new BeethovenFactory();
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new Property<int>(nameof(ITestProperties.Property1))
+        .Constant(5));
       test.Property1 = 42;
-      Assert.AreEqual(42, test.Property1);
-    }
-
-    [TestMethod]
-    [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void TestMethodPropertyRangeCheck2()
-    {
-      BeethovenFactory factory = new BeethovenFactory();
-      ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
-          .RangeCheck(0, 42));
-      test.Property1 = 43;
-      Assert.Fail();
-    }
-
-    [TestMethod]
-    [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void TestMethodPropertyRangeCheck3()
-    {
-      BeethovenFactory factory = new BeethovenFactory();
-      ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
-          .RangeCheck(0, 42));
-      test.Property1 = -1;
-      Assert.Fail();
     }
   }
 }
