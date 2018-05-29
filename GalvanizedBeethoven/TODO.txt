@@ -6,3 +6,4 @@ Auto-resolve method values
 
 Auto-create with custom IOC container
 
+Method test of generic methods

@@ -18,18 +18,20 @@ namespace GalvanizedSoftware.Beethoven.Core
     public InstanceContainer(object[] partDefinitions)
     {
       AddMaster(new TargetBindingParent(this));
-      EventInvokers eventInvokers = AddMaster(new EventInvokers(this));
+      EventInvokers = AddMaster(new EventInvokers(this));
       object[] wrappers = GetWrappers(partDefinitions).ToArray();
       signatureChecker.CheckSignatures(wrappers);
       MasterInterceptor masterInterceptor = new MasterInterceptor(
         new PropertiesFactory(wrappers.OfType<Property>()),
         new MethodsFactory(wrappers.OfType<Method>()),
-        new EventsFactory<T>(eventInvokers));
+        new EventsFactory<T>(EventInvokers));
       AddMaster<IInterceptor>(masterInterceptor);
       objectProviderHandler = new ObjectProviderHandler(
         masters.Values.Concat(
         partDefinitions.OfType<IBindingParent>()));
     }
+
+    public EventInvokers EventInvokers { get;}
 
     public IEnumerable<TChild> Get<TChild>()
     {

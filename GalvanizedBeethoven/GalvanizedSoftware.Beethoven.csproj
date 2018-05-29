@@ -60,6 +60,7 @@
     <Compile Include="Core\Properties\PropertyMapper.cs" />
     <Compile Include="Core\Methods\FuncMethod.cs" />
     <Compile Include="Core\SignatureChecker.cs" />
+    <Compile Include="Extentions\ListWeakReferenceExtentions.cs" />
     <Compile Include="Extentions\MethodInfoExtentions.cs" />
     <Compile Include="Extentions\TypeExtentions.cs" />
     <Compile Include="Core\Events\EventAddInterceptor.cs" />
@@ -80,6 +81,8 @@
     <Compile Include="Core\Binding\IBindingParent.cs" />
     <Compile Include="Core\InstanceContainer.cs" />
     <Compile Include="Core\IObjectProvider.cs" />
+    <Compile Include="Generic\Events\EventAction.cs" />
+    <Compile Include="Generic\Events\IEventTrigger.cs" />
     <Compile Include="Generic\FactoryHelper.cs" />
     <Compile Include="Generic\Properties\DelegatedSetter.cs" />
     <Compile Include="Generic\Properties\DelegatedGetter.cs" />

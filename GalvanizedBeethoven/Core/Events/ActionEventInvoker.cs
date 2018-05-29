@@ -1,16 +1,15 @@
-﻿using System;
+﻿using GalvanizedSoftware.Beethoven.Generic.Events;
+using System;
 
 namespace GalvanizedSoftware.Beethoven.Core.Events
 {
-  public sealed class ActionEventInvoker
+  public sealed class ActionEventInvoker : IEventTrigger
   {
     private Delegate delegateList;
 
-    internal object Notify(object[] args)
+    public object Notify(params object[] args)
     {
-      if (delegateList == null)
-        return null;
-      return delegateList.DynamicInvoke(args);
+      return delegateList?.DynamicInvoke(args);
     }
 
     public void Add(Delegate newDelegate)
