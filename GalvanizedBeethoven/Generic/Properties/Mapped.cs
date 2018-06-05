@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Properties;
+using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
@@ -13,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     {
       this.name = name;
       this.main = main;
-      propertyInfo = main.GetType().GetProperty(name);
+      propertyInfo = main.GetType().GetProperty(name, ResolveFlags);
     }
 
     public bool InvokeGetter(ref T returnValue)

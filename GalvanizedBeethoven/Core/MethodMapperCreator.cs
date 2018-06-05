@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GalvanizedSoftware.Beethoven.Core.Binding;
 using GalvanizedSoftware.Beethoven.Core.Methods;
+using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
@@ -16,7 +17,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     {
       this.creatorFunc = creatorFunc;
       methods = new List<MethodsWithInstance>(
-        from methodInfo in typeof(TChild).GetMethods()
+        from methodInfo in typeof(TChild).GetMethods(ResolveFlags)
         where !methodInfo.IsSpecialName
         select new MethodsWithInstance(methodInfo));
     }

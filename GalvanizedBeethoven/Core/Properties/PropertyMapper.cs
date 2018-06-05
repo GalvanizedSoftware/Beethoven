@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
+using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
@@ -33,7 +34,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       MethodInfo genericMethod = GetType().GetMethod(nameof(CreateProperty),
         BindingFlags.Static | BindingFlags.NonPublic);
       Debug.Assert(genericMethod != null, nameof(genericMethod) + " != null");
-      foreach (PropertyInfo propertyInfo in baseObject.GetType().GetProperties())
+      foreach (PropertyInfo propertyInfo in baseObject.GetType().GetProperties(ResolveFlags))
       {
         yield return (Property)genericMethod.
           MakeGenericMethod(propertyInfo.PropertyType).

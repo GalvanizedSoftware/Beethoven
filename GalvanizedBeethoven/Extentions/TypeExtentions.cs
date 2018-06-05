@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Extentions
 {
@@ -16,7 +17,7 @@ namespace GalvanizedSoftware.Beethoven.Extentions
 
     internal static IEnumerable<MethodInfo> GetAllMethods(this Type type, string name)
     {
-      return from methodInfo in type.GetMethods()
+      return from methodInfo in type.GetMethods(ResolveFlags)
              where methodInfo.Name == name
              select methodInfo;
     }

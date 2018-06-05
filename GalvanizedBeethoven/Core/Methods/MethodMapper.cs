@@ -14,7 +14,10 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
       if (baseObject == null)
         return;
       MethodInfo[] interfaceMethods = typeof(T).GetMethods();
-      IEnumerable<MethodInfo> implementationMethods = baseObject.GetType().GetMethods().Where(info => !info.IsSpecialName);
+      IEnumerable<MethodInfo> implementationMethods = baseObject
+        .GetType()
+        .GetMethods(Constants.ResolveFlags)
+        .Where(info => !info.IsSpecialName);
       IEnumerable<MethodInfo> methodInfos = implementationMethods
         .Intersect(interfaceMethods, new EquivalentMethodComparer())
         .ToArray();

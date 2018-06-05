@@ -2,7 +2,7 @@
 {
   public class SimpleImplementation
   {
-    public void Simple()
+    internal void Simple()
     {
     }
   }

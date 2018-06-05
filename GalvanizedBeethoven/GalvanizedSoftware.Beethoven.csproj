@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeethovenFactory.cs" />
+    <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\Methods\EquivalentMethodComparer.cs" />
     <Compile Include="Core\Methods\MethodMapper.cs" />
     <Compile Include="Core\MethodMapperCreator.cs" />

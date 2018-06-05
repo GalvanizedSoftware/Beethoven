@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Core.Properties;
+using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
@@ -15,8 +16,8 @@ namespace GalvanizedSoftware.Beethoven.Core
     public SignatureChecker()
     {
       Type type = typeof(T);
-      properties = type.GetProperties().ToDictionary(info => info.Name, info => info.PropertyType);
-      methods = type.GetMethods();
+      properties = type.GetProperties(ResolveFlags).ToDictionary(info => info.Name, info => info.PropertyType);
+      methods = type.GetMethods(ResolveFlags);
     }
 
     public void CheckSignatures(object[] wrappers)

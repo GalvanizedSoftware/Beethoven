@@ -14,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
         new Property<int>(nameof(ITestProperties.Property1))
-        .MappedFrom(obj));
+          .MappedFrom(obj));
       Assert.AreEqual(0, test.Property1);
       test.Property1 = 42;
       Assert.AreEqual(42, test.Property1);
@@ -70,14 +70,27 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
         new Property<int>(nameof(ITestProperties.Property1))
           .MappedFrom(obj));
       Assert.AreEqual(0, test.Property1);
-     obj.Property1 = 42;
+      obj.Property1 = 42;
       Assert.AreEqual(42, test.Property1);
     }
-  }
 
-  public class MappedTestClass
-  {
-    public int Property1 { get; set; }
-    public string Property2 { get; set; }
+    [TestMethod]
+    public void TestMethodPropertyPropertyMapped6()
+    {
+      MappedTestClass obj = new MappedTestClass();
+      BeethovenFactory factory = new BeethovenFactory();
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new Property<string>(nameof(ITestProperties.Property2))
+          .MappedFrom(obj));
+      Assert.AreEqual(null, test.Property2);
+      obj.Property2 = "42";
+      Assert.AreEqual("42", test.Property2);
+    }
+
+    public class MappedTestClass
+    {
+      public int Property1 { get; set; }
+      internal string Property2 { get; set; }
+    }
   }
 }
