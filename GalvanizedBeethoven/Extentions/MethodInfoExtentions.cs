@@ -11,5 +11,25 @@ namespace GalvanizedSoftware.Beethoven.Extentions
     {
       return methodInfo.GetParameters().Select(info => info.ParameterType);
     }
+
+    public static bool IsMatch(this MethodInfo methodInfo, IEnumerable<Type> parameters, Type[] genericArguments, Type returnType)
+    {
+      MethodInfo actualMethod = methodInfo.IsGenericMethod ?
+        methodInfo.MakeGenericMethod(genericArguments) :
+        methodInfo;
+      return actualMethod
+        .GetParameters()
+        .Select(info => info.ParameterType)
+        .SequenceEqual(parameters) &&
+        returnType.FullName == methodInfo.ReturnType.FullName;
+    }
+
+    public static object Invoke(this MethodInfo methodInfo, object instance, object[] parameters, Type[] genericArguments)
+    {
+      MethodInfo actualMethod = methodInfo.IsGenericMethod ?
+        methodInfo.MakeGenericMethod(genericArguments) :
+        methodInfo;
+      return actualMethod.Invoke(instance, parameters);
+    }
   }
 }

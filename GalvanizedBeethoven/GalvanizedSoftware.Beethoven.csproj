@@ -48,6 +48,7 @@
     <Compile Include="BeethovenFactory.cs" />
     <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\Methods\EquivalentMethodComparer.cs" />
+    <Compile Include="Core\Methods\EquivalentTypeComparer.cs" />
     <Compile Include="Core\Methods\MethodMapper.cs" />
     <Compile Include="Core\MethodMapperCreator.cs" />
     <Compile Include="Core\CompositeInterceptor.cs" />

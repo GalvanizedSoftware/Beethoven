@@ -35,7 +35,7 @@ namespace GalvanizedSoftware.Beethoven.Core
         .GetParameters()
         .Select(info => info.ParameterType)
         .ToArray();
-      foreach (Method method in methods.Where(method => method.IsMatch(parameters)))
+      foreach (Method method in methods.Where(method => method.IsMatch(parameters, invocation.GenericArguments, methodInfo.ReturnType)))
         method.Intercept(invocation);
     }
   }

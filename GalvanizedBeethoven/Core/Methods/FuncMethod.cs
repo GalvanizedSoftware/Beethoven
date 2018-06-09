@@ -13,12 +13,14 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
       this.func = func;
     }
 
-    public override bool IsMatch(IEnumerable<Type> parameters)
+    public override bool IsMatch(IEnumerable<Type> parameters, Type[] genericArguments, Type returnType)
     {
+      if (typeof(TReturnType) != returnType)
+        return false;
       return !parameters.Any();
     }
 
-    protected override void Invoke(Action<object> returnAction, object[] parameters)
+    protected override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments)
     {
       returnAction(func());
     }
