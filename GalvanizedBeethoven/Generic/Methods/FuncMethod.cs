@@ -1,8 +1,9 @@
-﻿using System;
+﻿using GalvanizedSoftware.Beethoven.Core.Methods;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GalvanizedSoftware.Beethoven.Core.Methods
+namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
   public class FuncMethod<TReturnType> : Method
   {

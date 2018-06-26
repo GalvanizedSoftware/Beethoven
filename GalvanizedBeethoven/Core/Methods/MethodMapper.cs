@@ -1,15 +1,16 @@
-﻿using System.Collections;
+﻿using GalvanizedSoftware.Beethoven.Generic.Methods;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-  internal class MethodMapper<T> : IEnumerable<Method>
+  internal class MultiMethodMapper<T> : IEnumerable<Method>
   {
     private readonly Method[] methods = new Method[0];
 
-    public MethodMapper(object baseObject)
+    public MultiMethodMapper(object baseObject)
     {
       if (baseObject == null)
         return;

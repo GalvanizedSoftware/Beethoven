@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GalvanizedSoftware.Beethoven.Core.Binding;
 using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Generic.Methods;
 using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Core

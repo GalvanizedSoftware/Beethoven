@@ -21,7 +21,7 @@ namespace GalvanizedSoftware.Beethoven.Extentions
         .GetParameters()
         .Select(info => info.ParameterType)
         .SequenceEqual(parameters) &&
-        returnType.FullName == methodInfo.ReturnType.FullName;
+        returnType.FullName == actualMethod.ReturnType.FullName;
     }
 
     public static object Invoke(this MethodInfo methodInfo, object instance, object[] parameters, Type[] genericArguments)

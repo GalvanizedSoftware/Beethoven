@@ -63,7 +63,7 @@ namespace GalvanizedSoftware.Beethoven.Core
           default:
             foreach (Property subProperty in new PropertyMapper(definition))
               yield return subProperty;
-            foreach (Method mappedMethod in new MethodMapper<T>(definition))
+            foreach (Method mappedMethod in new MultiMethodMapper<T>(definition))
               yield return mappedMethod;
             break;
         }

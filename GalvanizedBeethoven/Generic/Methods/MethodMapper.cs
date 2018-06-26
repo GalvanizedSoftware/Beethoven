@@ -1,23 +1,24 @@
-﻿using GalvanizedSoftware.Beethoven.Extentions;
+﻿using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace GalvanizedSoftware.Beethoven.Core.Methods
+namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class MethodsWithInstance : Method
+  public class MethodMapper : Method
   {
     private readonly MethodInfo methodInfo;
     private readonly bool hasReturnType;
+    private readonly object instance;
 
-    public MethodsWithInstance(MethodInfo methodInfo) :
-      base(methodInfo.Name)
+    public MethodMapper(string name, Delegate methodDelegate) :
+      base(name)
     {
-      this.methodInfo = methodInfo;
+      methodInfo = methodDelegate.Method;
+      instance = methodDelegate.Target;
       hasReturnType = methodInfo.ReturnType != typeof(void);
     }
-
-    public object Instance { private get; set; }
 
     public override bool IsMatch(IEnumerable<Type> parameters, Type[] genericArguments, Type returnType)
     {
@@ -26,7 +27,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 
     protected override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments)
     {
-      object returnValue = methodInfo.Invoke(Instance, parameters, genericArguments);
+      object returnValue = methodInfo.Invoke(instance, parameters, genericArguments);
       if (hasReturnType)
         returnAction(returnValue);
     }

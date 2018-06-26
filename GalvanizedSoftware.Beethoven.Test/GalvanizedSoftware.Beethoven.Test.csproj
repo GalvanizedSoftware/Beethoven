@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="EventTests\EventTest.cs" />
     <Compile Include="EventTests\ITestEvents.cs" />
+    <Compile Include="MethodTests\GenericMethods2.cs" />
     <Compile Include="MethodTests\GenericMethodsTests.cs" />
     <Compile Include="MethodTests\GenericMethods.cs" />
     <Compile Include="MethodTests\IGenericClass.cs" />

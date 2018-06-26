@@ -55,12 +55,13 @@
     <Compile Include="Core\Events\ActionEventInvoker.cs" />
     <Compile Include="Core\Events\EventInvoker.cs" />
     <Compile Include="Core\Methods\MethodsFactory.cs" />
-    <Compile Include="Core\Methods\LambdaMethod.cs" />
+    <Compile Include="Generic\Methods\LambdaMethod.cs" />
     <Compile Include="Core\Methods\Method.cs" />
     <Compile Include="Core\Methods\MethodGroupInterceptor.cs" />
-    <Compile Include="Core\Methods\MethodsWithInstance.cs" />
+    <Compile Include="Generic\Methods\MethodMapper.cs" />
+    <Compile Include="Generic\Methods\MethodsWithInstance.cs" />
     <Compile Include="Core\Properties\PropertyMapper.cs" />
-    <Compile Include="Core\Methods\FuncMethod.cs" />
+    <Compile Include="Generic\Methods\FuncMethod.cs" />
     <Compile Include="Core\SignatureChecker.cs" />
     <Compile Include="Extentions\ListWeakReferenceExtentions.cs" />
     <Compile Include="Extentions\MethodInfoExtentions.cs" />

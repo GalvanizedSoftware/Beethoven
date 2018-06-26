@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Generic.Methods;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GalvanizedSoftware.Beethoven.Test.MethodTests
@@ -37,7 +38,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       Assert.AreEqual("abcd", instance.Simple<string>());
     }
 
-        [TestMethod]
+    [TestMethod]
     public void GenericSimpleTest3()
     {
       BeethovenFactory beethovenFactory = new BeethovenFactory();
@@ -47,6 +48,21 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
         new FuncMethod<int>("Simple", () => 5),
         new FuncMethod<short>("Simple", () => 0)
         );
+      Assert.AreEqual(5, instance.Simple<int>());
+      Assert.AreEqual(0, instance.Simple<short>());
+      Assert.AreEqual("abcd", instance.Simple<string>());
+    }
+
+    [TestMethod]
+    public void GenericSimpleTest4()
+    {
+      GenericMethods2 genericMethods2 = new GenericMethods2();
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      List<string> calledMethods = new List<string>();
+      IGenericMethods instance = beethovenFactory.Generate<IGenericMethods>(
+        new LambdaMethod<Func<string>>("Simple", genericMethods2.SimpleString),
+        new LambdaMethod<Func<int>>("Simple", genericMethods2.SimpleInt),
+        genericMethods2);
       Assert.AreEqual(5, instance.Simple<int>());
       Assert.AreEqual(0, instance.Simple<short>());
       Assert.AreEqual("abcd", instance.Simple<string>());
