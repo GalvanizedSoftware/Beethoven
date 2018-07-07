@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Castle.DynamicProxy;
 using GalvanizedSoftware.Beethoven.Core.Binding;
 using GalvanizedSoftware.Beethoven.Core.Events;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Core.Properties;
+using GalvanizedSoftware.Beethoven.Generic.Properties;
+using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
@@ -19,7 +22,8 @@ namespace GalvanizedSoftware.Beethoven.Core
     {
       AddMaster(new TargetBindingParent(this));
       EventInvokers = AddMaster(new EventInvokers(this));
-      object[] wrappers = GetWrappers(partDefinitions).ToArray();
+      List<object> wrappers = GetWrappers(partDefinitions).ToList();
+      wrappers.AddRange(GetDefaultImplementationWrappers(partDefinitions, wrappers));
       signatureChecker.CheckSignatures(wrappers);
       MasterInterceptor masterInterceptor = new MasterInterceptor(
         new PropertiesFactory(wrappers.OfType<Property>()),
@@ -31,7 +35,7 @@ namespace GalvanizedSoftware.Beethoven.Core
         partDefinitions.OfType<IBindingParent>()));
     }
 
-    public EventInvokers EventInvokers { get;}
+    public EventInvokers EventInvokers { get; }
 
     public IEnumerable<TChild> Get<TChild>()
     {
@@ -60,6 +64,8 @@ namespace GalvanizedSoftware.Beethoven.Core
             foreach (Method method in methods)
               yield return method;
             break;
+          case DefaultProperty defaultProperty:
+            break;
           default:
             foreach (Property subProperty in new PropertyMapper(definition))
               yield return subProperty;
@@ -68,6 +74,26 @@ namespace GalvanizedSoftware.Beethoven.Core
             break;
         }
       }
+    }
+
+    private static IEnumerable<object> GetDefaultImplementationWrappers(object[] partDefinitions, IEnumerable<object> wrappers)
+    {
+      return GetDefaultProperties(partDefinitions, wrappers.OfType<Property>());
+    }
+
+    private static IEnumerable<object> GetDefaultProperties(object[] partDefinitions, IEnumerable<Property> propertyWrappers)
+    {
+      DefaultProperty[] defaultProperties = partDefinitions.OfType<DefaultProperty>().ToArray();
+      if (!defaultProperties.Any())
+        yield break;
+      DefaultProperty defaultProperty = defaultProperties.Single();
+      IDictionary<string, Type> propertyInfos = typeof(T)
+        .GetProperties(ResolveFlags)
+        .ToDictionary(propertyInfo => propertyInfo.Name, propertyInfo => propertyInfo.PropertyType);
+      string[] typeProperties = propertyInfos.Keys.ToArray();
+      HashSet<string> alreadyImplemented = new HashSet<string>(propertyWrappers.Select(p => p.Name));
+      foreach (string propertyName in typeProperties.Except(alreadyImplemented))
+        yield return defaultProperty.Create(propertyInfos[propertyName], propertyName);
     }
 
     internal void Bind(T target)

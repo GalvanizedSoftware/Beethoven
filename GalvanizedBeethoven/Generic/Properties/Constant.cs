@@ -8,7 +8,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     private readonly Action<T> errorHandler;
     private readonly T value;
 
-    public Constant(T value, Action<T> errorHandler = null)
+    public Constant(T value) :
+      this(value, null)
+    {
+    }
+
+    public Constant(T value, Action<T> errorHandler)
     {
       this.value = value;
       this.errorHandler = errorHandler ??

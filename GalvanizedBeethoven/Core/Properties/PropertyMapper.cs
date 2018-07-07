@@ -31,8 +31,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     {
       if (baseObject == null)
         yield break;
-      MethodInfo genericMethod = GetType().GetMethod(nameof(CreateProperty),
-        BindingFlags.Static | BindingFlags.NonPublic);
+      MethodInfo genericMethod = GetType().GetMethod(nameof(CreateProperty), StaticResolveFlags);
       Debug.Assert(genericMethod != null, nameof(genericMethod) + " != null");
       foreach (PropertyInfo propertyInfo in baseObject.GetType().GetProperties(ResolveFlags))
       {
@@ -44,7 +43,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
 
     private static Property CreateProperty<T>(string name, object baseObject)
     {
-      return new Mapped<T>(name, baseObject).CreateMasterProperty();
+      return new Mapped<T>(baseObject, name).CreateMasterProperty();
     }
   }
 }

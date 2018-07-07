@@ -39,7 +39,7 @@ namespace GalvanizedSoftware.Beethoven.Extentions
 
     public static Property<T> MappedFrom<T>(this Property<T> property, object main)
     {
-      return new Property<T>(property, new Mapped<T>(property.Name, main));
+      return new Property<T>(property, new Mapped<T>(main, property.Name));
     }
 
     public static Property<T> MappedGetter<T>(this Property<T> property, Func<T> getterFunc)

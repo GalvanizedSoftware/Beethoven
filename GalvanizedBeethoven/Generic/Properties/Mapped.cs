@@ -10,11 +10,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     private readonly string name;
     private readonly PropertyInfo propertyInfo;
 
-    public Mapped(string name, object main)
+    public Mapped(object target, string name)
     {
       this.name = name;
-      this.main = main;
-      propertyInfo = main.GetType().GetProperty(name, ResolveFlags);
+      this.main = target;
+      propertyInfo = target.GetType().GetProperty(name, ResolveFlags);
     }
 
     public bool InvokeGetter(ref T returnValue)

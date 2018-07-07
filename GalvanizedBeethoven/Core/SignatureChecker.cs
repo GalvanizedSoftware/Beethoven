@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       methods = type.GetMethods(ResolveFlags);
     }
 
-    public void CheckSignatures(object[] wrappers)
+    public void CheckSignatures(IEnumerable<object> wrappers)
     {
       foreach (object definition in wrappers)
       {

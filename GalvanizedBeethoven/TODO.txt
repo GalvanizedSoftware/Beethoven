@@ -1,9 +1,5 @@
-﻿Method implementation with bool and ref for return vakue
-
-Methods conditions
-
-Auto-resolve method values
-
+﻿Default implementation
 Auto-create with custom IOC container
-
-Method test of generic methods
+Method implementation with bool and ref for return vakue
+Methods conditions
+Auto-resolve method values

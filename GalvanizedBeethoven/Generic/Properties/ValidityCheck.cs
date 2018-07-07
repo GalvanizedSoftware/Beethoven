@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
@@ -22,6 +24,14 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       if (!checkFunc(newValue))
         throw new ArgumentOutOfRangeException($"Value {newValue} invalid");
       return true;
+    }
+
+    public static ValidityCheck<T> CreateWithReflection(object target, string methodName)
+    {
+      MethodInfo methodInfo = target.GetType().GetMethod(methodName, Constants.ResolveFlags);
+      methodInfo = methodInfo.IsGenericMethod ? methodInfo.MakeGenericMethod(typeof(T)) : methodInfo;
+      Func<T, bool> checkFunc = newValue => (bool)methodInfo.Invoke(target, new object[] { newValue });
+      return new ValidityCheck<T>(checkFunc);
     }
   }
 }

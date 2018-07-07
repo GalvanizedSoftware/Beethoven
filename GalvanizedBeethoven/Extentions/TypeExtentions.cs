@@ -26,5 +26,29 @@ namespace GalvanizedSoftware.Beethoven.Extentions
     {
       return type.IsValueType ? Activator.CreateInstance(type) : null;
     }
+
+    public static object Create1(this Type type, Type genericType1, params object[] constructorParameters)
+    {
+      return type.MakeGenericType(genericType1)
+        .GetConstructor(constructorParameters
+          .Select(obj => obj.GetType())
+          .ToArray())
+        .Invoke(constructorParameters);
+    }
+
+    public static object Create2(this Type type, Type genericType1, Type genericType2, params object[] constructorParameters)
+    {
+      return type.MakeGenericType(genericType1, genericType2)
+        .GetConstructor(constructorParameters
+          .Select(obj => obj.GetType())
+          .ToArray())
+        .Invoke(constructorParameters);
+    }
+
+    public static object InvokeStatic(this Type type, string methodName, params object[] parameters)
+    {
+      return type.GetMethod(methodName, StaticResolveFlags)
+        .Invoke(type, parameters);
+    }
   }
 }

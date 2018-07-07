@@ -87,6 +87,7 @@
     <Compile Include="Generic\Events\EventAction.cs" />
     <Compile Include="Generic\Events\IEventTrigger.cs" />
     <Compile Include="Generic\FactoryHelper.cs" />
+    <Compile Include="Generic\Properties\DefaultProperty.cs" />
     <Compile Include="Generic\Properties\DelegatedSetter.cs" />
     <Compile Include="Generic\Properties\DelegatedGetter.cs" />
     <Compile Include="Generic\Properties\Mapped.cs" />

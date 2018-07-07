@@ -60,6 +60,7 @@
     <Compile Include="MethodTests\IGenericMethods.cs" />
     <Compile Include="MethodTests\InvalidSignature.cs" />
     <Compile Include="MethodTests\ITestMethods.cs" />
+    <Compile Include="PropertyTests\DefaultPropertyTests.cs" />
     <Compile Include="PropertyTests\ITestProperties.cs" />
     <Compile Include="MethodTests\MethodTestInvalidSignature.cs" />
     <Compile Include="MethodTests\OutAndRefImplementation.cs" />
