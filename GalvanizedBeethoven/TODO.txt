@@ -1,4 +1,5 @@
-﻿Default implementation
+﻿Default implementation test
+Delegated default implementaion
 Auto-create with custom IOC container
 Method implementation with bool and ref for return vakue
 Methods conditions

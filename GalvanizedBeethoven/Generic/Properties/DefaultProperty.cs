@@ -75,38 +75,5 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     {
       return new DefaultProperty(this, (type, name) => typeof(Constant<>).Create1(type, valueGetter(type)));
     }
-
-    /*
-     public DefaultProperty MappedGetter(Func<Type, object> getterFunc)
-     {
-       return new DefaultProperty(this, (type, name) =>
-       {
-       return new DefaultProperty(this, new DelegatedGetter(getterFunc));
-          });
-  }
-
-     public DefaultProperty Constant(Func<Type, object> valueGetter)
-     {
-       return new DefaultProperty(this, (type, name) =>
-       {
-       return new DefaultProperty(this, new Constant(value));
-        });
-    }
-
-     public DefaultProperty DelegatedSetter(Action action)
-     {
-        return new DefaultProperty(this, (type, name) =>
-       {
-      return new DefaultProperty(this, new DelegatedSetter(action));
-         });
-   }
-
-     public DefaultProperty DelegatedGetter(Func func)
-     {
-        return new DefaultProperty(this, (type, name) =>
-       {
-      return new DefaultProperty(this, new DelegatedGetter(func));
-         });
-   }*/
   }
 }
