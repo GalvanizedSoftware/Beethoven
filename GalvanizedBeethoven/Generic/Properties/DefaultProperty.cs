@@ -51,9 +51,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     }
 
 
-    public DefaultProperty SkipIfChanged()
+    public DefaultProperty SkipIfSame()
     {
-      return new DefaultProperty(this, (type, name) => typeof(SkipIfChanged<>).Create1(type));
+      return new DefaultProperty(this, (type, name) => typeof(SkipIfSame<>).Create1(type));
     }
 
     public DefaultProperty SetterGetter()

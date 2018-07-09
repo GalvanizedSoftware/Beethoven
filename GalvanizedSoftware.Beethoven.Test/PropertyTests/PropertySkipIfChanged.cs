@@ -5,17 +5,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
 {
   [TestClass]
-  public class PropertySkipIfChanged
+  public class PropertySkipIfSame
   {
 
     [TestMethod]
-    public void TestMethodPropertySkipIfChanged1()
+    public void TestMethodPropertySkipIfSame1()
     {
       BeethovenFactory factory = new BeethovenFactory();
       int setCount = 0;
       ITestProperties test = factory.Generate<ITestProperties>(
         new Property<int>(nameof(ITestProperties.Property1))
-          .SkipIfChanged()
+          .SkipIfSame()
           .DelegatedSetter(value => setCount++));
       test.Property1 = 5;
       test.Property1 = 5;
@@ -23,27 +23,27 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     }
 
     [TestMethod]
-    public void TestMethodPropertySkipIfChanged2()
+    public void TestMethodPropertySkipIfSame2()
     {
       BeethovenFactory factory = new BeethovenFactory();
       int setCount = 0;
       ITestProperties test = factory.Generate<ITestProperties>(
         new Property<int>(nameof(ITestProperties.Property1))
           .DelegatedSetter(value => setCount++)
-          .SkipIfChanged());
+          .SkipIfSame());
       test.Property1 = 5;
       test.Property1 = 5;
       Assert.AreEqual(2, setCount);
     }
 
     [TestMethod]
-    public void TestMethodPropertySkipIfChanged3()
+    public void TestMethodPropertySkipIfSame3()
     {
       BeethovenFactory factory = new BeethovenFactory();
       int setCount = 0;
       ITestProperties test = factory.Generate<ITestProperties>(
         new Property<int>(nameof(ITestProperties.Property1))
-          .SkipIfChanged()
+          .SkipIfSame()
           .DelegatedSetter(value => setCount++));
       test.Property1 = 5;
       test.Property1 = 6;

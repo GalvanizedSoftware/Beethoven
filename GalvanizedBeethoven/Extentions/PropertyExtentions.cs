@@ -17,9 +17,9 @@ namespace GalvanizedSoftware.Beethoven.Extentions
       return new Property<T>(property, new RangeCheck<T>(minimum, maximum));
     }
 
-    public static Property<T> SkipIfChanged<T>(this Property<T> property)
+    public static Property<T> SkipIfSame<T>(this Property<T> property)
     {
-      return new Property<T>(property, new SkipIfChanged<T>());
+      return new Property<T>(property, new SkipIfSame<T>());
     }
 
     public static Property<T> SetterGetter<T>(this Property<T> property)
