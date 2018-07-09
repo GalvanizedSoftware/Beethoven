@@ -91,6 +91,7 @@
     <Compile Include="Generic\Properties\DelegatedSetter.cs" />
     <Compile Include="Generic\Properties\DelegatedGetter.cs" />
     <Compile Include="Generic\Properties\Mapped.cs" />
+    <Compile Include="Generic\Properties\SkipIfSame.cs" />
     <Compile Include="MVVM\Properties\NotifyChanged.cs" />
     <Compile Include="Core\Properties\Property.cs" />
     <Compile Include="Core\Properties\IPropertyDefinition.cs" />
@@ -98,7 +99,6 @@
     <Compile Include="Generic\Properties\NotSupported.cs" />
     <Compile Include="Generic\Properties\RangeCheck.cs" />
     <Compile Include="Generic\Properties\SetterGetter.cs" />
-    <Compile Include="Generic\Properties\SkipIfChanged.cs" />
     <Compile Include="Generic\Properties\ValidityCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Properties\PropertyOfT.cs" />
