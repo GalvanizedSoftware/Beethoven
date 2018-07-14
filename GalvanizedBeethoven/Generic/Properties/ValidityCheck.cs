@@ -2,6 +2,7 @@
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.Properties;
+using GalvanizedSoftware.Beethoven.Extentions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
@@ -28,8 +29,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     public static ValidityCheck<T> CreateWithReflection(object target, string methodName)
     {
-      MethodInfo methodInfo = target.GetType().GetMethod(methodName, Constants.ResolveFlags);
-      methodInfo = methodInfo.IsGenericMethod ? methodInfo.MakeGenericMethod(typeof(T)) : methodInfo;
+      MethodInfo methodInfo = target
+        .GetType()
+        .GetMethod(methodName, Constants.ResolveFlags)
+        .MakeGeneric<T>();
       Func<T, bool> checkFunc = newValue => (bool)methodInfo.Invoke(target, new object[] { newValue });
       return new ValidityCheck<T>(checkFunc);
     }

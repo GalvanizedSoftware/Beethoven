@@ -1,4 +1,5 @@
 ﻿Delegated default implementaion
+Examples: Duck-typing, 
 Auto-create with custom IOC container
 Method implementation with bool and ref for return vakue
 Methods conditions

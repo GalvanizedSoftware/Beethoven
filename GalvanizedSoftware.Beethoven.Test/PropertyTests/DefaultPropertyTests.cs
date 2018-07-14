@@ -47,12 +47,12 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     }
 
     [TestMethod]
-    public void TestMethodDefaultPropertySkipIfSame1()
+    public void TestMethodDefaultPropertySkipIfEqual1()
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
         new DefaultProperty()
-        .SkipIfSame()
+        .SkipIfEqual()
         .NotSupported());
       test.Property1 = 0;
     }
@@ -117,5 +117,68 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
         return Activator.CreateInstance(type);
       return null;
     }
-  }
+
+    [TestMethod]
+    public void TestMethodDefaultPropertyDelegated1()
+    {
+      DefaultImplementation implementation = new DefaultImplementation();
+      BeethovenFactory factory = new BeethovenFactory();
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new DefaultProperty()
+        .DelegatedSetter(implementation, nameof(implementation.DelegatedSetter)));
+      Assert.AreEqual(0, test.Property1);
+      test.Property2 = "Nothing";
+      test.Property2 = "Some value";
+      test.Property1 = 55;
+      CollectionAssert.AreEquivalent(new object[] { 55, "Some value" }, implementation.GetObjects());
+    }
+
+    [TestMethod]
+    public void TestMethodDefaultPropertyDelegated2()
+    {
+      DefaultImplementation implementation = new DefaultImplementation();
+      BeethovenFactory factory = new BeethovenFactory();
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new DefaultProperty()
+        .DelegatedSetter(implementation, nameof(implementation.DelegatedSetter))
+        .SetterGetter());
+      Assert.AreEqual(0, test.Property1);
+      test.Property2 = "Nothing";
+      test.Property2 = "Some value";
+      Assert.AreEqual("Some value", test.Property2);
+      test.Property1 = 55;
+      Assert.AreEqual(55, test.Property1);
+    }
+
+    [TestMethod]
+    public void TestMethodDefaultPropertyDelegated3()
+    {
+      DefaultImplementation2 implementation = new DefaultImplementation2();
+      BeethovenFactory factory = new BeethovenFactory();
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new DefaultProperty()
+        .DelegatedSetter(implementation, nameof(implementation.DelegatedSetter)));
+      Assert.AreEqual(0, test.Property1);
+      test.Property2 = "Nothing";
+      test.Property2 = "Some value";
+      test.Property1 = 55;
+      CollectionAssert.AreEquivalent(new object[] { 55, "Some value" }, implementation.GetObjects());
+    }
+
+    [TestMethod]
+    public void TestMethodDefaultPropertyDelegated4()
+    {
+      DefaultImplementation2 implementation = new DefaultImplementation2();
+      BeethovenFactory factory = new BeethovenFactory();
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new DefaultProperty()
+        .DelegatedSetter(implementation, nameof(implementation.DelegatedSetter))
+        .SetterGetter());
+      Assert.AreEqual(0, test.Property1);
+      test.Property2 = "Nothing";
+      test.Property2 = "Some value";
+      Assert.AreEqual("Some value", test.Property2);
+      test.Property1 = 55;
+      Assert.AreEqual(55, test.Property1);
+    }  }
 }

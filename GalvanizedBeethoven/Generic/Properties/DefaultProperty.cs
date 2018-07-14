@@ -50,10 +50,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       });
     }
 
-
-    public DefaultProperty SkipIfSame()
+    public DefaultProperty SkipIfEqual()
     {
-      return new DefaultProperty(this, (type, name) => typeof(SkipIfSame<>).Create1(type));
+      return new DefaultProperty(this, (type, name) => typeof(SkipIfEqual<>).Create1(type));
     }
 
     public DefaultProperty SetterGetter()
@@ -74,6 +73,17 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public DefaultProperty Constant(Func<Type, object> valueGetter)
     {
       return new DefaultProperty(this, (type, name) => typeof(Constant<>).Create1(type, valueGetter(type)));
+    }
+
+    public DefaultProperty DelegatedSetter(object target, string methodName)
+    {
+      return new DefaultProperty(this, (type, name) =>
+      {
+        MethodInfo methodInfo = target.GetType().GetMethod(methodName, Constants.ResolveFlags);
+        return typeof(DelegatedSetter<>)
+          .MakeGenericType(type)
+          .InvokeStatic(nameof(DelegatedSetter<object>.CreateWithReflection), target, methodName, name);
+      });
     }
   }
 }

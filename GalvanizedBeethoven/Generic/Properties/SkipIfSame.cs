@@ -2,7 +2,7 @@
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
-  internal class SkipIfSame<T> : IPropertyDefinition<T>
+  internal class SkipIfEqual<T> : IPropertyDefinition<T>
   {
     private T oldValue;
 

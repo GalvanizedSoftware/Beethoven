@@ -31,5 +31,10 @@ namespace GalvanizedSoftware.Beethoven.Extentions
         methodInfo;
       return actualMethod.Invoke(instance, parameters);
     }
+
+    public static MethodInfo MakeGeneric<T>(this MethodInfo methodInfo)
+    {
+      return methodInfo.IsGenericMethod ? methodInfo.MakeGenericMethod(typeof(T)) : methodInfo;
+    }
   }
 }
