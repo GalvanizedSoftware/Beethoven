@@ -1,5 +1,12 @@
-﻿Delegated default implementaion
-Examples: Duck-typing, 
+﻿Examples:
+  Duck-typing
+  Auto-implementation
+  Multiple "inheritance"
+  Interface upgrade (string -> DateTime)
+  Equals CompareTo GetHash
+  GOF pattern example
+  Decorators / loggers
+Review introduction document
 Auto-create with custom IOC container
 Method implementation with bool and ref for return vakue
 Methods conditions
