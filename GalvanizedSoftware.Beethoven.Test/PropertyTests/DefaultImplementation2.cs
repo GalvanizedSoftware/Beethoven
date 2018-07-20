@@ -13,6 +13,12 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       values[typeof(T)] = value;
     }
 
+    public T DelegatedGetter<T>()
+    {
+      Type type = typeof(T);
+      return values.ContainsKey(type) ? (T)values[type] : default(T);
+    }
+
     internal object[] GetObjects()
     {
       return values.Values.ToArray();

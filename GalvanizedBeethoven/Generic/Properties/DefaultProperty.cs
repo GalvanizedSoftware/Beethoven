@@ -79,10 +79,19 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     {
       return new DefaultProperty(this, (type, name) =>
       {
-        MethodInfo methodInfo = target.GetType().GetMethod(methodName, Constants.ResolveFlags);
         return typeof(DelegatedSetter<>)
           .MakeGenericType(type)
           .InvokeStatic(nameof(DelegatedSetter<object>.CreateWithReflection), target, methodName, name);
+      });
+    }
+
+    public DefaultProperty DelegatedGetter(object target, string methodName)
+    {
+      return new DefaultProperty(this, (type, name) =>
+      {
+        return typeof(DelegatedGetter<>)
+          .MakeGenericType(type)
+          .InvokeStatic(nameof(DelegatedGetter<object>.CreateWithReflection), target, methodName, name);
       });
     }
   }

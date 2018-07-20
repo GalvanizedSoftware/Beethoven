@@ -34,10 +34,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
         .GetType()
         .GetMethod(methodName, Constants.ResolveFlags)
         .MakeGeneric<T>();
-      return new DelegatedSetter<T>(GetAction(target, methodInfo, propertyName));
+      return new DelegatedSetter<T>(CreateAction(target, methodInfo, propertyName));
     }
 
-    public static Action<T> GetAction(object target, MethodInfo methodInfo, string propertyName)
+    public static Action<T> CreateAction(object target, MethodInfo methodInfo, string propertyName)
     {
       Type[] parameterTypes = methodInfo.GetParameterTypes().ToArray();
       switch (parameterTypes.Length)

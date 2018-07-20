@@ -173,7 +173,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       ITestProperties test = factory.Generate<ITestProperties>(
         new DefaultProperty()
         .DelegatedSetter(implementation, nameof(implementation.DelegatedSetter))
-        .SetterGetter());
+        .DelegatedGetter(implementation, nameof(implementation.DelegatedGetter)));
       Assert.AreEqual(0, test.Property1);
       test.Property2 = "Nothing";
       test.Property2 = "Some value";
