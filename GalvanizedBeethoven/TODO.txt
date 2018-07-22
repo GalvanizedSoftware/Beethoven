@@ -11,3 +11,4 @@ Auto-create with custom IOC container
 Method implementation with bool and ref for return vakue
 Methods conditions
 Auto-resolve method values
+Compile generated code without Castle or IInvocation
