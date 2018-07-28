@@ -4,20 +4,19 @@ using Castle.DynamicProxy;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  internal sealed class PropertySetInterceptor : IInterceptor, IObjectProvider
+  internal sealed class PropertySetInterceptor : PropertyInterceptor, IInterceptor, IObjectProvider
   {
     private readonly IObjectProvider objectProviderHandler;
-    private readonly Property property;
 
-    public PropertySetInterceptor(Property property)
+    public PropertySetInterceptor(Property property) :
+      base(property)
     {
-      this.property = property;
-      objectProviderHandler = new ObjectProviderHandler(new[] {property});
+      objectProviderHandler = new ObjectProviderHandler(new[] { Property });
     }
 
     public void Intercept(IInvocation invocation)
     {
-      property.InvokeSet(invocation.Arguments.Single());
+      Property.InvokeSet(invocation.Arguments.Single());
     }
 
     public IEnumerable<TChild> Get<TChild>()

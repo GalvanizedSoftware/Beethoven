@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
@@ -39,6 +40,18 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       return propertyDefinitions.Length == 0 ?
         property :
         new Property<T>(property, propertyDefinitions);
+    }
+
+    internal bool IsMatch(MethodInfo methodInfo)
+    {
+      if (!methodInfo.IsSpecialName)
+        return false;
+      if (methodInfo.Name == "get_" + Name)
+        return methodInfo.ReturnType == PropertyType;
+      if (methodInfo.Name == "set_" + Name)
+        return methodInfo.GetParameters().SingleOrDefault()?.ParameterType == PropertyType;
+      else
+        return false;
     }
   }
 }

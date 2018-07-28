@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Castle.DynamicProxy;
 using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Core.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
@@ -10,6 +12,7 @@ namespace GalvanizedSoftware.Beethoven.Core
   {
     private readonly IInterceptor[] interceptors;
     private readonly Method[] methods;
+    private readonly PropertyInterceptor[] properties;
 
     public CompositeInterceptor(IInterceptor previous, params IInterceptor[] newInterceptors)
     {
@@ -20,6 +23,9 @@ namespace GalvanizedSoftware.Beethoven.Core
       methods = interceptors
         .OfType<Method>()
         .ToArray();
+      properties = interceptors
+        .OfType<PropertyInterceptor>()
+        .ToArray();
     }
 
     public void Intercept(IInvocation invocation)
@@ -27,16 +33,19 @@ namespace GalvanizedSoftware.Beethoven.Core
       MethodInfo methodInfo = invocation.Method;
       if (methodInfo.IsSpecialName)
       {
-        foreach (IInterceptor interceptor in interceptors)
+        IEnumerable<IInterceptor> matchingProperties = properties
+          .Where(property => property.Property.IsMatch(methodInfo))
+          .OfType<IInterceptor>();
+        foreach (IInterceptor interceptor in matchingProperties)
           interceptor.Intercept(invocation);
         return;
       }
-      Type[] parameters = methodInfo
-        .GetParameters()
-        .Select(info => info.ParameterType)
-        .ToArray();
+      Type[] parameterTypes = methodInfo
+       .GetParameters()
+       .Select(info => info.ParameterType)
+       .ToArray();
       methods.FirstOrDefault(
-        method => method.IsMatch(parameters, invocation.GenericArguments, methodInfo.ReturnType))?
+        method => method.IsMatch(parameterTypes, invocation.GenericArguments, methodInfo.ReturnType))?
         .Intercept(invocation);
     }
   }

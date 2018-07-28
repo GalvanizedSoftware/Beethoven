@@ -22,24 +22,32 @@ namespace GalvanizedSoftware.Beethoven.Core
 
     public void CheckSignatures(IEnumerable<object> wrappers)
     {
-      foreach (object definition in wrappers)
-      {
-        switch (definition)
-        {
-          case Property property:
-            CheckProperty(property.Name, property.PropertyType);
-            break;
-          case Method method:
-            //CheckMethod(method.Name, method..PropertyType);
-            break;
-        }
-      }
+      CheckProperty(wrappers.OfType<Property>().ToArray());
+      // TODO: Check methods?
+      // TODO: Check events?
     }
 
-    private void CheckProperty(string name, Type actualType)
+    private void CheckProperty(Property[] propertyWrappers)
     {
-      if (properties.TryGetValue(name, out Type type) && type != actualType)
-        throw new NotImplementedException($"Types mismatch on property {name}, expected: {type}, actual: {actualType}");
+      foreach (KeyValuePair<string, Type> pair in properties)
+        CheckProperty(pair.Key, pair.Value, propertyWrappers);
+    }
+
+    private void CheckProperty(string name, Type actualType, Property[] wrappers)
+    {
+      int matchingCount = wrappers
+        .Where(property => property.Name == name)
+        .Where(property => property.PropertyType == actualType)
+        .Count();
+      switch (matchingCount)
+      {
+        case 0:
+          throw new NotImplementedException($"Implementation not found for property: {actualType} {name}");
+        case 1:
+          return;
+        default:
+          throw new NotImplementedException($"Multiple implementation found for property: {actualType} {name}");
+      }
     }
   }
 }
