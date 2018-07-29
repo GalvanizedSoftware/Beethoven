@@ -3,12 +3,18 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;;net451</TargetFrameworks>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Galvanized Software</Authors>
     <Company>Galvanized Software</Company>
     <Description>Flow-like class implementation/ composition.</Description>
     <PackageTags>composition;dynamic creation;duck typing;castle.core;auto interface implementation</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>0.4.0.0</Version>
+    <AssemblyVersion>0.4.0.0</AssemblyVersion>
+    <PackageLicenseUrl>https://github.com/GalvanizedSoftware/Beethoven/blob/master/LICENSE</PackageLicenseUrl>
+    <Copyright />
+    <PackageProjectUrl>https://github.com/GalvanizedSoftware/Beethoven</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/GalvanizedSoftware/Beethoven</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
