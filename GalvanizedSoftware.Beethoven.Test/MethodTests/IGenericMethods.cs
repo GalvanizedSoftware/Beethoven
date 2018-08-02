@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GalvanizedSoftware.Beethoven.Test.MethodTests
+﻿namespace GalvanizedSoftware.Beethoven.Test.MethodTests
 {
   public interface IGenericMethods
   {

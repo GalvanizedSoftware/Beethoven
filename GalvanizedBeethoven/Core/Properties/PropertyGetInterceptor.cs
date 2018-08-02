@@ -2,14 +2,14 @@
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  internal sealed class PropertyGetInterceptor : PropertyInterceptor, IInterceptor
+  internal sealed class PropertyGetInterceptor : PropertyInterceptor
   {
     public PropertyGetInterceptor(Property property)
       :base(property)
     {
     }
 
-    public void Intercept(IInvocation invocation)
+    protected override void InvokeIntercept(IInvocation invocation)
     {
       invocation.ReturnValue = Property.InvokeGet();
     }

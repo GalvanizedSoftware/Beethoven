@@ -2,15 +2,16 @@
 using System.Collections.ObjectModel;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System.Globalization;
+using GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdateV2;
 using GalvanizedSoftware.Beethoven.Extentions;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate.Server
 {
-  class ServerModel
+  internal class ServerModel
   {
     private readonly BeethovenFactory factory = new BeethovenFactory();
+    private readonly CultureInfo cultureInfo = new CultureInfo("da-dk", false); // Culture used before on client and server
 
-    public CultureInfo CultureInfo { get; } = new CultureInfo("da-dk", false); // Culture used before on client and server
     public ObservableCollection<IPerson> People { get; } = new ObservableCollection<IPerson>();
 
     public T CreatePerson<T>() where T : class
@@ -20,8 +21,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate.Server
         .SkipIfEqual()
         .SetterGetter()
         .NotifyChanged());
-      T returnValue = person as T; // check if the request is for version 2
-      if (returnValue != null)
+      if (person is T returnValue)
       {
         People.Add(person);
         return returnValue;
@@ -30,14 +30,14 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate.Server
       if (typeof(T).FullName == "GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdateV1.IPerson")
       {
         People.Add(person);
-        PersonV2ToV1Converter converter = new PersonV2ToV1Converter(person, CultureInfo);
+        PersonV2ToV1Converter converter = new PersonV2ToV1Converter(person, cultureInfo);
         return factory.Generate<T>(
           person,
           new Property<string>("BirthDate")
           .DelegatedGetter(converter.GetBirthDateString)
           .DelegatedSetter(converter.SetBirthDateDateTime),
           new Property<string>("Country")
-          .Constant(CultureInfo.Name)
+          .Constant(cultureInfo.Name)
         );
       }
       return default(T); // Future version, code is not forward compatible, sorry!

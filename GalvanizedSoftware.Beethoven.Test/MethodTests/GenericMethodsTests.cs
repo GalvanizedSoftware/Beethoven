@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

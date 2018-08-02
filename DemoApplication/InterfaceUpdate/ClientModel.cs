@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdateV1;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate
 {
