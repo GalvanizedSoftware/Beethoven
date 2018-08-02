@@ -1,5 +1,4 @@
 ﻿Examples:
-  Interface upgrade (string -> DateTime)
   Equals CompareTo GetHash
   GOF pattern example
   Decorators / loggers
