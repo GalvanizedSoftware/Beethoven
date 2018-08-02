@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{89DDF7AC-671F-4DB8-8EF4-ADEA789B0A44}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>GalvanizedSoftware.Beethoven.DemoApp</RootNamespace>
+    <AssemblyName>DemoApp</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.3.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="EqualsGetHashImport\EqualsGetHash.cs" />
+    <Page Include="Basic\BasicView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Basic\IPerson.cs" />
+    <Compile Include="Basic\BasicViewModel.cs" />
+    <Compile Include="Basic\BasicView.xaml.cs">
+      <DependentUpon>BasicView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="DefaultImplementaion\BasicView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="InterfaceUpdate\ClientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InterfaceUpdate\InterfaceUpdateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="InterfaceUpdate\ServerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Mapped\MappedView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ClassInjection\ClassInjectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Basic\PersonFactory.cs" />
+    <Compile Include="ClassInjection\FullName.cs" />
+    <Compile Include="DefaultImplementaion\BasicView.xaml.cs">
+      <DependentUpon>BasicView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DefaultImplementaion\BasicViewModel.cs" />
+    <Compile Include="DefaultImplementaion\IPerson.cs" />
+    <Compile Include="DefaultImplementaion\PersonFactory.cs" />
+    <Compile Include="EqualsGetHashImport\IEqualsGetHash.cs" />
+    <Compile Include="EqualsGetHashImport\IValueHolder.cs" />
+    <Compile Include="InterfaceUpdate\ClientModel.cs" />
+    <Compile Include="InterfaceUpdate\ClientView.xaml.cs">
+      <DependentUpon>ClientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InterfaceUpdate\ClientViewModel.cs" />
+    <Compile Include="InterfaceUpdate\InterfaceUpdateView.xaml.cs">
+      <DependentUpon>InterfaceUpdateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InterfaceUpdate\IPersonV1.cs" />
+    <Compile Include="InterfaceUpdate\IPersonV2.cs" />
+    <Compile Include="InterfaceUpdate\ServerView.xaml.cs">
+      <DependentUpon>ServerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InterfaceUpdate\Server\DataTimeConverter.cs" />
+    <Compile Include="InterfaceUpdate\Server\PersonV2ToV1Converter.cs" />
+    <Compile Include="InterfaceUpdate\Server\ServerModel.cs" />
+    <Compile Include="MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Mapped\AddressFormatter.cs" />
+    <Compile Include="Mapped\DkAddress.cs" />
+    <Compile Include="ClassInjection\FullNameFormatter.cs" />
+    <Compile Include="Mapped\IAddress.cs" />
+    <Compile Include="Mapped\MappedView.xaml.cs">
+      <DependentUpon>MappedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Mapped\MappedViewModel.cs" />
+    <Compile Include="Mapped\IPerson.cs" />
+    <Compile Include="Mapped\UsAddress.cs" />
+    <Compile Include="Mapped\FullName.cs" />
+    <Compile Include="Mapped\PersonFactory.cs" />
+    <Compile Include="ClassInjection\IPerson.cs" />
+    <Compile Include="ClassInjection\ClassInjectionView.xaml.cs">
+      <DependentUpon>ClassInjectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ClassInjection\ClassInjectionViewModel.cs" />
+    <Compile Include="ClassInjection\PersonFactory.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj">
+      <Project>{49f5b760-8f8d-4a0b-978e-142266a03389}</Project>
+      <Name>GalvanizedSoftware.Beethoven</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

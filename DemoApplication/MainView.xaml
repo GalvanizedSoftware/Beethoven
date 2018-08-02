@@ -1,0 +1,35 @@
+﻿<Window x:Class="GalvanizedSoftware.Beethoven.DemoApp.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:basic="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.Basic"
+        xmlns:classInjection="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.ClassInjection"
+        xmlns:mapped="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.Mapped"
+        xmlns:interfaceupdate="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate"
+        mc:Ignorable="d"
+        Title="MainView" Height="450" Width="800">
+  <TabControl>
+    <TabItem Header="Basic">
+      <Grid>
+        <basic:BasicView />
+      </Grid>
+    </TabItem>
+    <TabItem Header="Mapped">
+      <Grid>
+        <mapped:MappedView />
+      </Grid>
+    </TabItem>
+    <TabItem Header="Class Injection">
+      <Grid>
+        <classInjection:ClassInjectionView />
+      </Grid>
+    </TabItem>
+    <TabItem Header="Interface Update">
+      <Grid>
+        <interfaceupdate:InterfaceUpdateView />
+      </Grid>
+    </TabItem>
+  </TabControl>
+
+</Window>

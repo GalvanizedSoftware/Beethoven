@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="GalvanizedSoftware.Beethoven.DemoApp.Mapped.MappedView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mapped="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.Mapped"
+             Height="350" Width="525" mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=mapped:MappedViewModel, IsDesignTimeCreatable=False}">
+  <StackPanel>
+    <TextBlock Margin="5">
+      <Run Text="{Binding Person.LastName}" />
+      <Run Text=", " />
+      <Run Text="{Binding Person.FirstName}" />
+      <Run Text=", Living in: " />
+      <Run Text="{Binding Person.Country, Mode=OneWay}" />
+    </TextBlock>
+    <Button Margin="5" Content="Update address" Click="OnUpdate" />
+    <TextBlock Margin="5" Text="{Binding Person.FullAddress}" />
+  </StackPanel>
+</UserControl>

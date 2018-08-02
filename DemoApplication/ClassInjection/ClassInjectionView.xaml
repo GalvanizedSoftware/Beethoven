@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="GalvanizedSoftware.Beethoven.DemoApp.ClassInjection.ClassInjectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.ClassInjection"
+             Height="350" Width="525" mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=local:ClassInjectionViewModel, IsDesignTimeCreatable=False}">
+  <StackPanel>
+    <TextBlock Margin="5">
+      <Run Text="First name: " />
+      <Run Text="{Binding Person.FirstName}" />
+    </TextBlock>
+    <TextBlock Margin="5">
+      <Run Text="Last name: " />
+      <Run Text="{Binding Person.LastName}" />
+    </TextBlock>
+    <Button Margin="5" Content="Get Full Name" Click="OnGetFullName" />
+    <TextBlock Margin="5" Text="{Binding FullName}" />
+  </StackPanel>
+</UserControl>
