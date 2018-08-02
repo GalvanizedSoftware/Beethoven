@@ -1,6 +1,6 @@
 ﻿namespace GalvanizedSoftware.Beethoven.Core.Binding
 {
-  internal interface IBindingParent
+  public interface IBindingParent
   {
     void Bind(object target);
   }
