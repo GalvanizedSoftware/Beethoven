@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Extentions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
@@ -14,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     {
       if (baseObject == null)
         return;
-      MethodInfo[] interfaceMethods = typeof(T).GetMethods();
+      MethodInfo[] interfaceMethods = typeof(T).GetAllMethodsAndInherited().ToArray();
       IEnumerable<MethodInfo> implementationMethods = baseObject
         .GetType()
         .GetMethods(Constants.ResolveFlags)
