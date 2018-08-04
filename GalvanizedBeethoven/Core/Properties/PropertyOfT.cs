@@ -48,9 +48,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     internal override object InvokeGet()
     {
       T value = default(T);
-      if (InvokeGetter(ref value))
-        return value;
-      throw new NotImplementedException();
+      InvokeGetter(ref value);
+      return value;
     }
 
     internal override void InvokeSet(object newValue)
