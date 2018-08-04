@@ -41,13 +41,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     public DefaultProperty ValidityCheck(object target, string methodName)
     {
-      return new DefaultProperty(this, (type, name) =>
-      {
-        MethodInfo methodInfo = target.GetType().GetMethod(methodName, Constants.ResolveFlags);
-        return typeof(ValidityCheck<>)
-          .MakeGenericType(type)
-          .InvokeStatic(nameof(ValidityCheck<object>.CreateWithReflection), target, methodName);
-      });
+      return new DefaultProperty(this, (type, name) => typeof(ValidityCheck<>)
+        .MakeGenericType(type)
+        .InvokeStatic(nameof(ValidityCheck<object>.CreateWithReflection), target, methodName));
     }
 
     public DefaultProperty SkipIfEqual()
@@ -77,22 +73,22 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     public DefaultProperty DelegatedSetter(object target, string methodName)
     {
-      return new DefaultProperty(this, (type, name) =>
-      {
-        return typeof(DelegatedSetter<>)
-          .MakeGenericType(type)
-          .InvokeStatic(nameof(DelegatedSetter<object>.CreateWithReflection), target, methodName, name);
-      });
+      return new DefaultProperty(this, (type, name) => typeof(DelegatedSetter<>)
+        .MakeGenericType(type)
+        .InvokeStatic(nameof(DelegatedSetter<object>.CreateWithReflection), target, methodName, name));
     }
 
     public DefaultProperty DelegatedGetter(object target, string methodName)
     {
-      return new DefaultProperty(this, (type, name) =>
-      {
-        return typeof(DelegatedGetter<>)
-          .MakeGenericType(type)
-          .InvokeStatic(nameof(DelegatedGetter<object>.CreateWithReflection), target, methodName, name);
-      });
+      return new DefaultProperty(this, (type, name) => typeof(DelegatedGetter<>)
+        .MakeGenericType(type)
+        .InvokeStatic(nameof(DelegatedGetter<object>.CreateWithReflection), target, methodName, name));
+    }
+
+    public DefaultProperty InitialValue(params object[] initialValues)
+    {
+      return new DefaultProperty(this, (type, name) => typeof(InitialValue<>).Create1(type,
+        initialValues.FirstOrDefault(obj => obj.GetType() == type)));
     }
   }
 }
