@@ -64,6 +64,7 @@ namespace GalvanizedSoftware.Beethoven.Core
               yield return method;
             break;
           case DefaultProperty defaultProperty:
+            // Dependent on what other wrappers are in there, so it has to be evaluated last
             break;
           default:
             foreach (Property subProperty in new PropertyMapper(definition))
