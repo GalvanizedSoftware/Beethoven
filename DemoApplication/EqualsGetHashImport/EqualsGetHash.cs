@@ -17,7 +17,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport
 
     public new bool Equals(object other)
     {
-      return Equals((T) other);
+      return Equals((T)other);
     }
 
     public bool Equals(T other)
@@ -36,13 +36,23 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport
       unchecked
       {
         return valuesGetterFunc(master)
-          .Aggregate(17, (hash, obj) => hash * 23 + obj.GetHashCode());
+          .Aggregate(17, (hash, obj) => hash * 23 + obj?.GetHashCode() ?? 0);
       }
     }
 
     public void Bind(object target)
     {
       master = target as T;
+    }
+
+    public static bool operator ==(EqualsGetHash<T> a, EqualsGetHash<T> b)
+    {
+      return a != null && a.Equals(b);
+    }
+
+    public static bool operator !=(EqualsGetHash<T> a, EqualsGetHash<T> b)
+    {
+      return !(a == b);
     }
   }
 }

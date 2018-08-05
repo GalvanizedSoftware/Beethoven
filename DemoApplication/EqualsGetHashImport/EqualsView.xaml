@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport.EqualsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport"
+             Height="350" Width="525" mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=local:EqualsViewModel, IsDesignTimeCreatable=False}">
+  <StackPanel>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+
+      <TextBox Grid.Column="0" Text="{Binding Name}"/>
+      <TextBox Grid.Column="1" Text="{Binding Value}"/>
+      <TextBox Grid.Column="2" Text="{Binding Data}"/>
+    </Grid>
+    <Button Command="{Binding AddCommand}">Add</Button>
+    <ItemsControl ItemsSource="{Binding Values}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="5,0" Text="{Binding Name}"/>
+            <TextBlock Margin="5,0" Text="{Binding Value}"/>
+            <TextBlock Margin="5,0" Text="{Binding Data}"/>
+          </StackPanel>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </StackPanel>
+</UserControl>

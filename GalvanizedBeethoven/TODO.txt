@@ -5,6 +5,7 @@
   Auto-implementation
   Duck-typing
   Multiple "inheritance"
+Unit test of InitialValue
 Review introduction document
 Auto-create with custom IOC container
 Method implementation with bool and ref for return vakue
