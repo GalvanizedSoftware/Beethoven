@@ -112,7 +112,7 @@
     <Compile Include="DefaultImplementaion\BasicViewModel.cs" />
     <Compile Include="DefaultImplementaion\IPerson.cs" />
     <Compile Include="DefaultImplementaion\PersonFactory.cs" />
-    <Compile Include="Common\EqualsValueComparer.cs" />
+    <Compile Include="EqualsGetHashImport\EqualsGetHashComparer.cs" />
     <Compile Include="EqualsGetHashImport\EqualsView.xaml.cs">
       <DependentUpon>EqualsView.xaml</DependentUpon>
     </Compile>

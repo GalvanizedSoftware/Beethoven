@@ -22,16 +22,14 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport
 
     public bool Equals(T other)
     {
-      if (ReferenceEquals(null, master))
+      if (master is null)
         return ReferenceEquals(null, other);
-      if (ReferenceEquals(master, other))
-        return true;
-      return valuesGetterFunc(master).SequenceEqual(valuesGetterFunc((T)other));
+      return ReferenceEquals(master, other) || valuesGetterFunc(master).SequenceEqual(valuesGetterFunc((T)other));
     }
 
     public new int GetHashCode()
     {
-      if (ReferenceEquals(null, master))
+      if (master is null)
         return 0.GetHashCode();
       unchecked
       {
@@ -43,16 +41,6 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport
     public void Bind(object target)
     {
       master = target as T;
-    }
-
-    public static bool operator ==(EqualsGetHash<T> a, EqualsGetHash<T> b)
-    {
-      return a != null && a.Equals(b);
-    }
-
-    public static bool operator !=(EqualsGetHash<T> a, EqualsGetHash<T> b)
-    {
-      return !(a == b);
     }
   }
 }

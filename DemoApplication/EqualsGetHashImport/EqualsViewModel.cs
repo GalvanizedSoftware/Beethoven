@@ -18,12 +18,14 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport
     public EqualsViewModel()
     {
       AddCommand = new Command(Add);
-      valueHolders = new HashSet<IValueHolder>(new EqualsValueComparer<IValueHolder>()); // Unfortunately the == operator is difficult to override
+      valueHolders = new HashSet<IValueHolder>(new EqualsGetHashComparer()); // Unfortunately the == operator is difficult to override
     }
 
     private void Add()
     {
       IValueHolder value = factory.Create(Name, Value, Data?.Select(c => unchecked((byte)c)).ToArray());
+      int hash1 = value.GetHashCode();
+      int hash2 = valueHolders.LastOrDefault()?.GetHashCode() ?? 0;
       if (valueHolders.Contains(value))
         MessageBox.Show("Element already exists");
       valueHolders.Add(value);
