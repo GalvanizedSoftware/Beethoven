@@ -1,5 +1,4 @@
 ﻿Examples:
-  Equals CompareTo GetHash
   GOF pattern example
   Decorators / loggers
   Auto-implementation
