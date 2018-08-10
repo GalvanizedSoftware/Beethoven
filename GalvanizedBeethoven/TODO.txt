@@ -1,12 +1,10 @@
-﻿Examples:
+﻿Method implementation with bool and ref for return vakue
+Examples:
   GOF pattern example
     Decorators / loggers
   Duck-typing
   Multiple "inheritance"
-Unit test of InitialValue
-Review introduction document
 Auto-create with custom IOC container
-Method implementation with bool and ref for return vakue
 Methods conditions
 Auto-resolve method values
 Compile generated code without Castle or IInvocation
