@@ -52,6 +52,11 @@ namespace GalvanizedSoftware.Beethoven.Extentions
       return new Property<T>(property, new Constant<T>(value));
     }
 
+    public static Property<T> InitialValue<T>(this Property<T> property, T value)
+    {
+      return new Property<T>(property, new InitialValue<T>(value));
+    }
+
     public static Property<T> DelegatedSetter<T>(this Property<T> property, Action<T> action)
     {
       return new Property<T>(property, new DelegatedSetter<T>(action));

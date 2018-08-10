@@ -66,6 +66,7 @@
     <Compile Include="PropertyTests\ITestProperties.cs" />
     <Compile Include="MethodTests\MethodTestInvalidSignature.cs" />
     <Compile Include="MethodTests\OutAndRefImplementation.cs" />
+    <Compile Include="PropertyTests\PropertyInitialValueTest.cs" />
     <Compile Include="PropertyTests\PropertyDelegatedGetter.cs" />
     <Compile Include="PropertyTests\PropertyValidityCheck.cs" />
     <Compile Include="PropertyTests\PropertySkipIfChanged.cs" />
