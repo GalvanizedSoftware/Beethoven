@@ -1,7 +1,6 @@
 ﻿Examples:
   GOF pattern example
-  Decorators / loggers
-  Auto-implementation
+    Decorators / loggers
   Duck-typing
   Multiple "inheritance"
 Unit test of InitialValue

@@ -6,7 +6,7 @@ Not using inheritance enables inclusion of the code actually needed, not a vast 
 Fluent programming har so far been limited to methods on classes. This projects motivation is to extent the fluent-style to class code.
 
 **For example:**
-```csharp
+```cs
 public interface IPerson : INotifyPropertyChanged
 {
   string FirstName { get; set; }
@@ -34,7 +34,7 @@ class Factory
 ```
 
 This is aqually enough to implement the class. There is also a default scheme, where the property names are read with reflection:
-```csharp
+```cs
 public IPerson CreatePerson()
 {
   return factory.Generate<IPerson>(
