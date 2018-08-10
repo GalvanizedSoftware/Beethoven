@@ -55,6 +55,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\Command.cs" />
+    <Compile Include="Default\DefaultView.xaml.cs">
+      <DependentUpon>DefaultView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Default\DefaultViewModel.cs" />
+    <Compile Include="Default\IPerson.cs" />
+    <Compile Include="Default\PersonFactory.cs" />
     <Compile Include="EqualsGetHashImport\EqualsGetHash.cs" />
     <Page Include="Basic\BasicView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -70,7 +76,7 @@
       <DependentUpon>BasicView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="DefaultImplementaion\BasicView.xaml">
+    <Page Include="Default\DefaultView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -106,12 +112,6 @@
   <ItemGroup>
     <Compile Include="Basic\PersonFactory.cs" />
     <Compile Include="ClassInjection\FullName.cs" />
-    <Compile Include="DefaultImplementaion\BasicView.xaml.cs">
-      <DependentUpon>BasicView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DefaultImplementaion\BasicViewModel.cs" />
-    <Compile Include="DefaultImplementaion\IPerson.cs" />
-    <Compile Include="DefaultImplementaion\PersonFactory.cs" />
     <Compile Include="EqualsGetHashImport\EqualsGetHashComparer.cs" />
     <Compile Include="EqualsGetHashImport\EqualsView.xaml.cs">
       <DependentUpon>EqualsView.xaml</DependentUpon>

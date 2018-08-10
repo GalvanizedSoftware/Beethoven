@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace GalvanizedSoftware.Beethoven.DemoApp.DefaultImplementaion
+namespace GalvanizedSoftware.Beethoven.DemoApp.Default
 {
   public interface IPerson : INotifyPropertyChanged
   {

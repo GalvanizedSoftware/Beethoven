@@ -8,7 +8,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Basic
     {
       Person = new PersonFactory().CreatePerson();
       Person.PropertyChanged += (sender, args) => Trace.WriteLine($"PropertyChanged: {args.PropertyName}");
-      Person.FirstName = "Ivanka";
+      Person.FirstName = "Lisa";
       Trace.WriteLine($"FirstName is {Person.FirstName}");
     }
 

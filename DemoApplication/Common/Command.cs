@@ -6,6 +6,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Common
   public class Command : ICommand
   {
     private readonly Action action;
+    private bool canExecute = true;
 
     public Command(Action action)
     {
@@ -14,7 +15,13 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Common
 
     public bool CanExecute(object parameter)
     {
-      return true;
+      return canExecute;
+    }
+
+    public void SetCanExecute(bool canExecuteNow)
+    {
+      canExecute = canExecuteNow;
+      CanExecuteChanged(this, new EventArgs());
     }
 
     public void Execute(object parameter)
@@ -22,6 +29,6 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Common
       action();
     }
 
-    public event EventHandler CanExecuteChanged;
+    public event EventHandler CanExecuteChanged = delegate { };
   }
 }

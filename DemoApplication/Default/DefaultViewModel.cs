@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace GalvanizedSoftware.Beethoven.DemoApp.DefaultImplementaion
+namespace GalvanizedSoftware.Beethoven.DemoApp.Default
 {
   internal class DefaultImplementaionViewModel
   {
@@ -8,7 +8,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.DefaultImplementaion
     {
       Person = new PersonFactory().CreatePerson();
       Person.PropertyChanged += (sender, args) => Trace.WriteLine($"PropertyChanged: {args.PropertyName}");
-      Person.FirstName = "Ivanka";
+      Person.FirstName = "John";
       Trace.WriteLine($"FirstName is {Person.FirstName}");
     }
 
