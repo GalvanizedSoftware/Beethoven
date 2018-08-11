@@ -9,7 +9,7 @@
       this.person = person;
     }
 
-    public string GetFullName(bool firstNameFirst, bool lastNameCapital, bool someThing)
+    public string GetFullName(bool firstNameFirst, bool lastNameCapital, bool something)
     {
       string lastName = lastNameCapital ? person.LastName.ToUpper() : person.LastName;
       string firstName = person.FirstName;
