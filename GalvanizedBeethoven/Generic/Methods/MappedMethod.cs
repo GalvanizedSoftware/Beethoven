@@ -2,19 +2,33 @@
 using GalvanizedSoftware.Beethoven.Extentions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class MethodsWithInstance : Method
+  public class MappedMethod : Method
   {
     private readonly MethodInfo methodInfo;
     private readonly bool hasReturnType;
 
-    public MethodsWithInstance(MethodInfo methodInfo) :
+    public MappedMethod(MethodInfo methodInfo) :
       base(methodInfo.Name)
     {
       this.methodInfo = methodInfo;
+      hasReturnType = methodInfo.ReturnType != typeof(void);
+    }
+
+    public MappedMethod(string mainName, object instance, string targetName) :
+      base(mainName)
+    {
+      Instance = instance;
+      methodInfo = instance
+        .GetType()
+        .GetAllMethods(targetName)
+        .SingleOrDefault();
+      if (methodInfo == null)
+        throw new MissingMethodException($"The method: {targetName} was not found");
       hasReturnType = methodInfo.ReturnType != typeof(void);
     }
 
