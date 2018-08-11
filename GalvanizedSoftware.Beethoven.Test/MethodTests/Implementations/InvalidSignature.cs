@@ -28,5 +28,10 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
     {
       throw new NotImplementedException();
     }
+
+    public void Ref(int value)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

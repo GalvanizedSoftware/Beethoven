@@ -15,6 +15,11 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
       return text1.Length;
     }
 
+    void Ref(ref int value)
+    {
+      value += 1;
+    }
+
     public int OutAndRef(string text1, string text2, int count)
     {
       throw new NotImplementedException();

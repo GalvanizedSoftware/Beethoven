@@ -68,5 +68,16 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       test.Simple();
       Assert.Fail();
     }
+
+    [TestMethod]
+    [ExpectedException(typeof(InvalidOperationException))]
+    public void MethodRefInvalid()
+    {
+      BeethovenFactory factory = new BeethovenFactory();
+      ITestMethods test = factory.Generate<ITestMethods>(new InvalidSignature());
+      int v = 5;
+      test.Ref(ref v);
+      Assert.Fail();
+    }
   }
 }

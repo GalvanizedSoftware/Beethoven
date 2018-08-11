@@ -78,5 +78,15 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       test.Simple();
     }
 
+    [TestMethod]
+    public void MethodRefTest()
+    {
+      OutAndRefImplementation obj = new OutAndRefImplementation();
+      BeethovenFactory factory = new BeethovenFactory();
+      ITestMethods test = factory.Generate<ITestMethods>(obj);
+      int value = 4;
+      test.Ref(ref value);
+      Assert.AreEqual(5, value);
+    }
   }
 }
