@@ -5,6 +5,7 @@ using System.Reflection;
 using Castle.DynamicProxy;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Core.Properties;
+using GalvanizedSoftware.Beethoven.Extentions;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
@@ -34,16 +35,12 @@ namespace GalvanizedSoftware.Beethoven.Core
       if (methodInfo.IsSpecialName)
       {
         IEnumerable<IInterceptor> matchingProperties = properties
-          .Where(property => property.Property.IsMatch(methodInfo))
-          .OfType<IInterceptor>();
+          .Where(property => property.Property.IsMatch(methodInfo));
         foreach (IInterceptor interceptor in matchingProperties)
           interceptor.Intercept(invocation);
         return;
       }
-      Type[] parameterTypes = methodInfo
-       .GetParameters()
-       .Select(info => info.ParameterType)
-       .ToArray();
+      Type[] parameterTypes = methodInfo.GetParameterTypes().ToArray();
       methods.FirstOrDefault(
         method => method.IsMatch(parameterTypes, invocation.GenericArguments, methodInfo.ReturnType))?
         .Intercept(invocation);

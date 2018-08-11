@@ -26,9 +26,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       return methodInfo.IsMatch(parameters, genericArguments, returnType);
     }
 
-    protected override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments)
+    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      MethodInfo methodInfo)
     {
-      object returnValue = methodInfo.Invoke(lambdaDelegate.Target, parameters, genericArguments);
+      object returnValue = this.methodInfo.Invoke(lambdaDelegate.Target, parameters, genericArguments);
       if (hasReturnType)
         returnAction(returnValue);
     }

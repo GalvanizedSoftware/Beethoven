@@ -58,5 +58,10 @@ namespace GalvanizedSoftware.Beethoven.Extentions
       return type.GetMethod(methodName, StaticResolveFlags)
         ?.Invoke(type, parameters);
     }
+
+    public static object GetDefaultValue(this Type type)
+    {
+      return type.IsValueType ? Activator.CreateInstance(type) : null;
+    }
   }
 }

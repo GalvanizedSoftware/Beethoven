@@ -113,9 +113,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     {
       if (type == typeof(string))
         return "Unknown";
-      if (type.IsValueType)
-        return Activator.CreateInstance(type);
-      return null;
+      return type.IsValueType ? Activator.CreateInstance(type) : null;
     }
 
     [TestMethod]
@@ -180,5 +178,6 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       Assert.AreEqual("Some value", test.Property2);
       test.Property1 = 55;
       Assert.AreEqual(55, test.Property1);
-    }  }
+    }
+  }
 }

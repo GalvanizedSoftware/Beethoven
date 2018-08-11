@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -21,7 +22,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       return !parameters.Any();
     }
 
-    protected override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments)
+    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      MethodInfo methodInfo)
     {
       returnAction(func());
     }
