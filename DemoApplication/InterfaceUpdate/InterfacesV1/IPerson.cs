@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 
-// ReSharper disable once CheckNamespace
-namespace GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdateV1
+namespace GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate.InterfacesV1
 {
   public interface IPerson : INotifyPropertyChanged
   { 

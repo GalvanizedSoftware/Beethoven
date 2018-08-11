@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System.Globalization;
-using GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdateV2;
+using GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate.InterfacesV2;
 using GalvanizedSoftware.Beethoven.Extentions;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate.Server
@@ -27,7 +27,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate.Server
         return returnValue;
       }
       // A better solution would be to define the interfaces in different assemblies with different version number
-      if (typeof(T).FullName == "GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdateV1.IPerson")
+      if (typeof(T).FullName == "GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate.InterfacesV1.IPerson")
       {
         People.Add(person);
         PersonV2ToV1Converter converter = new PersonV2ToV1Converter(person, cultureInfo);

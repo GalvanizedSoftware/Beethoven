@@ -128,8 +128,8 @@
     <Compile Include="InterfaceUpdate\InterfaceUpdateView.xaml.cs">
       <DependentUpon>InterfaceUpdateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InterfaceUpdate\IPersonV1.cs" />
-    <Compile Include="InterfaceUpdate\IPersonV2.cs" />
+    <Compile Include="InterfaceUpdate\InterfacesV1\IPerson.cs" />
+    <Compile Include="InterfaceUpdate\InterfacesV2\IPerson.cs" />
     <Compile Include="InterfaceUpdate\ServerView.xaml.cs">
       <DependentUpon>ServerView.xaml</DependentUpon>
     </Compile>

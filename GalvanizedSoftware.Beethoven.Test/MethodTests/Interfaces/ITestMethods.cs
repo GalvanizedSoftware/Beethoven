@@ -1,4 +1,4 @@
-﻿namespace GalvanizedSoftware.Beethoven.Test.MethodTests
+﻿namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces
 {
   public interface ITestMethods
   {

@@ -1,4 +1,6 @@
 ﻿using FakeItEasy;
+using GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations;
+using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GalvanizedSoftware.Beethoven.Test.MethodTests

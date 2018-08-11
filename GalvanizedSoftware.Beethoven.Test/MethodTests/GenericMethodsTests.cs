@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
+using GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations;
+using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GalvanizedSoftware.Beethoven.Test.MethodTests
