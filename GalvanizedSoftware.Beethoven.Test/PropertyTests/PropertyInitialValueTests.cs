@@ -6,31 +6,30 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
 {
   [TestClass]
-  public class PropertyValidityCheck
+  public class PropertyInitialValueTests
   {
+
     [TestMethod]
-    public void TestMethodPropertyValidityCheck1()
+    public void TestMethodInitialValueTest1()
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
         new Property<int>(nameof(ITestProperties.Property1))
-        .ValidityCheck(value => value % 2 == 0)
+        .InitialValue(5)
         .SetterGetter());
-      Assert.AreEqual(0, test.Property1);
-      test.Property1 = 10;
-      Assert.AreEqual(10, test.Property1);
+      Assert.AreEqual(5, test.Property1);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void TestMethodPropertyValidityCheck2()
+    public void TestMethodInitialValueTest2()
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
         new Property<int>(nameof(ITestProperties.Property1))
-          .ValidityCheck(value => value % 2 == 0));
-      test.Property1 = 1;
-      Assert.Fail();
+        .InitialValue(5)
+        .SetterGetter());
+      test.Property1 = 50;
+      Assert.AreEqual(50, test.Property1);
     }
   }
 }

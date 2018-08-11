@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GalvanizedSoftware.Beethoven.Test.MethodTests
 {
   [TestClass]
-  public class MethodTestInvalidSignature
+  public class InvalidSignatureTests
   {
     [TestMethod]
     [ExpectedException(typeof(InvalidOperationException))]

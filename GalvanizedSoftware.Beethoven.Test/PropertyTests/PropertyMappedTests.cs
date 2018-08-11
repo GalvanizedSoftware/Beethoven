@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
 {
   [TestClass]
-  public class PropertyMapped
+  public class PropertyMappedTests
   {
     [TestMethod]
     public void TestMethodPropertyPropertyMapped1()

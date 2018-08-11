@@ -5,7 +5,7 @@ using System.Reflection;
 namespace GalvanizedSoftware.Beethoven.Test.EventTests
 {
   [TestClass]
-  public class EventTest
+  public class EventTests
   {
     [TestMethod]
     public void EventSimple()

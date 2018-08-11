@@ -1,49 +1,53 @@
-﻿using System;
-using GalvanizedSoftware.Beethoven.Core.Properties;
+﻿using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extentions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
 {
   [TestClass]
-  public class PropertyDelegatedSetter
+  public class PropertySkipIfEqualTests
   {
 
     [TestMethod]
-    public void TestMethodProperty1()
+    public void TestMethodPropertySkipIfEqual1()
     {
-      int setValue = 0;
-      Action<int> action = value => setValue = value;
       BeethovenFactory factory = new BeethovenFactory();
-      ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
-        .DelegatedSetter(action));
-      test.Property1 = 5;
-      Assert.AreEqual(5, setValue);
-    }
-
-    [TestMethod]
-    public void TestMethodProperty2()
-    {
       int setCount = 0;
-      Action<int> action = value => setCount++;
-      BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
         new Property<int>(nameof(ITestProperties.Property1))
-          .DelegatedSetter(action));
+          .SkipIfEqual()
+          .DelegatedSetter(value => setCount++));
+      test.Property1 = 5;
       test.Property1 = 5;
       Assert.AreEqual(1, setCount);
     }
 
     [TestMethod]
-    public void TestMethodProperty3()
+    public void TestMethodPropertySkipIfEqual2()
     {
       BeethovenFactory factory = new BeethovenFactory();
+      int setCount = 0;
       ITestProperties test = factory.Generate<ITestProperties>(
         new Property<int>(nameof(ITestProperties.Property1))
-          .DelegatedSetter(value => { }));
+          .DelegatedSetter(value => setCount++)
+          .SkipIfEqual());
       test.Property1 = 5;
-      Assert.AreEqual(0, test.Property1);
+      test.Property1 = 5;
+      Assert.AreEqual(2, setCount);
+    }
+
+    [TestMethod]
+    public void TestMethodPropertySkipIfEqual3()
+    {
+      BeethovenFactory factory = new BeethovenFactory();
+      int setCount = 0;
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new Property<int>(nameof(ITestProperties.Property1))
+          .SkipIfEqual()
+          .DelegatedSetter(value => setCount++));
+      test.Property1 = 5;
+      test.Property1 = 6;
+      Assert.AreEqual(2, setCount);
     }
   }
 }

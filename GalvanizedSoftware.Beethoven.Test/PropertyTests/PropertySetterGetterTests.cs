@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
 {
   [TestClass]
-  public class PropertySetterGetter
+  public class PropertySetterGetterTests
   {
     [TestMethod]
     public void TestMethodProperty1()

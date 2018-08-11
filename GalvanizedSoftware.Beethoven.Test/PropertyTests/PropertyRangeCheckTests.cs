@@ -1,53 +1,48 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Properties;
+﻿using System;
+using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extentions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
 {
   [TestClass]
-  public class PropertySkipIfEqual
+  public class PropertyRangeCheckTests
   {
-
     [TestMethod]
-    public void TestMethodPropertySkipIfEqual1()
+    public void TestMethodPropertyRangeCheck1()
     {
       BeethovenFactory factory = new BeethovenFactory();
-      int setCount = 0;
       ITestProperties test = factory.Generate<ITestProperties>(
         new Property<int>(nameof(ITestProperties.Property1))
-          .SkipIfEqual()
-          .DelegatedSetter(value => setCount++));
-      test.Property1 = 5;
-      test.Property1 = 5;
-      Assert.AreEqual(1, setCount);
+        .RangeCheck(0, 42)
+        .SetterGetter());
+      Assert.AreEqual(0, test.Property1);
+      test.Property1 = 42;
+      Assert.AreEqual(42, test.Property1);
     }
 
     [TestMethod]
-    public void TestMethodPropertySkipIfEqual2()
+    [ExpectedException(typeof(ArgumentOutOfRangeException))]
+    public void TestMethodPropertyRangeCheck2()
     {
       BeethovenFactory factory = new BeethovenFactory();
-      int setCount = 0;
       ITestProperties test = factory.Generate<ITestProperties>(
         new Property<int>(nameof(ITestProperties.Property1))
-          .DelegatedSetter(value => setCount++)
-          .SkipIfEqual());
-      test.Property1 = 5;
-      test.Property1 = 5;
-      Assert.AreEqual(2, setCount);
+          .RangeCheck(0, 42));
+      test.Property1 = 43;
+      Assert.Fail();
     }
 
     [TestMethod]
-    public void TestMethodPropertySkipIfEqual3()
+    [ExpectedException(typeof(ArgumentOutOfRangeException))]
+    public void TestMethodPropertyRangeCheck3()
     {
       BeethovenFactory factory = new BeethovenFactory();
-      int setCount = 0;
       ITestProperties test = factory.Generate<ITestProperties>(
         new Property<int>(nameof(ITestProperties.Property1))
-          .SkipIfEqual()
-          .DelegatedSetter(value => setCount++));
-      test.Property1 = 5;
-      test.Property1 = 6;
-      Assert.AreEqual(2, setCount);
+          .RangeCheck(0, 42));
+      test.Property1 = -1;
+      Assert.Fail();
     }
   }
 }

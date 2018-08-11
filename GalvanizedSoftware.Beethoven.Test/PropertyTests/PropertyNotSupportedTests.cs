@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
 {
   [TestClass]
-  public class PropertyNotSupported
+  public class PropertyNotSupportedTests
   {
     [TestMethod]
     [ExpectedException(typeof(NotSupportedException))]

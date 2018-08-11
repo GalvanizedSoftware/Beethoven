@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GalvanizedSoftware.Beethoven.Test.MethodTests
 {
   [TestClass]
-  public class MethodTest
+  public class AutoMapMethodTests
   {
     [TestMethod]
     public void MethodSimple()
@@ -59,8 +59,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       BeethovenFactory factory = new BeethovenFactory();
       ITestMethods test = factory.Generate<ITestMethods>(obj);
       string text1 = "abc";
-      string text2;
-      Assert.AreEqual(19, test.OutAndRef(out text2, ref text1, 5));
+      Assert.AreEqual(19, test.OutAndRef(out string text2, ref text1, 5));
       Assert.AreEqual("cba", text1);
       Assert.AreEqual("abc abc abc abc abc", text2);
     }
