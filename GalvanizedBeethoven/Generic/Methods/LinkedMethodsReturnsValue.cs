@@ -71,6 +71,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Action<object> localReturn = newValue => result = (bool)newValue;
       object[] newParameters = parameters.Append(returnValue).ToArray();
       method.Invoke(localReturn, newParameters, genericArguments, methodInfo);
+      for (int i = 0; i < parameters.Length; i++)
+        parameters[i] = newParameters[i]; // In case of ref or out variables
       returnValue = newParameters.Last();
       return result;
     }
