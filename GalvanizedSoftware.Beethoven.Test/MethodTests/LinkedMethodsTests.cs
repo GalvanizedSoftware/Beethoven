@@ -29,14 +29,12 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     [ExpectedException(typeof(MissingMethodException))]
     public void LinkedMethodsTest2()
     {
-      List<string> log = new List<string>();
       SimpleImplementation implementation = new SimpleImplementation();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethods(nameof(ITestMethods.Simple))
-          .Lambda<Action>(() => log.Add("Before"))
           .AutoMappedMethod(implementation)
-          .Lambda<Action<int>>(value => log.Add("After")));
+          .Lambda<Action<int>>(value => { }));
       instance.Simple();
       Assert.Fail();
     }

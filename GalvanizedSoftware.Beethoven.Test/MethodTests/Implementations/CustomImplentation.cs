@@ -4,7 +4,6 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
 {
   class CustomImplentation
   {
-
     internal int GetLength(string text1, string text2, int count)
     {
       return text1.Length + text2.Length + count;
