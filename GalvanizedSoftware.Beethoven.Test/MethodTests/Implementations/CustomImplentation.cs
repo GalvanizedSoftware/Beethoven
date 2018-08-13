@@ -1,5 +1,7 @@
 ﻿// ReSharper disable UnusedMember.Global
 
+using System.Linq;
+
 namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
 {
   class CustomImplentation
@@ -14,6 +16,34 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
     {
       length = text1.Length + text2.Length + count;
       return true;
+    }
+
+    int WithParameters(string text1, string text2)
+    {
+      return 17;
+    }
+
+    int WithParameters(string text1, string text2, int count)
+    {
+      return 18;
+    }
+
+    public bool OutAndRef(out string text1, ref string text2, int count, ref int returnValue)
+    { 
+      string tmp1 = text2;
+      text1 = string.Join(" ",
+        Enumerable.Range(0, count)
+          .Select(i => tmp1));
+      text2 = new string(text2.Reverse().ToArray());
+      returnValue = text1.Length;
+      return true;
+    }
+
+    // Note to get value from preveous call, text1 has to be ref not out (luckely both are valid)
+    public bool OutAndRef1(ref string text1, ref string text2, int count, ref int returnValue)
+    {
+      returnValue += 1;
+      return false;
     }
   }
 }
