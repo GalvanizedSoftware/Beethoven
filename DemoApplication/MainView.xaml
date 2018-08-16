@@ -8,6 +8,7 @@
         xmlns:mapped="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.Mapped"
         xmlns:interfaceupdate="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate"
         xmlns:equalsGetHashImport="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport"
+        xmlns:classInjection="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.ClassInjection"
         mc:Ignorable="d"
         Title="MainView" Height="450" Width="800">
   <TabControl>
@@ -28,7 +29,7 @@
     </TabItem>
     <TabItem Header="Class Injection">
       <Grid>
-        <equalsGetHashImport:EqualsView />
+        <classInjection:ClassInjectionView />
       </Grid>
     </TabItem>
     <TabItem Header="Interface Update">
