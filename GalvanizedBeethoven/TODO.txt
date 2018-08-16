@@ -1,11 +1,10 @@
-﻿Method implementation with bool and ref for return vakue
-Examples:
+﻿Examples:
   GOF pattern example
     Decorators / loggers
   Duck-typing
   Multiple "inheritance"
 Auto-create with custom IOC container
 Methods conditions
-Auto-resolve method values
+Auto-resolve method values based on type and name
 Compile generated code without Castle or IInvocation
 Generate code file for compilation
