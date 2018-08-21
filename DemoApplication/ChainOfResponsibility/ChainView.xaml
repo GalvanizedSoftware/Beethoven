@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility.ChainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:chainOfResponsibility="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility"
+             Height="350" Width="525" mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=chainOfResponsibility:ChainViewModel, IsDesignTimeCreatable=False }">
+  <StackPanel>
+    <Button Command="{Binding AddRequest1Command}">Request 1 €</Button>
+    <Button Command="{Binding AddRequest100Command}">Request 100 €</Button>
+    <Button Command="{Binding AddRequest1000Command}">Request 1000 €</Button>
+    <Button Command="{Binding AddRequestALotCommand}">Request 10000000 €</Button>
+    <ItemsControl ItemsSource="{Binding OrderItems}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding}"/>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </StackPanel>
+</UserControl>

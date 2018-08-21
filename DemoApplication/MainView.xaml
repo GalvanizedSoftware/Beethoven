@@ -10,6 +10,7 @@
         xmlns:equalsGetHashImport="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport"
         xmlns:classInjection="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.ClassInjection"
         xmlns:decorator="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.Decorator"
+        xmlns:chainOfResponsibility="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility"
         mc:Ignorable="d"
         Title="MainView" Height="450" Width="800">
   <TabControl>
@@ -46,6 +47,8 @@
     <TabItem Header="Decorator Pattern">
       <decorator:DecoratorView/>
     </TabItem>
+    <TabItem Header="Chain of responsibility Pattern">
+      <chainOfResponsibility:ChainView/>
+    </TabItem>
   </TabControl>
-
 </Window>
