@@ -1,9 +1,8 @@
-﻿<UserControl x:Class="GalvanizedSoftware.Beethoven.DemoApp.Decorator_Pattern.DecoratorView"
+﻿<UserControl x:Class="GalvanizedSoftware.Beethoven.DemoApp.Decorator.DecoratorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:decoratorPattern="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.Decorator_Pattern"
              Height="350" Width="525" mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=decoratorPattern:DecoratorViewModel, IsDesignTimeCreatable=False }">
   <StackPanel>

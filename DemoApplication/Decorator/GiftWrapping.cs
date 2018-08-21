@@ -1,4 +1,4 @@
-﻿namespace GalvanizedSoftware.Beethoven.DemoApp.Decorator_Pattern
+﻿namespace GalvanizedSoftware.Beethoven.DemoApp.Decorator
 {
   internal class GiftWrapping
   {

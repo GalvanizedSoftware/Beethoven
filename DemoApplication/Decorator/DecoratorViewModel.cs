@@ -1,9 +1,9 @@
-﻿using GalvanizedSoftware.Beethoven.DemoApp.Common;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using GalvanizedSoftware.Beethoven.DemoApp.Common;
 
-namespace GalvanizedSoftware.Beethoven.DemoApp.Decorator_Pattern
+namespace GalvanizedSoftware.Beethoven.DemoApp.Decorator
 {
   internal class DecoratorViewModel
   {

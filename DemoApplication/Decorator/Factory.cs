@@ -1,7 +1,7 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extentions;
 
-namespace GalvanizedSoftware.Beethoven.DemoApp.Decorator_Pattern
+namespace GalvanizedSoftware.Beethoven.DemoApp.Decorator
 {
   internal class Factory
   {
