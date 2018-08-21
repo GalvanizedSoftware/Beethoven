@@ -56,6 +56,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\Command.cs" />
+    <Compile Include="Decorator Pattern\DecoratorView.xaml.cs">
+      <DependentUpon>DecoratorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Decorator Pattern\DecoratorViewModel.cs" />
+    <Compile Include="Decorator Pattern\Factory.cs" />
+    <Compile Include="Decorator Pattern\GiftWrapping.cs" />
+    <Compile Include="Decorator Pattern\IOrderedItem.cs" />
+    <Compile Include="Decorator Pattern\Laptop.cs" />
+    <Compile Include="Decorator Pattern\Mouse.cs" />
     <Compile Include="Default\DefaultView.xaml.cs">
       <DependentUpon>DefaultView.xaml</DependentUpon>
     </Compile>
@@ -77,6 +86,10 @@
       <DependentUpon>BasicView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Decorator Pattern\DecoratorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Default\DefaultView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -174,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Decorator Pattern\readme.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
