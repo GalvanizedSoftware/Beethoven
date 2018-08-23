@@ -29,7 +29,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       new LinkedMethods(this, new MappedMethod(Name, instance, targetName));
 
     public LinkedMethods AutoMappedMethod(object instance) =>
-      new LinkedMethods(this, new MappedMethod(Name, instance, Name));
+      new LinkedMethods(this, new MappedMethod(Name, instance));
 
     public override bool IsMatch(IEnumerable<Type> parameters, Type[] genericArguments, Type returnType)
     {

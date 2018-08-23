@@ -1,4 +1,4 @@
-﻿namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility
+﻿namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility1
 {
   public interface IApproverChain
   {

@@ -1,8 +1,8 @@
-﻿using GalvanizedSoftware.Beethoven.DemoApp.Common;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using GalvanizedSoftware.Beethoven.DemoApp.Common;
 
-namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility
+namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility1
 {
   internal class ChainViewModel
   {

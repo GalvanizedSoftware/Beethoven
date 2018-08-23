@@ -55,18 +55,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ChainOfResponsibility\IApproverChain.cs" />
-    <Compile Include="ChainOfResponsibility\IApprover.cs" />
-    <Compile Include="ChainOfResponsibility\Level1Manager.cs" />
-    <Compile Include="ChainOfResponsibility\Level2Manager.cs" />
-    <Compile Include="ChainOfResponsibility\LocalManager.cs" />
-    <Compile Include="ChainOfResponsibility\Myself.cs" />
-    <Compile Include="Common\Command.cs" />
-    <Compile Include="ChainOfResponsibility\ChainView.xaml.cs">
+    <Compile Include="ChainOfResponsibility2\ApproverLink.cs" />
+    <Compile Include="ChainOfResponsibility2\ChainView.xaml.cs">
       <DependentUpon>ChainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChainOfResponsibility\ChainViewModel.cs" />
-    <Compile Include="ChainOfResponsibility\Factory.cs" />
+    <Compile Include="ChainOfResponsibility2\ChainViewModel.cs" />
+    <Compile Include="ChainOfResponsibility2\Factory.cs" />
+    <Compile Include="ChainOfResponsibility2\IApprover.cs" />
+    <Compile Include="ChainOfResponsibility2\Level1Manager.cs" />
+    <Compile Include="ChainOfResponsibility2\Level2Manager.cs" />
+    <Compile Include="ChainOfResponsibility2\LocalManager.cs" />
+    <Compile Include="ChainOfResponsibility2\Myself.cs" />
+    <Compile Include="ChainOfResponsibility1\IApproverChain.cs" />
+    <Compile Include="ChainOfResponsibility1\IApprover.cs" />
+    <Compile Include="ChainOfResponsibility1\Level1Manager.cs" />
+    <Compile Include="ChainOfResponsibility1\Level2Manager.cs" />
+    <Compile Include="ChainOfResponsibility1\LocalManager.cs" />
+    <Compile Include="ChainOfResponsibility1\Myself.cs" />
+    <Compile Include="Common\Command.cs" />
+    <Compile Include="ChainOfResponsibility1\ChainView.xaml.cs">
+      <DependentUpon>ChainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChainOfResponsibility1\ChainViewModel.cs" />
+    <Compile Include="ChainOfResponsibility1\Factory.cs" />
     <Compile Include="Decorator\DecoratorView.xaml.cs">
       <DependentUpon>DecoratorView.xaml</DependentUpon>
     </Compile>
@@ -97,7 +108,11 @@
       <DependentUpon>BasicView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ChainOfResponsibility\ChainView.xaml">
+    <Page Include="ChainOfResponsibility2\ChainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ChainOfResponsibility1\ChainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -202,6 +217,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ChainOfResponsibility1\readme.md" />
+    <None Include="ChainOfResponsibility2\readme.md" />
     <None Include="Decorator\readme.md" />
     <None Include="packages.config" />
   </ItemGroup>

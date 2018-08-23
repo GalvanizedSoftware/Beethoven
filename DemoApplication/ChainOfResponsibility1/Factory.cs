@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
 
-namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility
+namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility1
 {
   internal class Factory
   {
@@ -9,7 +9,6 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility
 
     public IApproverChain CreateChain(params IApprover[] approvers)
     {
-      object[] parameters = approvers;
       LinkedMethodsReturnValue linkedMethods = approvers
         .Aggregate(new LinkedMethodsReturnValue(nameof(IApproverChain.Approve)),
         (value, approver) => value.AutoMappedMethod(approver));
