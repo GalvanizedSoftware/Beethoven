@@ -93,6 +93,14 @@
     <Compile Include="Default\DefaultViewModel.cs" />
     <Compile Include="Default\IPerson.cs" />
     <Compile Include="Default\PersonFactory.cs" />
+    <Compile Include="DuckTyping\DuckTypingView.xaml.cs">
+      <DependentUpon>DuckTypingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DuckTyping\DuckTypingViewModel.cs" />
+    <Compile Include="DuckTyping\Company.cs" />
+    <Compile Include="DuckTyping\Factory.cs" />
+    <Compile Include="DuckTyping\IDisplayName.cs" />
+    <Compile Include="DuckTyping\Person.cs" />
     <Compile Include="EqualsGetHashImport\EqualsGetHash.cs" />
     <Page Include="Basic\BasicView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -121,6 +129,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Default\DefaultView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DuckTyping\DuckTypingView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -220,6 +232,7 @@
     <None Include="ChainOfResponsibility1\readme.md" />
     <None Include="ChainOfResponsibility2\readme.md" />
     <None Include="Decorator\readme.md" />
+    <None Include="DuckTyping\readme.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

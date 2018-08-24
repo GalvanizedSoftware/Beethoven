@@ -12,38 +12,27 @@
         xmlns:decorator="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.Decorator"
         xmlns:chainOfResponsibility1="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility1"
         xmlns:chainOfResponsibility2="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility2"
+        xmlns:duckTyping="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.DuckTyping"
         mc:Ignorable="d"
         Title="MainView" Height="450" Width="800">
   <TabControl>
     <TabItem Header="Basic">
-      <Grid>
-        <basic:BasicView />
-      </Grid>
+      <basic:BasicView />
     </TabItem>
     <TabItem Header="Default">
-      <Grid>
-        <default:DefaultView />
-      </Grid>
+      <default:DefaultView />
     </TabItem>
     <TabItem Header="Mapped">
-      <Grid>
-        <mapped:MappedView />
-      </Grid>
+      <mapped:MappedView />
     </TabItem>
     <TabItem Header="Class Injection">
-      <Grid>
-        <classInjection:ClassInjectionView />
-      </Grid>
+      <classInjection:ClassInjectionView />
     </TabItem>
     <TabItem Header="Interface Update">
-      <Grid>
-        <interfaceupdate:InterfaceUpdateView />
-      </Grid>
+      <interfaceupdate:InterfaceUpdateView />
     </TabItem>
     <TabItem Header="Equals">
-      <Grid>
-        <equalsGetHashImport:EqualsView />
-      </Grid>
+      <equalsGetHashImport:EqualsView />
     </TabItem>
     <TabItem Header="Decorator Pattern">
       <decorator:DecoratorView/>
@@ -53,6 +42,12 @@
     </TabItem>
     <TabItem Header="Chain of responsibility Pattern 2">
       <chainOfResponsibility2:ChainView/>
+    </TabItem>
+    <TabItem Header="Chain of responsibility Pattern 2">
+      <chainOfResponsibility2:ChainView/>
+    </TabItem>
+    <TabItem Header="Duck Typing">
+      <duckTyping:DuckTypingView/>
     </TabItem>
   </TabControl>
 </Window>
