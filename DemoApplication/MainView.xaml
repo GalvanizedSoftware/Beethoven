@@ -13,6 +13,7 @@
         xmlns:chainOfResponsibility1="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility1"
         xmlns:chainOfResponsibility2="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility2"
         xmlns:duckTyping="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.DuckTyping"
+        xmlns:unityContainer="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.UnityContainer"
         mc:Ignorable="d"
         Title="MainView" Height="450" Width="800">
   <TabControl>
@@ -48,6 +49,9 @@
     </TabItem>
     <TabItem Header="Duck Typing">
       <duckTyping:DuckTypingView/>
+    </TabItem>
+    <TabItem Header="Unity">
+      <unityContainer:UnityView/>
     </TabItem>
   </TabControl>
 </Window>
