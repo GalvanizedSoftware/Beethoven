@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 using GalvanizedSoftware.Beethoven.Core.Binding;
 using GalvanizedSoftware.Beethoven.Core.Events;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Core
@@ -25,8 +25,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       wrappers.AddRange(GetDefaultImplementationWrappers(partDefinitions, wrappers));
       signatureChecker.CheckSignatures(wrappers);
       MasterInterceptor masterInterceptor = new MasterInterceptor(
-        new PropertiesFactory(wrappers.OfType<Property>()),
-        new MethodsFactory(wrappers.OfType<Method>()),
+        new WrapperFactories(wrappers),
         new EventsFactory<T>(EventInvokers));
       AddMaster<IInterceptor>(masterInterceptor);
       objectProviderHandler = new ObjectProviderHandler(
@@ -63,7 +62,7 @@ namespace GalvanizedSoftware.Beethoven.Core
             foreach (Method method in methods)
               yield return method;
             break;
-          case DefaultProperty defaultProperty:
+          case DefaultProperty _:
             // Dependent on what other wrappers are in there, so it has to be evaluated last
             break;
           default:
@@ -104,10 +103,7 @@ namespace GalvanizedSoftware.Beethoven.Core
 
     internal TMaster GetMaster<TMaster>()
     {
-      object value;
-      if (masters.TryGetValue(typeof(TMaster), out value))
-        return (TMaster)value;
-      return default(TMaster);
+      return masters.TryGetValue(typeof(TMaster), out object value) ? (TMaster)value : default(TMaster);
     }
 
     private TMaster AddMaster<TMaster>(TMaster instance)

@@ -2,10 +2,10 @@
 using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.Events;
 using GalvanizedSoftware.Beethoven.Generic.Events;
-using GalvanizedSoftware.Beethoven.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven
 {
@@ -13,12 +13,22 @@ namespace GalvanizedSoftware.Beethoven
   {
     private static readonly ProxyGenerator generator = new ProxyGenerator();
     private readonly Dictionary<WeakReference, EventInvokers> generatedObjects = new Dictionary<WeakReference, EventInvokers>();
+    private static readonly MethodInfo generateMethodInfo;
+
+    static BeethovenFactory()
+    {
+      generateMethodInfo = typeof(BeethovenFactory)
+        .GetMethods()
+        .Where(info => info.Name == nameof(Generate))
+        .First(info => info.IsGenericMethod);
+    }
 
     public object Generate(Type type, params object[] partDefinitions)
     {
-      return typeof(BeethovenFactory)
-        .GetMethod(nameof(Generate))
-        .Invoke(this, partDefinitions, new[] { type });
+      MethodInfo makeGenericMethod = generateMethodInfo
+        .MakeGenericMethod(type);
+      return makeGenericMethod
+        .Invoke(this, new object[] { partDefinitions });
     }
 
     public T Generate<T>(params object[] partDefinitions) where T : class
