@@ -1,8 +1,0 @@
-﻿Methods conditions
-Auto-resolve method values based on type and name
-Fallback properties and methods
-Add Implements<TInterface, TClass> to help duck-typing
-Check performance (it's bad, but how bad?)
-Example:  Multiple "inheritance"
-Compile generated code without Castle or IInvocation
-Generate code file for compilation
