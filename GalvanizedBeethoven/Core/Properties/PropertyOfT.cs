@@ -18,7 +18,11 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     public Property(Property<T> previous, params IPropertyDefinition<T>[] propertyDefinitions) :
       base(previous)
     {
-      definitions = previous.definitions.Concat(propertyDefinitions).ToArray();
+      definitions = previous
+        .definitions
+        .Concat(propertyDefinitions
+          .Where(definition => definition != null))
+        .ToArray();
       objectProviderHandler = new ObjectProviderHandler(definitions);
     }
 

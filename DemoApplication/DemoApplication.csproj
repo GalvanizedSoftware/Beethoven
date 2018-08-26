@@ -129,10 +129,10 @@
     <Compile Include="DuckTyping\IDisplayName.cs" />
     <Compile Include="DuckTyping\Person.cs" />
     <Compile Include="EqualsGetHashImport\EqualsGetHash.cs" />
+    <Compile Include="UnityContainer\IUnityViewModel.cs" />
     <Compile Include="UnityContainer\UnityView.xaml.cs">
       <DependentUpon>UnityView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UnityContainer\UnityViewModel.cs" />
     <Compile Include="UnityContainer\Factory.cs" />
     <Compile Include="UnityContainer\IPerson.cs" />
     <Page Include="Basic\BasicView.xaml">

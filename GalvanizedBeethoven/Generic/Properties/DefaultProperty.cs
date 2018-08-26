@@ -90,5 +90,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       return new DefaultProperty(this, (type, name) => typeof(InitialValue<>).Create1(type,
         initialValues.FirstOrDefault(obj => obj.GetType() == type)));
     }
+
+    public DefaultProperty LazyCreator<T>(Func<object> creatorFunc)
+    {
+      return new DefaultProperty(this, (type, name) => Properties.LazyCreator<T>.CreateIfMatch(type, creatorFunc));
+    }
   }
 }

@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:unityContainer="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.UnityContainer"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance Type=unityContainer:UnityViewModel, IsDesignTimeCreatable=False }">
+             d:DataContext="{d:DesignData Type=unityContainer:IUnityViewModel }">
   <StackPanel>
     <TextBox Text="{Binding Person.FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
     <TextBox Text="{Binding Person.LastName, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
