@@ -21,6 +21,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
                             throw new ArgumentOutOfRangeException($"Value cannot be changed to {invalidValue}"));
     }
 
+    // ReSharper disable once RedundantAssignment
     public bool InvokeGetter(ref T returnValue)
     {
       returnValue = value;

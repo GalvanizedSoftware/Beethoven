@@ -66,5 +66,10 @@ namespace GalvanizedSoftware.Beethoven.Extentions
     {
       return new Property<T>(property, new DelegatedGetter<T>(func));
     }
+
+    public static Property<T> LazyCreator<T>(this Property<T> property, Func<T> creatorFunc)
+    {
+      return new Property<T>(property, new LazyCreator<T>(creatorFunc));
+    }
   }
 }
