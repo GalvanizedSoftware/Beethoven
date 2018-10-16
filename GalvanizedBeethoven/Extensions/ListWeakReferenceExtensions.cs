@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
-  internal static class ListWeakReferenceExtentions
+  internal static class ListWeakReferenceExtensions
   {
     public static void RemoveDeadLinks(this ICollection<WeakReference> weakReferences)
     {

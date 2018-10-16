@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
-  public static class MethodInfoExtentions
+  public static class MethodInfoExtensions
   {
     public static IEnumerable<Type> GetParameterTypes(this MethodInfo methodInfo)
     {

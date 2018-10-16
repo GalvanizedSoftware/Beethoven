@@ -5,7 +5,7 @@ using GalvanizedSoftware.Beethoven.MVVM.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
-  public static class PropertyExtentions
+  public static class PropertyExtensions
   {
     public static Property<T> ValidityCheck<T>(this Property<T> property, Func<T, bool> checkFunc)
     {

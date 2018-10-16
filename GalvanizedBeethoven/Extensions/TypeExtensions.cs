@@ -6,7 +6,7 @@ using GalvanizedSoftware.Beethoven.Core;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
-  internal static class TypeExtentions
+  internal static class TypeExtensions
   {
     internal static IEnumerable<Type> GetAllTypes(this Type type)
     {
