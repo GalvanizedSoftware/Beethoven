@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System.Globalization;
 using GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate.InterfacesV2;
-using GalvanizedSoftware.Beethoven.Extentions;
+using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate.Server
 {

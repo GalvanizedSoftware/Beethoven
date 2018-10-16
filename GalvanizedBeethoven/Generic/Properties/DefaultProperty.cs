@@ -1,10 +1,10 @@
 ﻿using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.Properties;
-using GalvanizedSoftware.Beethoven.Extentions;
 using GalvanizedSoftware.Beethoven.MVVM.Properties;
 using System;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {

@@ -3,7 +3,7 @@ using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using GalvanizedSoftware.Beethoven.MVVM.Properties;
 
-namespace GalvanizedSoftware.Beethoven.Extentions
+namespace GalvanizedSoftware.Beethoven.Extensions
 {
   public static class PropertyExtentions
   {

@@ -1,7 +1,7 @@
-﻿using GalvanizedSoftware.Beethoven.Extentions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {

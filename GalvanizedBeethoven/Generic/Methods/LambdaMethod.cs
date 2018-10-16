@@ -1,8 +1,8 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
-using GalvanizedSoftware.Beethoven.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -16,7 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
       lambdaDelegate = actionOrFunc as Delegate;
       if (lambdaDelegate == null)
-        throw new InvalidCastException("You must supplt an action, func or delegate");
+        throw new InvalidCastException("You must supply an action, func or delegate");
       methodInfo = lambdaDelegate.Method;
       hasReturnType = methodInfo.ReturnType != typeof(void);
     }
@@ -26,8 +26,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       return methodInfo.IsMatch(parameters, genericArguments, returnType);
     }
 
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments,
-      MethodInfo methodInfo)
+    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _)
     {
       object returnValue = this.methodInfo.Invoke(lambdaDelegate.Target, parameters, genericArguments);
       if (hasReturnType)

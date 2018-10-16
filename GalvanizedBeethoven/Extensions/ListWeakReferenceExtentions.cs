@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GalvanizedSoftware.Beethoven.Extentions
+namespace GalvanizedSoftware.Beethoven.Extensions
 {
   internal static class ListWeakReferenceExtentions
   {

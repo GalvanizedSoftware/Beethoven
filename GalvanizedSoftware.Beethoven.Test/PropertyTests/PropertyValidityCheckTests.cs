@@ -1,6 +1,6 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Core.Properties;
-using GalvanizedSoftware.Beethoven.Extentions;
+using GalvanizedSoftware.Beethoven.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GalvanizedSoftware.Beethoven.Test.PropertyTests

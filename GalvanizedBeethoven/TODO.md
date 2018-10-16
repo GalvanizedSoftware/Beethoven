@@ -1,4 +1,4 @@
-﻿1. Methods conditions
+﻿1. Methods conditions extension
 1. Auto-assign properties on contruction (IOC / Manual)
 1. Auto-resolve method values based on type and name
 1. Fallback properties and methods

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Extentions;
+using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -33,6 +33,15 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     public LinkedMethodsReturnValue AutoMappedMethod(object instance) =>
       new LinkedMethodsReturnValue(this, new MappedMethod(Name, instance, Name));
+
+    public LinkedMethodsReturnValue SkipIf(Func<bool> condition) =>
+      new LinkedMethodsReturnValue(this, ConditionCheckMethod.Create(Name, () => !condition()));
+
+    public LinkedMethodsReturnValue SkipIf<T1>(Func<T1, bool> condition) =>
+      new LinkedMethodsReturnValue(this, ConditionCheckMethod.Create<T1>(Name, arg1 => !condition(arg1)));
+
+    public LinkedMethodsReturnValue SkipIf<T1, T2>(Func<T1, T2, bool> condition) =>
+      new LinkedMethodsReturnValue(this, ConditionCheckMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
 
     public override bool IsMatch(IEnumerable<Type> parameters, Type[] genericArguments, Type returnType)
     {

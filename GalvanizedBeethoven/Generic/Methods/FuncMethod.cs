@@ -22,8 +22,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       return !parameters.Any();
     }
 
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments,
-      MethodInfo methodInfo)
+    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _)
     {
       returnAction(func());
     }

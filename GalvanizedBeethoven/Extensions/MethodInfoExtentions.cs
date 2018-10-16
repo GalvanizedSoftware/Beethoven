@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace GalvanizedSoftware.Beethoven.Extentions
+namespace GalvanizedSoftware.Beethoven.Extensions
 {
   public static class MethodInfoExtentions
   {
