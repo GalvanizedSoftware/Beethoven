@@ -1,10 +1,11 @@
 ﻿using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.Properties;
+using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic.ValueLookup;
 using GalvanizedSoftware.Beethoven.MVVM.Properties;
 using System;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
@@ -89,6 +90,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     {
       return new DefaultProperty(this, (type, name) => typeof(InitialValue<>).Create1(type,
         initialValues.FirstOrDefault(obj => obj.GetType() == type)));
+    }
+
+    public DefaultProperty ValueLookup(IValueLookup valueLookup)
+    {
+      return new DefaultProperty(this, (type, name) => typeof(InitialValue<>).Create1(type,
+        valueLookup.Lookup(type, name).FirstOrDefault()));
     }
 
     public DefaultProperty LazyCreator<T>(Func<object> creatorFunc)

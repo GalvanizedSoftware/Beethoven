@@ -11,6 +11,7 @@ namespace GalvanizedSoftware.Beethoven
 {
   public sealed class BeethovenFactory
   {
+    public object[] GeneralPartDefinitions { get; set; }
     private static readonly ProxyGenerator generator = new ProxyGenerator();
     private readonly Dictionary<WeakReference, EventInvokers> generatedObjects = new Dictionary<WeakReference, EventInvokers>();
     private static readonly MethodInfo generateMethodInfo;
@@ -23,6 +24,11 @@ namespace GalvanizedSoftware.Beethoven
         .First(info => info.IsGenericMethod);
     }
 
+    public BeethovenFactory(params object[] generalPartDefinitions)
+    {
+      GeneralPartDefinitions = generalPartDefinitions;
+    }
+
     public object Generate(Type type, params object[] partDefinitions)
     {
       MethodInfo makeGenericMethod = generateMethodInfo
@@ -33,6 +39,7 @@ namespace GalvanizedSoftware.Beethoven
 
     public T Generate<T>(params object[] partDefinitions) where T : class
     {
+      partDefinitions = partDefinitions.Concat(GeneralPartDefinitions).ToArray();
       InstanceContainer<T> instanceContainer = new InstanceContainer<T>(partDefinitions);
       IInterceptor interceptor = instanceContainer.GetMaster<IInterceptor>();
       T target = typeof(T).IsInterface ?

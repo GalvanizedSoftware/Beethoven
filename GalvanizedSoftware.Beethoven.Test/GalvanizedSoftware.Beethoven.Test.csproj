@@ -56,6 +56,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositeTests\AutoAssignTests.cs" />
+    <Compile Include="CompositeTests\ICompanyInformation.cs" />
+    <Compile Include="CompositeTests\ICompany.cs" />
     <Compile Include="EventTests\EventTests.cs" />
     <Compile Include="EventTests\ITestEvents.cs" />
     <Compile Include="MethodTests\Implementations\CustomImplentation.cs" />
