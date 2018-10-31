@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GalvanizedSoftware.Beethoven.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
@@ -62,6 +62,22 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     public static object GetDefaultValue(this Type type)
     {
       return type.IsValueType ? Activator.CreateInstance(type) : null;
+    }
+
+    public static MethodInfo FindSingleMethod(this Type type, string targetName)
+    {
+      MethodInfo[] methodInfos = type
+        .GetAllMethods(targetName)
+        .ToArray();
+      switch (methodInfos.Length)
+      {
+        case 0:
+          throw new MissingMethodException($"The method {targetName} was not found");
+        case 1:
+          return methodInfos.Single();
+        default:
+          throw new MissingMethodException($"Multiple versions of the method {targetName} were found");
+      }
     }
   }
 }

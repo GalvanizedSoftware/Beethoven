@@ -28,20 +28,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       base(mainName)
     {
       Instance = instance;
-      MethodInfo[] methodInfos = instance
+      methodInfo = instance
         .GetType()
-        .GetAllMethods(targetName)
-        .ToArray();
-      switch (methodInfos.Length)
-      {
-        case 0:
-          throw new MissingMethodException($"The method {targetName} was not found");
-        case 1:
-          methodInfo = methodInfos.Single();
-          break;
-        default:
-          throw new MissingMethodException($"Multiple versions of the method {targetName} were found");
-      }
+        .FindSingleMethod(targetName);
       hasReturnType = methodInfo.ReturnType != typeof(void);
     }
 
