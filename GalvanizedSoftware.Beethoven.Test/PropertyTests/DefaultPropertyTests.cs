@@ -1,4 +1,6 @@
-﻿using GalvanizedSoftware.Beethoven.Generic.Properties;
+﻿using GalvanizedSoftware.Beethoven.Core.Properties;
+using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -178,6 +180,41 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       Assert.AreEqual("Some value", test.Property2);
       test.Property1 = 55;
       Assert.AreEqual(55, test.Property1);
+    }
+
+    [TestMethod]
+    public void TestMethodDefaultPropertyFallback1()
+    {
+      BeethovenFactory factory = new BeethovenFactory();
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new Property<int>(nameof(ITestProperties.Property1))
+          .MappedGetter(() => 6),
+        new DefaultProperty()
+          .SetterGetter());
+      Assert.AreEqual(6, test.Property1);
+      test.Property2 = "Some value";
+      Assert.AreEqual("Some value", test.Property2);
+      test.Property1 = 55;
+      Assert.AreEqual(6, test.Property1);
+    }
+
+    [TestMethod]
+    public void TestMethodDefaultPropertyFallback2()
+    {
+      BeethovenFactory factory = new BeethovenFactory();
+      ITestProperties test = factory.Generate<ITestProperties>(
+        new Property<int>(nameof(ITestProperties.Property1))
+          .SetterGetter(),
+        new DefaultProperty()
+          .NotifyChanged()
+          .SetterGetter());
+      List<string> changes = new List<string>();
+      test.PropertyChanged += (sender, args) => changes.Add(args.PropertyName);
+      test.Property1 = 5;
+      test.Property2 = "5";
+      CollectionAssert.AreEquivalent(
+        new[] { "Property2" },
+        changes);
     }
   }
 }

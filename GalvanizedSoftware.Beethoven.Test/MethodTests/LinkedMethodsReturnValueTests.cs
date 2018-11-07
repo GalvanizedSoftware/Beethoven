@@ -27,7 +27,6 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     [TestMethod]
     public void LinkedMethodsReturnValueTest2()
     {
-      Logger logger = new Logger();
       CustomImplentation implementation = new CustomImplentation();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
@@ -47,7 +46,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       Logger logger = new Logger();
       CustomImplentation implementation = new CustomImplentation();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
-      ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
+      ITestMethods unused = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
           .MappedMethod(logger, nameof(logger.LogBefore))
           .AutoMappedMethod(implementation)
