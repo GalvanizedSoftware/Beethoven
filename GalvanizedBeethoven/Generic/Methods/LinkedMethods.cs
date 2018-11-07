@@ -40,23 +40,23 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethods SkipIf<T1, T2>(Func<T1, T2, bool> condition) =>
       new LinkedMethods(this, ConditionCheckMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
 
-    public override bool IsMatch(IEnumerable<Type> parameters, Type[] genericArguments, Type returnType)
+    public override bool IsMatch(IEnumerable<(Type, string)> parameters, Type[] genericArguments, Type returnType)
     {
       return methodList.Any(method => method.IsMatch(parameters, genericArguments, returnType)) ||
              methodList.Any(method => method.IsMatch(parameters, genericArguments, typeof(bool)));
     }
 
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
+    internal override void Invoke(Action<object> returnAction, object[] parameterValues, Type[] genericArguments, MethodInfo methodInfo)
     {
-      Type[] parameterTypes = methodInfo.GetParameterTypes().ToArray();
+      (Type, string)[] parameterTypeAndNames = methodInfo.GetParameterTypeAndNames();
       foreach (Method method in methodList)
       {
-        if (!InvokeFirstMatch(method, parameters, parameterTypes, genericArguments, methodInfo))
+        if (!InvokeFirstMatch(method, parameterValues, parameterTypeAndNames, genericArguments, methodInfo))
           break;
       }
     }
 
-    private bool InvokeFirstMatch(Method method, object[] parameters, Type[] parameterTypes,
+    private bool InvokeFirstMatch(Method method, object[] parameters, (Type, string)[] parameterTypes,
       Type[] genericArguments, MethodInfo methodInfo)
     {
       Type returnType = methodInfo.ReturnType;

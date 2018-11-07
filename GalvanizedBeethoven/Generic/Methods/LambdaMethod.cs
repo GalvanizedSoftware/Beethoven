@@ -21,7 +21,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       hasReturnType = methodInfo.ReturnType != typeof(void);
     }
 
-    public override bool IsMatch(IEnumerable<Type> parameters, Type[] genericArguments, Type returnType)
+    public override bool IsMatch(IEnumerable<(Type, string)> parameters, Type[] genericArguments, Type returnType)
     {
       return methodInfo.IsMatch(parameters, genericArguments, returnType);
     }

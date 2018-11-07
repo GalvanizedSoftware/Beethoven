@@ -15,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       this.func = func;
     }
 
-    public override bool IsMatch(IEnumerable<Type> parameters, Type[] genericArguments, Type returnType)
+    public override bool IsMatch(IEnumerable<(Type, string)> parameters, Type[] genericArguments, Type returnType)
     {
       if (typeof(TReturnType) != returnType)
         return false;

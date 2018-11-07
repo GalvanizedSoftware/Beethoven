@@ -12,6 +12,19 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       return methodInfo.GetParameters().Select(info => info.ParameterType);
     }
 
+    public static (Type, string)[] GetParameterTypeAndNames(this MethodInfo methodInfo)
+    {
+      return methodInfo
+        .GetParameters()
+        .Select(info => (info.ParameterType, info.Name))
+        .ToArray();
+    }
+
+    public static bool IsMatch(this MethodInfo methodInfo, IEnumerable<(Type, string)> parameters, Type[] genericArguments, Type returnType)
+    {
+      return methodInfo.IsMatch(parameters.Select(tuple => tuple.Item1), genericArguments, returnType);
+    }
+
     public static bool IsMatch(this MethodInfo methodInfo, IEnumerable<Type> parameters, Type[] genericArguments, Type returnType)
     {
       MethodInfo actualMethod = methodInfo.IsGenericMethod ? methodInfo.MakeGenericMethod(genericArguments) : methodInfo;

@@ -95,6 +95,7 @@
     <Compile Include="MethodTests\GenericMethodsTests.cs" />
     <Compile Include="MethodTests\Implementations\GenericMethods.cs" />
     <Compile Include="MethodTests\Implementations\Logger.cs" />
+    <Compile Include="MethodTests\Implementations\PartialMethods.cs" />
     <Compile Include="MethodTests\Interfaces\IGenericClass.cs" />
     <Compile Include="MethodTests\Interfaces\IGenericMethods.cs" />
     <Compile Include="MethodTests\Implementations\InvalidSignature.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="MethodTests\LinkedMethodsReturnValueTests.cs" />
     <Compile Include="MethodTests\MethodMapperTests.cs" />
     <Compile Include="MethodTests\LinkedMethodsTests.cs" />
+    <Compile Include="MethodTests\PartialMatchTests.cs" />
     <Compile Include="PropertyTests\DefaultImplementation.cs" />
     <Compile Include="PropertyTests\DefaultImplementation2.cs" />
     <Compile Include="PropertyTests\DefaultPropertyTests.cs" />

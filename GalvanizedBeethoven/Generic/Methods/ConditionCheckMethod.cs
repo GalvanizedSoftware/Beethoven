@@ -35,7 +35,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       methodInfo = lambdaDelegate.Method;
     }
 
-    public override bool IsMatch(IEnumerable<Type> parameters, Type[] genericArguments, Type returnType)
+    public override bool IsMatch(IEnumerable<(Type, string)> parameters, Type[] genericArguments, Type returnType)
     {
       return methodInfo.IsMatch(parameters.SkipLast(), genericArguments, returnType);
     }

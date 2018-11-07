@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
@@ -40,7 +40,7 @@ namespace GalvanizedSoftware.Beethoven.Core
           interceptor.Intercept(invocation);
         return;
       }
-      Type[] parameterTypes = methodInfo.GetParameterTypes().ToArray();
+      (Type, string)[] parameterTypes = methodInfo.GetParameterTypeAndNames();
       methods.FirstOrDefault(
         method => method.IsMatch(parameterTypes, invocation.GenericArguments, methodInfo.ReturnType))?
         .Intercept(invocation);
