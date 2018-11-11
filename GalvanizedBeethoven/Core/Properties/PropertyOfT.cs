@@ -56,9 +56,6 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       return value;
     }
 
-    internal override void InvokeSet(object newValue)
-    {
-      InvokeSetter((T)newValue);
-    }
+    internal override void InvokeSet(object newValue) => InvokeSetter((T)newValue);
   }
 }
