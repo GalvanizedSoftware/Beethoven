@@ -31,5 +31,20 @@ namespace GalvanizedSoftware.Beethoven.Test.VariousTests
     {
       Assert.IsFalse(beethovenFactory.Implements<ITestImplements, InvalidImplementation3>());
     }
+
+    [TestMethod]
+    public void ImplementsTest5()
+    {
+      ITestImplements duckWrapper = beethovenFactory.Generate<ITestImplements>(new FullImplements());
+      duckWrapper.Property1 = 5;
+      Assert.AreEqual(5, duckWrapper.Property1);
+      duckWrapper.Property2 = "Some string";
+      Assert.AreEqual("Some string", duckWrapper.Property2);
+      duckWrapper.Method1(1, 2);
+      string str = "";
+      duckWrapper.Method2(ref str);
+      duckWrapper.Method3();
+    }
+
   }
 }

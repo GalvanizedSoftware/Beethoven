@@ -1,28 +1,26 @@
-﻿using GalvanizedSoftware.Beethoven.Extensions;
+﻿using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core.Methods;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
-  public class GeneralSignatureChecker<TInterface, TClass>
+  public class GeneralSignatureChecker
   {
     private readonly MethodInfo[] interfaceMethods;
     private readonly MethodInfo[] classMethods;
 
-    public GeneralSignatureChecker()
+    public GeneralSignatureChecker(Type interfaceType, Type classType)
     {
-      Type interfaceType = typeof(TInterface);
       interfaceMethods = interfaceType.GetAllMethodsAndInherited().ToArray();
-      classMethods = typeof(TClass).GetAllMethodsAndInherited().ToArray();
+      classMethods = classType.GetAllMethodsAndInherited().ToArray();
     }
 
     public IEnumerable<MethodInfo> FindMissing()
     {
-      IEnumerable<MethodInfo> findMissing = interfaceMethods.Except(classMethods, new EquivalentMethodComparer()).ToArray();
-      return findMissing;
+      return interfaceMethods.Except(classMethods, new EquivalentMethodComparer()).ToArray();
     }
   }
 }
