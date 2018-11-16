@@ -124,6 +124,12 @@
     <Compile Include="MethodTests\AutoMapMethodTests.cs" />
     <Compile Include="MethodTests\Implementations\SimpleImplementation.cs" />
     <Compile Include="PropertyTests\PropertyLazyCreatorTests.cs" />
+    <Compile Include="VariousTests\Implementations\FullImplements.cs" />
+    <Compile Include="VariousTests\Implementations\InvalidImplementation1.cs" />
+    <Compile Include="VariousTests\Implementations\InvalidImplementation2.cs" />
+    <Compile Include="VariousTests\Implementations\InvalidImplementation3.cs" />
+    <Compile Include="VariousTests\ImplementsTests.cs" />
+    <Compile Include="VariousTests\ITestImplements.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

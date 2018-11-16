@@ -50,6 +50,12 @@ namespace GalvanizedSoftware.Beethoven
       return target;
     }
 
+    public bool Implements<TInterface, TClass>()
+    {
+      GeneralSignatureChecker<TInterface, TClass> signatureChecker = new GeneralSignatureChecker<TInterface, TClass>();
+      return !signatureChecker.FindMissing().Any();
+    }
+
     public IEventTrigger CreateEventTrigger(object mainObject, string name)
     {
       return generatedObjects.Single(pair => pair.Key.Target == mainObject).Value[name];

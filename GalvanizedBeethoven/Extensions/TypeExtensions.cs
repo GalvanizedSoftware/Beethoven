@@ -13,6 +13,12 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       yield return type;
       foreach (Type subType in type.GetInterfaces())
         yield return subType;
+      Type baseType = type.BaseType;
+      while (baseType != null)
+      {
+        yield return baseType;
+        baseType = baseType.BaseType;
+      }
     }
 
     internal static IEnumerable<MethodInfo> GetAllMethods(this Type type, string name)
@@ -24,10 +30,16 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 
     internal static IEnumerable<MethodInfo> GetAllMethodsAndInherited(this Type type)
     {
-      return type.GetMethods(Constants.ResolveFlags)
-        .Concat(type.GetInterfaces()
-          .SelectMany(interfaceType => interfaceType
-            .GetMethods(Constants.ResolveFlags)));
+      return type.GetAllTypes()
+        .SelectMany(childType => childType
+          .GetMethods(Constants.ResolveFlags));
+    }
+
+    internal static IEnumerable<EventInfo> GetAllEventsAndInherited(this Type type)
+    {
+      return type.GetAllTypes()
+        .SelectMany(childType => childType
+          .GetEvents(Constants.ResolveFlags));
     }
 
     public static object Create1(this Type type, Type genericType1, params object[] constructorParameters)

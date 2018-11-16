@@ -47,7 +47,7 @@ namespace GalvanizedSoftware.Beethoven.Core
         switch (definition)
         {
           case null:
-            continue;
+            break;
           case Property property:
             yield return property;
             break;
