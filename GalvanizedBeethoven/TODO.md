@@ -1,4 +1,5 @@
-﻿1. Check performance (it's bad, but how bad?)
+﻿1. Method documentation
+1. Easier method injection (link to main)
 1. Auto-assign properties on contruction - Manual improved with type-matching
 1. Methods conditions extension (SkipIf for single variables)
 1. Default methods
