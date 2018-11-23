@@ -44,7 +44,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       {
         case 1:
           Debug.Assert(parameterTypes[0] == typeof(T));
-          return newValue => methodInfo.Invoke(target, new object[] { newValue }); ;
+          return newValue => methodInfo.Invoke(target, new object[] { newValue });
         case 2:
           Debug.Assert(parameterTypes[0] == typeof(string));
           Debug.Assert(parameterTypes[1] == typeof(T));

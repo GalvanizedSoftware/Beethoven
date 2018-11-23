@@ -60,10 +60,5 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       if (hasReturnType)
         returnAction(returnValue);
     }
-
-    private int FindIndex<TResult>(MethodInfo methodInfo, (Type, string) tupleMatch)
-    {
-      throw new NotImplementedException();
-    }
   }
 }

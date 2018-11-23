@@ -1,7 +1,4 @@
-﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
-using GalvanizedSoftware.Beethoven.Generic.Methods;
-
-namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility2
+﻿namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility2
 {
   internal class Factory
   {

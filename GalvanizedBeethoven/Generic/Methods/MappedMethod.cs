@@ -18,8 +18,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       hasReturnType = methodInfo.ReturnType != typeof(void);
     }
 
-    public MappedMethod(string mainName, object instance) :
-      this(mainName, instance, mainName)
+    public MappedMethod(string name, object instance) :
+      this(name, instance, name)
     {
     }
 

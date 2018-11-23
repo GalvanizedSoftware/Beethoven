@@ -1,5 +1,6 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Core;
+using GalvanizedSoftware.Beethoven.Core.Methods;
 
 namespace GalvanizedSoftware.Beethoven.Generic
 {

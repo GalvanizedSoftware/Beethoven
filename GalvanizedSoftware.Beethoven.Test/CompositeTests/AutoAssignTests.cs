@@ -3,8 +3,6 @@ using GalvanizedSoftware.Beethoven.Generic.ValueLookup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using Unity;
-using Unity.Injection;
-using Unity.Resolution;
 
 namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
 {

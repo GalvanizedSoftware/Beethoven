@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GalvanizedSoftware.Beethoven.Core.Properties;
-using static GalvanizedSoftware.Beethoven.Core.Constants;
 
-namespace GalvanizedSoftware.Beethoven.Core
+namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  internal class SignatureChecker<T>
+  internal class PropertiesSignatureChecker<T>
   {
     private readonly Dictionary<string, Type> properties;
 
-    public SignatureChecker()
+    public PropertiesSignatureChecker()
     {
       Type type = typeof(T);
-      properties = type.GetProperties(ResolveFlags).ToDictionary(info => info.Name, info => info.PropertyType);
+      properties = type.GetProperties(Constants.ResolveFlags).ToDictionary(info => info.Name, info => info.PropertyType);
     }
 
     public void CheckSignatures(IEnumerable<object> wrappers)
     {
       CheckProperty(wrappers.OfType<Property>().ToArray());
-      // TODO: Check methods?
-      // TODO: Check events?
     }
 
     private void CheckProperty(Property[] propertyWrappers)
@@ -29,7 +25,7 @@ namespace GalvanizedSoftware.Beethoven.Core
         CheckProperty(pair.Key, pair.Value, propertyWrappers);
     }
 
-    private static bool CheckProperty(string name, Type actualType, Property[] wrappers)
+    private static void CheckProperty(string name, Type actualType, Property[] wrappers)
     {
       int matchingCount = wrappers
         .Where(property => property.Name == name)
@@ -37,9 +33,8 @@ namespace GalvanizedSoftware.Beethoven.Core
       switch (matchingCount)
       {
         case 0: // Tolerate some properties are not implemented, unless checked
-          return false;
         case 1:
-          return true;
+          return;
         default:
           throw new NotImplementedException($"Multiple implementation found for property: {actualType} {name}");
       }

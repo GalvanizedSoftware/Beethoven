@@ -1,5 +1,5 @@
-﻿using System;
-using GalvanizedSoftware.Beethoven.Core.Properties;
+﻿using GalvanizedSoftware.Beethoven.Core.Properties;
+using System;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
@@ -22,9 +22,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public bool InvokeSetter(T newValue)
     {
       if (newValue.CompareTo(minimum) < 0)
-        throw new ArgumentOutOfRangeException("Value too low");
+        throw new ArgumentOutOfRangeException(nameof(newValue), "Value too low");
       if (newValue.CompareTo(maximum) > 0)
-        throw new ArgumentOutOfRangeException("Value too high");
+        throw new ArgumentOutOfRangeException(nameof(newValue), "Value too high");
       return true;
     }
   }

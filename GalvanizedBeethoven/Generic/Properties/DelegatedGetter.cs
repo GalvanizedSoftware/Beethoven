@@ -17,6 +17,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.delegateFunc = delegateFunc;
     }
 
+    // ReSharper disable once RedundantAssignment
     public bool InvokeGetter(ref T returnValue)
     {
       returnValue = delegateFunc();

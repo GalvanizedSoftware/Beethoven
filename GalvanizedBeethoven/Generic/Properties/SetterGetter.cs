@@ -6,6 +6,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
   {
     private T value;
 
+    // ReSharper disable once RedundantAssignment
     public bool InvokeGetter(ref T returnValue)
     {
       returnValue = value;

@@ -13,10 +13,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public Mapped(object target, string name)
     {
       this.name = name;
-      this.main = target;
+      main = target;
       propertyInfo = target.GetType().GetProperty(name, ResolveFlags);
     }
 
+    // ReSharper disable once RedundantAssignment
     public bool InvokeGetter(ref T returnValue)
     {
       returnValue = (T)propertyInfo.GetMethod.Invoke(main, new object[0]);

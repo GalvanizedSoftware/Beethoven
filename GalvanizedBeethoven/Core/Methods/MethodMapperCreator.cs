@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using GalvanizedSoftware.Beethoven.Core.Binding;
-using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
-using static GalvanizedSoftware.Beethoven.Core.Constants;
 
-namespace GalvanizedSoftware.Beethoven.Core
+namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
   public class MethodMapperCreator<TMain, TChild> : IEnumerable<Method>, IBindingParent where TMain : class
   {
@@ -18,7 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     {
       this.creatorFunc = creatorFunc;
       methods = new List<MappedMethod>(
-        from methodInfo in typeof(TChild).GetMethods(ResolveFlags)
+        from methodInfo in typeof(TChild).GetMethods(Constants.ResolveFlags)
         where !methodInfo.IsSpecialName
         select new MappedMethod(methodInfo));
     }

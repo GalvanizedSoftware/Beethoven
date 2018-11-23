@@ -15,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Core
   {
     private readonly Dictionary<Type, object> masters = new Dictionary<Type, object>();
     private readonly IObjectProvider objectProviderHandler;
-    private readonly SignatureChecker<T> signatureChecker = new SignatureChecker<T>();
+    private readonly PropertiesSignatureChecker<T> propertiesSignatureChecker = new PropertiesSignatureChecker<T>();
 
     public InstanceContainer(object[] partDefinitions)
     {
@@ -23,7 +23,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       EventInvokers = AddMaster(new EventInvokers(this));
       List<object> wrappers = GetWrappers(partDefinitions).ToList();
       wrappers.AddRange(GetDefaultImplementationWrappers(partDefinitions, wrappers));
-      signatureChecker.CheckSignatures(wrappers);
+      propertiesSignatureChecker.CheckSignatures(wrappers);
       MasterInterceptor masterInterceptor = new MasterInterceptor(
         new WrapperFactories(wrappers),
         new EventsFactory<T>(EventInvokers));

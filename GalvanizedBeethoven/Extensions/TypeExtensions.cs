@@ -35,30 +35,13 @@ namespace GalvanizedSoftware.Beethoven.Extensions
           .GetMethods(Constants.ResolveFlags));
     }
 
-    internal static IEnumerable<EventInfo> GetAllEventsAndInherited(this Type type)
-    {
-      return type.GetAllTypes()
-        .SelectMany(childType => childType
-          .GetEvents(Constants.ResolveFlags));
-    }
-
     public static object Create1(this Type type, Type genericType1, params object[] constructorParameters)
     {
       Type genericType = type.MakeGenericType(genericType1);
-
       ConstructorInfo[] constructors = genericType.GetConstructors(Constants.ResolveFlags);
       if (constructors.Length == 1)
         return constructors.First().Invoke(constructorParameters);
       return genericType
-        .GetConstructor(constructorParameters
-          .Select(obj => obj.GetType())
-          .ToArray())
-        ?.Invoke(constructorParameters);
-    }
-
-    public static object Create2(this Type type, Type genericType1, Type genericType2, params object[] constructorParameters)
-    {
-      return type.MakeGenericType(genericType1, genericType2)
         .GetConstructor(constructorParameters
           .Select(obj => obj.GetType())
           .ToArray())

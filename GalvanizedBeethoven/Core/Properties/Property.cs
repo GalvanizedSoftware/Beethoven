@@ -8,12 +8,12 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
   {
     private static readonly Type type = typeof(Property);
 
-    public Property(string name)
+    protected Property(string name)
     {
       Name = name;
     }
 
-    public Property(Property previous) :
+    protected Property(Property previous) :
       this(previous.Name)
     {
     }
