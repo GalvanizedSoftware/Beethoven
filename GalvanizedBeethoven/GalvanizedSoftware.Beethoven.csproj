@@ -12,7 +12,7 @@
     <Version>0.4.3.0</Version>
     <AssemblyVersion>0.4.3.0</AssemblyVersion>
     <PackageLicenseUrl>https://github.com/GalvanizedSoftware/Beethoven/blob/master/LICENSE</PackageLicenseUrl>
-    <Copyright />
+    <Copyright>Copyright 2018 Galvanized Software</Copyright>
     <PackageProjectUrl>https://github.com/GalvanizedSoftware/Beethoven</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GalvanizedSoftware/Beethoven</RepositoryUrl>
   </PropertyGroup>
