@@ -6,11 +6,11 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Galvanized Software</Authors>
     <Company>Galvanized Software</Company>
-    <Description>Flow-like class implementation/ composition.</Description>
+    <Description>Flow-like class implementation / composition. Automapping, duck-typing, auto-implementation and more ...</Description>
     <PackageTags>composition;dynamic creation;duck typing;castle.core;auto interface implementation</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.4.2.0</Version>
-    <AssemblyVersion>0.4.2.0</AssemblyVersion>
+    <Version>0.4.3.0</Version>
+    <AssemblyVersion>0.4.3.0</AssemblyVersion>
     <PackageLicenseUrl>https://github.com/GalvanizedSoftware/Beethoven/blob/master/LICENSE</PackageLicenseUrl>
     <Copyright />
     <PackageProjectUrl>https://github.com/GalvanizedSoftware/Beethoven</PackageProjectUrl>
