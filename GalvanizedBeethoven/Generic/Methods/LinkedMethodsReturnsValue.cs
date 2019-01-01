@@ -1,7 +1,6 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -50,17 +49,20 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue SkipIf<T1, T2>(Func<T1, T2, bool> condition) =>
       new LinkedMethodsReturnValue(this, ConditionCheckMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
 
+    public LinkedMethodsReturnValue SkipIfResultCondition<T>(Func<T, bool> condition) =>
+      new LinkedMethodsReturnValue(this, new ReturnValueCheck<T>(Name, condition));
+
     public LinkedMethodsReturnValue PartialMatchMethod(object instance, string targetName) =>
       new LinkedMethodsReturnValue(this, new PartialMatchMethod(Name, instance, targetName));
 
     public LinkedMethodsReturnValue PartialMatchMethod(object instance) =>
       new LinkedMethodsReturnValue(this, new PartialMatchMethod(Name, instance));
 
-    public override bool IsMatch(IEnumerable<(Type, string)> parameters, Type[] genericArguments, Type returnType)
+    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
     {
-      List<(Type, string)> parameterList = parameters.ToList();
+      (Type, string)[] parameterList = parameters.ToArray();
       return methodList.Any(method => method.IsMatch(parameterList, genericArguments, returnType)) ||
-             methodList.Any(method => method.IsMatch(parameterList.Append((returnType, "returnValue")), genericArguments, typeof(bool)));
+             methodList.Any(method => method.IsMatch(parameterList.AppendReturnValue(returnType), genericArguments, typeof(bool)));
     }
 
     internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
@@ -87,16 +89,18 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         returnValue = returnValueLocal;
         return true;
       }
-      if (!method.IsMatch(parameterTypeAndNames.Append((returnType.MakeByRefType(), "returnType")), genericArguments, typeof(bool)))
-        throw new MissingMethodException();
-      bool result = true;
-      Action<object> localReturn = newValue => result = (bool)newValue;
-      object[] newParameters = parameterValues.Append(returnValue).ToArray();
-      method.Invoke(localReturn, newParameters, genericArguments, methodInfo);
-      for (int i = 0; i < parameterValues.Length; i++)
-        parameterValues[i] = newParameters[i]; // In case of ref or out variables
-      returnValue = newParameters.Last();
-      return result;
+      if (method.IsMatch(parameterTypeAndNames.AppendReturnValue(returnType), genericArguments, typeof(bool)))
+      {
+        bool result = true;
+        Action<object> localReturn = newValue => result = (bool)newValue;
+        object[] newParameters = parameterValues.Append(returnValue).ToArray();
+        method.Invoke(localReturn, newParameters, genericArguments, methodInfo);
+        for (int i = 0; i < parameterValues.Length; i++)
+          parameterValues[i] = newParameters[i]; // In case of ref or out variables
+        returnValue = newParameters.Last();
+        return result;
+      }
+      throw new MissingMethodException();
     }
   }
 }

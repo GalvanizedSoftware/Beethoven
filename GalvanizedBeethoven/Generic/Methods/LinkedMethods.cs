@@ -1,6 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Extensions;
@@ -40,7 +39,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethods SkipIf<T1, T2>(Func<T1, T2, bool> condition) =>
       new LinkedMethods(this, ConditionCheckMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
 
-    public override bool IsMatch(IEnumerable<(Type, string)> parameters, Type[] genericArguments, Type returnType)
+    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
     {
       return methodList.Any(method => method.IsMatch(parameters, genericArguments, returnType)) ||
              methodList.Any(method => method.IsMatch(parameters, genericArguments, typeof(bool)));

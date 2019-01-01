@@ -1,7 +1,6 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -35,7 +34,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       methodInfo = lambdaDelegate.Method;
     }
 
-    public override bool IsMatch(IEnumerable<(Type, string)> parameters, Type[] genericArguments, Type returnType)
+    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
     {
       return methodInfo.IsMatch(parameters.SkipLast(), genericArguments, returnType);
     }

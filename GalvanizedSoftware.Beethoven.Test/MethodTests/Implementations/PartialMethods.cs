@@ -21,5 +21,11 @@
     {
       return (text1.Length + text2.Length) * count;
     }
+
+    // ReSharper disable once RedundantAssignment
+    public void WithParametersReturnValue(ref int returnValue)
+    {
+      returnValue = 5;
+    }
   }
 }

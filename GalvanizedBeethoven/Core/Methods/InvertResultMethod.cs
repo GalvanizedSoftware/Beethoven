@@ -13,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
       this.method = method;
     }
 
-    public override bool IsMatch(IEnumerable<(Type, string)> parameters, Type[] genericArguments, Type returnType)
+    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
     {
       return method.IsMatch(parameters, genericArguments, returnType);
     }

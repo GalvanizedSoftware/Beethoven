@@ -24,5 +24,17 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       Assert.AreEqual(0, instance.WithParameters("w", "sd", -68));
       Assert.AreEqual(0, instance.WithParameters("w", "", 7));
     }
+
+    [TestMethod]
+    public void LinkedMethodsReturnValueTest2()
+    {
+      PartialMethods partialMethods = new PartialMethods();
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
+        new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
+          .PartialMatchMethod(partialMethods, nameof(partialMethods.WithParametersReturnValue)));
+      Assert.AreEqual(5, instance.WithParameters("w", "sd", 3));
+    }
+
   }
 }

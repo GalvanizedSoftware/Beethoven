@@ -1,6 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Extensions;
 
@@ -35,7 +34,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     public object Instance { private get; set; }
 
-    public override bool IsMatch(IEnumerable<(Type, string)> parameters, Type[] genericArguments, Type returnType)
+    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
     {
       return methodInfo.IsMatch(parameters, genericArguments, returnType);
     }

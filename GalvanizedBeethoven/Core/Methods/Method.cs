@@ -1,6 +1,5 @@
 ﻿using Castle.DynamicProxy;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
@@ -14,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 
     public string Name { get; }
 
-    public abstract bool IsMatch(IEnumerable<(Type, string)> parameters, Type[] genericArguments, Type returnType);
+    public abstract bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType);
 
     internal abstract void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo);
 
