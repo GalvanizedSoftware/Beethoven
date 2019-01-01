@@ -42,7 +42,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
     {
       return methodList.Any(method => method.IsMatch(parameters, genericArguments, returnType)) ||
-             methodList.Any(method => method.IsMatch(parameters, genericArguments, typeof(bool)));
+             methodList.Any(method => method.IsMatch(parameters, genericArguments, typeof(bool).MakeByRefType()));
     }
 
     internal override void Invoke(Action<object> returnAction, object[] parameterValues, Type[] genericArguments, MethodInfo methodInfo)
@@ -64,7 +64,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         method.Invoke(null, parameters, genericArguments, methodInfo);
         return true;
       }
-      if (!method.IsMatch(parameterTypes, genericArguments, typeof(bool)))
+      if (!method.IsMatch(parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
         throw new MissingMethodException();
       bool result = true;
       Action<object> localReturn = newValue => result = (bool)newValue;

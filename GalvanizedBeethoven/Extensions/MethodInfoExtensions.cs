@@ -31,7 +31,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       return actualMethod
                .GetParameterTypes()
                .SequenceEqual(parameters) &&
-             returnType.FullName == actualMethod.ReturnType.FullName;
+             returnType.FullName?.TrimEnd('&') == actualMethod.ReturnType.FullName;
     }
 
     public static object Invoke(this MethodInfo methodInfo, object instance, object[] parameters, Type[] genericArguments)
