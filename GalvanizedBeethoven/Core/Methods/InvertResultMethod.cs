@@ -20,11 +20,16 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 
     internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
     {
-      if (methodInfo.ReturnType != typeof(bool))
-        throw new ArgumentException("Method must return bool to use InvertResultMethod");
       bool returnValue = false;
-      method.Invoke(value => returnValue = (bool)value, parameters, genericArguments, methodInfo);
+      method.Invoke(value => InvertValue(value, out returnValue), parameters, genericArguments, methodInfo);
       returnAction(!returnValue);
+    }
+    
+    private static void InvertValue(object value, out bool returnValue)
+    {
+      if (!(value is bool boolValue))
+        throw new ArgumentException("Method must return bool to use InvertResultMethod");
+      returnValue = boolValue;
     }
   }
 }
