@@ -34,6 +34,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue AutoMappedMethod(object instance) =>
       new LinkedMethodsReturnValue(this, new MappedMethod(Name, instance, Name));
 
+    public LinkedMethodsReturnValue InvertResult()
+    {
+      int index = methodList.Length - 1;
+      methodList[index] = new InvertResultMethod(methodList[index]);
+      return this;
+    }
+
     public LinkedMethodsReturnValue SkipIf(Func<bool> condition) =>
       new LinkedMethodsReturnValue(this, ConditionCheckMethod.Create(Name, () => !condition()));
 
@@ -45,6 +52,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     public LinkedMethodsReturnValue PartialMatchMethod(object instance, string targetName) =>
       new LinkedMethodsReturnValue(this, new PartialMatchMethod(Name, instance, targetName));
+
+    public LinkedMethodsReturnValue PartialMatchMethod(object instance) =>
+      new LinkedMethodsReturnValue(this, new PartialMatchMethod(Name, instance));
 
     public override bool IsMatch(IEnumerable<(Type, string)> parameters, Type[] genericArguments, Type returnType)
     {

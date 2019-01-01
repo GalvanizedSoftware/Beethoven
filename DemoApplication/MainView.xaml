@@ -14,6 +14,8 @@
         xmlns:chainOfResponsibility2="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility2"
         xmlns:duckTyping="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.DuckTyping"
         xmlns:unityContainer="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.UnityContainer"
+        xmlns:extending="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.Extending"
+        
         mc:Ignorable="d"
         Title="MainView" Height="450" Width="800">
   <TabControl>
@@ -52,6 +54,9 @@
     </TabItem>
     <TabItem Header="Unity">
       <unityContainer:UnityView/>
+    </TabItem>
+    <TabItem Header="Extending COR1">
+      <extending:ExtendingView/>
     </TabItem>
   </TabControl>
 </Window>

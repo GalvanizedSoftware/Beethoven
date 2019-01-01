@@ -5,9 +5,9 @@
     public bool Approve(double amount, ref string approvedBy)
     {
       if (amount > 10)
-        return true;
+        return false;
       approvedBy = "Myself";
-      return false;
+      return true;
     }
   }
 }

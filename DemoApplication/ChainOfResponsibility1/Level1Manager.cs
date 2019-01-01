@@ -5,9 +5,9 @@
     public bool Approve(double amount, ref string approvedBy)
     {
       if (amount > 10000)
-        return true;
+        return false;
       approvedBy = "Level 1 manager";
-      return false;
+      return true;
     }
   }
 }
