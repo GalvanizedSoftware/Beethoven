@@ -40,8 +40,8 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility2
     {
       string approver = null;
       OrderItems.Add(approverChain.Approve(amount, ref approver) ?
-        $"Expence of {amount} € was approved by {approver}" :
-        $"Expence of {amount} € was not approved");
+        $"Expense of {amount} € was approved by {approver}" :
+        $"Expense of {amount} € was not approved");
     }
 
     public ObservableCollection<string> OrderItems { get; } = new ObservableCollection<string>();
