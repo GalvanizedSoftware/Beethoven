@@ -140,6 +140,21 @@
     <Compile Include="DuckTyping\IDisplayName.cs" />
     <Compile Include="DuckTyping\Person.cs" />
     <Compile Include="EqualsGetHashImport\EqualsGetHash.cs" />
+    <Compile Include="Extending\ApprovalAccount.cs" />
+    <Compile Include="Extending\Approvers\IApproverExtension.cs" />
+    <Compile Include="Extending\MailApprover.cs" />
+    <Compile Include="Extending\ExtendingView.xaml.cs">
+      <DependentUpon>ExtendingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Extending\ExtendingViewModel.cs" />
+    <Compile Include="Extending\Factory.cs" />
+    <Compile Include="Extending\Approvers\IApprover.cs" />
+    <Compile Include="Extending\Approvers\IApproverChain.cs" />
+    <Compile Include="Extending\Approvers\Level1Manager.cs" />
+    <Compile Include="Extending\Approvers\Level2Manager.cs" />
+    <Compile Include="Extending\Approvers\LocalManager.cs" />
+    <Compile Include="Extending\Approvers\Myself.cs" />
+    <Compile Include="Extending\Services\MailService.cs" />
     <Compile Include="UnityContainer\IUnityViewModel.cs" />
     <Compile Include="UnityContainer\UnityView.xaml.cs">
       <DependentUpon>UnityView.xaml</DependentUpon>
@@ -181,6 +196,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="EqualsGetHashImport\EqualsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Extending\ExtendingView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -281,6 +300,7 @@
     <None Include="ChainOfResponsibility2\readme.md" />
     <None Include="Decorator\readme.md" />
     <None Include="DuckTyping\readme.md" />
+    <None Include="Extending\Readme.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -289,6 +309,9 @@
       <Name>GalvanizedSoftware.Beethoven</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ChainOfResponsibility1\Approvers\" />
+    <Folder Include="MiscMethods\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
