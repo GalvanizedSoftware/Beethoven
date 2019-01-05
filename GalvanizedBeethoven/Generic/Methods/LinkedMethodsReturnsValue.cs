@@ -1,25 +1,34 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Methods;
+﻿using GalvanizedSoftware.Beethoven.Core;
+using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class LinkedMethodsReturnValue : Method
+  public class LinkedMethodsReturnValue : Method, IObjectProvider
   {
     private readonly Method[] methodList;
+    private readonly ObjectProviderHandler objectProviderHandler;
 
-    public LinkedMethodsReturnValue(string name) : base(name)
+    public LinkedMethodsReturnValue(string name) :
+      this(name, new Method[0])
     {
-      methodList = new Method[0];
     }
 
     private LinkedMethodsReturnValue(LinkedMethodsReturnValue previous, Method newMethod) :
-      base(previous.Name)
+      this(previous.Name, previous.methodList.Append(newMethod).ToArray())
     {
-      methodList = previous.methodList.Append(newMethod).ToArray();
     }
+
+    private LinkedMethodsReturnValue(string name, Method[] methodList) : base(name)
+    {
+      this.methodList = methodList;
+      objectProviderHandler = new ObjectProviderHandler(methodList);
+    }
+
 
     public LinkedMethodsReturnValue Func<TReturnType>(Func<TReturnType> func) =>
       new LinkedMethodsReturnValue(this, new FuncMethod<TReturnType>(Name, func));
@@ -99,6 +108,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         parameterValues[i] = newParameters[i]; // In case of ref or out variables
       returnValue = newParameters.Last();
       return result;
+    }
+
+    public IEnumerable<TChild> Get<TChild>()
+    {
+      return objectProviderHandler.Get<TChild>();
     }
   }
 }

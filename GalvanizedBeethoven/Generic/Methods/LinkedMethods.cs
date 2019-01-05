@@ -1,24 +1,32 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class LinkedMethods : Method
+  public class LinkedMethods : Method, IObjectProvider
   {
     private readonly Method[] methodList;
+    private readonly ObjectProviderHandler objectProviderHandler;
 
-    public LinkedMethods(string name) : base(name)
+    public LinkedMethods(string name) : 
+      this(name, new Method[0])
     {
-      methodList = new Method[0];
     }
 
     private LinkedMethods(LinkedMethods previous, Method newMethod) :
-      base(previous.Name)
+      this(previous.Name, previous.methodList.Append(newMethod).ToArray())
     {
-      methodList = previous.methodList.Append(newMethod).ToArray();
+    }
+
+    private LinkedMethods(string name, Method[] methodList) : base(name)
+    {
+      this.methodList = methodList;
+      objectProviderHandler = new ObjectProviderHandler(methodList);
     }
 
     public LinkedMethods Lambda<T>(T actionOrFunc) =>
@@ -70,6 +78,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Action<object> localReturn = newValue => result = (bool)newValue;
       method.Invoke(localReturn, parameters, genericArguments, methodInfo);
       return result;
+    }
+
+    public IEnumerable<TChild> Get<TChild>()
+    {
+      return objectProviderHandler.Get<TChild>();
     }
   }
 }
