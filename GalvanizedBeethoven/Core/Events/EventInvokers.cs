@@ -17,8 +17,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Events
     {
       get
       {
-        ActionEventInvoker actionEventInvoker;
-        if (dictionary.TryGetValue(name, out actionEventInvoker))
+        if (dictionary.TryGetValue(name, out ActionEventInvoker actionEventInvoker))
           return actionEventInvoker;
         actionEventInvoker = new ActionEventInvoker();
         dictionary.Add(name, actionEventInvoker);
