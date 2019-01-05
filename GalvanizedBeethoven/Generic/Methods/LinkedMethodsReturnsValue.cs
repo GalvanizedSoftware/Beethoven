@@ -62,7 +62,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
       (Type, string)[] parameterList = parameters.ToArray();
       return methodList.Any(method => method.IsMatch(parameterList, genericArguments, returnType)) ||
-             methodList.Any(method => method.IsMatch(parameterList.AppendReturnValue(returnType), genericArguments, typeof(bool).MakeByRefType()));
+             methodList.Any(method => method.IsMatchToFlowControlled(parameterList, genericArguments, returnType));
     }
 
     internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
@@ -89,18 +89,16 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         returnValue = returnValueLocal;
         return true;
       }
-      if (method.IsMatch(parameterTypeAndNames.AppendReturnValue(returnType), genericArguments, typeof(bool).MakeByRefType()))
-      {
-        bool result = true;
-        Action<object> localReturn = newValue => result = (bool)newValue;
-        object[] newParameters = parameterValues.Append(returnValue).ToArray();
-        method.Invoke(localReturn, newParameters, genericArguments, methodInfo);
-        for (int i = 0; i < parameterValues.Length; i++)
-          parameterValues[i] = newParameters[i]; // In case of ref or out variables
-        returnValue = newParameters.Last();
-        return result;
-      }
-      throw new MissingMethodException();
+      if (!method.IsMatchToFlowControlled(parameterTypeAndNames, genericArguments, returnType))
+        throw new MissingMethodException();
+      bool result = true;
+      Action<object> localReturn = newValue => result = (bool)newValue;
+      object[] newParameters = parameterValues.Append(returnValue).ToArray();
+      method.Invoke(localReturn, newParameters, genericArguments, methodInfo);
+      for (int i = 0; i < parameterValues.Length; i++)
+        parameterValues[i] = newParameters[i]; // In case of ref or out variables
+      returnValue = newParameters.Last();
+      return result;
     }
   }
 }
