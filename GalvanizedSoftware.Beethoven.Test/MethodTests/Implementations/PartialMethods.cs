@@ -1,4 +1,7 @@
-﻿namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
+﻿using System;
+using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
+
+namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
 {
   public class PartialMethods
   {
@@ -26,6 +29,15 @@
     public void WithParametersReturnValue(ref int returnValue)
     {
       returnValue = 5;
+    }
+
+    public object GetMain(ITestMethods testMethods, string text1, string text2)
+    {
+      if (string.IsNullOrEmpty(text1))
+        throw new Exception();
+      if (string.IsNullOrEmpty(text2))
+        throw new Exception();
+      return testMethods;
     }
   }
 }

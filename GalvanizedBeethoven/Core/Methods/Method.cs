@@ -1,5 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using System;
+using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Extensions;
 
@@ -22,6 +23,9 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
       Invoke(value => invocation.ReturnValue = value, invocation.Arguments, invocation.GenericArguments, invocation.Method);
 
     public bool IsMatchToFlowControlled((Type, string)[] parameterTypeAndNames, Type[] genericArguments, Type returnType) =>
-      IsMatch(parameterTypeAndNames.AppendReturnValue(returnType), genericArguments, typeof(bool).MakeByRefType());
+      IsMatch(
+        parameterTypeAndNames.AppendReturnValue(returnType).ToArray(), 
+        genericArguments, 
+        typeof(bool).MakeByRefType());
   }
 }

@@ -67,6 +67,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue PartialMatchMethod(object instance) =>
       new LinkedMethodsReturnValue(this, new PartialMatchMethod(Name, instance));
 
+    public LinkedMethodsReturnValue PartialMatchMethod<TMain>(object instance, string mainParameterName) =>
+      new LinkedMethodsReturnValue(this, new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
+
     public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
     {
       (Type, string)[] parameterList = parameters.ToArray();
