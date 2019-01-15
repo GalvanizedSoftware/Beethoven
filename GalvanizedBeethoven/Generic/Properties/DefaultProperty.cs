@@ -98,6 +98,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
         valueLookup.Lookup(type, name).FirstOrDefault()));
     }
 
+    public DefaultProperty AnonymousValueLookup(object defaultValues)
+    {
+      return new DefaultProperty(this, (type, name) => typeof(InitialValue<>).Create1(type,
+        new AnonymousValueLookup(defaultValues).Lookup(type, name).FirstOrDefault()));
+    }
+
     public DefaultProperty LazyCreator<T>(Func<object> creatorFunc)
     {
       return new DefaultProperty(this, (type, name) => Properties.LazyCreator<T>.CreateIfMatch(type, creatorFunc));
