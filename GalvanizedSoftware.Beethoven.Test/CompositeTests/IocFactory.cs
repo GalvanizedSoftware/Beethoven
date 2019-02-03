@@ -24,8 +24,8 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
             .SetterGetter()
         }
       };
-      container.RegisterType<ICompany>(new InjectionFactory(CreateInstance));
-      container.RegisterType<ICompanyInformation>(new InjectionFactory(CreateInformationInstance));
+      container.RegisterFactory<ICompany>(CreateInstance);
+      container.RegisterFactory<ICompanyInformation>(CreateInformationInstance);
     }
 
     private object CreateInstance(IUnityContainer unityContainer, Type type, string name)

@@ -11,8 +11,8 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.UnityContainer
 
     public Factory(IUnityContainer container)
     {
-      container.RegisterType<IPerson>(new InjectionFactory(CreateMvvmInstance));
-      container.RegisterType<IUnityViewModel>(new InjectionFactory(CreateRegularInstance));
+      container.RegisterFactory<IPerson>(CreateMvvmInstance);
+      container.RegisterFactory<IUnityViewModel>(CreateRegularInstance);
     }
 
     private object CreateMvvmInstance(IUnityContainer unityContainer, Type type, string name)
