@@ -47,6 +47,18 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethods SkipIf<T1, T2>(Func<T1, T2, bool> condition) =>
       new LinkedMethods(this, ConditionCheckMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
 
+    public LinkedMethods SkipIf(object instance, string targetName) => 
+      new LinkedMethods(this, new PartialMatchMethod(Name, instance, targetName));
+
+    public LinkedMethods PartialMatchMethod(object instance, string targetName) =>
+      new LinkedMethods(this, new PartialMatchMethod(Name, instance, targetName));
+
+    public LinkedMethods PartialMatchMethod(object instance) =>
+      new LinkedMethods(this, new PartialMatchMethod(Name, instance));
+
+    public LinkedMethods PartialMatchMethod<TMain>(object instance, string mainParameterName) =>
+      new LinkedMethods(this, new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
+
     public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
     {
       return methodList.Any(method => method.IsMatch(parameters, genericArguments, returnType)) ||
@@ -62,7 +74,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
           break;
       }
     }
-
+        
     private bool InvokeFirstMatch(Method method, object[] parameters, (Type, string)[] parameterTypes,
       Type[] genericArguments, MethodInfo methodInfo)
     {

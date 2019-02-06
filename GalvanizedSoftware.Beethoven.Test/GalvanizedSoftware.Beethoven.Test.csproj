@@ -49,6 +49,7 @@
     <Compile Include="CompositeTests\ICompany.cs" />
     <Compile Include="EventTests\EventTests.cs" />
     <Compile Include="EventTests\ITestEvents.cs" />
+    <Compile Include="MethodTests\Implementations\AnyValue.cs" />
     <Compile Include="MethodTests\Implementations\CustomImplentation.cs" />
     <Compile Include="MethodTests\Implementations\GenericMethods2.cs" />
     <Compile Include="MethodTests\GenericMethodsTests.cs" />

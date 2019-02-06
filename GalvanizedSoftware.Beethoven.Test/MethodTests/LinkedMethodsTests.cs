@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 // ReSharper disable StringLiteralTypo
+// ReSharper disable AccessToModifiedClosure
 
 namespace GalvanizedSoftware.Beethoven.Test.MethodTests
 {
@@ -54,7 +55,6 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       Assert.AreEqual(15, instance.WithParameters("fdsfd", "dsfgdsfhsd"));
     }
 
-    // ReSharper disable AccessToModifiedClosure
     [TestMethod]
     public void LinkedMethodsTest4()
     {
@@ -86,6 +86,39 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       instance.Simple();
       Assert.AreEqual(1, calledCount);
     }
-    // ReSharper restore AccessToModifiedClosure
+
+    [TestMethod]
+    public void LinkedMethodsTest6()
+    {
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      int calledCount = 0;
+      ValueCheck valueCheck = new ValueCheck();
+      ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
+        new LinkedMethods(nameof(ITestMethods.NoReturnValue))
+          .SkipIf(valueCheck, nameof(valueCheck.HasValue1))
+          .Lambda<Action<string, string>>(delegate { calledCount++; }));
+      instance.NoReturnValue("", "afasf");
+      instance.NoReturnValue(null, "afasf");
+      Assert.AreEqual(0, calledCount);
+      instance.NoReturnValue("fdgdf", "afasf");
+      Assert.AreEqual(1, calledCount);
+    }
+
+    [TestMethod]
+    public void LinkedMethodsTest7()
+    {
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      int calledCount = 0;
+      ValueCheck valueCheck = new ValueCheck();
+      ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
+        new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
+          .SkipIf(valueCheck, nameof(valueCheck.HasValue2))
+          .Lambda<Func<string, string, int>>((arg1, arg2) => calledCount++));
+      instance.WithParameters("", "");
+      instance.WithParameters("fegf", null);
+      Assert.AreEqual(0, calledCount);
+      instance.WithParameters("fdgdf", "afasf");
+      Assert.AreEqual(1, calledCount);
+    }
   }
 }

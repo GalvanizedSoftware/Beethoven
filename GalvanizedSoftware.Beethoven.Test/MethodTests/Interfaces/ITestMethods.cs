@@ -9,5 +9,6 @@
     int OutAndRef(out string text1, ref string text2, int count);
     void Ref(ref int value);
     object GetMain(string text1, string text2);
+    void NoReturnValue(string text1, string text2);
   }
 }
