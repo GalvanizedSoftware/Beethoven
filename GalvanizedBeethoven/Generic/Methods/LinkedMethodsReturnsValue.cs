@@ -75,9 +75,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
     {
-      (Type, string)[] parameterList = parameters.ToArray();
-      return methodList.Any(method => method.IsMatch(parameterList, genericArguments, returnType)) ||
-             methodList.Any(method => method.IsMatchToFlowControlled(parameterList, genericArguments, returnType));
+      return methodList.Any(method => method.IsMatch(parameters, genericArguments, returnType)) ||
+             methodList.Any(method => method.IsMatchToFlowControlled(parameters, genericArguments, returnType));
     }
 
     internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
