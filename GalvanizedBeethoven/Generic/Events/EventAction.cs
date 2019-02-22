@@ -7,11 +7,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Events
   internal class EventAction : ITypeBinding<EventInvokers>
   {
     private readonly EventInvoker<Action> eventInvoker;
-    private readonly string name;
 
     public EventAction(string name)
     {
-      this.name = name;
       eventInvoker = new EventInvoker<Action>(name);
     }
 

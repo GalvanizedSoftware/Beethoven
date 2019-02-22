@@ -13,7 +13,8 @@ namespace GalvanizedSoftware.Beethoven
   {
     public object[] GeneralPartDefinitions { get; set; }
     private static readonly ProxyGenerator generator = new ProxyGenerator();
-    private readonly Dictionary<WeakReference, EventInvokers> generatedObjects = new Dictionary<WeakReference, EventInvokers>();
+    private readonly Dictionary<WeakReference, EventInvokers> generatedEventInvokers =
+      new Dictionary<WeakReference, EventInvokers>();
     private static readonly MethodInfo generateMethodInfo;
 
     static BeethovenFactory()
@@ -46,7 +47,7 @@ namespace GalvanizedSoftware.Beethoven
         generator.CreateInterfaceProxyWithoutTarget<T>(interceptor) :
         generator.CreateClassProxy<T>(interceptor);
       instanceContainer.Bind(target);
-      generatedObjects.Add(new WeakReference(target), instanceContainer.EventInvokers);
+      generatedEventInvokers.Add(new WeakReference(target), instanceContainer.EventInvokers);
       return target;
     }
 
@@ -64,7 +65,7 @@ namespace GalvanizedSoftware.Beethoven
 
     public IEventTrigger CreateEventTrigger(object mainObject, string name)
     {
-      return generatedObjects.Single(pair => pair.Key.Target == mainObject).Value[name];
+      return generatedEventInvokers.Single(pair => pair.Key.Target == mainObject).Value[name];
     }
   }
 }
