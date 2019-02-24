@@ -52,7 +52,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Extending
         new LinkedMethodsReturnValue(nameof(IApprover.Approve))
           .AutoMappedMethod(approver)
           .InvertResult()
-          .SkipIfResultCondition<bool>(value => !value)
+          .SkipIfResultCondition<bool>(value => value)
           .PartialMatchMethod(new MailApprover(approver, mailService, currentResultAction))
       );
     }

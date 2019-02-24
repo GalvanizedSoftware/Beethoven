@@ -95,7 +95,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ValueCheck valueCheck = new ValueCheck();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethods(nameof(ITestMethods.NoReturnValue))
-          .SkipIf(valueCheck, nameof(valueCheck.HasValue1))
+          .SkipIf(valueCheck, nameof(valueCheck.HasNoValue1))
           .Lambda<Action<string, string>>(delegate { calledCount++; }));
       instance.NoReturnValue("", "afasf");
       instance.NoReturnValue(null, "afasf");
@@ -112,7 +112,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ValueCheck valueCheck = new ValueCheck();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
-          .SkipIf(valueCheck, nameof(valueCheck.HasValue2))
+          .SkipIf(valueCheck, nameof(valueCheck.HasNoValue2))
           .Lambda<Func<string, string, int>>((arg1, arg2) => calledCount++));
       instance.WithParameters("", "");
       instance.WithParameters("fegf", null);

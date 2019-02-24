@@ -2,14 +2,14 @@
 {
   public class ValueCheck
   {
-    public bool HasValue1(string text1)
+    public bool HasNoValue1(string text1)
     {
-      return !string.IsNullOrEmpty(text1);
+      return string.IsNullOrEmpty(text1);
     }
 
-    public bool HasValue2(string text2)
+    public bool HasNoValue2(string text2)
     {
-      return !string.IsNullOrEmpty(text2);
+      return string.IsNullOrEmpty(text2);
     }
   }
 }

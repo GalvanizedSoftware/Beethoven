@@ -59,10 +59,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       new LinkedMethodsReturnValue(this, ConditionCheckMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
 
     public LinkedMethodsReturnValue SkipIfResultCondition<T>(Func<T, bool> condition) =>
-      new LinkedMethodsReturnValue(this, new ReturnValueCheck<T>(Name, condition));
+      new LinkedMethodsReturnValue(this, new ReturnValueCheck<T>(Name, condition))
+        .InvertResult();
 
     public LinkedMethodsReturnValue SkipIf(object instance, string targetName) =>
-      new LinkedMethodsReturnValue(this, new PartialMatchMethod(Name, instance, targetName));
+      new LinkedMethodsReturnValue(this, new PartialMatchMethod(Name, instance, targetName))
+        .InvertResult();
 
     public LinkedMethodsReturnValue PartialMatchMethod(object instance, string targetName) =>
       new LinkedMethodsReturnValue(this, new PartialMatchMethod(Name, instance, targetName));

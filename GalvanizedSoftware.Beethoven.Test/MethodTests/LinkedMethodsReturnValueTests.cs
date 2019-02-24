@@ -86,5 +86,6 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       instance.OutAndRef(out string _, ref text2, 5);
       Assert.IsTrue(called);
     }
+
   }
 }

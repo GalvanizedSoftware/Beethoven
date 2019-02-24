@@ -26,7 +26,8 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       CustomImplentation customImplentation = new CustomImplentation();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
-        new MappedMethod(nameof(ITestMethods.WithParameters), customImplentation, nameof(customImplentation.GetLength2)));
+        new MappedMethod(nameof(ITestMethods.WithParameters), 
+          customImplentation, nameof(customImplentation.GetLength2)));
       Assert.AreEqual(10, instance.WithParameters("w", "sd", 7));
     }
   }

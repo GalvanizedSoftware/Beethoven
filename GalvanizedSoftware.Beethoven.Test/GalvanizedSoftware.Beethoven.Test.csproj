@@ -56,6 +56,7 @@
     <Compile Include="MethodTests\Implementations\GenericMethods.cs" />
     <Compile Include="MethodTests\Implementations\Logger.cs" />
     <Compile Include="MethodTests\Implementations\PartialMethods.cs" />
+    <Compile Include="MethodTests\Implementations\WithParametersImplementation.cs" />
     <Compile Include="MethodTests\Interfaces\IGenericClass.cs" />
     <Compile Include="MethodTests\Interfaces\IGenericMethods.cs" />
     <Compile Include="MethodTests\Implementations\InvalidSignature.cs" />

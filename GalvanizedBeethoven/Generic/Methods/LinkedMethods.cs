@@ -48,7 +48,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       new LinkedMethods(this, ConditionCheckMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
 
     public LinkedMethods SkipIf(object instance, string targetName) => 
-      new LinkedMethods(this, new PartialMatchMethod(Name, instance, targetName));
+      new LinkedMethods(this, new PartialMatchMethod(Name, instance, targetName))
+        .InvertResult();
 
     public LinkedMethods PartialMatchMethod(object instance, string targetName) =>
       new LinkedMethods(this, new PartialMatchMethod(Name, instance, targetName));
@@ -58,6 +59,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     public LinkedMethods PartialMatchMethod<TMain>(object instance, string mainParameterName) =>
       new LinkedMethods(this, new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
+
+    public LinkedMethods InvertResult()
+    {
+      int index = methodList.Length - 1;
+      methodList[index] = new InvertResultMethod(methodList[index]);
+      return this;
+    }
 
     public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
     {
