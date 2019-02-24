@@ -120,5 +120,25 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       instance.WithParameters("fdgdf", "afasf");
       Assert.AreEqual(1, calledCount);
     }
+
+    [TestMethod]
+    public void LinkedMethodsTest8()
+    {
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      int calledCount = 0;
+      WithParametersImplementation implentation = new WithParametersImplementation();
+      ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
+        new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
+          .PartialMatchLambda<Func<int, int>>(count => count)
+          .SkipIfResultCondition<int>(count => count == 0)
+          .AutoMappedMethod(implentation)
+          .PartialMatchLambda<Action>(() => calledCount++));
+      int result1 = instance.WithParameters("fegf", "ggn", 0);
+      Assert.AreEqual(0, calledCount);
+      Assert.AreEqual(0, result1);
+      int result2 = instance.WithParameters("fdgdf", "afasf", 3);
+      Assert.AreEqual(1, calledCount);
+      Assert.AreEqual(30, result2);
+    }
   }
 }
