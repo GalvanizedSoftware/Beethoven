@@ -7,6 +7,9 @@ using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic.Methods;
 using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Core
@@ -63,6 +66,7 @@ namespace GalvanizedSoftware.Beethoven.Core
               yield return method;
             break;
           case DefaultProperty _:
+          case DefaultMethod _:
             // Dependent on what other wrappers are in there, so it has to be evaluated last
             break;
           default:
@@ -75,9 +79,10 @@ namespace GalvanizedSoftware.Beethoven.Core
       }
     }
 
-    private static IEnumerable<object> GetDefaultImplementationWrappers(object[] partDefinitions, IEnumerable<object> wrappers)
+    private static IEnumerable<object> GetDefaultImplementationWrappers(object[] partDefinitions, IList<object> wrappers)
     {
-      return GetDefaultProperties(partDefinitions, wrappers.OfType<Property>());
+      return GetDefaultProperties(partDefinitions, wrappers.OfType<Property>())
+        .Concat(GetDefaultMethods(partDefinitions, wrappers.OfType<Method>()));
     }
 
     private static IEnumerable<object> GetDefaultProperties(object[] partDefinitions, IEnumerable<Property> propertyWrappers)
@@ -93,6 +98,19 @@ namespace GalvanizedSoftware.Beethoven.Core
       HashSet<string> alreadyImplemented = new HashSet<string>(propertyWrappers.Select(p => p.Name));
       foreach (string propertyName in typeProperties.Except(alreadyImplemented))
         yield return defaultProperty.Create(propertyInfos[propertyName], propertyName);
+    }
+
+    private static IEnumerable<object> GetDefaultMethods(object[] partDefinitions, IEnumerable<Method> methodWrappers)
+    {
+      DefaultMethod defaultMethod = partDefinitions.OfType<DefaultMethod>().SingleOrDefault();
+      if (defaultMethod == null)
+        yield break;
+      MethodInfo[] methodInfos = typeof(T)
+        .GetMethodsAndInherited()
+        .ToArray();
+      HashSet<string> alreadyImplemented = new HashSet<string>(methodWrappers.Select(method => method.Name));
+      foreach (MethodInfo methodInfo in methodInfos)
+        yield return defaultMethod.CreateMapped(methodInfo);
     }
 
     internal void Bind(T target)

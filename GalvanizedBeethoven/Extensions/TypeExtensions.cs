@@ -1,8 +1,8 @@
-﻿using GalvanizedSoftware.Beethoven.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
@@ -23,7 +23,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 
     internal static IEnumerable<MethodInfo> GetAllMethods(this Type type, string name)
     {
-      return from methodInfo in type.GetMethods(Constants.ResolveFlags)
+      return from methodInfo in type.GetMethods(ResolveFlags)
              where methodInfo.Name == name
              select methodInfo;
     }
@@ -32,13 +32,20 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     {
       return type.GetAllTypes()
         .SelectMany(childType => childType
-          .GetMethods(Constants.ResolveFlags));
+          .GetMethods(ResolveFlags));
+    }
+
+    internal static IEnumerable<MethodInfo> GetMethodsAndInherited(this Type type)
+    {
+      return type.GetAllTypes()
+        .SelectMany(childType => childType.GetMethods(ResolveFlags))
+        .Where(info => !info.IsSpecialName);
     }
 
     public static object Create1(this Type type, Type genericType1, params object[] constructorParameters)
     {
       Type genericType = type.MakeGenericType(genericType1);
-      ConstructorInfo[] constructors = genericType.GetConstructors(Constants.ResolveFlags);
+      ConstructorInfo[] constructors = genericType.GetConstructors(ResolveFlags);
       if (constructors.Length == 1)
         return constructors.First().Invoke(constructorParameters);
       return genericType
@@ -50,7 +57,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 
     public static object InvokeStatic(this Type type, string methodName, params object[] parameters)
     {
-      return type.GetMethod(methodName, Constants.StaticResolveFlags)
+      return type.GetMethod(methodName, StaticResolveFlags)
         ?.Invoke(type, parameters);
     }
 
