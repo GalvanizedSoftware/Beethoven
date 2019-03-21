@@ -10,14 +10,14 @@ namespace GalvanizedSoftware.Beethoven.MVVM.Properties
     ITypeBinding<EventInvokers>,
     ITargetBinding
   {
-    private readonly EventInvoker<PropertyChangedEventHandler> eventInvoker;
+    private readonly EventInvoker eventInvoker;
     private readonly string name;
     private object targetObject;
 
     public NotifyChanged(string name)
     {
       this.name = name;
-      eventInvoker = new EventInvoker<PropertyChangedEventHandler>(nameof(INotifyPropertyChanged.PropertyChanged));
+      eventInvoker = new EventInvoker(nameof(INotifyPropertyChanged.PropertyChanged));
     }
 
     public bool InvokeGetter(ref T returnValue)

@@ -2,7 +2,7 @@
 
 namespace GalvanizedSoftware.Beethoven.Core.Events
 {
-  internal class EventInvoker<T> : ITypeBinding<EventInvokers>
+  internal class EventInvoker : ITypeBinding<EventInvokers>
   {
     private readonly string name;
     private ActionEventInvoker actionEventNotifier;
