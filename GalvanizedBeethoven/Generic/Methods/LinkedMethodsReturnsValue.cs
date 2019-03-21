@@ -39,6 +39,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue MappedMethod(object instance, string targetName) =>
       new LinkedMethodsReturnValue(this, new MappedMethod(Name, instance, targetName));
 
+    public LinkedMethodsReturnValue MappedMethod(object instance, MethodInfo methodInfo) =>
+      new LinkedMethodsReturnValue(this, new MappedMethod(instance, methodInfo));
+
     public LinkedMethodsReturnValue AutoMappedMethod(object instance) =>
       new LinkedMethodsReturnValue(this, new MappedMethod(Name, instance, Name));
 

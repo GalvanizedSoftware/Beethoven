@@ -35,6 +35,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethods MappedMethod(object instance, string targetName) =>
       new LinkedMethods(this, new MappedMethod(Name, instance, targetName));
 
+    public LinkedMethods MappedMethod(object instance, MethodInfo methodInfo) =>
+      new LinkedMethods(this, new MappedMethod(instance, methodInfo));
+
     public LinkedMethods AutoMappedMethod(object instance) =>
       new LinkedMethods(this, new MappedMethod(Name, instance));
 
