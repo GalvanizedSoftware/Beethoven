@@ -32,8 +32,8 @@ namespace GalvanizedSoftware.Beethoven.Core
         new EventsFactory<T>(EventInvokers));
       AddMaster<IInterceptor>(masterInterceptor);
       objectProviderHandler = new ObjectProviderHandler(
-        masters.Values.Concat(
-        partDefinitions.OfType<IBindingParent>()));
+        masters.Values
+          .Concat(partDefinitions.OfType<IBindingParent>()));
     }
 
     public EventInvokers EventInvokers { get; }
@@ -70,9 +70,9 @@ namespace GalvanizedSoftware.Beethoven.Core
             // Dependent on what other wrappers are in there, so it has to be evaluated last
             break;
           default:
-            foreach (Property subProperty in new PropertyMapper(definition))
+            foreach (Property subProperty in new PropertiesMapper(definition))
               yield return subProperty;
-            foreach (Method mappedMethod in new MultiMethodMapper<T>(definition))
+            foreach (Method mappedMethod in new MethodsMapper<T>(definition))
               yield return mappedMethod;
             break;
         }
@@ -82,7 +82,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     private static IEnumerable<object> GetDefaultImplementationWrappers(object[] partDefinitions, IList<object> wrappers)
     {
       return GetDefaultProperties(partDefinitions, wrappers.OfType<Property>())
-        .Concat(GetDefaultMethods(partDefinitions, wrappers.OfType<Method>()));
+        .Concat(GetDefaultMethods(partDefinitions));
     }
 
     private static IEnumerable<object> GetDefaultProperties(object[] partDefinitions, IEnumerable<Property> propertyWrappers)
@@ -100,7 +100,7 @@ namespace GalvanizedSoftware.Beethoven.Core
         yield return defaultProperty.Create(propertyInfos[propertyName], propertyName);
     }
 
-    private static IEnumerable<object> GetDefaultMethods(object[] partDefinitions, IEnumerable<Method> methodWrappers)
+    private static IEnumerable<object> GetDefaultMethods(object[] partDefinitions)
     {
       DefaultMethod defaultMethod = partDefinitions.OfType<DefaultMethod>().SingleOrDefault();
       if (defaultMethod == null)
@@ -108,7 +108,6 @@ namespace GalvanizedSoftware.Beethoven.Core
       MethodInfo[] methodInfos = typeof(T)
         .GetMethodsAndInherited()
         .ToArray();
-      HashSet<string> alreadyImplemented = new HashSet<string>(methodWrappers.Select(method => method.Name));
       foreach (MethodInfo methodInfo in methodInfos)
         yield return defaultMethod.CreateMapped(methodInfo);
     }
@@ -121,7 +120,7 @@ namespace GalvanizedSoftware.Beethoven.Core
 
     internal TMaster GetMaster<TMaster>()
     {
-      return masters.TryGetValue(typeof(TMaster), out object value) ? (TMaster)value : default(TMaster);
+      return masters.TryGetValue(typeof(TMaster), out object value) ? (TMaster)value : default;
     }
 
     private TMaster AddMaster<TMaster>(TMaster instance)

@@ -8,11 +8,11 @@ using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  public class PropertyMapper : IEnumerable<Property>
+  public class PropertiesMapper : IEnumerable<Property>
   {
     private readonly Property[] properties;
 
-    public PropertyMapper(object baseObject)
+    public PropertiesMapper(object baseObject)
     {
       properties = GetAllMembers(baseObject).ToArray();
     }

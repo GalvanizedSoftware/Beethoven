@@ -7,19 +7,19 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-  internal class MultiMethodMapper<T> : IEnumerable<Method>
+  internal class MethodsMapper<T> : IEnumerable<Method>
   {
     private readonly Method[] methods = new Method[0];
 
-    public MultiMethodMapper(object baseObject)
+    public MethodsMapper(object baseObject)
     {
       if (baseObject == null)
         return;
       MethodInfo[] interfaceMethods = typeof(T).GetAllMethodsAndInherited().ToArray();
       IEnumerable<MethodInfo> implementationMethods = baseObject
         .GetType()
-        .GetMethods(Constants.ResolveFlags)
-        .Where(info => !info.IsSpecialName);
+        .GetAllTypes()
+        .SelectMany(type => type.GetNotSpecialMethods());
       IEnumerable<MethodInfo> methodInfos = implementationMethods
         .Intersect(interfaceMethods, new EquivalentMethodComparer())
         .ToArray();
