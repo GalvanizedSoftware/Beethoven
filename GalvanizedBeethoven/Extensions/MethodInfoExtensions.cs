@@ -44,5 +44,8 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     {
       return methodInfo.IsGenericMethod ? methodInfo.MakeGenericMethod(typeof(T)) : methodInfo;
     }
+
+    public static bool HasReturnType(this MethodInfo methodInfo)
+      => methodInfo.ReturnType != typeof(void);
   }
 }

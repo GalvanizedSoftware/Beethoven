@@ -36,7 +36,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         .GetType()
         .FindSingleMethod(targetName);
       localParameters = methodInfo.GetParameterTypeAndNames();
-      hasReturnType = methodInfo.ReturnType != typeof(void);
+      hasReturnType = methodInfo.HasReturnType();
     }
 
     public object Instance { private get; set; }

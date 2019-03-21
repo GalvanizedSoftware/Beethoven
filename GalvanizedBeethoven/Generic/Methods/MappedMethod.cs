@@ -1,6 +1,7 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using System;
 using System.Reflection;
+using Castle.DynamicProxy.Internal;
 using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
@@ -14,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       base(methodInfo.Name)
     {
       this.methodInfo = methodInfo;
-      hasReturnType = methodInfo.ReturnType != typeof(void);
+      hasReturnType = methodInfo.HasReturnType();
     }
 
     public MappedMethod(string name, object instance) :
@@ -29,7 +30,15 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       methodInfo = instance
         .GetType()
         .FindSingleMethod(targetName);
-      hasReturnType = methodInfo.ReturnType != typeof(void);
+      hasReturnType = methodInfo.HasReturnType();
+    }
+
+    public MappedMethod(object instance, MethodInfo methodInfo) :
+      base(methodInfo.Name)
+    {
+      Instance = instance;
+      this.methodInfo = methodInfo;
+      hasReturnType = methodInfo.HasReturnType();
     }
 
     public object Instance { private get; set; }

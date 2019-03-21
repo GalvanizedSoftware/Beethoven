@@ -23,7 +23,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         throw new InvalidCastException("You must supply a func or delegate");
       methodInfo = lambdaDelegate.Method;
       localParameters = methodInfo.GetParameterTypeAndNames();
-      hasReturnType = methodInfo.ReturnType != typeof(void);
+      hasReturnType = methodInfo.HasReturnType();
     }
 
     public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
