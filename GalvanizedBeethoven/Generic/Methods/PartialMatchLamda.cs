@@ -1,5 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Binding;
-using GalvanizedSoftware.Beethoven.Core.Methods;
+﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Linq;
@@ -49,7 +48,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       object[] localParameterValues = indexes
         .Select(index => parameters[index])
         .ToArray();
-      object returnValue = this.methodInfo.Invoke(lambdaDelegate.Target, localParameterValues, genericArguments);
+      object returnValue = methodInfo.Invoke(lambdaDelegate.Target, localParameterValues, genericArguments);
       // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
       localParameterValues.Zip(indexes,
         (value, index) => SetIfValid(parameters, index, value, masterParameters))
