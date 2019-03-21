@@ -15,7 +15,6 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility2
 
     public ChainViewModel()
     {
-
       approverChain =
         factory.CreateLink(myself,
         factory.CreateLink(localManager,
