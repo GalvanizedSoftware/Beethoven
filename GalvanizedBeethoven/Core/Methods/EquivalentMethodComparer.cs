@@ -13,9 +13,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     {
       if (ReferenceEquals(x, y))
         return true;
-      bool v = equivalentTypeComparer.Equals(x?.ReturnType, y?.ReturnType) &&
+      return equivalentTypeComparer.Equals(x?.ReturnType, y?.ReturnType) &&
              x.GetParameterTypes().SequenceEqual(y.GetParameterTypes(), equivalentTypeComparer);
-      return v;
     }
 
     public int GetHashCode(MethodInfo obj)
