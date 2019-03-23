@@ -1,6 +1,6 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Flow;
+using GalvanizedSoftware.Beethoven.Fluent;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.Basic
 {
