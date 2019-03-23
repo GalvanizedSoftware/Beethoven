@@ -41,7 +41,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public static Func<T> CreateFunc(object target, MethodInfo methodInfo, string propertyName)
     {
       Type returnType = methodInfo.ReturnType;
-      if (methodInfo.HasReturnType())
+      if (methodInfo.ReturnType != typeof(T))
         throw new ArgumentException($"Method: {methodInfo.Name} has incorrect return type expected: {typeof(T).FullName}, actual: {returnType.FullName}");
       Type[] parameterTypes = methodInfo.GetParameterTypes().ToArray();
       switch (parameterTypes.Length)
