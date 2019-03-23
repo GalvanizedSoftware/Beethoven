@@ -13,7 +13,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     {
       if (ReferenceEquals(x, y))
         return true;
-      return equivalentTypeComparer.Equals(x?.ReturnType, y?.ReturnType) &&
+      return x != null && y != null &&
+             equivalentTypeComparer.Equals(x.ReturnType, y.ReturnType) &&
              x.GetParameterTypes().SequenceEqual(y.GetParameterTypes(), equivalentTypeComparer);
     }
 
@@ -21,11 +22,10 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     {
       unchecked // Overflow is fine
       {
-        int v = new[] { obj.Name.GetHashCode(), equivalentTypeComparer.GetHashCode(obj.ReturnType) }
+        return new[] { obj.Name.GetHashCode(), equivalentTypeComparer.GetHashCode(obj.ReturnType) }
           .Concat(obj.GetParameterTypes()
-          .Select(type => equivalentTypeComparer.GetHashCode(type)))
+            .Select(type => equivalentTypeComparer.GetHashCode(type)))
           .Aggregate((int)2166136261, (seed, value) => (seed * 16777619) ^ value);
-        return v;
       }
     }
   }

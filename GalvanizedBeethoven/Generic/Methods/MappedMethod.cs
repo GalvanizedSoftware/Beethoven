@@ -1,7 +1,6 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using System;
 using System.Reflection;
-using Castle.DynamicProxy.Internal;
 using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods

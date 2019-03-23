@@ -75,8 +75,8 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestMethods test = factory.Generate<ITestMethods>(new InvalidSignature());
-      int v = 5;
-      test.Ref(ref v);
+      int value = 5;
+      test.Ref(ref value);
       Assert.Fail();
     }
   }
