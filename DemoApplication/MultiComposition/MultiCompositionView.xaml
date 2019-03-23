@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="GalvanizedSoftware.Beethoven.DemoApp.MultiComposition.MultiCompositionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:multiComposition="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.MultiComposition"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=multiComposition:MultiCompositionViewModel, IsDesignTimeCreatable=False }"
+             d:DesignHeight="450" d:DesignWidth="800">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <StackPanel Orientation="Horizontal">
+      <StackPanel.Resources>
+        <Style x:Key="Style" TargetType="FrameworkElement">
+          <Setter Property="Margin" Value="3" />
+          <Setter Property="Width" Value="100" />
+        </Style>
+      </StackPanel.Resources>
+      <TextBox Text="{Binding NewFirstName}" Style="{StaticResource Style}"/>
+      <TextBox Text="{Binding NewLastName}" Style="{StaticResource Style}"/>
+      <Button Content="Add" Command="{Binding AddCommand}" Style="{StaticResource Style}"/>
+      <Button Content="Remove" Command="{Binding RemoveCommand}" Style="{StaticResource Style}"/>
+      <Button Content="Reset" Command="{Binding ResetCommand}" Style="{StaticResource Style}"/>
+    </StackPanel>
+    <ListBox Grid.Row="4" ItemsSource="{Binding Items}" SelectedItem="{Binding Selected}" SelectionMode="Single">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock>
+            <Run Text="{Binding LastName}"/>
+            <Run Text=", "/>
+            <Run Text="{Binding FirstName}"/>
+          </TextBlock>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+  </Grid>
+</UserControl>

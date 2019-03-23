@@ -50,6 +50,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Basic\PersonFactory2.cs" />
     <Compile Include="ChainOfResponsibility2\ApproverLink.cs" />
     <Compile Include="ChainOfResponsibility2\ChainView.xaml.cs">
       <DependentUpon>ChainView.xaml</DependentUpon>
@@ -112,6 +113,14 @@
     <Compile Include="Extending\Approvers\LocalManager.cs" />
     <Compile Include="Extending\Approvers\Myself.cs" />
     <Compile Include="Extending\Services\MailService.cs" />
+    <Compile Include="MultiComposition\CollectionChangedImplementation.cs" />
+    <Compile Include="MultiComposition\IPersonCollection.cs" />
+    <Compile Include="MultiComposition\IPerson.cs" />
+    <Compile Include="MultiComposition\MultiCompositionView.xaml.cs">
+      <DependentUpon>MultiCompositionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MultiComposition\MultiCompositionViewModel.cs" />
+    <Compile Include="MultiComposition\RemovedLogger.cs" />
     <Compile Include="UnityContainer\IUnityViewModel.cs" />
     <Compile Include="UnityContainer\UnityView.xaml.cs">
       <DependentUpon>UnityView.xaml</DependentUpon>
@@ -183,6 +192,10 @@
     <Page Include="ClassInjection\ClassInjectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MultiComposition\MultiCompositionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UnityContainer\UnityView.xaml">
       <Generator>MSBuild:Compile</Generator>

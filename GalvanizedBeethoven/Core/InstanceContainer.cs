@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
 using static GalvanizedSoftware.Beethoven.Core.Constants;
 
@@ -68,6 +69,12 @@ namespace GalvanizedSoftware.Beethoven.Core
           case DefaultProperty _:
           case DefaultMethod _:
             // Dependent on what other wrappers are in there, so it has to be evaluated last
+            break;
+          case LinkedObjects linkedObjects:
+            foreach (Property subProperty in linkedObjects.GetProperties())
+              yield return subProperty;
+            foreach (Method mappedMethod in linkedObjects.GetMethods<T>())
+              yield return mappedMethod;
             break;
           default:
             foreach (Property subProperty in new PropertiesMapper(definition))

@@ -15,7 +15,8 @@
         xmlns:duckTyping="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.DuckTyping"
         xmlns:unityContainer="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.UnityContainer"
         xmlns:extending="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.Extending"
-        
+        xmlns:multiComposition="clr-namespace:GalvanizedSoftware.Beethoven.DemoApp.MultiComposition"
+
         mc:Ignorable="d"
         Title="MainView" Height="450" Width="800">
   <TabControl>
@@ -58,5 +59,9 @@
     <TabItem Header="Extending COR1">
       <extending:ExtendingView/>
     </TabItem>
+    <TabItem Header="Multi composition">
+      <multiComposition:MultiCompositionView/>
+    </TabItem>
+
   </TabControl>
 </Window>

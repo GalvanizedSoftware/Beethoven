@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods;
@@ -11,20 +10,20 @@ namespace GalvanizedSoftware.Beethoven.Generic
 {
   public class LinkedObjects
   {
-    private readonly Tuple<object, MethodInfo>[] implementationMethods;
-    private readonly EquivalentMethodComparer methodComparer = new EquivalentMethodComparer();
+    private readonly Dictionary<object, MethodInfo[]> implementationMethods;
+    private readonly ExactMethodComparer methodComparer = new ExactMethodComparer();
     public object[] Objects { get; }
 
     public LinkedObjects(params object[] objects)
     {
       Objects = objects;
       implementationMethods = objects
-        .SelectMany(obj => obj
+        .ToDictionary(obj => obj,
+          obj => obj
           .GetType()
           .GetAllTypes()
           .SelectMany(type => type.GetNotSpecialMethods())
-          .Select(info => new Tuple<object, MethodInfo>(obj, info)))
-          .ToArray();
+          .ToArray());
     }
 
     public IEnumerable<Property> GetProperties()
@@ -52,8 +51,11 @@ namespace GalvanizedSoftware.Beethoven.Generic
 
     private Method CreateMethod(MethodInfo methodInfo)
     {
-      Tuple<object, MethodInfo>[] localMethods = implementationMethods
-        .Where(tuple => methodComparer.Equals(methodInfo, tuple.Item2))
+      (object, MethodInfo)[] localMethods = (
+        from pair in implementationMethods
+        let method = pair.Value.FirstOrDefault(item => methodComparer.Equals(methodInfo, item))
+        where method != null
+        select (pair.Key, method))
         .ToArray();
       return methodInfo.HasReturnType() ?
         (Method)localMethods.Aggregate(
