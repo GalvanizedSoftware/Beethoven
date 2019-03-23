@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Galvanized Software</Authors>
     <Company>Galvanized Software</Company>
-    <Description>Flow-like class implementation / composition. Automapping, duck-typing, auto-implementation and more ...</Description>
+    <Description>Fluent.style class implementation / composition. Automapping, duck-typing, auto-implementation and more ...</Description>
     <PackageTags>composition;dynamic creation;duck typing;castle.core;auto interface implementation</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Version>0.4.3.0</Version>
