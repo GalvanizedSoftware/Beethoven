@@ -29,21 +29,23 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       objectProviderHandler = new ObjectProviderHandler(methodList);
     }
 
+    public LinkedMethodsReturnValue Add(Method method) =>
+      new LinkedMethodsReturnValue(this, method);
 
     public LinkedMethodsReturnValue Func<TReturnType>(Func<TReturnType> func) =>
-      new LinkedMethodsReturnValue(this, new FuncMethod<TReturnType>(Name, func));
+      Add(new FuncMethod<TReturnType>(Name, func));
 
     public LinkedMethodsReturnValue Lambda<T>(T actionOrFunc) =>
-      new LinkedMethodsReturnValue(this, new LambdaMethod<T>(Name, actionOrFunc));
+      Add(new LambdaMethod<T>(Name, actionOrFunc));
 
     public LinkedMethodsReturnValue MappedMethod(object instance, string targetName) =>
-      new LinkedMethodsReturnValue(this, new MappedMethod(Name, instance, targetName));
+      Add(new MappedMethod(Name, instance, targetName));
 
     public LinkedMethodsReturnValue MappedMethod(object instance, MethodInfo methodInfo) =>
-      new LinkedMethodsReturnValue(this, new MappedMethod(instance, methodInfo));
+      Add(new MappedMethod(instance, methodInfo));
 
     public LinkedMethodsReturnValue AutoMappedMethod(object instance) =>
-      new LinkedMethodsReturnValue(this, new MappedMethod(Name, instance, Name));
+      Add(new MappedMethod(Name, instance, Name));
 
     public LinkedMethodsReturnValue InvertResult()
     {
@@ -53,33 +55,33 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     public LinkedMethodsReturnValue SkipIf(Func<bool> condition) =>
-      new LinkedMethodsReturnValue(this, ConditionCheckMethod.Create(Name, () => !condition()));
+      Add(ConditionCheckMethod.Create(Name, () => !condition()));
 
     public LinkedMethodsReturnValue SkipIf<T1>(Func<T1, bool> condition) =>
-      new LinkedMethodsReturnValue(this, ConditionCheckMethod.Create<T1>(Name, arg1 => !condition(arg1)));
+      Add(ConditionCheckMethod.Create<T1>(Name, arg1 => !condition(arg1)));
 
     public LinkedMethodsReturnValue SkipIf<T1, T2>(Func<T1, T2, bool> condition) =>
-      new LinkedMethodsReturnValue(this, ConditionCheckMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
+      Add(ConditionCheckMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
 
     public LinkedMethodsReturnValue SkipIfResultCondition<T>(Func<T, bool> condition) =>
-      new LinkedMethodsReturnValue(this, new ReturnValueCheck<T>(Name, condition))
+      Add(new ReturnValueCheck<T>(Name, condition))
         .InvertResult();
 
     public LinkedMethodsReturnValue SkipIf(object instance, string targetName) =>
-      new LinkedMethodsReturnValue(this, new PartialMatchMethod(Name, instance, targetName))
+      Add(new PartialMatchMethod(Name, instance, targetName))
         .InvertResult();
 
     public LinkedMethodsReturnValue PartialMatchMethod(object instance, string targetName) =>
-      new LinkedMethodsReturnValue(this, new PartialMatchMethod(Name, instance, targetName));
+      Add(new PartialMatchMethod(Name, instance, targetName));
 
     public LinkedMethodsReturnValue PartialMatchMethod(object instance) =>
-      new LinkedMethodsReturnValue(this, new PartialMatchMethod(Name, instance));
+      Add(new PartialMatchMethod(Name, instance));
 
     public LinkedMethodsReturnValue PartialMatchMethod<TMain>(object instance, string mainParameterName) =>
-      new LinkedMethodsReturnValue(this, new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
+      Add(new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
 
     public LinkedMethodsReturnValue PartialMatchLambda<T>(T actionOrFunc) => 
-      new LinkedMethodsReturnValue(this, new PartialMatchLamda<T>(Name, actionOrFunc));
+      Add(new PartialMatchLamda<T>(Name, actionOrFunc));
 
     public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
     {
