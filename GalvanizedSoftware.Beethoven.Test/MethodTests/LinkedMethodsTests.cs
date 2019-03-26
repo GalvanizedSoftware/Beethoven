@@ -4,6 +4,8 @@ using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using GalvanizedSoftware.Beethoven.Generic;
+
 // ReSharper disable StringLiteralTypo
 // ReSharper disable AccessToModifiedClosure
 
@@ -139,6 +141,22 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       int result2 = instance.WithParameters("fdgdf", "afasf", 3);
       Assert.AreEqual(1, calledCount);
       Assert.AreEqual(30, result2);
+    }
+
+    [TestMethod]
+    public void LinkedMethodsTest9()
+    {
+      List<string> log = new List<string>();
+      SimpleImplementation implementation = new SimpleImplementation();
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      string name = nameof(ITestMethods.Simple);
+      ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
+        new LinkedObjects(
+            new LambdaMethod<Action>(name, () => log.Add("Before")),
+            new MappedMethod(name, implementation),
+            new LambdaMethod<Action>(name, () => log.Add("After"))));
+      instance.Simple();
+      CollectionAssert.AreEquivalent(new[] { "Before", "After" }, log);
     }
   }
 }

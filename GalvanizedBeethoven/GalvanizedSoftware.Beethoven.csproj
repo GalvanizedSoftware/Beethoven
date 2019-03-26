@@ -16,6 +16,7 @@
     <PackageProjectUrl>https://github.com/GalvanizedSoftware/Beethoven</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GalvanizedSoftware/Beethoven</RepositoryUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

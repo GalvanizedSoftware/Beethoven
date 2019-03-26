@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods;
@@ -12,58 +14,100 @@ namespace GalvanizedSoftware.Beethoven.Generic
   {
     private readonly Dictionary<object, MethodInfo[]> implementationMethods;
     private readonly ExactMethodComparer methodComparer = new ExactMethodComparer();
-    public object[] Objects { get; }
+    private readonly object[] partDefinitions;
 
-    public LinkedObjects(params object[] objects)
+    public LinkedObjects(params object[] partDefinitions)
     {
-      Objects = objects;
-      implementationMethods = objects
-        .ToDictionary(obj => obj,
-          obj => obj
-          .GetType()
-          .GetAllTypes()
-          .SelectMany(type => type.GetNotSpecialMethods())
-          .ToArray());
+      this.partDefinitions = partDefinitions;
+      implementationMethods = partDefinitions
+        .ToDictionary(obj => obj, FindMethodInfos);
     }
 
-    public IEnumerable<Property> GetProperties()
+    public IEnumerable GetWrappers<T>() where T : class
     {
-      IEnumerable<Property> propertiesMappers = Objects
-        .Select(obj => new PropertiesMapper(obj))
-        .SelectMany(mapper => mapper);
-      Dictionary<string, List<Property>> properties = new Dictionary<string, List<Property>>();
-      foreach (Property property in propertiesMappers)
+      foreach (Property property in partDefinitions.SelectMany(CreateProperties))
+        yield return property;
+      foreach (Method method in typeof(T).GetAllMethodsAndInherited().Select(CreateMethod))
+        yield return method;
+    }
+
+    public IEnumerable<Property> GetProperties(IEnumerable<Property> properties)
+    {
+      Dictionary<string, List<Property>> propertiesMap = new Dictionary<string, List<Property>>();
+      foreach (Property property in properties)
       {
         string propertyName = property.Name;
-        if (!properties.TryGetValue(propertyName, out List<Property> existingProperties))
+        if (!propertiesMap.TryGetValue(propertyName, out List<Property> existingProperties))
         {
           existingProperties = new List<Property>();
-          properties.Add(propertyName, existingProperties);
+          propertiesMap.Add(propertyName, existingProperties);
         }
         existingProperties.Add(property);
       }
-      return properties.Select(pair =>
+      return propertiesMap.Select(pair =>
         Property.Create(pair.Value.First().PropertyType, pair.Key, pair.Value));
     }
 
-    public IEnumerable<Method> GetMethods<T>() where T : class =>
-      typeof(T).GetAllMethodsAndInherited().Select(CreateMethod);
-
     private Method CreateMethod(MethodInfo methodInfo)
     {
-      (object, MethodInfo)[] localMethods = (
-        from pair in implementationMethods
-        let method = pair.Value.FirstOrDefault(item => methodComparer.Equals(methodInfo, item))
-        where method != null
-        select (pair.Key, method))
+      Method[] localMethods = (implementationMethods
+        .SelectMany(pair => CreateMethod(pair.Key, pair.Value, methodInfo)))
         .ToArray();
       return methodInfo.HasReturnType() ?
         (Method)localMethods.Aggregate(
           new LinkedMethodsReturnValue(methodInfo.Name),
-          (value, tuple) => value.MappedMethod(tuple.Item1, tuple.Item2)) :
+          (value, method) => value.Add(method)) :
         localMethods.Aggregate(
           new LinkedMethods(methodInfo.Name),
-          (value, tuple) => value.MappedMethod(tuple.Item1, tuple.Item2));
+          (value, method) => value.Add(method));
+    }
+
+    private static IEnumerable<Property> CreateProperties(object definition)
+    {
+      switch (definition)
+      {
+        case Method _:
+          return new Property[0];
+        case Property property:
+          return new[] { property };
+        default:
+          return new PropertiesMapper(definition);
+      }
+    }
+
+    private IEnumerable<Method> CreateMethod(object definition, MethodInfo[] methodInfos, MethodInfo methodInfo)
+    {
+      switch (definition)
+      {
+        case Method method:
+          (Type, string)[] parameterTypes = methodInfo.GetParameterTypeAndNames();
+          if (method.IsMatch(parameterTypes, new Type[0], methodInfo.ReturnType))
+            yield return method;
+          break;
+        case Property _:
+          yield break;
+        default:
+          MethodInfo actualMethodInfo = methodInfos
+            .FirstOrDefault(item => methodComparer.Equals(methodInfo, item));
+          if (actualMethodInfo != null)
+            yield return new MappedMethod(definition, actualMethodInfo);
+          break;
+      }
+    }
+
+    private static MethodInfo[] FindMethodInfos(object obj)
+    {
+      switch (obj)
+      {
+        case Method _:
+        case Property _:
+          return null;
+      }
+      return obj
+        .GetType()
+        .GetAllTypes()
+        .SelectMany(type => type.GetNotSpecialMethods())
+        .ToArray();
     }
   }
 }

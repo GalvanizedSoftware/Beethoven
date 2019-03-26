@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Generic;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
 using static GalvanizedSoftware.Beethoven.Core.Constants;
 
@@ -25,7 +24,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     {
       AddMaster(new TargetBindingParent(this));
       EventInvokers = AddMaster(new EventInvokers(this));
-      List<object> wrappers = GetWrappers(partDefinitions).ToList();
+      List<object> wrappers = new WrapperGenerator<T>(partDefinitions, GetWrappers).ToList();
       wrappers.AddRange(GetDefaultImplementationWrappers(partDefinitions, wrappers));
       propertiesSignatureChecker.CheckSignatures(wrappers);
       MasterInterceptor masterInterceptor = new MasterInterceptor(
@@ -37,60 +36,18 @@ namespace GalvanizedSoftware.Beethoven.Core
           .Concat(partDefinitions.OfType<IBindingParent>()));
     }
 
+    private IEnumerable<object> GetWrappers(object definition) =>
+      new PropertiesMapper(definition)
+        .OfType<object>()
+        .Concat(new MethodsMapper<T>(definition));
+
     public EventInvokers EventInvokers { get; }
 
-    public IEnumerable<TChild> Get<TChild>()
-    {
-      return objectProviderHandler.Get<TChild>();
-    }
+    public IEnumerable<TChild> Get<TChild>() => objectProviderHandler.Get<TChild>();
 
-    private static IEnumerable<object> GetWrappers(object[] partDefinitions)
-    {
-      foreach (object definition in partDefinitions)
-      {
-        switch (definition)
-        {
-          case null:
-            break;
-          case Property property:
-            yield return property;
-            break;
-          case Method method:
-            yield return method;
-            break;
-          case IEnumerable<Property> properties:
-            foreach (Property property in properties)
-              yield return property;
-            break;
-          case IEnumerable<Method> methods:
-            foreach (Method method in methods)
-              yield return method;
-            break;
-          case DefaultProperty _:
-          case DefaultMethod _:
-            // Dependent on what other wrappers are in there, so it has to be evaluated last
-            break;
-          case LinkedObjects linkedObjects:
-            foreach (Property subProperty in linkedObjects.GetProperties())
-              yield return subProperty;
-            foreach (Method mappedMethod in linkedObjects.GetMethods<T>())
-              yield return mappedMethod;
-            break;
-          default:
-            foreach (Property subProperty in new PropertiesMapper(definition))
-              yield return subProperty;
-            foreach (Method mappedMethod in new MethodsMapper<T>(definition))
-              yield return mappedMethod;
-            break;
-        }
-      }
-    }
-
-    private static IEnumerable<object> GetDefaultImplementationWrappers(object[] partDefinitions, IList<object> wrappers)
-    {
-      return GetDefaultProperties(partDefinitions, wrappers.OfType<Property>())
+    private static IEnumerable<object> GetDefaultImplementationWrappers(object[] partDefinitions, IList<object> wrappers) =>
+      GetDefaultProperties(partDefinitions, wrappers.OfType<Property>())
         .Concat(GetDefaultMethods(partDefinitions));
-    }
 
     private static IEnumerable<object> GetDefaultProperties(object[] partDefinitions, IEnumerable<Property> propertyWrappers)
     {
@@ -125,10 +82,8 @@ namespace GalvanizedSoftware.Beethoven.Core
         bindingParent.Bind(target);
     }
 
-    internal TMaster GetMaster<TMaster>()
-    {
-      return masters.TryGetValue(typeof(TMaster), out object value) ? (TMaster)value : default;
-    }
+    internal TMaster GetMaster<TMaster>() =>
+      masters.TryGetValue(typeof(TMaster), out object value) ? (TMaster)value : default;
 
     private TMaster AddMaster<TMaster>(TMaster instance)
     {
