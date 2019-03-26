@@ -28,14 +28,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
         .ToArray();
     }
 
-    public IEnumerator<Method> GetEnumerator()
-    {
-      return methods.AsEnumerable().GetEnumerator();
-    }
+    public IEnumerator<Method> GetEnumerator() => methods.AsEnumerable().GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
   }
 }
