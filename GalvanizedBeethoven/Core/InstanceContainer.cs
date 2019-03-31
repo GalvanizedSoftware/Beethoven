@@ -49,7 +49,8 @@ namespace GalvanizedSoftware.Beethoven.Core
       GetDefaultProperties(partDefinitions, wrappers.OfType<Property>())
         .Concat(GetDefaultMethods(partDefinitions));
 
-    private static IEnumerable<object> GetDefaultProperties(object[] partDefinitions, IEnumerable<Property> propertyWrappers)
+    private static IEnumerable<object> GetDefaultProperties(IEnumerable<object> partDefinitions, 
+      IEnumerable<Property> propertyWrappers)
     {
       DefaultProperty[] defaultProperties = partDefinitions.OfType<DefaultProperty>().ToArray();
       if (!defaultProperties.Any())
@@ -64,15 +65,12 @@ namespace GalvanizedSoftware.Beethoven.Core
         yield return defaultProperty.Create(propertyInfos[propertyName], propertyName);
     }
 
-    private static IEnumerable<object> GetDefaultMethods(object[] partDefinitions)
+    private static IEnumerable<object> GetDefaultMethods(IEnumerable<object> partDefinitions)
     {
       DefaultMethod defaultMethod = partDefinitions.OfType<DefaultMethod>().SingleOrDefault();
       if (defaultMethod == null)
         yield break;
-      MethodInfo[] methodInfos = typeof(T)
-        .GetMethodsAndInherited()
-        .ToArray();
-      foreach (MethodInfo methodInfo in methodInfos)
+      foreach (MethodInfo methodInfo in typeof(T).GetMethodsAndInherited())
         yield return defaultMethod.CreateMapped(methodInfo);
     }
 
