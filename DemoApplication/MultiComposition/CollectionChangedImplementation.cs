@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Specialized;
+using GalvanizedSoftware.Beethoven.Core.Binding;
+
 // ReSharper disable UnusedMember.Global
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
 {
-  internal class CollectionChangedImplementation<T> : INotifyCollectionChanged
+  internal class CollectionChangedImplementation<T> : INotifyCollectionChanged, IBindingParent
   {
-    private readonly Func<int> getRemovedIndex;
-    private readonly Func<object> masterGetter;
+    private readonly Func<T, int> getIndex;
     private NotifyCollectionChangedEventHandler collectionChanged = delegate { };
+    private int removedIndex;
+    private object master;
 
-    public CollectionChangedImplementation(Func<object> masterGetter, Func<int> getRemovedIndex)
+    public CollectionChangedImplementation(Func<T, int> getIndex)
     {
-      this.getRemovedIndex = getRemovedIndex;
-      this.masterGetter = masterGetter ?? (() => this);
+      this.getIndex = getIndex;
       CollectionChanged += delegate { };
     }
 
@@ -26,26 +28,36 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
 
     public void Add(T item)
     {
-      collectionChanged(masterGetter(), new NotifyCollectionChangedEventArgs(
+      collectionChanged(master, new NotifyCollectionChangedEventArgs(
         NotifyCollectionChangedAction.Add,
         new[] { item }));
     }
 
     public void Clear()
     {
-      collectionChanged(masterGetter(), new NotifyCollectionChangedEventArgs(
+      collectionChanged(master, new NotifyCollectionChangedEventArgs(
         NotifyCollectionChangedAction.Reset));
+    }
+
+    public bool PreRemove(T item)
+    {
+      removedIndex = getIndex(item);
+      return removedIndex != -1;
     }
 
     public bool Remove(T item)
     {
-      int index = getRemovedIndex();
-      if (index==-1)
+      if (removedIndex == -1)
         return false;
-      collectionChanged(masterGetter(), new NotifyCollectionChangedEventArgs(
+      collectionChanged(master, new NotifyCollectionChangedEventArgs(
         NotifyCollectionChangedAction.Remove,
-        new[] { item }, index));
+        new[] { item }, removedIndex));
       return true;
+    }
+
+    public void Bind(object target)
+    {
+      master = target;
     }
   }
 }

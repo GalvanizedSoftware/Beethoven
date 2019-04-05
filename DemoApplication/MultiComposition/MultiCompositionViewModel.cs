@@ -5,43 +5,17 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using GalvanizedSoftware.Beethoven.DemoApp.Common;
 using GalvanizedSoftware.Beethoven.DemoApp.Properties;
-using GalvanizedSoftware.Beethoven.Fluent;
-using GalvanizedSoftware.Beethoven.Generic;
-using GalvanizedSoftware.Beethoven.Generic.Events;
-using GalvanizedSoftware.Beethoven.Generic.Properties;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
 {
   internal sealed class MultiCompositionViewModel : INotifyPropertyChanged
   {
-    private readonly IPersonCollection personCollection;
-    private readonly TypeDefinition<IPerson> personTypeDefinition =
-      new TypeDefinition<IPerson>(
-          new DefaultProperty().
-            SkipIfEqual().
-            SetterGetter().
-            NotifyChanged());
-
     private IPerson selected;
+    private readonly Factory factory = new Factory();
 
     public MultiCompositionViewModel()
     {
-      List<IPerson> persons = new List<IPerson>();
-      RemovedLogger removedLogger = new RemovedLogger(person => persons.IndexOf(person));
-      CollectionChangedImplementation<IPerson> collectionChanged =
-        new CollectionChangedImplementation<IPerson>(() => personCollection, () => removedLogger.LastIndex);
-      TypeDefinition<IPersonCollection> typeDefinition =
-        new TypeDefinition<IPersonCollection>(
-          new LinkedObjects(
-            removedLogger,
-            persons,
-            collectionChanged));
-      IEventTrigger trigger = null;
-      typeDefinition.RegisterEvent(
-        nameof(IPersonCollection.CollectionChanged),
-        eventTrigger => trigger = eventTrigger);
-      personCollection = typeDefinition.Create();
-      collectionChanged.CollectionChanged += (sender, args) => trigger.Notify(sender, args);
+      IPersonCollection personCollection = factory.CreatePersonCollection();
       personCollection.CollectionChanged += (sender, args) => Trace.WriteLine($"sender: {sender}, type: {args.Action}");
       Items = personCollection;
       AddCommand = new Command(() => personCollection.Add(CreateNewPerson()));
@@ -51,7 +25,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
 
     private IPerson CreateNewPerson()
     {
-      IPerson newPerson = personTypeDefinition.Create();
+      IPerson newPerson = factory.CreatePerson();
       newPerson.FirstName = NewFirstName;
       newPerson.LastName = NewLastName;
       return newPerson;
