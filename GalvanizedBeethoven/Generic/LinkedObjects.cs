@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Binding;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
@@ -10,7 +11,7 @@ using GalvanizedSoftware.Beethoven.Generic.Methods;
 
 namespace GalvanizedSoftware.Beethoven.Generic
 {
-  public class LinkedObjects
+  public class LinkedObjects : IBindingParent
   {
     private readonly Dictionary<object, MethodInfo[]> implementationMethods;
     private readonly ExactMethodComparer methodComparer = new ExactMethodComparer();
@@ -108,6 +109,12 @@ namespace GalvanizedSoftware.Beethoven.Generic
         .GetAllTypes()
         .SelectMany(type => type.GetNotSpecialMethods())
         .ToArray();
+    }
+
+    public void Bind(object target)
+    {
+      foreach (IBindingParent bindingParent in partDefinitions.OfType<IBindingParent>())
+        bindingParent.Bind(target);
     }
   }
 }
