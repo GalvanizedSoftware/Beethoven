@@ -11,9 +11,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.ClassInjection
 
     public ClassInjectionViewModel()
     {
-      Person = new PersonFactory().CreatePerson();
-      Person.FirstName = "John";
-      Person.LastName = "Johnson";
+      Person = new PersonFactory().CreatePerson("John", "Johnson");
     }
 
     public IPerson Person

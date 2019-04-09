@@ -6,9 +6,13 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.ClassInjection
   {
     private readonly BeethovenFactory factory = new BeethovenFactory();
 
-    public IPerson CreatePerson()
+    public IPerson CreatePerson(string firstName, string lastName)
     {
-      FullName fullName = new FullName();
+      FullName fullName = new FullName
+      {
+        FirstName = firstName,
+        LastName = lastName
+      };
       FactoryHelper<IPerson> factoryHelper = new FactoryHelper<IPerson>();
       return factory.Generate<IPerson>(
         fullName,
