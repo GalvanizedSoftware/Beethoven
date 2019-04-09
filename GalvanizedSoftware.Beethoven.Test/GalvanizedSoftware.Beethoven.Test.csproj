@@ -1,103 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{427D067D-91CF-43C3-BD58-111311C2234F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GalvanizedSoftware.Beethoven.Test</RootNamespace>
-    <AssemblyName>GalvanizedSoftware.Beethoven.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>UnitTest</TestProjectType>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
+    <TargetFramework>net472</TargetFramework>
+    <Authors>Galvanized Software</Authors>
+    <Company>Galvanized Software</Company>
+    <Version>0.4.3.0</Version>
+    <AssemblyVersion>0.4.3.0</AssemblyVersion>
+    <Copyright>Copyright 2018 Galvanized Software</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CompositeTests\AutoAssignTests.cs" />
-    <Compile Include="CompositeTests\IocFactory.cs" />
-    <Compile Include="CompositeTests\ICompanyInformation.cs" />
-    <Compile Include="CompositeTests\ICompany.cs" />
-    <Compile Include="EventTests\EventTests.cs" />
-    <Compile Include="EventTests\ITestEvents.cs" />
-    <Compile Include="MethodTests\DefaultMethodTests.cs" />
-    <Compile Include="MethodTests\Implementations\AnyValue.cs" />
-    <Compile Include="MethodTests\Implementations\CustomImplentation.cs" />
-    <Compile Include="MethodTests\Implementations\GenericMethods2.cs" />
-    <Compile Include="MethodTests\GenericMethodsTests.cs" />
-    <Compile Include="MethodTests\Implementations\GenericMethods.cs" />
-    <Compile Include="MethodTests\Implementations\Logger.cs" />
-    <Compile Include="MethodTests\Implementations\PartialMethods.cs" />
-    <Compile Include="MethodTests\Implementations\WithParametersImplementation.cs" />
-    <Compile Include="MethodTests\Interfaces\IGenericClass.cs" />
-    <Compile Include="MethodTests\Interfaces\IGenericMethods.cs" />
-    <Compile Include="MethodTests\Implementations\InvalidSignature.cs" />
-    <Compile Include="MethodTests\Interfaces\ITestMethods.cs" />
-    <Compile Include="MethodTests\LinkedMethodsReturnValueTests.cs" />
-    <Compile Include="MethodTests\MethodMapperTests.cs" />
-    <Compile Include="MethodTests\LinkedMethodsTests.cs" />
-    <Compile Include="MethodTests\PartialMatchTests.cs" />
-    <Compile Include="Performance\Classic.cs" />
-    <Compile Include="Performance\PerformanceTests.cs" />
-    <Compile Include="Performance\IPerformanceTest.cs" />
-    <Compile Include="Performance\Factory.cs" />
-    <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="PropertyTests\DefaultImplementation.cs" />
-    <Compile Include="PropertyTests\DefaultImplementation2.cs" />
-    <Compile Include="PropertyTests\DefaultPropertyTests.cs" />
-    <Compile Include="PropertyTests\ITestProperties.cs" />
-    <Compile Include="MethodTests\InvalidSignatureTests.cs" />
-    <Compile Include="MethodTests\Implementations\OutAndRefImplementation.cs" />
-    <Compile Include="PropertyTests\PropertyInitialValueTests.cs" />
-    <Compile Include="PropertyTests\PropertyDelegatedGetterTests.cs" />
-    <Compile Include="PropertyTests\PropertyValidityCheckTests.cs" />
-    <Compile Include="PropertyTests\PropertySkipIfEqualTests.cs" />
-    <Compile Include="PropertyTests\PropertyDelegatedSetterTests.cs" />
-    <Compile Include="PropertyTests\PropertyNotSupportedTests.cs" />
-    <Compile Include="PropertyTests\PropertyMappedTests.cs" />
-    <Compile Include="PropertyTests\PropertyRangeCheckTests.cs" />
-    <Compile Include="PropertyTests\PropertySetterGetterTests.cs" />
-    <Compile Include="PropertyTests\PropertyConstantTests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MethodTests\AutoMapMethodTests.cs" />
-    <Compile Include="MethodTests\Implementations\SimpleImplementation.cs" />
-    <Compile Include="PropertyTests\PropertyLazyCreatorTests.cs" />
-    <Compile Include="VariousTests\Implementations\FullImplements.cs" />
-    <Compile Include="VariousTests\Implementations\InvalidImplementation1.cs" />
-    <Compile Include="VariousTests\Implementations\InvalidImplementation2.cs" />
-    <Compile Include="VariousTests\Implementations\InvalidImplementation3.cs" />
-    <Compile Include="VariousTests\ImplementsTests.cs" />
-    <Compile Include="VariousTests\ITestImplements.cs" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj">
       <Project>{49f5b760-8f8d-4a0b-978e-142266a03389}</Project>
@@ -106,17 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Castle.Core">
-      <Version>4.3.1</Version>
+      <Version>4.4.0</Version>
     </PackageReference>
     <PackageReference Include="FakeItEasy">
       <Version>5.1.0</Version>
     </PackageReference>
-    <PackageReference Include="MSTest.TestAdapter">
-      <Version>1.4.0</Version>
-    </PackageReference>
-    <PackageReference Include="MSTest.TestFramework">
-      <Version>1.4.0</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager">
       <Version>4.5.0</Version>
     </PackageReference>
@@ -127,9 +38,7 @@
       <Version>4.5.2</Version>
     </PackageReference>
     <PackageReference Include="Unity">
-      <Version>5.9.5</Version>
+      <Version>5.10.3</Version>
     </PackageReference>
   </ItemGroup>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
