@@ -16,7 +16,7 @@
           <StackPanel Orientation="Horizontal">
             <TextBlock Margin="5,0" Text="{Binding Name}"/>
             <TextBlock Margin="5,0" Text="{Binding Price}"/>
-            <TextBlock Margin="5,0" Text="{Binding Weight}"/>
+            <TextBlock Margin="5,0" Text="{Binding Weight, StringFormat='0.0'}"/>
           </StackPanel>
         </DataTemplate>
       </ItemsControl.ItemTemplate>
