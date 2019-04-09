@@ -26,16 +26,45 @@ namespace GalvanizedSoftware.Beethoven.Generic
 
     public IEnumerable GetWrappers<T>() where T : class
     {
-      foreach (Property property in partDefinitions.SelectMany(CreateProperties))
+      foreach (Property property in GetProperties())
         yield return property;
-      foreach (Method method in typeof(T).GetAllMethodsAndInherited().Select(CreateMethod))
+      foreach (Method method in GetMethods<T>())
         yield return method;
     }
 
-    public IEnumerable<Property> GetProperties(IEnumerable<Property> properties)
+    private IEnumerable<Method> GetMethods<T>() where T : class
+    {
+      return typeof(T)
+        .GetAllMethodsAndInherited()
+        .Where(methodInfo => !methodInfo.IsSpecialName)
+        .Select(CreateMethod);
+    }
+
+    //private IEnumerable<Property> LinkProperties<T>() where T : class
+    //{
+    //  Property[] properties = partDefinitions.SelectMany(CreateProperties).ToArray();
+    //  var linkedProperties = properties
+    //    .Select(property => (property.PropertyType, property.Name, property))
+    //    .GroupBy(tuple => (tuple.PropertyType, tuple.Name), tuple => tuple)
+    //    .ToDictionary(tuples => tuples.Key, tuples => tuples
+    //      .Select(tuple => tuple.property)
+    //      )
+    //    .Select(pair => pair
+    //      .Value
+    //      .Aggregate(Property.Create(pair.Key.PropertyType, pair.Key.Name),
+    //        (existingProperty, property) => existingProperty.Add(property)));
+
+    //  string[] names = properties.Select(property => property.Name).ToArray();
+    //  foreach (string name in names)
+    //  {
+    //    return properties.Where(property => )
+    //  }
+    //}
+
+    public IEnumerable<Property> GetProperties()
     {
       Dictionary<string, List<Property>> propertiesMap = new Dictionary<string, List<Property>>();
-      foreach (Property property in properties)
+      foreach (Property property in partDefinitions.SelectMany(CreateProperties))
       {
         string propertyName = property.Name;
         if (!propertiesMap.TryGetValue(propertyName, out List<Property> existingProperties))
@@ -45,8 +74,13 @@ namespace GalvanizedSoftware.Beethoven.Generic
         }
         existingProperties.Add(property);
       }
-      return propertiesMap.Select(pair =>
-        Property.Create(pair.Value.First().PropertyType, pair.Key, pair.Value));
+
+      foreach (KeyValuePair<string, List<Property>> pair in propertiesMap)
+      {
+        Property property = Property.Create(pair.Value.First().PropertyType, pair.Key, pair.Value);
+        if (property != null)
+          yield return property;
+      }
     }
 
     private Method CreateMethod(MethodInfo methodInfo)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -7,6 +8,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
   public abstract class Property
   {
     private static readonly Type type = typeof(Property);
+    private static readonly MethodInfo createGenericMethodInfo = type.
+      GetMethod(nameof(CreateGeneric), Constants.StaticResolveFlags);
 
     protected Property(string name)
     {
@@ -26,20 +29,19 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
 
     internal abstract void InvokeSet(object newValue);
 
-    public static Property Create(Type propertyType, string name, params object[] propertyDefinitions)
+    public static Property Create(Type propertyType, string name, IEnumerable<Property> propertyDefinitions)
     {
-      return (Property)type.
-        GetMethod(nameof(CreateGeneric), BindingFlags.Static)?.
-        MakeGenericMethod(propertyType).
-        Invoke(type, new object[] { name, propertyDefinitions });
+      return (Property)createGenericMethodInfo
+        .MakeGenericMethod(propertyType)
+        .Invoke(type, new object[] { name, propertyDefinitions.ToArray() });
     }
 
-    public static Property CreateGeneric<T>(string name, IPropertyDefinition<T>[] propertyDefinitions)
+    private static Property CreateGeneric<T>(string name, Property[] propertyDefinitions)
     {
       Property<T> property = new Property<T>(name);
       return propertyDefinitions.Length == 0 ?
         property :
-        new Property<T>(property, propertyDefinitions);
+        new Property<T>(property, propertyDefinitions.OfType<IPropertyDefinition<T>>().ToArray());
     }
 
     internal bool IsMatch(MethodInfo methodInfo)
