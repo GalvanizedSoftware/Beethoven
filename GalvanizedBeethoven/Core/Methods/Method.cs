@@ -19,13 +19,19 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 
     internal abstract void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo);
 
-    public void Intercept(IInvocation invocation) => 
+    public void Intercept(IInvocation invocation) =>
       Invoke(value => invocation.ReturnValue = value, invocation.Arguments, invocation.GenericArguments, invocation.Method);
 
     public bool IsMatchToFlowControlled((Type, string)[] parameterTypeAndNames, Type[] genericArguments, Type returnType) =>
       IsMatch(
-        parameterTypeAndNames.AppendReturnValue(returnType).ToArray(), 
-        genericArguments, 
+        parameterTypeAndNames.AppendReturnValue(returnType).ToArray(),
+        genericArguments,
         typeof(bool).MakeByRefType());
+
+    public bool IsNonGenericMatch(MethodInfo methodInfo) =>
+        IsMatch(
+          methodInfo.GetParameterTypeAndNames(),
+          new Type[0],
+          methodInfo.ReturnType);
   }
 }

@@ -102,9 +102,12 @@ namespace GalvanizedSoftware.Beethoven.Generic
       switch (definition)
       {
         case Method _:
+        case IEnumerable<Method> _:
           return new Property[0];
         case Property property:
           return new[] { property };
+        case IEnumerable<Property> properties:
+          return properties;
         default:
           return new PropertiesMapper(definition);
       }
@@ -115,11 +118,15 @@ namespace GalvanizedSoftware.Beethoven.Generic
       switch (definition)
       {
         case Method method:
-          (Type, string)[] parameterTypes = methodInfo.GetParameterTypeAndNames();
-          if (method.IsMatch(parameterTypes, new Type[0], methodInfo.ReturnType))
+          if (method.IsNonGenericMatch(methodInfo))
             yield return method;
           break;
+        case IEnumerable<Method> methods:
+          foreach (Method matchingMethod in methods.Where(method => method.IsNonGenericMatch(methodInfo)))
+            yield return matchingMethod;
+          break;
         case Property _:
+        case IEnumerable<Property> _:
           yield break;
         default:
           MethodInfo actualMethodInfo = methodInfos
@@ -135,7 +142,9 @@ namespace GalvanizedSoftware.Beethoven.Generic
       switch (obj)
       {
         case Method _:
+        case IEnumerable<Method> _:
         case Property _:
+        case IEnumerable<Property> _:
           return null;
       }
       return obj
