@@ -15,14 +15,10 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate.Server
       this.cultureInfo = cultureInfo;
     }
 
-    internal string GetBirthDateString()
-    {
-      return personV2.BirthDate.ToString("d", cultureInfo);
-    }
+    internal string GetBirthDateString() => 
+      personV2.BirthDate.ToString("d", cultureInfo);
 
-    internal void SetBirthDateDateTime(string dateTimeString)
-    {
+    internal void SetBirthDateDateTime(string dateTimeString) => 
       personV2.BirthDate = DateTime.Parse(dateTimeString, cultureInfo);
-    }
   }
 }
