@@ -167,10 +167,8 @@ And finally the code needed to do duck-typing by wrapping (duck wrapping?):
   {
     private readonly BeethovenFactory beethovenFactory = new BeethovenFactory();
 
-    public IDisplayName CreateDisplayName(object instance)
-    {
-      return beethovenFactory.Generate<IDisplayName>(instance);
-    }
+    public IDisplayName CreateDisplayName(object instance) =>
+      beethovenFactory.Generate<IDisplayName>(instance);
   }
 ```
 Will work for both classes.
