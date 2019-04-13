@@ -83,6 +83,29 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
     }
 
     [TestMethod]
+    public void AutoAssignTest4()
+    {
+      Dictionary<string, object> defaultValues = new Dictionary<string, object>
+      {
+        { "Name", "The evil company"},
+        { "Address",2460}
+      };
+      BeethovenFactory factory = new BeethovenFactory();
+      IValueLookup lookup = new CompositeValueLookup(
+        new DictionaryValueLookup(defaultValues),
+        new InterfaceFactoryValueLookup((type, name) => factory.Generate(type)));
+      factory.GeneralPartDefinitions = new object[]
+      {
+        new DefaultProperty()
+          .ValueLookup(lookup)
+          .SetterGetter()
+      };
+      ICompany company = factory.Generate<ICompany>();
+      Assert.AreEqual("The evil company", company.Information.Name);
+      Assert.AreEqual(null, company.Information.Address);
+    }
+
+    [TestMethod]
     public void AutoAssignTestIoc()
     {
       UnityContainer unityContainer = new UnityContainer();

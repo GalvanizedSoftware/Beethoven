@@ -1,6 +1,7 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Fluent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
@@ -38,6 +39,16 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
         new Property<int>(nameof(ITestProperties.Property1))
         .Constant(5));
       test.Property1 = 42;
+    }
+
+    [TestMethod]
+    public void TestMethodProperty4()
+    {
+      ITestProperties test = new TypeDefinition<ITestProperties>()
+        .Add(new Property<int>(nameof(ITestProperties.Property1))
+          .Constant(5))
+        .Create();
+      test.Property1 = 5;
     }
   }
 }

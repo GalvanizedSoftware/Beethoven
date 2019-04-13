@@ -158,5 +158,20 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       instance.Simple();
       CollectionAssert.AreEquivalent(new[] { "Before", "After" }, log);
     }
+
+    [TestMethod]
+    public void LinkedMethodsTest10()
+    {
+      List<string> log = new List<string>();
+      SimpleImplementation implementation = new SimpleImplementation();
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
+        new LinkedObjects(
+          new LambdaMethod<Action>("Simple", () => log.Add("Before")),
+          implementation,
+          new LambdaMethod<Action>("Simple", () => log.Add("After"))));
+      instance.Simple();
+      CollectionAssert.AreEquivalent(new[] { "Before", "After" }, log);
+    }
   }
 }

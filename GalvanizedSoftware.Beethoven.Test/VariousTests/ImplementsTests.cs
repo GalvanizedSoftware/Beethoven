@@ -1,4 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Test.VariousTests.Implementations;
+using GalvanizedSoftware.Beethoven.Test.VariousTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GalvanizedSoftware.Beethoven.Test.VariousTests
@@ -34,6 +35,12 @@ namespace GalvanizedSoftware.Beethoven.Test.VariousTests
 
     [TestMethod]
     public void ImplementsTest5()
+    {
+      Assert.IsFalse(beethovenFactory.Implements<ITestImplements, InvalidImplementation4>());
+    }
+
+    [TestMethod]
+    public void ImplementsTest6()
     {
       ITestImplements duckWrapper = beethovenFactory.Generate<ITestImplements>(new FullImplements());
       duckWrapper.Property1 = 5;
