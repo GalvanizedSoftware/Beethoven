@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Core
 
     public IEnumerable<MethodInfo> FindMissing()
     {
-      return interfaceMethods.Except(classMethods, new EquivalentMethodComparer()).ToArray();
+      return interfaceMethods.Except(classMethods, new ExactMethodComparer());
     }
   }
 }
