@@ -6,13 +6,12 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Galvanized Software</Authors>
     <Company>Galvanized Software</Company>
-    <Description>Fluent.style class implementation / composition. Automapping, duck-typing, auto-implementation and more ...</Description>
+    <Description>Fluent-style class implementation / composition. Automapping, duck-typing, auto-implementation and more ...</Description>
     <PackageTags>composition;dynamic creation;duck typing;castle.core;auto interface implementation</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Version>0.4.9.0</Version>
-    <AssemblyVersion>0.4.3.0</AssemblyVersion>
     <PackageLicenseUrl></PackageLicenseUrl>
-    <Copyright>Copyright 2018 Galvanized Software</Copyright>
+    <Copyright>Copyright 2019-2019 Galvanized Software</Copyright>
     <PackageProjectUrl>https://github.com/GalvanizedSoftware/Beethoven</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GalvanizedSoftware/Beethoven</RepositoryUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -24,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.4.0" />
+    <PackageReference Include="Castle.Core" Version="4.1.0" />
   </ItemGroup>
 
 </Project>
