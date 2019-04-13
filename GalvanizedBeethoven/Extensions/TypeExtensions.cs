@@ -47,13 +47,6 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         .Where(info => !info.IsSpecialName);
     }
 
-    internal static IEnumerable<EventInfo> GetAllEventsAndInherited(this Type type)
-    {
-      return type.GetAllTypes()
-        .SelectMany(childType => childType
-          .GetEvents(ResolveFlags));
-    }
-
     public static object Create1(this Type type, Type genericType1, params object[] constructorParameters)
     {
       Type genericType = type.MakeGenericType(genericType1);
