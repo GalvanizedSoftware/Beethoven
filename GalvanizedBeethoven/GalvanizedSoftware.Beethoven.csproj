@@ -9,7 +9,7 @@
     <Description>Fluent.style class implementation / composition. Automapping, duck-typing, auto-implementation and more ...</Description>
     <PackageTags>composition;dynamic creation;duck typing;castle.core;auto interface implementation</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.4.3.0</Version>
+    <Version>0.4.9.0</Version>
     <AssemblyVersion>0.4.3.0</AssemblyVersion>
     <PackageLicenseUrl></PackageLicenseUrl>
     <Copyright>Copyright 2018 Galvanized Software</Copyright>
