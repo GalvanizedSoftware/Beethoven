@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GalvanizedSoftware.Beethoven.Generic.Events;
 
-namespace GalvanizedSoftware.Beethoven.Fluent
+namespace GalvanizedSoftware.Beethoven.Generic
 {
   public class TypeDefinition<T> where T : class
   {
