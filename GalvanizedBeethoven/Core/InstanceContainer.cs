@@ -37,8 +37,8 @@ namespace GalvanizedSoftware.Beethoven.Core
     }
 
     private IEnumerable<object> GetWrappers(object definition) =>
-      new PropertiesMapper(definition)
-        .OfType<object>()
+      new object[0]
+        .Concat(new PropertiesMapper(definition))
         .Concat(new MethodsMapper<T>(definition));
 
     public EventInvokers EventInvokers { get; }
@@ -49,7 +49,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       GetDefaultProperties(partDefinitions, wrappers.OfType<Property>())
         .Concat(GetDefaultMethods(partDefinitions));
 
-    private static IEnumerable<object> GetDefaultProperties(IEnumerable<object> partDefinitions, 
+    private static IEnumerable<object> GetDefaultProperties(IEnumerable<object> partDefinitions,
       IEnumerable<Property> propertyWrappers)
     {
       DefaultProperty[] defaultProperties = partDefinitions.OfType<DefaultProperty>().ToArray();
