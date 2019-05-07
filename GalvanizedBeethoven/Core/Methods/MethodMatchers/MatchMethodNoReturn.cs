@@ -11,12 +11,10 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
     private readonly (Type, string)[] localParameters;
     private readonly string mainParameterName;
 
-    public MatchMethodNoReturn(object instance, string targetName, string mainParameterName)
+    public MatchMethodNoReturn(Type type, string targetName, string mainParameterName)
     {
       this.mainParameterName = mainParameterName;
-      methodInfo = instance
-        .GetType()
-        .FindSingleMethod(targetName);
+      methodInfo = type.FindSingleMethod(targetName);
       localParameters = methodInfo.GetParameterTypeAndNames();
     }
 

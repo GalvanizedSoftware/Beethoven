@@ -34,7 +34,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     public PartialMatchMethod(string mainName, object instance, string targetName, string mainParameterName) :
-      base(mainName, new MatchMethodNoReturn(instance, targetName, mainParameterName))
+      base(mainName, new MatchMethodNoReturn(instance.GetType(), targetName, mainParameterName))
     {
       Instance = instance;
       methodInfo = instance
