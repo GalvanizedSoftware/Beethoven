@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
 {
-  public class MatchLinkedReturnValue: IMethodMatcher
+  public class MatchLinked: IMethodMatcher
   {
     private readonly IMethodMatcher[] methodList;
 
-    internal MatchLinkedReturnValue(IEnumerable<IMethodMatcher> methodList)
+    internal MatchLinked(IEnumerable<IMethodMatcher> methodList)
     {
       this.methodList = methodList.ToArray();
     }

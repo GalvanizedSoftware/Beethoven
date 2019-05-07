@@ -25,7 +25,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     private LinkedMethodsReturnValue(string name, Method[] methodList) : 
-      base(name, new MatchLinkedReturnValue(methodList.Select(method => method.MethodMatcher)))
+      base(name, new MatchLinked(methodList.Select(method => method.MethodMatcher)))
     {
       this.methodList = methodList;
       objectProviderHandler = new ObjectProviderHandler(methodList);
