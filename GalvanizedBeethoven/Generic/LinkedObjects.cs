@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -40,27 +39,6 @@ namespace GalvanizedSoftware.Beethoven.Generic
         .Where(methodInfo => !methodInfo.IsSpecialName)
         .Select(CreateMethod);
     }
-
-    //private IEnumerable<Property> LinkProperties<T>() where T : class
-    //{
-    //  Property[] properties = partDefinitions.SelectMany(CreateProperties).ToArray();
-    //  var linkedProperties = properties
-    //    .Select(property => (property.PropertyType, property.Name, property))
-    //    .GroupBy(tuple => (tuple.PropertyType, tuple.Name), tuple => tuple)
-    //    .ToDictionary(tuples => tuples.Key, tuples => tuples
-    //      .Select(tuple => tuple.property)
-    //      )
-    //    .Select(pair => pair
-    //      .Value
-    //      .Aggregate(Property.Create(pair.Key.PropertyType, pair.Key.Name),
-    //        (existingProperty, property) => existingProperty.Add(property)));
-
-    //  string[] names = properties.Select(property => property.Name).ToArray();
-    //  foreach (string name in names)
-    //  {
-    //    return properties.Where(property => )
-    //  }
-    //}
 
     public IEnumerable<Property> GetProperties()
     {
