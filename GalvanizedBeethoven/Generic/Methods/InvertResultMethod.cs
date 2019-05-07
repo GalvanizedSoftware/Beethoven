@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Methods;
 
-namespace GalvanizedSoftware.Beethoven.Core.Methods
+namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
   public class InvertResultMethod : Method
   {
     private readonly Method method;
 
-    public InvertResultMethod(Method method) : base(method.Name)
+    public InvertResultMethod(Method method) : 
+      base(method.Name, method.MethodMatcher)
     {
       this.method = method;
-    }
-
-    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
-    {
-      return method.IsMatch(parameters, genericArguments, returnType);
     }
 
     internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo)

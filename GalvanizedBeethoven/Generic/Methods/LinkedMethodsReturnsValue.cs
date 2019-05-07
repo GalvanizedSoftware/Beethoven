@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -23,7 +24,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
     }
 
-    private LinkedMethodsReturnValue(string name, Method[] methodList) : base(name)
+    private LinkedMethodsReturnValue(string name, Method[] methodList) : 
+      base(name, new MatchLinkedReturnValue(methodList.Select(method => method.MethodMatcher)))
     {
       this.methodList = methodList;
       objectProviderHandler = new ObjectProviderHandler(methodList);
@@ -81,13 +83,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Add(new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
 
     public LinkedMethodsReturnValue PartialMatchLambda<T>(T actionOrFunc) => 
-      Add(new PartialMatchLamda<T>(Name, actionOrFunc));
-
-    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
-    {
-      return methodList.Any(method => method.IsMatch(parameters, genericArguments, returnType)) ||
-             methodList.Any(method => method.IsMatchToFlowControlled(parameters, genericArguments, returnType));
-    }
+      Add(new PartialMatchLambda<T>(Name, actionOrFunc));
 
     internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
     {
@@ -105,7 +101,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Type[] genericArguments, MethodInfo methodInfo)
     {
       Type returnType = methodInfo.ReturnType;
-      if (method.IsMatch(parameterTypeAndNames, genericArguments, returnType))
+      IMethodMatcher matcher = method.MethodMatcher;
+      if (matcher.IsMatch(parameterTypeAndNames, genericArguments, returnType))
       {
         object returnValueLocal = returnValue;
         Action<object> returnAction = newValue => returnValueLocal = newValue;
@@ -113,7 +110,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         returnValue = returnValueLocal;
         return true;
       }
-      if (!method.IsMatchToFlowControlled(parameterTypeAndNames, genericArguments, returnType))
+      if (!matcher.IsMatchToFlowControlled(parameterTypeAndNames, genericArguments, returnType))
         throw new MissingMethodException();
       bool result = true;
       Action<object> localReturn = newValue => result = (bool)newValue;

@@ -4,6 +4,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -14,22 +15,26 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly (Type, string)[] localParameters;
     private object mainInstance;
     private readonly Type mainType;
-    private readonly string mainParameterName = "";
+    private readonly string mainParameterName;
 
     public PartialMatchMethod(string mainName, object instance) :
-      this(mainName, instance, mainName)
+      this(mainName, instance, mainName, "")
+    {
+    }
+
+    public PartialMatchMethod(string mainName, object instance, string targetName) :
+      this(mainName, instance, targetName, "")
     {
     }
 
     public PartialMatchMethod(string mainName, object instance, Type mainType, string mainParameterName) :
-      this(mainName, instance, mainName)
+      this(mainName, instance, mainName, mainParameterName)
     {
       this.mainType = mainType;
-      this.mainParameterName = mainParameterName;
     }
 
-    public PartialMatchMethod(string mainName, object instance, string targetName) :
-      base(mainName)
+    public PartialMatchMethod(string mainName, object instance, string targetName, string mainParameterName) :
+      base(mainName, new MatchMethodNoReturn(instance, targetName, mainParameterName))
     {
       Instance = instance;
       methodInfo = instance
@@ -37,25 +42,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         .FindSingleMethod(targetName);
       localParameters = methodInfo.GetParameterTypeAndNames();
       hasReturnType = methodInfo.HasReturnType();
+      this.mainParameterName = mainParameterName;
     }
 
     public object Instance { private get; set; }
 
-    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
-    {
-      if (methodInfo.ReturnType == typeof(bool) && returnType.IsByRef == false)
-        return false;
-      (Type, string)[] checkedParameters = localParameters
-        .Where(tuple => tuple.Item2 != mainParameterName)
-        .ToArray();
-      return checkedParameters
-          .All(parameters.Contains);
-    }
-
-    public void Bind(object target)
-    {
+    public void Bind(object target) => 
       mainInstance = target;
-    }
 
     internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo masterMethodInfo)
     {

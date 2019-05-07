@@ -149,7 +149,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       List<string> log = new List<string>();
       SimpleImplementation implementation = new SimpleImplementation();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
-      string name = nameof(ITestMethods.Simple);
+      const string name = nameof(ITestMethods.Simple);
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedObjects(
             new LambdaMethod<Action>(name, () => log.Add("Before")),
@@ -172,6 +172,31 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
           new LambdaMethod<Action>("Simple", () => log.Add("After"))));
       instance.Simple();
       CollectionAssert.AreEquivalent(new[] { "Before", "After" }, log);
+    }
+
+    [TestMethod]
+    public void LinkedMethodsTest11()
+    {
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      WithParametersImplementation implentation = new WithParametersImplementation();
+      ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
+        new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
+          .AutoMappedMethod(implentation)
+          .PartialMatchLambda<Func<int>>(() => 5));
+      int result = instance.WithParameters("fdgdf", "afasf", 3);
+      Assert.AreEqual(5, result);
+    }
+
+    [TestMethod]
+    public void LinkedMethodsTest12()
+    {
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      IGenericMethods instance = beethovenFactory.Generate<IGenericMethods>(
+        new LinkedMethodsReturnValue(nameof(IGenericMethods.Simple))
+          .Lambda<Func<bool>>(() => true)
+          .PartialMatchLambda<Func<bool>>(() => false)
+          .Lambda<Func<bool>>(() => false));
+      Assert.AreEqual(true, instance.Simple<bool>());
     }
   }
 }

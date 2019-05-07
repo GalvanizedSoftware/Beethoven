@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -10,20 +11,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly Func<T, bool> condition;
 
     public ReturnValueCheck(string name, Func<T, bool> condition) :
-      base(name)
+      base(name, new MatchFlowControl())
     {
       this.condition = condition;
     }
 
-    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
-    {
-      return returnType != typeof(bool) && parameters.LastOrDefault().Item1?.IsByRef == true;
-    }
-
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _)
-    {
-      T value = (T)parameters.LastOrDefault();
-      returnAction(condition(value));
-    }
+    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _) => 
+      returnAction(condition((T)parameters.LastOrDefault()));
   }
 }

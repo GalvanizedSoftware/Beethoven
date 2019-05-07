@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
 
-namespace GalvanizedSoftware.Beethoven.Core.Methods
+namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  internal class MappedDefaultMethod : Method
+  public class MappedDefaultMethod : Method
   {
     private readonly MethodInfo methodInfo;
     private readonly Func<MethodInfo, object[], object> mainFunc;
     private readonly Type returnType;
 
     public MappedDefaultMethod(MethodInfo methodInfo, Func<MethodInfo, object[], object> mainFunc) :
-      base(methodInfo.Name)
+      base(methodInfo.Name, new MatchMethodInfoExact(methodInfo))
     {
       this.methodInfo = methodInfo;
       this.mainFunc = mainFunc;
       returnType = methodInfo.ReturnType;
-    }
-
-    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type matchReturnType)
-    {
-      return methodInfo.IsMatch(parameters, genericArguments, matchReturnType);
     }
 
     internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _)

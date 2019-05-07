@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
@@ -23,7 +24,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
     }
 
-    private LinkedMethods(string name, Method[] methodList) : base(name)
+    private LinkedMethods(string name, Method[] methodList) : 
+      base(name, new MatchLinkedNoReturn(methodList.Select(method => method.MethodMatcher)))
     {
       this.methodList = methodList;
       objectProviderHandler = new ObjectProviderHandler(methodList);
@@ -73,12 +75,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       return this;
     }
 
-    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
-    {
-      return methodList.Any(method => method.IsMatch(parameters, genericArguments, returnType)) ||
-             methodList.Any(method => method.IsMatch(parameters, genericArguments, typeof(bool).MakeByRefType()));
-    }
-
     internal override void Invoke(Action<object> returnAction, object[] parameterValues, Type[] genericArguments, MethodInfo methodInfo)
     {
       (Type, string)[] parameterTypeAndNames = methodInfo.GetParameterTypeAndNames();
@@ -93,12 +89,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Type[] genericArguments, MethodInfo methodInfo)
     {
       Type returnType = methodInfo.ReturnType;
-      if (method.IsMatch(parameterTypes, genericArguments, returnType))
+      if (method.MethodMatcher.IsMatch(parameterTypes, genericArguments, returnType))
       {
         method.Invoke(null, parameters, genericArguments, methodInfo);
         return true;
       }
-      if (!method.IsMatch(parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
+      if (!method.MethodMatcher.IsMatch(parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
         throw new MissingMethodException();
       bool result = true;
       Action<object> localReturn = newValue => result = (bool)newValue;

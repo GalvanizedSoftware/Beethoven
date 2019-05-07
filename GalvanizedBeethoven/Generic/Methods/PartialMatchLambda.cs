@@ -3,37 +3,34 @@ using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class PartialMatchLamda<T> : Method
+  public class PartialMatchLambda<T> : Method
   {
     private readonly MethodInfo methodInfo;
+    private readonly object target;
     private readonly bool hasReturnType;
     private readonly (Type, string)[] localParameters;
-    private readonly string mainParameterName = "";
-    private readonly Delegate lambdaDelegate;
 
-    public PartialMatchLamda(string mainName, T actionOrFunc) :
-      base(mainName)
+    static PartialMatchLambda()
     {
-      lambdaDelegate = actionOrFunc as Delegate;
-      if (lambdaDelegate == null)
-        throw new InvalidCastException("You must supply a func or delegate");
+      typeof(T).CheckForDelegateType();
+    }
+
+    public PartialMatchLambda(string mainName, T actionOrFunc) :
+      this(mainName, actionOrFunc as Delegate)
+    {
+    }
+
+    public PartialMatchLambda(string mainName, Delegate lambdaDelegate) :
+      base(mainName, new MatchLambdaPartiallyNoReturn(lambdaDelegate))
+    {
       methodInfo = lambdaDelegate.Method;
       localParameters = methodInfo.GetParameterTypeAndNames();
       hasReturnType = methodInfo.HasReturnType();
-    }
-
-    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
-    {
-      if (methodInfo.ReturnType == typeof(bool) && returnType.IsByRef == false)
-        return false;
-      (Type, string)[] checkedParameters = localParameters
-        .Where(tuple => tuple.Item2 != mainParameterName)
-        .ToArray();
-      return checkedParameters
-          .All(parameters.Contains);
+      target = lambdaDelegate.Target;
     }
 
     internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo masterMethodInfo)
@@ -48,7 +45,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       object[] localParameterValues = indexes
         .Select(index => parameters[index])
         .ToArray();
-      object returnValue = methodInfo.Invoke(lambdaDelegate.Target, localParameterValues, genericArguments);
+      object returnValue = methodInfo.Invoke(target, localParameterValues, genericArguments);
       // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
       localParameterValues.Zip(indexes,
         (value, index) => SetIfValid(parameters, index, value, masterParameters))

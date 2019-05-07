@@ -81,11 +81,26 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
           .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
-          .PartialMatchLambda<Func<bool>>(() => called = true));
+          .PartialMatchLambda<Action>(() => called = true));
       string text2 = "wetwt";
       instance.OutAndRef(out string _, ref text2, 5);
       Assert.IsTrue(called);
     }
 
+    [TestMethod]
+    public void LinkedMethodsReturnValueTest6()
+    {
+      CustomImplentation implementation = new CustomImplentation();
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      bool called = false;
+      ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
+        new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
+          .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
+          .PartialMatchLambda<Func<bool>>(() => false)
+          .PartialMatchLambda<Action>(() => called = true));
+      string text2 = "wetwt";
+      instance.OutAndRef(out string _, ref text2, 5);
+      Assert.IsFalse(called);
+    }
   }
 }

@@ -86,5 +86,11 @@ namespace GalvanizedSoftware.Beethoven.Extensions
           throw new MissingMethodException($"Multiple versions of the method {targetName} were found");
       }
     }
+
+    public static void CheckForDelegateType(this Type type)
+    {
+      if (!typeof(Delegate).IsAssignableFrom(type))
+        throw new InvalidCastException("You must supply an action, func or delegate");
+    }
   }
 }

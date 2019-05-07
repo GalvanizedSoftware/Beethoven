@@ -1,7 +1,7 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using System;
-using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -9,19 +9,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
   {
     private readonly Func<TReturnType> func;
 
-    public FuncMethod(string name, Func<TReturnType> func) : base(name)
+    public FuncMethod(string name, Func<TReturnType> func) : 
+      base(name, new MatchNoParametersAndReturnType<TReturnType>())
     {
       this.func = func;
     }
 
-    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
-    {
-      return typeof(TReturnType) == returnType && !parameters.Any();
-    }
-
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _)
-    {
+    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _) => 
       returnAction(func());
-    }
   }
 }

@@ -1,31 +1,38 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using System;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
   public class LambdaMethod<T> : Method
   {
-    private readonly Delegate lambdaDelegate;
     private readonly MethodInfo methodInfo;
     private readonly bool hasReturnType;
+    private readonly object target;
 
-    public LambdaMethod(string name, T actionOrFunc) : base(name)
+    static LambdaMethod()
     {
-      lambdaDelegate = actionOrFunc as Delegate;
-      if (lambdaDelegate == null)
-        throw new InvalidCastException("You must supply an action, func or delegate");
+      typeof(T).CheckForDelegateType();
+    }
+
+    public LambdaMethod(string name, T actionOrFunc) :
+      this(name, actionOrFunc as Delegate)
+    {
+    }
+
+    private LambdaMethod(string name, Delegate lambdaDelegate) : 
+      base(name, new MatchMethodInfoExact(lambdaDelegate.Method))
+    {
       methodInfo = lambdaDelegate.Method;
+      target = lambdaDelegate.Target;
       hasReturnType = methodInfo.HasReturnType();
     }
 
-    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType) => 
-      methodInfo.IsMatch(parameters, genericArguments, returnType);
-
     internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _)
     {
-      object returnValue = methodInfo.Invoke(lambdaDelegate.Target, parameters, genericArguments);
+      object returnValue = methodInfo.Invoke(target, parameters, genericArguments);
       if (hasReturnType)
         returnAction(returnValue);
     }

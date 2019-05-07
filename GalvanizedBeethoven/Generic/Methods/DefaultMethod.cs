@@ -22,9 +22,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       };
     }
 
-    public Method CreateMapped(MethodInfo methodInfo)
-    {
-      return new MappedDefaultMethod(methodInfo, mainFunc);
-    }
+    public Method CreateMapped(MethodInfo methodInfo) => 
+      new MappedDefaultMethod(methodInfo, mainFunc);
   }
 }

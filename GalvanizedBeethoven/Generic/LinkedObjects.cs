@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Binding;
 using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
@@ -118,11 +119,12 @@ namespace GalvanizedSoftware.Beethoven.Generic
       switch (definition)
       {
         case Method method:
-          if (method.IsNonGenericMatch(methodInfo))
+          if (method.MethodMatcher.IsNonGenericMatch(methodInfo))
             yield return method;
           break;
         case IEnumerable<Method> methods:
-          foreach (Method matchingMethod in methods.Where(method => method.IsNonGenericMatch(methodInfo)))
+          foreach (Method matchingMethod in methods.Where(
+            method => method.MethodMatcher.IsNonGenericMatch(methodInfo)))
             yield return matchingMethod;
           break;
         case Property _:

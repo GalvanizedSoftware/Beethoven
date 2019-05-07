@@ -1,6 +1,7 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using System;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
@@ -11,10 +12,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly bool hasReturnType;
 
     public MappedMethod(MethodInfo methodInfo) :
-      base(methodInfo.Name)
+      this(methodInfo.Name, null, methodInfo)
     {
-      this.methodInfo = methodInfo;
-      hasReturnType = methodInfo.HasReturnType();
     }
 
     public MappedMethod(string name, object instance) :
@@ -23,29 +22,32 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     public MappedMethod(string mainName, object instance, string targetName) :
-      base(mainName)
+      this(mainName, instance, GetMethod(instance, targetName))
     {
-      Instance = instance;
-      methodInfo = instance
-        .GetType()
-        .FindSingleMethod(targetName);
-      hasReturnType = methodInfo.HasReturnType();
     }
 
+
     public MappedMethod(object instance, MethodInfo methodInfo) :
-      base(methodInfo.Name)
+      this(methodInfo.Name, instance, methodInfo)
+    {
+    }
+
+    private MappedMethod(string mainName, object instance, MethodInfo methodInfo) :
+      base(mainName, new MatchMethodInfoExact(methodInfo))
     {
       Instance = instance;
       this.methodInfo = methodInfo;
       hasReturnType = methodInfo.HasReturnType();
     }
 
-    public object Instance { private get; set; }
-
-    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
+    private static MethodInfo GetMethod(object instance, string targetName)
     {
-      return methodInfo.IsMatch(parameters, genericArguments, returnType);
+      return instance
+        .GetType()
+        .FindSingleMethod(targetName);
     }
+
+    public object Instance { private get; set; }
 
     internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _)
     {

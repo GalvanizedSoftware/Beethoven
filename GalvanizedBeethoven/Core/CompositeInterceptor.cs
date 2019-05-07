@@ -34,7 +34,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       }
       (Type, string)[] parameterTypes = methodInfo.GetParameterTypeAndNames();
       methods.FirstOrDefault(
-        method => method.IsMatch(parameterTypes, invocation.GenericArguments, methodInfo.ReturnType))?
+        method => method.MethodMatcher.IsMatch(parameterTypes, invocation.GenericArguments, methodInfo.ReturnType))?
         .Intercept(invocation);
     }
   }
