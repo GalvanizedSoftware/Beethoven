@@ -24,7 +24,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
         .Intersect(interfaceMethods, new ExactMethodComparer())
         .ToArray();
       methods = methodInfos
-        .Select(methodInfo => (Method)new MappedMethod(methodInfo) { Instance = baseObject })
+        .Select(methodInfo => (Method)new MappedMethod(methodInfo, baseObject))
         .ToArray();
     }
 

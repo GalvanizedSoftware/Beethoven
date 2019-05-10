@@ -8,16 +8,17 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
   public class MappedMethod : Method
   {
+    private readonly object instance;
     private readonly MethodInfo methodInfo;
     private readonly bool hasReturnType;
 
-    public MappedMethod(MethodInfo methodInfo) :
-      this(methodInfo.Name, null, methodInfo)
+    public MappedMethod(string name, object instance) :
+      this(name, instance, name)
     {
     }
 
-    public MappedMethod(string name, object instance) :
-      this(name, instance, name)
+    public MappedMethod(MethodInfo methodInfo, object instance) :
+      this(methodInfo.Name, instance, methodInfo)
     {
     }
 
@@ -27,15 +28,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
 
-    public MappedMethod(object instance, MethodInfo methodInfo) :
-      this(methodInfo.Name, instance, methodInfo)
-    {
-    }
-
     private MappedMethod(string mainName, object instance, MethodInfo methodInfo) :
       base(mainName, new MatchMethodInfoExact(methodInfo))
     {
-      Instance = instance;
+      this.instance = instance;
       this.methodInfo = methodInfo;
       hasReturnType = methodInfo.HasReturnType();
     }
@@ -47,11 +43,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         .FindSingleMethod(targetName);
     }
 
-    public object Instance { private get; set; }
-
     internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _)
     {
-      object returnValue = methodInfo.Invoke(Instance, parameters, genericArguments);
+      object returnValue = methodInfo.Invoke(instance, parameters, genericArguments);
       if (hasReturnType)
         returnAction(returnValue);
     }

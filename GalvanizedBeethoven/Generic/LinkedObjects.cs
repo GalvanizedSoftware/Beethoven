@@ -112,7 +112,7 @@ namespace GalvanizedSoftware.Beethoven.Generic
           MethodInfo actualMethodInfo = methodInfos
             .FirstOrDefault(item => methodComparer.Equals(methodInfo, item));
           if (actualMethodInfo != null)
-            yield return new MappedMethod(definition, actualMethodInfo);
+            yield return new MappedMethod(actualMethodInfo, definition);
           break;
       }
     }
