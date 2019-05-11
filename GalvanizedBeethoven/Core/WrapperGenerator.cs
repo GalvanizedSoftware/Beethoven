@@ -4,8 +4,12 @@ using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
+using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
@@ -14,11 +18,27 @@ namespace GalvanizedSoftware.Beethoven.Core
     private readonly object[] partDefinitions;
     private readonly Func<object, IEnumerable<object>> getWrappers;
 
-    public WrapperGenerator(object[] partDefinitions,
+    private WrapperGenerator(object[] partDefinitions,
       Func<object, IEnumerable<object>> getWrappers)
     {
       this.partDefinitions = partDefinitions;
       this.getWrappers = getWrappers;
+    }
+
+    private WrapperGenerator(WrapperGenerator<T> baseWrapperGenerator,
+      IEnumerable<object> additionsObjects)
+    {
+      partDefinitions = baseWrapperGenerator.partDefinitions
+        .Concat(additionsObjects)
+        .ToArray();
+      getWrappers = baseWrapperGenerator.getWrappers;
+    }
+
+    internal static List<object> GetWrappers(object[] partDefinitions)
+    {
+      return new WrapperGenerator<T>(partDefinitions, GetDefinitionWrappers)
+        .AddDefaultImplementationWrappers()
+        .ToList();
     }
 
     public IEnumerator<object> GetEnumerator()
@@ -60,5 +80,39 @@ namespace GalvanizedSoftware.Beethoven.Core
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    private WrapperGenerator<T> AddDefaultImplementationWrappers() =>
+      new WrapperGenerator<T>(this, GetDefaultProperties(partDefinitions, this.OfType<Property>())
+        .Concat(GetDefaultMethods(partDefinitions)));
+
+    private static IEnumerable<object> GetDefaultProperties(IEnumerable<object> partDefinitions,
+    IEnumerable<Property> propertyWrappers)
+    {
+      DefaultProperty[] defaultProperties = partDefinitions.OfType<DefaultProperty>().ToArray();
+      if (!defaultProperties.Any())
+        yield break;
+      DefaultProperty defaultProperty = defaultProperties.Single();
+      IDictionary<string, Type> propertyInfos = typeof(T)
+        .GetProperties(ResolveFlags)
+        .ToDictionary(propertyInfo => propertyInfo.Name, propertyInfo => propertyInfo.PropertyType);
+      string[] typeProperties = propertyInfos.Keys.ToArray();
+      HashSet<string> alreadyImplemented = new HashSet<string>(propertyWrappers.Select(p => p.Name));
+      foreach (string propertyName in typeProperties.Except(alreadyImplemented))
+        yield return defaultProperty.Create(propertyInfos[propertyName], propertyName);
+    }
+
+    private static IEnumerable<object> GetDefaultMethods(IEnumerable<object> partDefinitions)
+    {
+      DefaultMethod defaultMethod = partDefinitions.OfType<DefaultMethod>().SingleOrDefault();
+      if (defaultMethod == null)
+        yield break;
+      foreach (MethodInfo methodInfo in typeof(T).GetMethodsAndInherited())
+        yield return defaultMethod.CreateMapped(methodInfo);
+    }
+
+    private static IEnumerable<object> GetDefinitionWrappers(object definition) =>
+      new object[0]
+        .Concat(new PropertiesMapper(definition))
+        .Concat(new MethodsMapper<T>(definition));
   }
 }

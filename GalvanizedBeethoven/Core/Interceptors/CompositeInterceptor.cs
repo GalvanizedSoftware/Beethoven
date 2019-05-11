@@ -1,11 +1,11 @@
-﻿using Castle.DynamicProxy;
-using GalvanizedSoftware.Beethoven.Core.Methods;
-using GalvanizedSoftware.Beethoven.Extensions;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
+using Castle.DynamicProxy;
+using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Extensions;
 
-namespace GalvanizedSoftware.Beethoven.Core
+namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {
   public class CompositeInterceptor : IInterceptor
   {

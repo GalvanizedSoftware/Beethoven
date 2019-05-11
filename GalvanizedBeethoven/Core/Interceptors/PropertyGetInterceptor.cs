@@ -1,6 +1,7 @@
 ﻿using Castle.DynamicProxy;
+using GalvanizedSoftware.Beethoven.Core.Properties;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties
+namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {
   internal sealed class PropertyGetInterceptor : PropertyInterceptor
   {

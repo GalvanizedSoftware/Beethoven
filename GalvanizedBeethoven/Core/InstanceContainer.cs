@@ -3,14 +3,10 @@ using GalvanizedSoftware.Beethoven.Core.Binding;
 using GalvanizedSoftware.Beethoven.Core.Events;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Core.Properties;
-using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Generic.Methods;
-using static GalvanizedSoftware.Beethoven.Core.Constants;
+using GalvanizedSoftware.Beethoven.Core.Interceptors;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
@@ -20,12 +16,10 @@ namespace GalvanizedSoftware.Beethoven.Core
     private readonly IObjectProvider objectProviderHandler;
     private readonly PropertiesSignatureChecker<T> propertiesSignatureChecker = new PropertiesSignatureChecker<T>();
 
-    public InstanceContainer(object[] partDefinitions)
+    public InstanceContainer(object[] partDefinitions, List<object> wrappers)
     {
       AddMaster(new TargetBindingParent(this));
       EventInvokers = AddMaster(new EventInvokers(this));
-      List<object> wrappers = new WrapperGenerator<T>(partDefinitions, GetWrappers).ToList();
-      wrappers.AddRange(GetDefaultImplementationWrappers(partDefinitions, wrappers));
       propertiesSignatureChecker.CheckSignatures(wrappers);
       MasterInterceptor masterInterceptor = new MasterInterceptor(
         new WrapperFactories(wrappers),
@@ -36,43 +30,9 @@ namespace GalvanizedSoftware.Beethoven.Core
           .Concat(partDefinitions.OfType<IBindingParent>()));
     }
 
-    private IEnumerable<object> GetWrappers(object definition) =>
-      new object[0]
-        .Concat(new PropertiesMapper(definition))
-        .Concat(new MethodsMapper<T>(definition));
-
     public EventInvokers EventInvokers { get; }
 
     public IEnumerable<TChild> Get<TChild>() => objectProviderHandler.Get<TChild>();
-
-    private static IEnumerable<object> GetDefaultImplementationWrappers(object[] partDefinitions, IList<object> wrappers) =>
-      GetDefaultProperties(partDefinitions, wrappers.OfType<Property>())
-        .Concat(GetDefaultMethods(partDefinitions));
-
-    private static IEnumerable<object> GetDefaultProperties(IEnumerable<object> partDefinitions,
-      IEnumerable<Property> propertyWrappers)
-    {
-      DefaultProperty[] defaultProperties = partDefinitions.OfType<DefaultProperty>().ToArray();
-      if (!defaultProperties.Any())
-        yield break;
-      DefaultProperty defaultProperty = defaultProperties.Single();
-      IDictionary<string, Type> propertyInfos = typeof(T)
-        .GetProperties(ResolveFlags)
-        .ToDictionary(propertyInfo => propertyInfo.Name, propertyInfo => propertyInfo.PropertyType);
-      string[] typeProperties = propertyInfos.Keys.ToArray();
-      HashSet<string> alreadyImplemented = new HashSet<string>(propertyWrappers.Select(p => p.Name));
-      foreach (string propertyName in typeProperties.Except(alreadyImplemented))
-        yield return defaultProperty.Create(propertyInfos[propertyName], propertyName);
-    }
-
-    private static IEnumerable<object> GetDefaultMethods(IEnumerable<object> partDefinitions)
-    {
-      DefaultMethod defaultMethod = partDefinitions.OfType<DefaultMethod>().SingleOrDefault();
-      if (defaultMethod == null)
-        yield break;
-      foreach (MethodInfo methodInfo in typeof(T).GetMethodsAndInherited())
-        yield return defaultMethod.CreateMapped(methodInfo);
-    }
 
     internal void Bind(T target)
     {

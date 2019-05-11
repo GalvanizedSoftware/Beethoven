@@ -2,7 +2,7 @@
 using System.Linq;
 using Castle.DynamicProxy;
 
-namespace GalvanizedSoftware.Beethoven.Core
+namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {
   internal class MasterInterceptor : IInterceptor, IObjectProvider
   {

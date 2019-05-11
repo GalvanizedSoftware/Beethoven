@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Castle.DynamicProxy;
+using GalvanizedSoftware.Beethoven.Core.Properties;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties
+namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {
   internal sealed class PropertySetInterceptor : PropertyInterceptor, IObjectProvider
   {
