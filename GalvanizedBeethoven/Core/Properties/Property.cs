@@ -52,8 +52,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
         return methodInfo.ReturnType == PropertyType;
       if (methodInfo.Name == "set_" + Name)
         return methodInfo.GetParameters().SingleOrDefault()?.ParameterType == PropertyType;
-      else
-        return false;
+      return false;
     }
   }
 }
