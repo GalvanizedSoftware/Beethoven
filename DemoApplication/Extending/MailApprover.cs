@@ -1,6 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.DemoApp.Extending.Services;
 using System;
-using System.Diagnostics;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.Extending
 {
