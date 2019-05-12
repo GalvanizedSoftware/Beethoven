@@ -4,7 +4,6 @@ using GalvanizedSoftware.Beethoven.Generic.Properties;
 using GalvanizedSoftware.Beethoven.Generic.ValueLookup;
 using System;
 using Unity;
-using Unity.Injection;
 
 namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
 {
