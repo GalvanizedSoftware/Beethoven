@@ -54,6 +54,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
           .Lambda<Func<string, string, int>>((text1, text2) => text1.Length + text2.Length));
       Assert.AreEqual(0, instance.WithParameters(null, null));
       Assert.AreEqual(0, instance.WithParameters("", "dsfgdsfhsd"));
+      Assert.AreEqual(0, instance.WithParameters("gjgkffg", ""));
       Assert.AreEqual(15, instance.WithParameters("fdsfd", "dsfgdsfhsd"));
     }
 

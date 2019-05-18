@@ -1,41 +1,48 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Castle.DynamicProxy;
 
 namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {
   internal class MasterInterceptor : IInterceptor, IObjectProvider
   {
-    private readonly Dictionary<string, IInterceptor> interceptorsMap = new Dictionary<string, IInterceptor>();
+    private readonly InstanceMap instanceMap;
+    private readonly Dictionary<string, IGeneralInterceptor> interceptorsMap = new Dictionary<string, IGeneralInterceptor>();
     private readonly IObjectProvider objectProviderHandler;
 
-    public MasterInterceptor(params IEnumerable<InterceptorMap>[] interceptors)
+    public MasterInterceptor(InstanceMap instanceMap, params IEnumerable<InterceptorMap>[] interceptors)
     {
-      foreach (InterceptorMap interceptorMap in interceptors.SelectMany(maps => maps))
+      this.instanceMap = instanceMap;
+      foreach ((string name, IGeneralInterceptor interceptor) in interceptors.SelectMany(maps => maps))
       {
-        string name = interceptorMap.Item1;
-        IInterceptor newInterceptor = interceptorMap.Item2;
-        if (interceptorsMap.TryGetValue(name, out IInterceptor interceptor))
-          interceptorsMap[name] = new CompositeInterceptor(interceptor, newInterceptor);
+        if (interceptorsMap.TryGetValue(name, out IGeneralInterceptor currentInterceptor))
+          interceptorsMap[name] = new CompositeInterceptor(currentInterceptor, interceptor);
         else
-          interceptorsMap.Add(name, newInterceptor);
+          interceptorsMap.Add(name, interceptor);
       }
       objectProviderHandler = new ObjectProviderHandler(interceptorsMap.Values);
     }
 
     public void Intercept(IInvocation invocation)
     {
-      string methodName = invocation.Method.Name;
+      // find local instance from instanceMap
+      MethodInfo methodInfo = invocation.Method;
+      string methodName = methodInfo.Name;
       interceptorsMap
         .Where(pair => pair.Key == methodName)
         .Select(pair => pair.Value)
         .Single()
-        .Intercept(invocation);
+        .Invoke(
+          instanceMap, 
+          value => invocation.ReturnValue = value, 
+          invocation.Arguments, 
+          invocation.GenericArguments, 
+          methodInfo);
     }
 
-    public IEnumerable<TChild> Get<TChild>()
-    {
-      return objectProviderHandler.Get<TChild>();
-    }
+    public IEnumerable<TChild> Get<TChild>() => 
+      objectProviderHandler.Get<TChild>();
   }
 }

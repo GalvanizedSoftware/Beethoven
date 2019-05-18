@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GalvanizedSoftware.Beethoven.Core.Interceptors;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
@@ -15,12 +16,9 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     public IEnumerator<InterceptorMap> GetEnumerator()
     {
       foreach (Method method in methods)
-        yield return new InterceptorMap(method.Name, method);
+        yield return new InterceptorMap(method.Name, new MethodInterceptor(method));
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
   }
 }

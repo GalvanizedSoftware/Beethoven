@@ -16,19 +16,20 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       new ConditionCheckMethod(name, func);
 
     public static ConditionCheckMethod Create<T1>(string name, Func<T1, bool> func) => 
-      new ConditionCheckMethod(name, func);
+      new ConditionCheckMethod(name, func, typeof(T1));
 
     public static ConditionCheckMethod Create<T1, T2>(string name, Func<T1, T2, bool> func) => 
-      new ConditionCheckMethod(name, func);
+      new ConditionCheckMethod(name, func, typeof(T1), typeof(T2));
 
-    public ConditionCheckMethod(string name, Delegate lambdaDelegate) : 
-      base(name, new MatchAllButLastParamerter(lambdaDelegate))
+   public ConditionCheckMethod(string name, Delegate lambdaDelegate, params Type[] types) : 
+      base(name, new MatchFlowFunc(types))
     {
       this.lambdaDelegate = lambdaDelegate;
       methodInfo = lambdaDelegate.Method;
     }
 
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _) =>
+    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      MethodInfo _) =>
       returnAction(methodInfo.Invoke(
         lambdaDelegate.Target, parameters.SkipLast().ToArray(), genericArguments));
   }

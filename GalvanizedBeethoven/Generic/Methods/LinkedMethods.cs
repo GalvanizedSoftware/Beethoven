@@ -59,6 +59,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Add(new PartialMatchMethod(Name, instance, targetName))
         .InvertResult();
 
+    //public LinkedMethods SkipIf(Parameter<Func<bool>> conditionParameter) =>
+    //  Add(ConditionCheckMethod.Create(Name, () => !condition()));
+
     public LinkedMethods PartialMatchMethod(object instance, string targetName) =>
       Add(new PartialMatchMethod(Name, instance, targetName));
 
@@ -75,30 +78,32 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       return this;
     }
 
-    internal override void Invoke(Action<object> returnAction, object[] parameterValues, Type[] genericArguments, MethodInfo methodInfo)
+    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameterValues, Type[] genericArguments,
+      MethodInfo methodInfo)
     {
       (Type, string)[] parameterTypeAndNames = methodInfo.GetParameterTypeAndNames();
       foreach (Method method in methodList)
       {
-        if (!InvokeFirstMatch(method, parameterValues, parameterTypeAndNames, genericArguments, methodInfo))
+        if (!InvokeFirstMatch(localInstance, method, parameterValues, parameterTypeAndNames, genericArguments, methodInfo))
           break;
       }
     }
 
-    private bool InvokeFirstMatch(Method method, object[] parameters, (Type, string)[] parameterTypes,
+    private bool InvokeFirstMatch(object localInstance, 
+      Method method, object[] parameters, (Type, string)[] parameterTypes,
       Type[] genericArguments, MethodInfo methodInfo)
     {
       Type returnType = methodInfo.ReturnType;
       if (method.MethodMatcher.IsMatch(parameterTypes, genericArguments, returnType))
       {
-        method.Invoke(null, parameters, genericArguments, methodInfo);
+        method.Invoke(localInstance, null, parameters, genericArguments, methodInfo);
         return true;
       }
       if (!method.MethodMatcher.IsMatch(parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
         throw new MissingMethodException();
       bool result = true;
       Action<object> localReturn = newValue => result = (bool)newValue;
-      method.Invoke(localReturn, parameters, genericArguments, methodInfo);
+      method.Invoke(localInstance, localReturn, parameters, genericArguments, methodInfo);
       return result;
     }
 

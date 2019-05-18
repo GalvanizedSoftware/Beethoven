@@ -14,10 +14,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       this.method = method;
     }
 
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
+    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      MethodInfo methodInfo)
     {
       bool returnValue = false;
-      method.Invoke(value => InvertValue(value, out returnValue), parameters, genericArguments, methodInfo);
+      method.Invoke(localInstance, value => InvertValue(value, out returnValue), parameters, genericArguments, methodInfo);
       returnAction(!returnValue);
     }
     

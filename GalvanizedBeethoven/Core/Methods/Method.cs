@@ -1,11 +1,10 @@
-﻿using Castle.DynamicProxy;
-using System;
+﻿using System;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-  public abstract class Method : IInterceptor
+  public abstract class Method
   {
     protected Method(string name)
     {
@@ -22,9 +21,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     public string Name { get; }
     public IMethodMatcher MethodMatcher { get; }
 
-    internal abstract void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo);
-
-    public void Intercept(IInvocation invocation) =>
-      Invoke(value => invocation.ReturnValue = value, invocation.Arguments, invocation.GenericArguments, invocation.Method);
+    public abstract void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      MethodInfo methodInfo);
   }
 }

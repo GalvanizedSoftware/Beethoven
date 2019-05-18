@@ -24,7 +24,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
     }
 
-    private LinkedMethodsReturnValue(string name, Method[] methodList) : 
+    private LinkedMethodsReturnValue(string name, Method[] methodList) :
       base(name, new MatchLinked(methodList.Select(method => method.MethodMatcher)))
     {
       this.methodList = methodList;
@@ -82,22 +82,24 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue PartialMatchMethod<TMain>(object instance, string mainParameterName) =>
       Add(new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
 
-    public LinkedMethodsReturnValue PartialMatchLambda<T>(T actionOrFunc) => 
+    public LinkedMethodsReturnValue PartialMatchLambda<T>(T actionOrFunc) =>
       Add(new PartialMatchLambda<T>(Name, actionOrFunc));
 
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
+    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      MethodInfo methodInfo)
     {
       object returnValue = methodInfo.ReturnType.GetDefaultValue();
       (Type, string)[] parameterTypeAndNames = methodInfo.GetParameterTypeAndNames();
       foreach (Method method in methodList)
       {
-        if (!InvokeFirstMatch(method, ref returnValue, parameters, parameterTypeAndNames, genericArguments, methodInfo))
+        if (!InvokeFirstMatch(localInstance, method, ref returnValue, parameters, parameterTypeAndNames, genericArguments, methodInfo))
           break;
       }
       returnAction(returnValue);
     }
 
-    private bool InvokeFirstMatch(Method method, ref object returnValue, object[] parameterValues, (Type, string)[] parameterTypeAndNames,
+    private bool InvokeFirstMatch(object localInstance, Method method, ref object returnValue, object[] parameterValues,
+      (Type, string)[] parameterTypeAndNames,
       Type[] genericArguments, MethodInfo methodInfo)
     {
       Type returnType = methodInfo.ReturnType;
@@ -106,7 +108,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       {
         object returnValueLocal = returnValue;
         Action<object> returnAction = newValue => returnValueLocal = newValue;
-        method.Invoke(returnAction, parameterValues, genericArguments, methodInfo);
+        method.Invoke(localInstance, returnAction, parameterValues, genericArguments, methodInfo);
         returnValue = returnValueLocal;
         return true;
       }
@@ -115,7 +117,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       bool result = true;
       Action<object> localReturn = newValue => result = (bool)newValue;
       object[] newParameters = parameterValues.Append(returnValue).ToArray();
-      method.Invoke(localReturn, newParameters, genericArguments, methodInfo);
+      method.Invoke(localInstance, localReturn, newParameters, genericArguments, methodInfo);
       for (int i = 0; i < parameterValues.Length; i++)
         parameterValues[i] = newParameters[i]; // In case of ref or out variables
       returnValue = newParameters.Last();

@@ -50,7 +50,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public void Bind(object target) => 
       mainInstance = target;
 
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo masterMethodInfo)
+    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      MethodInfo masterMethodInfo)
     {
       (Type, string)[] masterParameters = masterMethodInfo
         .GetParameterTypeAndNames()

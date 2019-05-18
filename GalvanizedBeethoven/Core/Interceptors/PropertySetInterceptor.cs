@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Castle.DynamicProxy;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Core.Interceptors
@@ -15,14 +15,10 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
       objectProviderHandler = new ObjectProviderHandler(new[] { Property });
     }
 
-    protected override void InvokeIntercept(IInvocation invocation)
-    {
-      Property.InvokeSet(invocation.Arguments.Single());
-    }
+    protected override void InvokeIntercept(object localInstance, Action<object> returnAction, object[] parameters) => 
+      Property.InvokeSet(parameters.Single());
 
-    public IEnumerable<TChild> Get<TChild>()
-    {
-      return objectProviderHandler.Get<TChild>();
-    }
+    public IEnumerable<TChild> Get<TChild>() => 
+      objectProviderHandler.Get<TChild>();
   }
 }

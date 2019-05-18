@@ -30,7 +30,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       hasReturnType = methodInfo.HasReturnType();
     }
 
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _)
+    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      MethodInfo _)
     {
       object returnValue = methodInfo.Invoke(target, parameters, genericArguments);
       if (hasReturnType)

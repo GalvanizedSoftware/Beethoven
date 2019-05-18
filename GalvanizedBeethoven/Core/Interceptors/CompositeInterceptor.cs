@@ -1,41 +1,44 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Castle.DynamicProxy;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {
-  public class CompositeInterceptor : IInterceptor
+  internal class CompositeInterceptor : IGeneralInterceptor
   {
-    private readonly IInterceptor[] interceptors;
+    private readonly IGeneralInterceptor[] interceptors;
     private readonly Method[] methods;
 
-    public CompositeInterceptor(IInterceptor previous, params IInterceptor[] newInterceptors)
+    public CompositeInterceptor(IGeneralInterceptor previous,
+      params IGeneralInterceptor[] newInterceptors)
     {
       interceptors = (previous is CompositeInterceptor compositeInterceptor ?
           compositeInterceptor.interceptors.Concat(newInterceptors) :
           new[] { previous }.Concat(newInterceptors)).
         ToArray();
       methods = interceptors
+        .Select(interceptor => interceptor.MainDefinition)
         .OfType<Method>()
         .ToArray();
     }
 
-    public void Intercept(IInvocation invocation)
+    public void Invoke(InstanceMap instanceMap, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      MethodInfo methodInfo)
     {
-      MethodInfo methodInfo = invocation.Method;
       if (methodInfo.IsSpecialName)
       {
-        foreach (IInterceptor interceptor in interceptors)
-          interceptor.Intercept(invocation);
+        foreach (IGeneralInterceptor interceptor in interceptors)
+          interceptor.Invoke(instanceMap, returnAction, parameters, genericArguments, methodInfo);
         return;
       }
       (Type, string)[] parameterTypes = methodInfo.GetParameterTypeAndNames();
       methods.FirstOrDefault(
-        method => method.MethodMatcher.IsMatch(parameterTypes, invocation.GenericArguments, methodInfo.ReturnType))?
-        .Intercept(invocation);
+        method => method.MethodMatcher.IsMatch(parameterTypes, genericArguments, methodInfo.ReturnType))?
+        .Invoke(instanceMap, returnAction, parameters, genericArguments, methodInfo);
     }
+
+    public object MainDefinition => null;
   }
 }

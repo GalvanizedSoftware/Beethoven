@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Linq;
-using Castle.DynamicProxy;
+using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Events;
 
 namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {
-  internal sealed class EventAddInterceptor : IInterceptor
+  internal sealed class EventAddInterceptor : IGeneralInterceptor
   {
     private readonly ActionEventInvoker actionEventNotifier;
 
     public EventAddInterceptor(ActionEventInvoker actionEventNotifier)
     {
-      this.actionEventNotifier = actionEventNotifier;
+      MainDefinition = this.actionEventNotifier = actionEventNotifier;
     }
 
-    public void Intercept(IInvocation invocation)
+    public void Invoke(InstanceMap instanceMap, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      MethodInfo methodInfo)
     {
-      actionEventNotifier.Add((Delegate) invocation.Arguments.Single());
+      actionEventNotifier.Add((Delegate)parameters.Single());
     }
+
+    public object MainDefinition { get; }
   }
 }

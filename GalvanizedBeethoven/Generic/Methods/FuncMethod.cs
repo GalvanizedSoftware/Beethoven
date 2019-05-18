@@ -15,7 +15,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       this.func = func;
     }
 
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _) => 
+    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      MethodInfo _) => 
       returnAction(func());
   }
 }

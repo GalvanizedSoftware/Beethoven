@@ -1,4 +1,4 @@
-﻿using Castle.DynamicProxy;
+﻿using System;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Core.Interceptors
@@ -10,9 +10,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
     {
     }
 
-    protected override void InvokeIntercept(IInvocation invocation)
-    {
-      invocation.ReturnValue = Property.InvokeGet();
-    }
+    protected override void InvokeIntercept(object localInstance, Action<object> returnAction, object[] parameters) => 
+      returnAction(Property.InvokeGet());
   }
 }

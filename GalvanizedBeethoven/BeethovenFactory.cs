@@ -43,10 +43,10 @@ namespace GalvanizedSoftware.Beethoven
       List<object> wrappers = WrapperGenerator<T>.GetWrappers(partDefinitions);
       InstanceContainer<T> instanceContainer =
         new InstanceContainer<T>(partDefinitions, wrappers);
-      IInterceptor interceptor = instanceContainer.GetMaster<IInterceptor>();
-      T target = typeof(T).IsInterface
-        ? generator.CreateInterfaceProxyWithoutTarget<T>(interceptor)
-        : generator.CreateClassProxy<T>(interceptor);
+      IInterceptor interceptor = instanceContainer.MasterInterceptor;
+      T target = typeof(T).IsInterface ?
+        generator.CreateInterfaceProxyWithoutTarget<T>(interceptor) :
+        generator.CreateClassProxy<T>(interceptor);
       instanceContainer.Bind(target);
       generatedEventInvokers.Add(new WeakReference(target), instanceContainer.EventInvokers);
       return target;

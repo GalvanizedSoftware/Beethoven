@@ -7,20 +7,35 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
 {
   public class MatchLambdaPartiallyNoReturn : IMethodMatcher
   {
-    private readonly MethodInfo methodInfo;
     private readonly (Type, string)[] localParameters;
+    private readonly bool isFlowControlled;
 
-    public MatchLambdaPartiallyNoReturn(Delegate lambdaDelegate)
+    public MatchLambdaPartiallyNoReturn(params (Type, string)[] parameters) :
+      this(null, parameters)
     {
-      methodInfo = lambdaDelegate.Method;
+    }
+
+    public MatchLambdaPartiallyNoReturn(Type returnType, params (Type, string)[] parameters)
+    {
+      localParameters = parameters;
+      isFlowControlled = returnType == typeof(bool);
+    }
+
+    public MatchLambdaPartiallyNoReturn(Delegate lambdaDelegate) :
+      this(lambdaDelegate.Method)
+    {
+    }
+
+    public MatchLambdaPartiallyNoReturn(MethodInfo methodInfo)
+    {
       localParameters = methodInfo.GetParameterTypeAndNames();
+      isFlowControlled = methodInfo.ReturnType == typeof(bool);
     }
 
     public bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
     {
-      if (methodInfo.ReturnType == typeof(bool) && !returnType.IsByRef)
-        return false;
-      return localParameters.All(parameters.Contains);
+      return isFlowControlled == returnType.IsByRef &&
+             localParameters.All(parameters.Contains);
     }
   }
 }

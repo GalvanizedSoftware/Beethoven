@@ -43,7 +43,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         .FindSingleMethod(targetName);
     }
 
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo _)
+    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      MethodInfo _)
     {
       object returnValue = methodInfo.Invoke(instance, parameters, genericArguments);
       if (hasReturnType)

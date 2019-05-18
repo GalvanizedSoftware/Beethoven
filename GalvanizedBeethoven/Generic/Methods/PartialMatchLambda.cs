@@ -25,15 +25,21 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     public PartialMatchLambda(string mainName, Delegate lambdaDelegate) :
-      base(mainName, new MatchLambdaPartiallyNoReturn(lambdaDelegate))
+      this(mainName, lambdaDelegate.Target, lambdaDelegate.Method)
     {
-      methodInfo = lambdaDelegate.Method;
-      localParameters = methodInfo.GetParameterTypeAndNames();
-      hasReturnType = methodInfo.HasReturnType();
-      target = lambdaDelegate.Target;
     }
 
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo masterMethodInfo)
+    private PartialMatchLambda(string mainName, object target, MethodInfo lambdaMethodInfo) :
+      base(mainName, new MatchLambdaPartiallyNoReturn(lambdaMethodInfo))
+    {
+      methodInfo = lambdaMethodInfo;
+      localParameters = lambdaMethodInfo.GetParameterTypeAndNames();
+      hasReturnType = lambdaMethodInfo.HasReturnType();
+      this.target = target;
+    }
+
+    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      MethodInfo masterMethodInfo)
     {
       (Type, string)[] masterParameters = masterMethodInfo
         .GetParameterTypeAndNames()

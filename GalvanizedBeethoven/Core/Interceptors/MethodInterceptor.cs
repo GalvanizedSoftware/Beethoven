@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Reflection;
-using Castle.DynamicProxy;
+using GalvanizedSoftware.Beethoven.Core.Methods;
 
 namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {
-  internal abstract class MethodInterceptor : IInterceptor
+  internal sealed class MethodInterceptor : IGeneralInterceptor
   {
-    internal abstract void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo);
+    private readonly Method method;
 
-    public void Intercept(IInvocation invocation) =>
-      Invoke(value => invocation.ReturnValue = value, invocation.Arguments, invocation.GenericArguments, invocation.Method);
+    internal MethodInterceptor(Method method)
+    {
+      MainDefinition = this.method = method;
+    }
+
+    public void Invoke(InstanceMap instanceMap, Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo) =>
+      method.Invoke(instanceMap.GetLocal(method), returnAction, 
+        parameters, genericArguments, methodInfo);
+
+    public object MainDefinition { get; }
   }
 }
