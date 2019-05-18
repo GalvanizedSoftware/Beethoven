@@ -41,12 +41,18 @@ namespace GalvanizedSoftware.Beethoven
     {
       partDefinitions = partDefinitions.Concat(GeneralPartDefinitions).ToArray();
       List<object> wrappers = WrapperGenerator<T>.GetWrappers(partDefinitions);
+      return Create<T>(partDefinitions, wrappers, new object[0]);
+    }
+
+    internal T Create<T>(object[] partDefinitions, List<object> wrappers, object[] parameters)
+      where T : class
+    {
       InstanceContainer<T> instanceContainer =
-        new InstanceContainer<T>(partDefinitions, wrappers);
+        new InstanceContainer<T>(partDefinitions, wrappers, parameters);
       IInterceptor interceptor = instanceContainer.MasterInterceptor;
-      T target = typeof(T).IsInterface ?
-        generator.CreateInterfaceProxyWithoutTarget<T>(interceptor) :
-        generator.CreateClassProxy<T>(interceptor);
+      T target = typeof(T).IsInterface
+        ? generator.CreateInterfaceProxyWithoutTarget<T>(interceptor)
+        : generator.CreateClassProxy<T>(interceptor);
       instanceContainer.Bind(target);
       generatedEventInvokers.Add(new WeakReference(target), instanceContainer.EventInvokers);
       return target;

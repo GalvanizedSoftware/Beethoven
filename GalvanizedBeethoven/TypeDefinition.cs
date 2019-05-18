@@ -1,25 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Generic.Events;
 
-namespace GalvanizedSoftware.Beethoven.Generic
+namespace GalvanizedSoftware.Beethoven
 {
   public class TypeDefinition<T> where T : class
   {
     private readonly BeethovenFactory beethovenFactory = new BeethovenFactory();
-    private readonly object[] implementationObjects;
+    private readonly object[] partDefinitions;
     private readonly List<(string, Action<IEventTrigger>)> eventList = new List<(string, Action<IEventTrigger>)>();
+    private readonly List<object> wrappers = new List<object>();
 
-    public TypeDefinition(params object[] newImplementationObjects)
+    public TypeDefinition(params object[] newPartDefinitions)
     {
-      implementationObjects = newImplementationObjects;
+      partDefinitions = newPartDefinitions;
+      wrappers.AddRange(WrapperGenerator<T>.GetWrappers(partDefinitions));
     }
 
-    private TypeDefinition(TypeDefinition<T> previousDefinition, object[] newImplementationObjects)
+    private TypeDefinition(TypeDefinition<T> previousDefinition, object[] newPartDefinitions)
     {
       beethovenFactory = previousDefinition.beethovenFactory;
-      implementationObjects = previousDefinition.implementationObjects.Concat(newImplementationObjects).ToArray();
+      partDefinitions = previousDefinition.partDefinitions.Concat(newPartDefinitions).ToArray();
+      wrappers.AddRange(WrapperGenerator<T>.GetWrappers(newPartDefinitions));
     }
 
     public TypeDefinition<T> Add(params object[] newImplementationObjects) =>
@@ -28,9 +32,9 @@ namespace GalvanizedSoftware.Beethoven.Generic
     public void RegisterEvent(string name, Action<IEventTrigger> triggerFunc) =>
       eventList.Add(ValueTuple.Create(name, triggerFunc));
 
-    public T Create()
+    public T Create(params object[] parameters)
     {
-      T generated = beethovenFactory.Generate<T>(implementationObjects);
+      T generated = beethovenFactory.Create<T>(partDefinitions, wrappers, parameters);
       eventList.ForEach(tuple => tuple.Item2(beethovenFactory.CreateEventTrigger(generated, tuple.Item1)));
       return generated;
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using GalvanizedSoftware.Beethoven.Generic;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
@@ -101,6 +102,26 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       string text2 = "wetwt";
       instance.OutAndRef(out string _, ref text2, 5);
       Assert.IsFalse(called);
+    }
+
+    [TestMethod]
+    public void LinkedMethodsReturnValueTest7()
+    {
+      CustomImplentation implementation = new CustomImplentation();
+      Parameter<BoolContainer> parameter = new Parameter<BoolContainer>("container");
+      TypeDefinition<ITestMethods> typeDefinition = new TypeDefinition<ITestMethods>(
+          parameter,
+          new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
+            .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
+            .PartialMatchAction<BoolContainer>(container => container.Value = true));
+      BoolContainer boolContainer = new BoolContainer();
+      ITestMethods instance = typeDefinition.Create(boolContainer);
+      BoolContainer boolContainer2 = new BoolContainer();
+      typeDefinition.Create(boolContainer2);
+      string text2 = "wetwt";
+      instance.OutAndRef(out string _, ref text2, 5);
+      Assert.IsTrue(boolContainer.Value);
+      Assert.IsFalse(boolContainer2.Value);
     }
   }
 }

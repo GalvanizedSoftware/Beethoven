@@ -78,32 +78,33 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       return this;
     }
 
-    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameterValues, Type[] genericArguments,
+    public override void InvokeFindInstance(IInstanceMap instanceMap, Action<object> returnAction, object[] parameterValues,
+      Type[] genericArguments,
       MethodInfo methodInfo)
     {
       (Type, string)[] parameterTypeAndNames = methodInfo.GetParameterTypeAndNames();
       foreach (Method method in methodList)
       {
-        if (!InvokeFirstMatch(localInstance, method, parameterValues, parameterTypeAndNames, genericArguments, methodInfo))
+        if (!InvokeFirstMatch(instanceMap, method, parameterValues, parameterTypeAndNames, genericArguments, methodInfo))
           break;
       }
     }
 
-    private bool InvokeFirstMatch(object localInstance, 
+    private bool InvokeFirstMatch(IInstanceMap instanceMap, 
       Method method, object[] parameters, (Type, string)[] parameterTypes,
       Type[] genericArguments, MethodInfo methodInfo)
     {
       Type returnType = methodInfo.ReturnType;
       if (method.MethodMatcher.IsMatch(parameterTypes, genericArguments, returnType))
       {
-        method.Invoke(localInstance, null, parameters, genericArguments, methodInfo);
+        method.InvokeFindInstance(instanceMap, null, parameters, genericArguments, methodInfo);
         return true;
       }
       if (!method.MethodMatcher.IsMatch(parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
         throw new MissingMethodException();
       bool result = true;
       Action<object> localReturn = newValue => result = (bool)newValue;
-      method.Invoke(localInstance, localReturn, parameters, genericArguments, methodInfo);
+      method.InvokeFindInstance(instanceMap, localReturn, parameters, genericArguments, methodInfo);
       return result;
     }
 

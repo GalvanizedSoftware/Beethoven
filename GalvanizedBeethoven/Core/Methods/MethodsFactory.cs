@@ -16,7 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     public IEnumerator<InterceptorMap> GetEnumerator()
     {
       foreach (Method method in methods)
-        yield return new InterceptorMap(method.Name, new MethodInterceptor(method));
+        yield return new InterceptorMap(method.Name, new MethodInterceptor(method, null));
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

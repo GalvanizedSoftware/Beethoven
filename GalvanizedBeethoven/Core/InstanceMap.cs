@@ -4,21 +4,34 @@ using GalvanizedSoftware.Beethoven.Generic;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
-  internal class InstanceMap
+  internal class InstanceMap : IInstanceMap
   {
-    private readonly Dictionary<object, object> dictionary;
+    private readonly Dictionary<Parameter, object> dictionary;
 
-    public InstanceMap(IEnumerable<object> wrappers)
+    public InstanceMap(IEnumerable<object> partDefinitions, object[] parameters)
     {
-      dictionary = wrappers.OfType<Parameter>().ToDictionary(
-        parameter => parameter.Definition,
-        parameter => parameter.Create());
+      dictionary = partDefinitions.OfType<Parameter>()
+        .Zip(parameters, (parameter, instance) => (parameter, instance))
+        .ToDictionary(
+        tuple => tuple.parameter,
+        tuple => tuple.instance);
     }
 
-    public object GetLocal(object interceptor)
+    public object GetLocal(Parameter parameter)
     {
-      dictionary.TryGetValue(interceptor, out object localInstance);
-      return localInstance;
+      if (parameter == null)
+        return null;
+      KeyValuePair<Parameter, object> pair = dictionary
+        .FirstOrDefault(item => item.Key.CompareTo(parameter) == 0);
+      Parameter instanceParameter = pair.Key;
+      if (instanceParameter == null)
+        return null;
+      object instance = pair.Value;
+      if (instance != null)
+        return instance;
+      instance = instanceParameter.Create();
+      dictionary[instanceParameter] = instance;
+      return instance;
     }
   }
 }

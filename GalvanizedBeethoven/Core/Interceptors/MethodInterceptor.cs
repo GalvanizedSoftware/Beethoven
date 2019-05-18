@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Generic;
 
 namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {
   internal sealed class MethodInterceptor : IGeneralInterceptor
   {
+    private readonly Parameter parameter;
     private readonly Method method;
 
-    internal MethodInterceptor(Method method)
+    internal MethodInterceptor(Method method, Parameter parameter)
     {
+      this.parameter = parameter;
       MainDefinition = this.method = method;
     }
 
     public void Invoke(InstanceMap instanceMap, Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo) =>
-      method.Invoke(instanceMap.GetLocal(method), returnAction, 
+      method.InvokeFindInstance(instanceMap, returnAction, 
         parameters, genericArguments, methodInfo);
 
     public object MainDefinition { get; }

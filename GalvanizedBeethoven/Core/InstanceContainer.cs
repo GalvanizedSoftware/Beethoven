@@ -13,10 +13,10 @@ namespace GalvanizedSoftware.Beethoven.Core
     private readonly IObjectProvider objectProviderHandler;
     private readonly PropertiesSignatureChecker<T> propertiesSignatureChecker = new PropertiesSignatureChecker<T>();
 
-    public InstanceContainer(object[] partDefinitions, List<object> wrappers)
+    public InstanceContainer(object[] partDefinitions, List<object> wrappers, object[] parameters)
     {
       propertiesSignatureChecker.CheckSignatures(wrappers);
-      InstanceMap instanceMap = new InstanceMap(wrappers);
+      InstanceMap instanceMap = new InstanceMap(partDefinitions, parameters);
       //LinkedMethods
       //LinkedMethodsReturnValue
       EventInvokers = new EventInvokers(this);
