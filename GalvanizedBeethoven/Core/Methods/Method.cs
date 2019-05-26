@@ -7,17 +7,17 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
   public abstract class Method
   {
+    private readonly Parameter parameter;
 
     protected Method(string name, IMethodMatcher methodMatcher, Parameter parameter = null)
     {
       Name = name;
       MethodMatcher = methodMatcher;
-      Parameter = parameter;
+      this.parameter = parameter;
     }
 
     public string Name { get; }
     public IMethodMatcher MethodMatcher { get; }
-    public Parameter Parameter { get; }
 
     public virtual void Invoke(object localInstance, 
       Action<object> returnAction, object[] parameters, Type[] genericArguments,
@@ -27,6 +27,6 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     public virtual void InvokeFindInstance(IInstanceMap instanceMap,
       Action<object> returnAction, object[] parameters, Type[] genericArguments,
       MethodInfo methodInfo) =>
-      Invoke(instanceMap.GetLocal(Parameter), returnAction, parameters, genericArguments, methodInfo);
+      Invoke(instanceMap.GetLocal(parameter), returnAction, parameters, genericArguments, methodInfo);
   }
 }
