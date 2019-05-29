@@ -15,12 +15,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.checkFunc = checkFunc;
     }
 
-    public bool InvokeGetter(ref T returnValue)
+    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
     {
       return true;
     }
 
-    public bool InvokeSetter(T newValue)
+    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
     {
       if (!checkFunc(newValue))
         throw new ArgumentOutOfRangeException($"Value {newValue} invalid");

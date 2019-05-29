@@ -2,7 +2,7 @@
 {
   public interface IPropertyDefinition<T>
   {
-    bool InvokeGetter(ref T returnValue);
-    bool InvokeSetter(T newValue);
+    bool InvokeGetter(InstanceMap instanceMap,ref T returnValue);
+    bool InvokeSetter(InstanceMap instanceMap, T newValue);
   }
 }

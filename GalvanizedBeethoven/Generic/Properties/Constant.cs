@@ -1,4 +1,5 @@
 ﻿using System;
+using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
@@ -22,13 +23,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     }
 
     // ReSharper disable once RedundantAssignment
-    public bool InvokeGetter(ref T returnValue)
+    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
     {
       returnValue = value;
       return true;
     }
 
-    public bool InvokeSetter(T newValue)
+    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
     {
       if (value.Equals(newValue))
         return true;

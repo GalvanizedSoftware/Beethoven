@@ -7,12 +7,10 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {
   internal sealed class MethodInterceptor : IGeneralInterceptor
   {
-    private readonly Parameter parameter;
     private readonly Method method;
 
-    internal MethodInterceptor(Method method, Parameter parameter)
+    internal MethodInterceptor(Method method)
     {
-      this.parameter = parameter;
       MainDefinition = this.method = method;
     }
 

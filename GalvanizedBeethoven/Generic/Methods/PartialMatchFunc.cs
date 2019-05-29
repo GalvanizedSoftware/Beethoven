@@ -42,19 +42,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         .Select(index => parameters[index])
         .ToArray();
       object returnValue = methodInfo.Invoke(target, localParameterValues, genericArguments);
-      // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-      localParameterValues.Zip(indexes,
-        (value, index) => SetIfValid(parameters, index, value, masterParameters))
-        .ToArray();
       if (hasReturnType)
         returnAction(returnValue);
-    }
-
-    private static object SetIfValid(object[] parameters, int index, object value, (Type, string)[] masterParameters)
-    {
-      if (index >= 0 && index < parameters.Length && masterParameters[index].Item1.IsByRef)
-        parameters[index] = value;
-      return null;
     }
   }
 }

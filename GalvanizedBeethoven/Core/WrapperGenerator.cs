@@ -9,6 +9,7 @@ using System.Reflection;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Core
@@ -52,12 +53,12 @@ namespace GalvanizedSoftware.Beethoven.Core
           case Property property:
             yield return property;
             break;
-          case Method method:
-            yield return method;
-            break;
           case IEnumerable<Property> properties:
             foreach (Property property in properties)
               yield return property;
+            break;
+          case Method method:
+            yield return method;
             break;
           case IEnumerable<Method> methods:
             foreach (Method method in methods)
@@ -70,6 +71,17 @@ namespace GalvanizedSoftware.Beethoven.Core
           case LinkedObjects linkedObjects:
             foreach (object wrapper in linkedObjects.GetWrappers<T>())
               yield return wrapper;
+            break;
+          case IParameter parameter:
+            yield return parameter;
+            break;
+          case DefinitionImport definitionImport:
+            foreach (object wrapper in getWrappers(definitionImport))
+              yield return wrapper;
+            break;
+          case IEnumerable<DefinitionImport> imports:
+            foreach (DefinitionImport definitionImport in imports.SelectMany(definitionImport => getWrappers(definitionImport)))
+              yield return getWrappers(definitionImport);
             break;
           default:
             foreach (object wrapper in getWrappers(definition))

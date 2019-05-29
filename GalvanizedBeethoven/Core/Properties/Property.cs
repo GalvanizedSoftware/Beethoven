@@ -8,8 +8,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
   public abstract class Property
   {
     private static readonly Type type = typeof(Property);
-    private static readonly MethodInfo createGenericMethodInfo = type.
-      GetMethod(nameof(CreateGeneric), Constants.StaticResolveFlags);
+    private static readonly MethodInfo createGenericMethodInfo = type
+      .GetMethod(nameof(CreateGeneric), Constants.StaticResolveFlags);
 
     protected Property(string name)
     {
@@ -25,9 +25,9 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
 
     public abstract Type PropertyType { get; }
 
-    internal abstract object InvokeGet();
+    internal abstract object InvokeGet(InstanceMap instanceMap);
 
-    internal abstract void InvokeSet(object newValue);
+    internal abstract void InvokeSet(InstanceMap instanceMap, object newValue);
 
     public static Property Create(Type propertyType, string name, IEnumerable<Property> propertyDefinitions)
     {

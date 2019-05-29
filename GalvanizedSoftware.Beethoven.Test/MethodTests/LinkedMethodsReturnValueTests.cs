@@ -1,6 +1,6 @@
 ﻿using System;
-using GalvanizedSoftware.Beethoven.Generic;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -108,7 +108,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     public void LinkedMethodsReturnValueTest7()
     {
       CustomImplentation implementation = new CustomImplentation();
-      Parameter<BoolContainer> parameter = new Parameter<BoolContainer>("container");
+      ConstructorParameter parameter = ConstructorParameter.Create<BoolContainer>("container");
       TypeDefinition<ITestMethods> typeDefinition = new TypeDefinition<ITestMethods>(
           parameter,
           new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))

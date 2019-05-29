@@ -1,36 +1,41 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GalvanizedSoftware.Beethoven.Generic;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
+using Tuple = System.Tuple<GalvanizedSoftware.Beethoven.Generic.Parameters.IParameter, object>;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
-  internal class InstanceMap : IInstanceMap
+  public class InstanceMap : IInstanceMap
   {
-    private readonly Dictionary<Parameter, object> dictionary;
+    private readonly Dictionary<IParameter, object> dictionary;
 
-    public InstanceMap(IEnumerable<object> partDefinitions, object[] parameters)
+    public InstanceMap(IEnumerable<object> partDefinitions, IEnumerable<object> parameters)
     {
-      dictionary = partDefinitions.OfType<Parameter>()
-        .Zip(parameters, (parameter, instance) => (parameter, instance))
-        .ToDictionary(
-        tuple => tuple.parameter,
-        tuple => tuple.instance);
+      IParameter[] array = partDefinitions.OfType<IParameter>().ToArray();
+      dictionary = array
+            .OfType<ConstructorParameter>()
+            .Zip(parameters, (parameter, instance) => new Tuple(parameter, instance))
+          .Concat(array
+            .OfType<AutoParameter>()
+            .Select(parameter => new Tuple(parameter, null)))
+        .ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
     }
 
-    public object GetLocal(Parameter parameter)
+    public object GetLocal(IParameter parameter)
     {
-      if (parameter == null)
-        return null;
-      KeyValuePair<Parameter, object> pair = dictionary
+      KeyValuePair<IParameter, object> existing = dictionary
         .FirstOrDefault(item => item.Key.CompareTo(parameter) == 0);
-      Parameter instanceParameter = pair.Key;
-      if (instanceParameter == null)
+      return existing.Value ?? Create(parameter as AutoParameter, existing.Key != null);
+    }
+
+    private object Create(AutoParameter autoParameter, bool exists)
+    {
+      if (autoParameter == null)
         return null;
-      object instance = pair.Value;
-      if (instance != null)
-        return instance;
-      instance = instanceParameter.Create();
-      dictionary[instanceParameter] = instance;
+      object instance = autoParameter.Create();
+      if (!exists)
+        dictionary.Add(autoParameter, instance);
       return instance;
     }
   }

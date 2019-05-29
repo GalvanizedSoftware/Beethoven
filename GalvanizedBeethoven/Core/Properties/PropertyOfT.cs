@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  public sealed class Property<T> : Property, IPropertyDefinition<T>, IObjectProvider
+  public sealed class Property<T> : Property, IObjectProvider, IPropertyDefinition<T>
   {
     private readonly IPropertyDefinition<T>[] definitions;
     private readonly IObjectProvider objectProviderHandler;
@@ -31,31 +31,32 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       return objectProviderHandler.Get<TChild>();
     }
 
-    public bool InvokeGetter(ref T returnValue)
+    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
     {
       foreach (IPropertyDefinition<T> definition in definitions)
-        if (!definition.InvokeGetter(ref returnValue))
+        if (!definition.InvokeGetter(instanceMap, ref returnValue))
           return false;
       return true;
     }
 
-    public bool InvokeSetter(T newValue)
+    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
     {
       foreach (IPropertyDefinition<T> definition in definitions)
-        if (!definition.InvokeSetter(newValue))
+        if (!definition.InvokeSetter(instanceMap, newValue))
           return false;
       return true;
     }
 
     public override Type PropertyType { get; } = typeof(T);
 
-    internal override object InvokeGet()
+    internal override object InvokeGet(InstanceMap instanceMap)
     {
       T value = default(T);
-      InvokeGetter(ref value);
+      InvokeGetter(instanceMap, ref value);
       return value;
     }
 
-    internal override void InvokeSet(object newValue) => InvokeSetter((T)newValue);
+    internal override void InvokeSet(InstanceMap instanceMap, object newValue) => 
+      InvokeSetter(instanceMap, (T)newValue);
   }
 }

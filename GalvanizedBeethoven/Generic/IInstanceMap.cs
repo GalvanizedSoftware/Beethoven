@@ -1,7 +1,9 @@
-﻿namespace GalvanizedSoftware.Beethoven.Generic
+﻿using GalvanizedSoftware.Beethoven.Generic.Parameters;
+
+namespace GalvanizedSoftware.Beethoven.Generic
 {
   public interface IInstanceMap
   {
-    object GetLocal(Parameter parameter);
+    object GetLocal(IParameter parameter);
   }
 }

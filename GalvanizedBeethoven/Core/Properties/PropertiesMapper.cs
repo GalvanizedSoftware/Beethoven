@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Generic;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using static GalvanizedSoftware.Beethoven.Core.Constants;
 
@@ -10,37 +12,49 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
   public class PropertiesMapper : IEnumerable<Property>
   {
     private readonly Property[] properties;
-    private static readonly MethodInfo createPropertyMethodInfo;
-
-    static PropertiesMapper()
-    {
-      createPropertyMethodInfo = typeof(PropertiesMapper)
-        .GetMethod(nameof(CreateProperty), StaticResolveFlags);
-    }
+    private static readonly MethodInfo createGenericMethodInfo = 
+      typeof(PropertiesMapper).GetMethod(nameof(CreatePropertyGeneric), StaticResolveFlags);
+    private static readonly MethodInfo createPropertyDefinitionImportMethodInfo = 
+      typeof(PropertiesMapper).GetMethod(nameof(CreatePropertyDefinitionImport), StaticResolveFlags);
 
     public PropertiesMapper(object baseObject)
     {
       properties = GetAllMembers(baseObject).ToArray();
     }
 
-    public IEnumerator<Property> GetEnumerator() => 
+    public IEnumerator<Property> GetEnumerator() =>
       properties.AsEnumerable().GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    private IEnumerable<Property> GetAllMembers(object baseObject)
+    private static IEnumerable<Property> GetAllMembers(object baseObject)
     {
-      if (baseObject == null)
-        yield break;
-      foreach (PropertyInfo propertyInfo in baseObject.GetType().GetProperties(ResolveFlags))
+      switch (baseObject)
       {
-        yield return (Property)createPropertyMethodInfo.
-          MakeGenericMethod(propertyInfo.PropertyType).
-          Invoke(GetType(), new[] { propertyInfo.Name, baseObject });
+        case null:
+          return new Property[0];
+        case DefinitionImport definitionImport:
+          IParameter parameter = definitionImport.Parameter;
+          return parameter.Type
+            .GetProperties(ResolveFlags)
+            .Select(propertyInfo =>
+              (Property)createPropertyDefinitionImportMethodInfo.
+                MakeGenericMethod(propertyInfo.PropertyType).
+                Invoke(typeof(PropertiesMapper), new object[] { parameter, propertyInfo.Name }));
+        default:
+          return baseObject.GetType()
+            .GetProperties(ResolveFlags)
+            .Select(propertyInfo =>
+              (Property)createGenericMethodInfo.
+                MakeGenericMethod(propertyInfo.PropertyType).
+                Invoke(typeof(PropertiesMapper), new[] { baseObject, propertyInfo.Name }));
       }
     }
 
-    private static Property CreateProperty<T>(string name, object baseObject) => 
+    private static Property CreatePropertyGeneric<T>(object baseObject, string name) =>
       new Mapped<T>(baseObject, name).CreateMasterProperty();
+
+    private static Property CreatePropertyDefinitionImport<T>(IParameter parameter, string name) =>
+      new ParameterMapped<T>(parameter, name).CreateMasterProperty();
   }
 }

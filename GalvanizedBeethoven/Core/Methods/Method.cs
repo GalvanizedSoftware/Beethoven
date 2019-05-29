@@ -2,14 +2,15 @@
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Generic;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
   public abstract class Method
   {
-    private readonly Parameter parameter;
+    private readonly IParameter parameter;
 
-    protected Method(string name, IMethodMatcher methodMatcher, Parameter parameter = null)
+    protected Method(string name, IMethodMatcher methodMatcher, IParameter parameter = null)
     {
       Name = name;
       MethodMatcher = methodMatcher;

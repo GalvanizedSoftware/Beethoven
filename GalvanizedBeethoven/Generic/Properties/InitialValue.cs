@@ -1,4 +1,5 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Properties;
+﻿using GalvanizedSoftware.Beethoven.Core;
+using GalvanizedSoftware.Beethoven.Core.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
@@ -12,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.value = value;
     }
 
-    public bool InvokeGetter(ref T returnValue)
+    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
     {
       if (valueSet)
         return true;
@@ -20,7 +21,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       return false;
     }
 
-    public bool InvokeSetter(T newValue)
+    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
     {
       valueSet = true;
       return true;

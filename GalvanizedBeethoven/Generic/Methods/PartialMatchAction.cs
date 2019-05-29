@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -12,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly Delegate action;
     private readonly (Type, string)[] localParameters;
 
-    public PartialMatchAction(string mainName, Parameter<T> parameter, Delegate action) :
+    public PartialMatchAction(string mainName, ConstructorParameter parameter, Delegate action) :
       base(mainName, new MatchLambdaPartiallyNoReturn(), parameter)
     {
       this.action = action;
@@ -20,7 +21,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     public PartialMatchAction(string mainName, Delegate action) :
-      base(mainName, new MatchLambdaPartiallyNoReturn(), new Parameter<T>(action.GetFirstParameterName()))
+      base(mainName, new MatchLambdaPartiallyNoReturn(), new ConstructorParameter(action.GetFirstParameterName(), typeof(T)))
     {
       this.action = action;
       localParameters = new (Type, string)[0];
@@ -40,17 +41,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         .Select(index => parameters[index])
         .ToArray();
       action.DynamicInvoke(localParameterValues.Prepend(localInstance).ToArray());
-      // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-      localParameterValues.Zip(indexes,
-        (value, index) => SetIfValid(parameters, index, value, masterParameters))
-        .ToArray();
-    }
-
-    private static object SetIfValid(object[] parameters, int index, object value, (Type, string)[] masterParameters)
-    {
-      if (index >= 0 && index < parameters.Length && masterParameters[index].Item1.IsByRef)
-        parameters[index] = value;
-      return null;
     }
   }
 }

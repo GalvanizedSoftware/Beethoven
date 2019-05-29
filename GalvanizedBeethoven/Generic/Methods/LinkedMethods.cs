@@ -25,7 +25,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     private LinkedMethods(string name, Method[] methodList) : 
-      base(name, new MatchLinked(methodList.Select(method => method.MethodMatcher)))
+      base(name, new MatchNothing()) // Matching is called through each method, not at this level
     {
       this.methodList = methodList;
       objectProviderHandler = new ObjectProviderHandler(methodList);

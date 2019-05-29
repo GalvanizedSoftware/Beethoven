@@ -18,13 +18,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     }
 
     // ReSharper disable once RedundantAssignment
-    public bool InvokeGetter(ref T returnValue)
+    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
     {
       returnValue = delegateFunc();
       return true;
     }
 
-    public bool InvokeSetter(T newValue)
+    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
     {
       return true;
     }

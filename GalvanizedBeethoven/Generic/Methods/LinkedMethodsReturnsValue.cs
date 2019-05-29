@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -25,7 +26,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     private LinkedMethodsReturnValue(string name, Method[] methodList) :
-      base(name, new MatchLinked(methodList.Select(method => method.MethodMatcher)))
+      base(name, new MatchNothing()) // Matching is called through each method, not at this level
     {
       this.methodList = methodList;
       objectProviderHandler = new ObjectProviderHandler(methodList);
@@ -85,7 +86,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue PartialMatchLambda<T>(T actionOrFunc) =>
       Add(new PartialMatchLambda<T>(Name, actionOrFunc));
 
-    public LinkedMethodsReturnValue PartialMatchAction<T>(Parameter<T> parameter, Action<T> action) =>
+    public LinkedMethodsReturnValue PartialMatchAction<T>(ConstructorParameter parameter, Action<T> action) =>
       Add(new PartialMatchAction<T>(Name, parameter, action));
 
     public LinkedMethodsReturnValue PartialMatchAction<T>(Action<T> action) =>
