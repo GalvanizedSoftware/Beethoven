@@ -58,8 +58,8 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       string gotValue2 = "";
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
-          .PartialMatchLambda<Action<string>>(text1 => gotValue1 = text1)
-          .PartialMatchLambda<Action<string>>(text2 => gotValue2 = text2)
+          .PartialMatchAction((string text1) => gotValue1 = text1)
+          .PartialMatchAction((string text2) => gotValue2 = text2)
         );
       instance.WithParameters("w", "sd", 3);
       Assert.AreEqual(gotValue1, "w");

@@ -83,14 +83,17 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue PartialMatchMethod<TMain>(object instance, string mainParameterName) =>
       Add(new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
 
-    public LinkedMethodsReturnValue PartialMatchLambda<T>(T actionOrFunc) =>
-      Add(new PartialMatchLambda<T>(Name, actionOrFunc));
+    public LinkedMethodsReturnValue PartialMatchAction(Action action, IParameter parameter = null) =>
+      Add(new PartialMatchAction(Name, parameter, action));
 
-    public LinkedMethodsReturnValue PartialMatchAction<T>(ConstructorParameter parameter, Action<T> action) =>
-      Add(new PartialMatchAction<T>(Name, parameter, action));
+    public LinkedMethodsReturnValue PartialMatchAction<T>(Action<T> action, IParameter parameter = null) =>
+      Add(new PartialMatchAction(Name, parameter, action));
 
-    public LinkedMethodsReturnValue PartialMatchAction<T>(Action<T> action) =>
-      Add(new PartialMatchAction<T>(Name, action));
+    public LinkedMethodsReturnValue PartialMatchFunc<TReturn>(Func<TReturn> func, IParameter parameter = null) =>
+      Add(new PartialMatchFunc(Name, parameter, func));
+
+    public LinkedMethodsReturnValue PartialMatchFunc<T, TReturn>(Func<T, TReturn> func, IParameter parameter = null) =>
+      Add(new PartialMatchFunc(Name, parameter, func));
 
     public override void InvokeFindInstance(IInstanceMap instanceMap, Action<object> returnAction, 
       object[] parameters, Type[] genericArguments, MethodInfo methodInfo)

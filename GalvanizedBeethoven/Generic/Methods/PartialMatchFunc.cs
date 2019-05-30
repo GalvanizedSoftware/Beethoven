@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -14,13 +15,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly bool hasReturnType;
     private readonly (Type, string)[] localParameters;
 
-    public PartialMatchFunc(string mainName, Delegate lambdaDelegate) :
-      this(mainName, lambdaDelegate.Target, lambdaDelegate.Method)
+    public PartialMatchFunc(string mainName, IParameter parameter, Delegate lambdaDelegate) :
+      this(mainName, lambdaDelegate.Target, lambdaDelegate.Method, parameter)
     {
     }
 
-    private PartialMatchFunc(string mainName, object target, MethodInfo lambdaMethodInfo) :
-      base(mainName, new MatchLambdaPartiallyNoReturn(lambdaMethodInfo))
+    private PartialMatchFunc(string mainName, object target, MethodInfo lambdaMethodInfo, IParameter parameter) :
+      base(mainName, new MatchLambdaPartiallyNoReturn(lambdaMethodInfo), parameter)
     {
       methodInfo = lambdaMethodInfo;
       localParameters = lambdaMethodInfo.GetParameterTypeAndNames();

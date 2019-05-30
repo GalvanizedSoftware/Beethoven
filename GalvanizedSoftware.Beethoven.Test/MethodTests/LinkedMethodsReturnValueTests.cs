@@ -82,7 +82,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
           .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
-          .PartialMatchLambda<Action>(() => called = true));
+          .PartialMatchAction(() => called = true));
       string text2 = "wetwt";
       instance.OutAndRef(out string _, ref text2, 5);
       Assert.IsTrue(called);
@@ -97,8 +97,8 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
           .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
-          .PartialMatchLambda<Func<bool>>(() => false)
-          .PartialMatchLambda<Action>(() => called = true));
+          .PartialMatchFunc(() => false)
+          .PartialMatchAction(() => called = true));
       string text2 = "wetwt";
       instance.OutAndRef(out string _, ref text2, 5);
       Assert.IsFalse(called);
@@ -113,7 +113,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
           parameter,
           new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
             .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
-            .PartialMatchAction<BoolContainer>(container => container.Value = true));
+            .PartialMatchAction<BoolContainer>(container => container.Value = true, parameter));
       BoolContainer boolContainer = new BoolContainer();
       ITestMethods instance = typeDefinition.Create(boolContainer);
       BoolContainer boolContainer2 = new BoolContainer();

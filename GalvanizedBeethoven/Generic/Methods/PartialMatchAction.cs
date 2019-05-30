@@ -8,20 +8,13 @@ using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class PartialMatchAction<T> : Method
+  public class PartialMatchAction : Method
   {
     private readonly Delegate action;
     private readonly (Type, string)[] localParameters;
 
-    public PartialMatchAction(string mainName, ConstructorParameter parameter, Delegate action) :
+    public PartialMatchAction(string mainName, IParameter parameter, Delegate action) :
       base(mainName, new MatchLambdaPartiallyNoReturn(), parameter)
-    {
-      this.action = action;
-      localParameters = new (Type, string)[0];
-    }
-
-    public PartialMatchAction(string mainName, Delegate action) :
-      base(mainName, new MatchLambdaPartiallyNoReturn(), new ConstructorParameter(action.GetFirstParameterName(), typeof(T)))
     {
       this.action = action;
       localParameters = new (Type, string)[0];

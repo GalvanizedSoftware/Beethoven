@@ -132,10 +132,10 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       WithParametersImplementation implentation = new WithParametersImplementation();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
-          .PartialMatchLambda<Func<int, int>>(count => count)
+          .PartialMatchFunc((int count) => count)
           .SkipIfResultCondition<int>(count => count == 0)
           .AutoMappedMethod(implentation)
-          .PartialMatchLambda<Action>(() => calledCount++));
+          .PartialMatchAction(() => calledCount++));
       int result1 = instance.WithParameters("fegf", "ggn", 0);
       Assert.AreEqual(0, calledCount);
       Assert.AreEqual(0, result1);
@@ -183,7 +183,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
           .AutoMappedMethod(implentation)
-          .PartialMatchLambda<Func<int>>(() => 5));
+          .PartialMatchFunc(() => 5));
       int result = instance.WithParameters("fdgdf", "afasf", 3);
       Assert.AreEqual(5, result);
     }
@@ -195,7 +195,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       IGenericMethods instance = beethovenFactory.Generate<IGenericMethods>(
         new LinkedMethodsReturnValue(nameof(IGenericMethods.Simple))
           .Lambda<Func<bool>>(() => true)
-          .PartialMatchLambda<Func<bool>>(() => false)
+          .PartialMatchFunc(() => false)
           .Lambda<Func<bool>>(() => false));
       Assert.AreEqual(true, instance.Simple<bool>());
     }
