@@ -12,12 +12,17 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
   {
     private readonly Delegate action;
     private readonly (Type, string)[] localParameters;
+    private readonly int? parameterIndex;
 
     public PartialMatchAction(string mainName, IParameter parameter, Delegate action) :
       base(mainName, new MatchLambdaPartiallyNoReturn(), parameter)
     {
       this.action = action;
-      localParameters = new (Type, string)[0];
+      localParameters = action.Method.GetParameterTypeAndNames();
+      parameterIndex = localParameters
+        .Select((tuple, i) => (tuple, (int?)i))
+        .FirstOrDefault(outerTuple => parameter?.Equals(outerTuple.tuple) == true)
+        .Item2;
     }
 
     public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
@@ -27,13 +32,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         .GetParameterTypeAndNames()
         .AppendReturnValue(masterMethodInfo.ReturnType)
         .ToArray();
-      int[] indexes = localParameters
+      object[] localParameterValues = localParameters
         .Select(item => Array.IndexOf(masterParameters, item))
+        .Select(index => index < 0 ? null : parameters[index])
         .ToArray();
-      object[] localParameterValues = indexes
-        .Select(index => parameters[index])
-        .ToArray();
-      action.DynamicInvoke(localParameterValues.Prepend(localInstance).ToArray());
+      if (parameterIndex != null)
+        localParameterValues[parameterIndex.Value] = localInstance;
+      action.DynamicInvoke(localParameterValues);
     }
   }
 }

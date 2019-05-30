@@ -2,7 +2,7 @@
 
 namespace GalvanizedSoftware.Beethoven.Generic.Parameters
 {
-  public interface IParameter : IComparable<IParameter>
+  public interface IParameter : IEquatable<IParameter>, IEquatable<(Type, string)>
   {
     Type Type { get; }
   }

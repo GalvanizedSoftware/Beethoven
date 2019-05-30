@@ -25,7 +25,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     public object GetLocal(IParameter parameter)
     {
       KeyValuePair<IParameter, object> existing = dictionary
-        .FirstOrDefault(item => item.Key.CompareTo(parameter) == 0);
+        .FirstOrDefault(item => item.Key.Equals(parameter));
       return existing.Value ?? Create(parameter as AutoParameter, existing.Key != null);
     }
 

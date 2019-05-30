@@ -52,7 +52,6 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     [TestMethod]
     public void LinkedMethodsReturnValueTest4()
     {
-      PartialMethods partialMethods = new PartialMethods();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       string gotValue1 = "";
       string gotValue2 = "";

@@ -16,10 +16,15 @@ namespace GalvanizedSoftware.Beethoven.Generic.Parameters
     }
 
     public object Create() =>
-          initializationFunc.DynamicInvoke();
+      initializationFunc.DynamicInvoke();
 
     public Type Type { get; }
-    public int CompareTo(IParameter other) => 
-      ReferenceEquals(this, other) ? 0 : 1;
+
+    public bool Equals(IParameter other) => 
+      ReferenceEquals(this, other) || 
+      other is AutoParameter && Equals((other.Type, ""));
+
+    public bool Equals((Type, string) other) =>
+      string.Equals(Type.FullName, other.Item1.FullName, StringComparison.Ordinal);
   }
 }

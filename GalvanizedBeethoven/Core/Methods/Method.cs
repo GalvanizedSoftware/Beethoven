@@ -8,7 +8,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
   public abstract class Method
   {
-    private readonly IParameter parameter;
+    protected readonly IParameter parameter;
 
     protected Method(string name, IMethodMatcher methodMatcher, IParameter parameter = null)
     {
