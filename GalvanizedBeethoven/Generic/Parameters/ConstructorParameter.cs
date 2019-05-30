@@ -7,6 +7,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Parameters
     public static ConstructorParameter Create<T>(string name) =>
       new ConstructorParameter(name, typeof(T));
 
+    public static ConstructorParameter Create<T>() =>
+      new ConstructorParameter(null, typeof(T));
+
     public ConstructorParameter(string name, Type type)
     {
       Name = name;

@@ -2,6 +2,9 @@
 using GalvanizedSoftware.Beethoven.Generic.ValueLookup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using GalvanizedSoftware.Beethoven.Core.Properties;
+using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 using Unity;
 
 namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
@@ -103,6 +106,27 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
       ICompany company = factory.Generate<ICompany>();
       Assert.AreEqual("The evil company", company.Information.Name);
       Assert.AreEqual(null, company.Information.Address);
+    }
+
+    [TestMethod]
+    public void AutoAssignTest5()
+    {
+      IParameter nameParameter = ConstructorParameter.Create<string>("Name");
+      IParameter addressParameter = ConstructorParameter.Create<string>("Address");
+      TypeDefinition<ICompanyInformation> typeDefinition = new TypeDefinition<ICompanyInformation>(
+        nameParameter,
+        addressParameter,
+        new Property<string>("Name")
+          .InitialValue(nameParameter)
+          .SetterGetter(),
+        new Property<string>("Address")
+          .InitialValue(addressParameter)
+          .SetterGetter()
+        );
+      ICompanyInformation companyInformation = 
+        typeDefinition.Create("The evil company", "2460 Sunshine road");
+      Assert.AreEqual("The evil company", companyInformation.Name);
+      Assert.AreEqual("2460 Sunshine road", companyInformation.Address);
     }
 
     [TestMethod]

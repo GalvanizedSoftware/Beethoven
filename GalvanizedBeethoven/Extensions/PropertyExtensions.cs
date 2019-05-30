@@ -1,5 +1,6 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Core.Properties;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using GalvanizedSoftware.Beethoven.MVVM.Properties;
 
@@ -55,6 +56,11 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     public static Property<T> InitialValue<T>(this Property<T> property, T value)
     {
       return new Property<T>(property, new InitialValue<T>(value));
+    }
+
+    public static Property<T> InitialValue<T>(this Property<T> property, IParameter parameter)
+    {
+      return new Property<T>(property, new InitialParameterValue<T>(parameter));
     }
 
     public static Property<T> DelegatedSetter<T>(this Property<T> property, Action<T> action)
