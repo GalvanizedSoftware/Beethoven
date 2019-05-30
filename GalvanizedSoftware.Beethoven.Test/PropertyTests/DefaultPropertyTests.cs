@@ -4,6 +4,7 @@ using GalvanizedSoftware.Beethoven.Generic.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using GalvanizedSoftware.Beethoven.Test.PropertyTests.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
 {

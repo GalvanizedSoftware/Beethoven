@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
+namespace GalvanizedSoftware.Beethoven.Test.PropertyTests.Interfaces
 {
   public interface ITestProperties : INotifyPropertyChanged
   {

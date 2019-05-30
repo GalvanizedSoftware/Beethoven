@@ -35,8 +35,9 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
           return new Property[0];
         case DefinitionImport definitionImport:
           IParameter parameter = definitionImport.Parameter;
-          return parameter.Type
-            .GetProperties(ResolveFlags)
+          PropertyInfo[] propertyInfos = parameter.Type
+            .GetProperties(ResolveFlags);
+          return propertyInfos
             .Select(propertyInfo =>
               (Property)createPropertyDefinitionImportMethodInfo.
                 MakeGenericMethod(propertyInfo.PropertyType).
