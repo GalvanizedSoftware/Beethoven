@@ -40,8 +40,9 @@ namespace GalvanizedSoftware.Beethoven
     public T Generate<T>(params object[] partDefinitions) where T : class
     {
       partDefinitions = partDefinitions.Concat(GeneralPartDefinitions).ToArray();
-      List<object> wrappers = WrapperGenerator<T>.GetWrappers(partDefinitions);
-      return Create<T>(partDefinitions, wrappers, new object[0]);
+      return Create<T>(partDefinitions, 
+        WrapperGenerator<T>.GetWrappers(partDefinitions).ToList(), 
+        new object[0]);
     }
 
     internal T Create<T>(object[] partDefinitions, List<object> wrappers, object[] parameters)

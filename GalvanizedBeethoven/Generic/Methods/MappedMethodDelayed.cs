@@ -11,21 +11,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly MethodInfo methodInfo;
     private readonly bool hasReturnType;
 
-    public MappedMethodDelayed(string name, Type type) :
-      this(name, type, name)
-    {
-    }
-
     public MappedMethodDelayed(MethodInfo methodInfo) :
       this(methodInfo.Name, methodInfo)
     {
     }
-
-    public MappedMethodDelayed(string mainName, Type type, string targetName) :
-      this(mainName, GetMethod(type, targetName))
-    {
-    }
-
 
     private MappedMethodDelayed(string mainName, MethodInfo methodInfo) :
       base(mainName, new MatchMethodInfoExact(methodInfo))
@@ -33,9 +22,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       this.methodInfo = methodInfo;
       hasReturnType = methodInfo.HasReturnType();
     }
-
-    private static MethodInfo GetMethod(Type type, string targetName) => 
-      type.FindSingleMethod(targetName);
 
     public object Instance { private get; set; }
 
