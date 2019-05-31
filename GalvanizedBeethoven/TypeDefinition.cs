@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GalvanizedSoftware.Beethoven.Core;
+using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Generic.Events;
 
 namespace GalvanizedSoftware.Beethoven
@@ -11,19 +12,17 @@ namespace GalvanizedSoftware.Beethoven
     private readonly BeethovenFactory beethovenFactory = new BeethovenFactory();
     private readonly object[] partDefinitions;
     private readonly List<(string, Action<IEventTrigger>)> eventList = new List<(string, Action<IEventTrigger>)>();
-    private readonly List<object> wrappers = new List<object>();
+    private readonly List<object> wrappers;
 
     public TypeDefinition(params object[] newPartDefinitions)
     {
       partDefinitions = newPartDefinitions;
-      wrappers.AddRange(WrapperGenerator<T>.GetWrappers(partDefinitions));
+      wrappers = WrapperGenerator<T>.GetWrappers(partDefinitions).ToList();
     }
 
-    private TypeDefinition(TypeDefinition<T> previousDefinition, object[] newPartDefinitions)
+    private TypeDefinition(TypeDefinition<T> previousDefinition, object[] newPartDefinitions) :
+      this(previousDefinition.partDefinitions.Concat(newPartDefinitions).ToArray())
     {
-      beethovenFactory = previousDefinition.beethovenFactory;
-      partDefinitions = previousDefinition.partDefinitions.Concat(newPartDefinitions).ToArray();
-      wrappers.AddRange(WrapperGenerator<T>.GetWrappers(newPartDefinitions));
     }
 
     public TypeDefinition<T> Add(params object[] newImplementationObjects) =>
@@ -41,5 +40,8 @@ namespace GalvanizedSoftware.Beethoven
 
     public IEventTrigger CreateEventTrigger(object mainObject, string name) =>
       beethovenFactory.CreateEventTrigger(mainObject, name);
+
+    public TypeDefinition<T> AddMethodMapper<TChild>(Func<T, TChild> creatorFunc) =>
+      new TypeDefinition<T>(this, new object[] { new MethodMapperCreator<T, TChild>(creatorFunc) });
   }
 }

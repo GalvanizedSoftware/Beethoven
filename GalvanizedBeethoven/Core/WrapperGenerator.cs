@@ -29,7 +29,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       defaultProperty = partDefinitions.OfType<DefaultProperty>().SingleOrDefault();
       defaultMethod = partDefinitions.OfType<DefaultMethod>().SingleOrDefault();
       this.partDefinitions = this.partDefinitions
-        .Concat(GetDefaultProperties(this.OfType<Property>()))
+        .Concat(GetDefaultProperties(flatDefinitions.OfType<Property>()))
         .Concat(GetDefaultMethods())
         .ToArray();
     }

@@ -7,16 +7,16 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
   {
     private readonly BeethovenFactory factory = new BeethovenFactory();
 
-    public IPerformanceTest Create()
-    {
-      FactoryHelper<IPerformanceTest> factoryHelper = new FactoryHelper<IPerformanceTest>();
-      return factory.Generate<IPerformanceTest>(
+    public IPerformanceTest Create() =>
+      new TypeDefinition<IPerformanceTest>
+      (
         new DefaultProperty()
           .SkipIfEqual()
           .SetterGetter()
-          .NotifyChanged(),
-        factoryHelper.MethodMapper(main => new FormatClass(main)));
-    }
+          .NotifyChanged()
+      )
+      .AddMethodMapper(main => new FormatClass(main))
+      .Create();
 
     private class FormatClass
     {

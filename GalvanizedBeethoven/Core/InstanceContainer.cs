@@ -17,18 +17,16 @@ namespace GalvanizedSoftware.Beethoven.Core
     {
       propertiesSignatureChecker.CheckSignatures(wrappers);
       InstanceMap instanceMap = new InstanceMap(partDefinitions, parameters);
-      //LinkedMethods
-      //LinkedMethodsReturnValue
       EventInvokers = new EventInvokers(this);
       MasterInterceptor = new MasterInterceptor(
         instanceMap,
         new WrapperFactories(wrappers),
         new EventsFactory<T>(EventInvokers));
       objectProviderHandler = new ObjectProviderHandler(
-          partDefinitions
-          .Append(new TargetBindingParent(this))
-          .Append(EventInvokers)
-          .Append(MasterInterceptor));
+        partDefinitions
+        .Append(new TargetBindingParent(this))
+        .Append(EventInvokers)
+        .Append(MasterInterceptor));
     }
 
     public EventInvokers EventInvokers { get; }
