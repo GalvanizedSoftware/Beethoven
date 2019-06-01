@@ -29,7 +29,7 @@ namespace GalvanizedSoftware.Beethoven
       new TypeDefinition<T>(this, newImplementationObjects);
 
     public void RegisterEvent(string name, Action<IEventTrigger> triggerFunc) =>
-      eventList.Add(ValueTuple.Create(name, triggerFunc));
+      eventList.Add((name, triggerFunc));
 
     public T Create(params object[] parameters)
     {
