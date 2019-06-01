@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+// ReSharper disable CommentTypo
 
 namespace GalvanizedSoftware.Beethoven.Test.Performance
 {
