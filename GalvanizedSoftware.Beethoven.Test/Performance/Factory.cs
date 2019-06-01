@@ -1,21 +1,25 @@
-﻿using GalvanizedSoftware.Beethoven.Generic;
-using GalvanizedSoftware.Beethoven.Generic.Properties;
+﻿using GalvanizedSoftware.Beethoven.Generic.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Test.Performance
 {
   internal class Factory
   {
-    private readonly BeethovenFactory factory = new BeethovenFactory();
+    private readonly TypeDefinition<IPerformanceTest> typeDefinition;
 
-    public IPerformanceTest Create() =>
-      new TypeDefinition<IPerformanceTest>
+    public Factory()
+    {
+      typeDefinition = new TypeDefinition<IPerformanceTest>
       (
         new DefaultProperty()
           .SkipIfEqual()
           .SetterGetter()
           .NotifyChanged()
       )
-      .AddMethodMapper(main => new FormatClass(main))
+      .AddMethodMapper(main => new FormatClass(main));
+    }
+
+    public IPerformanceTest Create() =>
+      typeDefinition
       .Create();
 
     private class FormatClass

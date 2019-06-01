@@ -1,9 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-// ReSharper disable ImplicitlyCapturedClosure
-// ReSharper disable CollectionNeverQueried.Local
+using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Test.Performance
 {
@@ -23,100 +21,85 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
     }
 
     [TestMethod]
-    // On my system this is about 100 times slower than classic implementation, or on average 1.3 µs per call
+    // On my system the result compared to classic implementation is:
+    // Commit 0dca2387: 100 times slower, on average 1.3 µs per cal
+    // Commit dcdf4581: 24 times slower, on average 1.31 µs per cal
     public void PerformanceTestGetValue()
     {
       IPerformanceTest classic = new Classic { Name = "Name" };
-      const int callCount = 1000000;
-      List<string> dummyList = new List<string>(callCount);
-      long time1 = TimeAction(() =>
-      {
-        for (int i = 0; i < callCount; i++)
-          dummyList.Add(classic.Name);
-      });
-      Console.WriteLine($"Classic get: {time1}ms ({TimeScale * time1 / callCount} µs)");
       IPerformanceTest newWay = factory.Create();
       newWay.Name = "Name";
-      dummyList.Clear();
-      long time2 = TimeAction(() =>
-      {
-        for (int i = 0; i < callCount; i++)
-          dummyList.Add(newWay.Name);
-      });
-      Console.WriteLine($"New get: {time2}ms ({TimeScale * time2 / callCount} µs)");
-      Console.WriteLine($"{time2 / time1} Times slower");
+      const int callCount1 = 10000000;
+      const int callCount2 = 500000;
+      PerformanceTest(
+        () => classic.Name, callCount1,
+        () => newWay.Name, callCount2);
     }
 
     [TestMethod]
-    // On my system this is about 5 times slower than classic implementation, or on average 2.2 µs per call
+    // On my system the result compared to classic implementation is:
+    // Commit 0dca2387: 5 times slower, on average 2.2 µs per cal
+    // Commit dcdf4581: 31 times slower, on average 1.71 µs per cal
     public void PerformanceTestSetValue()
     {
       IPerformanceTest classic = new Classic { Name = "Name" };
-      const int callCount = 1000000;
-      long time1 = TimeAction(() =>
-      {
-        for (int i = 0; i < callCount; i++)
-          classic.Name = $"Name{i}";
-      });
-      Console.WriteLine($"Classic get: {time1}ms ({TimeScale * time1 / callCount} µs)");
       IPerformanceTest newWay = factory.Create();
       newWay.Name = "Name";
-      long time2 = TimeAction(() =>
-      {
-        for (int i = 0; i < callCount; i++)
-          newWay.Name = $"Name{i}";
-      });
-      Console.WriteLine($"New get: {time2}ms ({TimeScale * time2 / callCount} µs)");
-      Console.WriteLine($"{time2 / time1} Times slower");
+      const int callCount1 = 10000000;
+      const int callCount2 = 300000;
+      PerformanceTest(
+        () => classic.Name = "Name", callCount1,
+        () => newWay.Name = "Name", callCount2);
     }
 
     [TestMethod]
-    // On my system this is about 10 times slower than classic implementation, or on average 3.6 µs per call
+    // On my system the result compared to classic implementation is:
+    // Commit 0dca2387: 10 times slower, on average 3.6 µs per cal
+    // Commit dcdf4581: 10 times slower, on average 4.0 µs per cal
     public void PerformanceTestCallMethod()
     {
       IPerformanceTest classic = new Classic { Name = "Name" };
-      const int callCount = 1000000;
-      List<string> dummyList = new List<string>(callCount);
-      long time1 = TimeAction(() =>
-      {
-        for (int i = 0; i < callCount; i++)
-          dummyList.Add(classic.Format("Something {0}"));
-      });
-      Console.WriteLine($"Classic get: {time1}ms ({TimeScale * time1 / callCount} µs)");
       IPerformanceTest newWay = factory.Create();
-      newWay.Name = "Name";
-      dummyList.Clear();
-      long time2 = TimeAction(() =>
-      {
-        for (int i = 0; i < callCount; i++)
-          dummyList.Add(newWay.Format("Something {0}"));
-      });
-      Console.WriteLine($"New get: {time2}ms ({TimeScale * time2 / callCount} µs)");
-      Console.WriteLine($"{time2 / time1} Times slower");
+      const int callCount1 = 1000000;
+      const int callCount2 = 100000;
+      PerformanceTest(
+        () => classic.Format("Something {0}"), callCount1,
+        () => newWay.Format("Something {0}"), callCount2);
     }
 
     [TestMethod]
-    // On my system this is about 1000-1400 times slower (yikes!) than classic implementation, or on average 130-170 µs per call
+    // On my system the result compared to classic implementation is:
+    // Commit 0dca2387: 1000-1400 times slower (yikes!), on average 130-170 µs per cal
+    // Commit dcdf4581: 500-700 times slower, on average 110-120 µs per cal
     public void PerformanceTestCreation()
     {
-      const int callCount1 = 1000000;
-      List<object> dummyList = new List<object>(callCount1);
+      const int callCount1 = 2000000;
+      const int callCount2 = 4000;
+      PerformanceTest(
+        () => new Classic(), callCount1,
+        () => factory.Create(), callCount2);
+    }
+
+    private void PerformanceTest(
+      Func<object> classicAction, int classicCount,
+      Func<object> newAction, int newCount)
+    {
+      double timePerCall1 = TimePerCall("Classic:", classicAction, classicCount);
+      double timePerCall2 = TimePerCall("New:", newAction, newCount);
+      Console.WriteLine($"{ (int)(timePerCall2 / timePerCall1)} Times slower");
+    }
+
+    private static double TimePerCall(string header, Func<object> classicAction, int classicCount)
+    {
       long time1 = TimeAction(() =>
-      {
-        for (int i = 0; i < callCount1; i++)
-          dummyList.Add(new Classic());
-      });
-      Console.WriteLine($"Classic get: {time1}ms ({TimeScale * time1 / callCount1} µs)");
-      dummyList.Clear();
-      const int scale = 100;
-      const int callCount2 = callCount1 / scale;
-      long time2 = TimeAction(() =>
-      {
-        for (int i = 0; i < callCount2; i++)
-          dummyList.Add(factory.Create());
-      });
-      Console.WriteLine($"New get: {time2}ms ({TimeScale * time2 / callCount2} µs)");
-      Console.WriteLine($"{scale * time2 / time1} Times slower");
+        Enumerable.Range(0, classicCount)
+          .Select(i => classicAction())
+          // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
+          .ToList()
+      );
+      double timePerCall1 = TimeScale * time1 / classicCount;
+      Console.WriteLine(header + $" {time1}ms ({timePerCall1:0.00} µs)");
+      return timePerCall1;
     }
   }
 }
