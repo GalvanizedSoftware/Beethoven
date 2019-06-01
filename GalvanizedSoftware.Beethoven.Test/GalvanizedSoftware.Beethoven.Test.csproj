@@ -23,6 +23,7 @@
     <PackageReference Include="Castle.Core" Version="4.1.0" />
     <PackageReference Include="FakeItEasy" Version="5.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
     <PackageReference Include="Unity" Version="5.10.3" />
   </ItemGroup>
