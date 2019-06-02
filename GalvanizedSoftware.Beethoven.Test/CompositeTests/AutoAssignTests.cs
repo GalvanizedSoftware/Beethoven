@@ -130,6 +130,21 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
     }
 
     [TestMethod]
+    public void AutoAssignTest6()
+    {
+      IParameter nameParameter = ConstructorParameter.Create<string>("Name");
+      TypeDefinition<ICompanyInformation> typeDefinition = new TypeDefinition<ICompanyInformation>(
+        nameParameter,
+        new Property<string>("Name")
+          .InitialValue(nameParameter)
+          .SetterGetter()      );
+      ICompanyInformation companyInformation =
+        typeDefinition.Create("The evil company");
+      companyInformation.Name = "Generic Company B";
+      Assert.AreEqual("Generic Company B", companyInformation.Name);
+    }
+
+    [TestMethod]
     public void AutoAssignTestIoc()
     {
       UnityContainer unityContainer = new UnityContainer();

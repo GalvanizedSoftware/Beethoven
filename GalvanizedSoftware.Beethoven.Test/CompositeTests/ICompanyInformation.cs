@@ -2,7 +2,7 @@
 {
   public interface ICompanyInformation
   {
-    string Name { get; }
+    string Name { get; set; }
     string Address { get; }
   }
 }
