@@ -26,7 +26,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     private LinkedMethodsReturnValue(string name, Method[] methodList) :
-      base(name, new MatchNothing()) // Matching is called through each method, not at this level
+      base(name, new MatchAll(methodList.Select(method => method.MethodMatcher)))
     {
       this.methodList = methodList;
       objectProviderHandler = new ObjectProviderHandler(methodList);
@@ -84,16 +84,16 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Add(new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
 
     public LinkedMethodsReturnValue PartialMatchAction(Action action, IParameter parameter = null) =>
-      Add(new PartialMatchAction(Name, parameter, action));
+      Add(new PartialMatchAction(Name, action, parameter));
 
     public LinkedMethodsReturnValue PartialMatchAction<T>(Action<T> action, IParameter parameter = null) =>
-      Add(new PartialMatchAction(Name, parameter, action));
+      Add(new PartialMatchAction(Name, action, parameter));
 
     public LinkedMethodsReturnValue PartialMatchFunc<TReturn>(Func<TReturn> func, IParameter parameter = null) =>
-      Add(new PartialMatchFunc(Name, parameter, func));
+      Add(new PartialMatchFunc(Name, func, parameter));
 
     public LinkedMethodsReturnValue PartialMatchFunc<T, TReturn>(Func<T, TReturn> func, IParameter parameter = null) =>
-      Add(new PartialMatchFunc(Name, parameter, func));
+      Add(new PartialMatchFunc(Name, func, parameter));
 
     public override void InvokeFindInstance(IInstanceMap instanceMap, Action<object> returnAction, 
       object[] parameters, Type[] genericArguments, MethodInfo methodInfo)

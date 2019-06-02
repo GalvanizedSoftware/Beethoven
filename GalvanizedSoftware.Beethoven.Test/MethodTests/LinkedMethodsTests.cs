@@ -4,6 +4,7 @@ using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using GalvanizedSoftware.Beethoven.Generic;
 
 // ReSharper disable StringLiteralTypo
@@ -175,6 +176,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       CollectionAssert.AreEquivalent(new[] { "Before", "After" }, log);
     }
 
+
     [TestMethod]
     public void LinkedMethodsTest11()
     {
@@ -198,6 +200,21 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
           .PartialMatchFunc(() => false)
           .Lambda<Func<bool>>(() => false));
       Assert.AreEqual(true, instance.Simple<bool>());
+    }
+
+    [TestMethod]
+    public void LinkedMethodsTest13()
+    {
+      List<string> log = new List<string>();
+      List<int> implementation = new List<int> { 5, 2, 17 };
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      IEnumerable<int> instance = beethovenFactory.Generate<IEnumerable<int>>(
+        new LinkedObjects(
+          PartialMatchAction.Create("GetEnumerator", () => log.Add("Before")),
+          implementation,
+          PartialMatchAction.Create("GetEnumerator", () => log.Add("After"))));
+      CollectionAssert.AreEqual(new[] { 5, 2, 17 }, instance.ToArray());
+      CollectionAssert.AreEquivalent(new[] { "Before", "After" }, log);
     }
   }
 }

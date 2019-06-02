@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using GalvanizedSoftware.Beethoven.DemoApp.Common;
@@ -31,9 +33,9 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
       return newPerson;
     }
 
-    public string NewFirstName { get; set; }
+    public string NewFirstName { get; set; } = "";
 
-    public string NewLastName { get; set; }
+    public string NewLastName { get; set; } = "";
 
     public ICommand AddCommand { get; }
 
@@ -48,7 +50,8 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
       get => selected;
       set
       {
-        if (Equals(value, selected)) return;
+        if (Equals(value, selected))
+          return;
         selected = value;
         OnPropertyChanged();
       }

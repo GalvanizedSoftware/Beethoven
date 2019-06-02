@@ -15,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly bool hasReturnType;
     private readonly (Type, string)[] localParameters;
 
-    public PartialMatchFunc(string mainName, IParameter parameter, Delegate lambdaDelegate) :
+    public PartialMatchFunc(string mainName, Delegate lambdaDelegate, IParameter parameter) :
       this(mainName, lambdaDelegate.Target, lambdaDelegate.Method, parameter)
     {
     }

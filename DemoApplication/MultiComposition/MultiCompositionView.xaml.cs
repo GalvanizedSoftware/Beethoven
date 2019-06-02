@@ -1,11 +1,20 @@
-﻿namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
+﻿using System.Windows.Controls;
+using System.Windows.Data;
+
+namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
 {
   public partial class MultiCompositionView
   {
     public MultiCompositionView()
     {
-      DataContext = new MultiCompositionViewModel();
+      MultiCompositionViewModel multiCompositionViewModel = new MultiCompositionViewModel();
+      DataContext = multiCompositionViewModel;
       InitializeComponent();
+      Binding myBinding = new Binding("Items")
+      {
+        Source = multiCompositionViewModel
+      };
+      BindingOperations.SetBinding(ListBox, ListBox.ItemsSourceProperty, myBinding);
     }
   }
 }

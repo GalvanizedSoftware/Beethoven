@@ -13,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     protected Method(string name, IMethodMatcher methodMatcher, IParameter parameter = null)
     {
       Name = name;
-      MethodMatcher = methodMatcher;
+      MethodMatcher = methodMatcher ?? new MatchNothing();
       this.parameter = parameter;
     }
 

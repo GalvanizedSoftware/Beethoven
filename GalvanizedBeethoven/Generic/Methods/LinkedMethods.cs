@@ -24,14 +24,14 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
     }
 
-    private LinkedMethods(string name, Method[] methodList) : 
-      base(name, new MatchNothing()) // Matching is called through each method, not at this level
+    private LinkedMethods(string name, Method[] methodList) :
+      base(name, new MatchAll(methodList.Select(method => method.MethodMatcher)))
     {
       this.methodList = methodList;
       objectProviderHandler = new ObjectProviderHandler(methodList);
     }
 
-    public LinkedMethods Add(Method method) => 
+    public LinkedMethods Add(Method method) =>
       new LinkedMethods(this, method);
 
     public LinkedMethods Lambda<T>(T actionOrFunc) =>
@@ -90,7 +90,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       }
     }
 
-    private bool InvokeFirstMatch(IInstanceMap instanceMap, 
+    private bool InvokeFirstMatch(IInstanceMap instanceMap,
       Method method, object[] parameters, (Type, string)[] parameterTypes,
       Type[] genericArguments, MethodInfo methodInfo)
     {
@@ -108,7 +108,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       return result;
     }
 
-    public IEnumerable<TChild> Get<TChild>() => 
+    public IEnumerable<TChild> Get<TChild>() =>
       objectProviderHandler.Get<TChild>();
   }
 }

@@ -30,8 +30,9 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
       typeDefinition.RegisterEvent(
         nameof(IPersonCollection.CollectionChanged),
         eventTrigger => trigger = eventTrigger);
+      IPersonCollection personCollection = typeDefinition.Create();
       collectionChanged.CollectionChanged += (sender, args) => trigger.Notify(sender, args);
-      return typeDefinition.Create();
+      return personCollection;
     }
 
     public IPerson CreatePerson() =>

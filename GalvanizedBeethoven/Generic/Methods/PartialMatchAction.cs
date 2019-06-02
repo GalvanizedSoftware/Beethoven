@@ -14,7 +14,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly (Type, string)[] localParameters;
     private readonly int? parameterIndex;
 
-    public PartialMatchAction(string mainName, IParameter parameter, Delegate action) :
+    public static PartialMatchAction Create(string mainName, Action action, IParameter parameter = null) =>
+      new PartialMatchAction(mainName, action, parameter);
+
+    public PartialMatchAction(string mainName, Delegate action, IParameter parameter = null) :
       base(mainName, new MatchLambdaPartiallyNoReturn(), parameter)
     {
       this.action = action;
