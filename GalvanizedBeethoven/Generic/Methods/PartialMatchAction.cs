@@ -17,6 +17,15 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public static PartialMatchAction Create(string mainName, Action action, IParameter parameter = null) =>
       new PartialMatchAction(mainName, action, parameter);
 
+    public static PartialMatchAction Create<T>(string mainName, Action<T> action, IParameter parameter = null) =>
+      new PartialMatchAction(mainName, action, parameter);
+
+    public static PartialMatchAction Create<T1, T2>(string mainName, Action<T1, T2> action, IParameter parameter = null) =>
+      new PartialMatchAction(mainName, action, parameter);
+
+    public static PartialMatchAction Create<T1, T2, T3>(string mainName, Action<T1, T2, T3> action, IParameter parameter = null) =>
+      new PartialMatchAction(mainName, action, parameter);
+
     public PartialMatchAction(string mainName, Delegate action, IParameter parameter = null) :
       base(mainName, new MatchLambdaPartiallyNoReturn(), parameter)
     {
