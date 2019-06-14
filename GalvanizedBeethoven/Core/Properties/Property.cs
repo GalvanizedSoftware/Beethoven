@@ -2,28 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Interceptors;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  public abstract class Property
+  public abstract class Property : IInterceptorProvider
   {
     private static readonly Type type = typeof(Property);
     private static readonly MethodInfo createGenericMethodInfo = type
       .GetMethod(nameof(CreateGeneric), Constants.StaticResolveFlags);
 
-    protected Property(string name)
+    protected Property(string name, Type propertyType)
     {
       Name = name;
+      PropertyType = propertyType;
+      MemberInfo = type.GetProperty(name);
     }
 
     protected Property(Property previous) :
-      this(previous.Name)
+      this(previous.Name, previous.PropertyType)
     {
     }
 
     public string Name { get; }
 
-    public abstract Type PropertyType { get; }
+    public MemberInfo MemberInfo { get; }
+
+    public Type PropertyType { get; }
+
+    public IEnumerable<InterceptorMap> GetInterceptorMaps<T>()
+    {
+      PropertyInfo propertyInfo = typeof(T).GetProperty(Name);
+      if (propertyInfo == null)
+        yield break;
+      yield return new InterceptorMap(propertyInfo.GetMethod, new PropertyGetInterceptor(this));
+      yield return new InterceptorMap(propertyInfo.SetMethod, new PropertySetInterceptor(this));
+    }
 
     internal abstract object InvokeGet(InstanceMap instanceMap);
 

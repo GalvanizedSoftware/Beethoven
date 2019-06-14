@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
 {
@@ -13,8 +14,9 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
       this.matchers = matchers;
     }
 
-    public bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType) =>
-      matchers.All(matcher =>
-        matcher.IsMatch(parameters, genericArguments, returnType));
+    public bool IsMatch(string methodName, (Type, string)[] parameters, Type[] genericArguments, Type returnType) =>
+      matchers
+        .Select(matcher => matcher.IsMatchEitherType(methodName, parameters, genericArguments, returnType))
+        .AllAndNonEmpty();
   }
 }

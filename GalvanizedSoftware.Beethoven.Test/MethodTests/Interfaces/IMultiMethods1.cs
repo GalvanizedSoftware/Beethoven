@@ -5,5 +5,6 @@
     void Foo();
     void Foo(int a);
     void Foo(string b);
+    void Foo(out string b);
   }
 }

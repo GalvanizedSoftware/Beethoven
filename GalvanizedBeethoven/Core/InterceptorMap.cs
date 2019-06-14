@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Interceptors;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
-  internal class InterceptorMap : Tuple<string, IGeneralInterceptor>
+  public class InterceptorMap : Tuple<MethodInfo, IGeneralInterceptor>
   {
-    public InterceptorMap(string item1, IGeneralInterceptor item2) : base(item1, item2)
+    public InterceptorMap(MethodInfo item1, IGeneralInterceptor item2) : 
+      base(item1, item2)
     {
     }
   }

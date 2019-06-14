@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using GalvanizedSoftware.Beethoven.DemoApp.Common;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
@@ -10,7 +9,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     private readonly IObjectProvider objectProviderHandler;
 
     public Property(string name) :
-      base(name)
+      base(name, typeof(T))
     {
       definitions = new IPropertyDefinition<T>[0];
     }
@@ -26,10 +25,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       objectProviderHandler = new ObjectProviderHandler(definitions);
     }
 
-    public IEnumerable<TChild> Get<TChild>()
-    {
-      return objectProviderHandler.Get<TChild>();
-    }
+    public IEnumerable<TChild> Get<TChild>() => 
+      objectProviderHandler.Get<TChild>();
 
     public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
     {
@@ -47,11 +44,9 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       return true;
     }
 
-    public override Type PropertyType { get; } = typeof(T);
-
     internal override object InvokeGet(InstanceMap instanceMap)
     {
-      T value = default(T);
+      T value = default;
       InvokeGetter(instanceMap, ref value);
       return value;
     }

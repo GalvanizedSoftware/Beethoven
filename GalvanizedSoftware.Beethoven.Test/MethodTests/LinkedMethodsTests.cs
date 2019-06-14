@@ -23,9 +23,9 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethods(nameof(ITestMethods.Simple))
-          .Lambda<Action>(() => log.Add("Before"))
+          .PartialMatchAction(() => log.Add("Before"))
           .AutoMappedMethod(implementation)
-          .Lambda<Action>(() => log.Add("After")));
+          .PartialMatchAction(() => log.Add("After")));
       instance.Simple();
       CollectionAssert.AreEquivalent(new[] { "Before", "After" }, log);
     }
@@ -82,7 +82,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethods(nameof(ITestMethods.Simple))
           .SkipIf(() => skip)
-          .Lambda<Action>(() => calledCount++));
+          .PartialMatchAction(() => calledCount++));
       instance.Simple();
       instance.Simple();
       Assert.AreEqual(0, calledCount);
@@ -100,7 +100,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethods(nameof(ITestMethods.NoReturnValue))
           .SkipIf(valueCheck, nameof(valueCheck.HasNoValue1))
-          .Lambda<Action<string, string>>(delegate { calledCount++; }));
+          .PartialMatchAction(delegate { calledCount++; }));
       instance.NoReturnValue("", "afasf");
       instance.NoReturnValue(null, "afasf");
       Assert.AreEqual(0, calledCount);
@@ -197,7 +197,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       IGenericMethods instance = beethovenFactory.Generate<IGenericMethods>(
         new LinkedMethodsReturnValue(nameof(IGenericMethods.Simple))
           .Lambda<Func<bool>>(() => true)
-          .PartialMatchFunc(() => false)
+          .FlowControl(() => false)
           .Lambda<Func<bool>>(() => false));
       Assert.AreEqual(true, instance.Simple<bool>());
     }

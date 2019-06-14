@@ -21,7 +21,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     private PartialMatchFunc(string mainName, object target, MethodInfo lambdaMethodInfo, IParameter parameter) :
-      base(mainName, new MatchLambdaPartiallyNoReturn(lambdaMethodInfo), parameter)
+      base(mainName, new MatchActionPartially(lambdaMethodInfo), parameter)
     {
       methodInfo = lambdaMethodInfo;
       localParameters = lambdaMethodInfo.GetParameterTypeAndNames();

@@ -9,19 +9,14 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
   internal class MasterInterceptor : IInterceptor, IObjectProvider
   {
     private readonly InstanceMap instanceMap;
-    private readonly Dictionary<string, IGeneralInterceptor> interceptorsMap = new Dictionary<string, IGeneralInterceptor>();
+    private readonly InterceptorsMap interceptorsMap = new InterceptorsMap();
     private readonly IObjectProvider objectProviderHandler;
 
     public MasterInterceptor(InstanceMap instanceMap, params IEnumerable<InterceptorMap>[] interceptors)
     {
       this.instanceMap = instanceMap;
-      foreach ((string name, IGeneralInterceptor interceptor) in interceptors.SelectMany(maps => maps))
-      {
-        if (interceptorsMap.TryGetValue(name, out IGeneralInterceptor currentInterceptor))
-          interceptorsMap[name] = new CompositeInterceptor(currentInterceptor, interceptor);
-        else
-          interceptorsMap.Add(name, interceptor);
-      }
+      foreach ((MethodInfo memberInfo, IGeneralInterceptor interceptor) in interceptors.SelectMany(maps => maps))
+        interceptorsMap.Add(memberInfo, interceptor);
       objectProviderHandler = new ObjectProviderHandler(interceptorsMap.Values);
     }
 
@@ -29,20 +24,19 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
     {
       // find local instance from instanceMap
       MethodInfo methodInfo = invocation.Method;
-      string methodName = methodInfo.Name;
-      interceptorsMap
-        .Where(pair => pair.Key == methodName)
-        .Select(pair => pair.Value)
-        .Single()
+      IGeneralInterceptor generalInterceptor = interceptorsMap.Find(methodInfo);
+      if (generalInterceptor == null)
+        throw new MissingMethodException($"{methodInfo} was not implemented");
+      generalInterceptor
         .Invoke(
-          instanceMap, 
-          value => invocation.ReturnValue = value, 
-          invocation.Arguments, 
-          invocation.GenericArguments, 
+          instanceMap,
+          value => invocation.ReturnValue = value,
+          invocation.Arguments,
+          invocation.GenericArguments,
           methodInfo);
     }
 
-    public IEnumerable<TChild> Get<TChild>() => 
+    public IEnumerable<TChild> Get<TChild>() =>
       objectProviderHandler.Get<TChild>();
   }
 }

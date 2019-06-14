@@ -1,6 +1,5 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
-using GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -50,17 +49,18 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       int callCount = 0;
       TypeDefinition<IMultiMethods1> typeDefinition =
         new TypeDefinition<IMultiMethods1>(
-          PartialMatchAction.Create("Foo", (int a) => callCount++)
-          ,PartialMatchAction.Create("Foo", () => {}));
+          PartialMatchAction.Create("Foo", (int a) => callCount++),
+          PartialMatchAction.Create("Foo", () => {}));
       IMultiMethods1 instance = typeDefinition.Create();
       instance.Foo();
       instance.Foo(5);
       instance.Foo("5");
-      Assert.AreEqual(3, callCount); // TODO: Change the code so this succeeds with 1
+      instance.Foo(out string _);
+      Assert.AreEqual(1, callCount);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentException))]
+    [ExpectedException(typeof(MissingMethodException))]
     public void MultiMethodsTestInvalid1()
     {
       TypeDefinition<IMultiMethods1> typeDefinition =
@@ -71,7 +71,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentException))]
+    [ExpectedException(typeof(MissingMethodException))]
     public void MultiMethodsTestInvalid2()
     {
       TypeDefinition<IMultiMethods1> typeDefinition =

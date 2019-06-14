@@ -64,11 +64,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
         new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
           .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
           .InvertResult()
-          .Func(() =>
-          {
-            Assert.Fail();
-            return true;
-          }));
+          .PartialMatchAction(Assert.Fail));
       string text2 = "wetwt";
       instance.OutAndRef(out string _, ref text2, 5);
     }

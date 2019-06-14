@@ -4,7 +4,7 @@ using GalvanizedSoftware.Beethoven.Core.Interceptors;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-  internal class MethodsFactory : IEnumerable<InterceptorMap>
+  internal class MethodsFactory : IEnumerable<IInterceptorProvider>
   {
     private readonly IEnumerable<Method> methods;
 
@@ -13,11 +13,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
       this.methods = methods;
     }
 
-    public IEnumerator<InterceptorMap> GetEnumerator()
-    {
-      foreach (Method method in methods)
-        yield return new InterceptorMap(method.Name, new MethodInterceptor(method));
-    }
+    public IEnumerator<IInterceptorProvider> GetEnumerator() => 
+      methods.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
   }

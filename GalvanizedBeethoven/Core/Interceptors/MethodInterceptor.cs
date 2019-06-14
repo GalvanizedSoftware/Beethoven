@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods;
-using GalvanizedSoftware.Beethoven.Generic;
 
 namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {

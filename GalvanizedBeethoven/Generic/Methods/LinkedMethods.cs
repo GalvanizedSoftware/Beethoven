@@ -34,6 +34,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethods Add(Method method) =>
       new LinkedMethods(this, method);
 
+    public LinkedMethods PartialMatchAction(Action action) =>
+      Add(new PartialMatchAction(Name, action));
+
+    public LinkedMethods PartialMatchAction<T>(Action<T> action) =>
+      Add(new PartialMatchAction(Name, action));
+
     public LinkedMethods Lambda<T>(T actionOrFunc) =>
       Add(new LambdaMethod<T>(Name, actionOrFunc));
 
@@ -58,9 +64,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethods SkipIf(object instance, string targetName) =>
       Add(new PartialMatchMethod(Name, instance, targetName))
         .InvertResult();
-
-    //public LinkedMethods SkipIf(Parameter<Func<bool>> conditionParameter) =>
-    //  Add(ConditionCheckMethod.Create(Name, () => !condition()));
 
     public LinkedMethods PartialMatchMethod(object instance, string targetName) =>
       Add(new PartialMatchMethod(Name, instance, targetName));
@@ -95,12 +98,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Type[] genericArguments, MethodInfo methodInfo)
     {
       Type returnType = methodInfo.ReturnType;
-      if (method.MethodMatcher.IsMatch(parameterTypes, genericArguments, returnType))
+      if (method.MethodMatcher.IsMatch(method.Name, parameterTypes, genericArguments, returnType))
       {
         method.InvokeFindInstance(instanceMap, null, parameters, genericArguments, methodInfo);
         return true;
       }
-      if (!method.MethodMatcher.IsMatch(parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
+      if (!method.MethodMatcher.IsMatch(method.Name, parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
         throw new MissingMethodException();
       bool result = true;
       Action<object> localReturn = newValue => result = (bool)newValue;

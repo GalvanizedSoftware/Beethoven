@@ -19,15 +19,13 @@ namespace GalvanizedSoftware.Beethoven.Core.Events
       {
         if (dictionary.TryGetValue(name, out ActionEventInvoker actionEventInvoker))
           return actionEventInvoker;
-        actionEventInvoker = new ActionEventInvoker();
+        actionEventInvoker = new ActionEventInvoker(name);
         dictionary.Add(name, actionEventInvoker);
         return actionEventInvoker;
       }
     }
 
-    public void Bind(object target)
-    {
+    public void Bind(object target) => 
       objectProviderBinder.Bind(binding => binding.Bind(this));
-    }
   }
 }

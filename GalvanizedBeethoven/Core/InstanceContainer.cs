@@ -20,8 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       EventInvokers = new EventInvokers(this);
       MasterInterceptor = new MasterInterceptor(
         instanceMap,
-        new WrapperFactories(wrappers),
-        new EventsFactory<T>(EventInvokers));
+        new WrapperFactories<T>(wrappers, EventInvokers));
       objectProviderHandler = new ObjectProviderHandler(
         partDefinitions
         .Append(new TargetBindingParent(this))

@@ -4,7 +4,7 @@ using GalvanizedSoftware.Beethoven.Core.Interceptors;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  internal sealed class PropertiesFactory : IEnumerable<InterceptorMap>
+  internal sealed class PropertiesFactory : IEnumerable<IInterceptorProvider>
   {
     private readonly IEnumerable<Property> properties;
 
@@ -13,30 +13,9 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       this.properties = properties;
     }
 
-    public IEnumerator<InterceptorMap> GetEnumerator()
-    {
-      foreach (Property property in properties)
-      {
-        yield return CreatePropertyGetter(property);
-        yield return CreatePropertySetter(property);
-      }
-    }
+    public IEnumerator<IInterceptorProvider> GetEnumerator() => 
+      properties.GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
-    }
-
-    private static InterceptorMap CreatePropertyGetter(Property property)
-    {
-      return new InterceptorMap(
-        "get_" + property.Name, new PropertyGetInterceptor(property));
-    }
-
-    private static InterceptorMap CreatePropertySetter(Property property)
-    {
-      return new InterceptorMap(
-        "set_" + property.Name, new PropertySetInterceptor(property));
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
   }
 }

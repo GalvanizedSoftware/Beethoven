@@ -41,6 +41,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue Lambda<T>(T actionOrFunc) =>
       Add(new LambdaMethod<T>(Name, actionOrFunc));
 
+    public LinkedMethodsReturnValue FlowControl(Func<bool> func) =>
+      Add(new FlowControlMethod(Name, func));
+    
     public LinkedMethodsReturnValue MappedMethod(object instance, string targetName) =>
       Add(new MappedMethod(Name, instance, targetName));
 
@@ -83,17 +86,17 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue PartialMatchMethod<TMain>(object instance, string mainParameterName) =>
       Add(new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
 
-    public LinkedMethodsReturnValue PartialMatchAction(Action action, IParameter parameter = null) =>
-      Add(new PartialMatchAction(Name, action, parameter));
+    public LinkedMethodsReturnValue PartialMatchAction(Action action, IParameter localParameter = null) =>
+      Add(new PartialMatchAction(Name, action, localParameter));
 
-    public LinkedMethodsReturnValue PartialMatchAction<T>(Action<T> action, IParameter parameter = null) =>
-      Add(new PartialMatchAction(Name, action, parameter));
+    public LinkedMethodsReturnValue PartialMatchAction<T>(Action<T> action, IParameter localParameter = null) =>
+      Add(new PartialMatchAction(Name, action, localParameter));
 
-    public LinkedMethodsReturnValue PartialMatchFunc<TReturn>(Func<TReturn> func, IParameter parameter = null) =>
-      Add(new PartialMatchFunc(Name, func, parameter));
+    public LinkedMethodsReturnValue PartialMatchFunc<TReturn>(Func<TReturn> func, IParameter localParameter = null) =>
+      Add(new PartialMatchFunc(Name, func, localParameter));
 
-    public LinkedMethodsReturnValue PartialMatchFunc<T, TReturn>(Func<T, TReturn> func, IParameter parameter = null) =>
-      Add(new PartialMatchFunc(Name, func, parameter));
+    public LinkedMethodsReturnValue PartialMatchFunc<T, TReturn>(Func<T, TReturn> func, IParameter localParameter = null) =>
+      Add(new PartialMatchFunc(Name, func, localParameter));
 
     public override void InvokeFindInstance(IInstanceMap instanceMap, Action<object> returnAction, 
       object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
@@ -112,7 +115,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
       Type returnType = methodInfo.ReturnType;
       IMethodMatcher matcher = method.MethodMatcher;
-      if (matcher.IsMatch(parameterTypeAndNames, genericArguments, returnType))
+      if (matcher.IsMatch(method.Name, parameterTypeAndNames, genericArguments, returnType))
       {
         object returnValueLocal = returnValue;
         Action<object> returnAction = newValue => returnValueLocal = newValue;
@@ -120,7 +123,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         returnValue = returnValueLocal;
         return true;
       }
-      if (!matcher.IsMatchToFlowControlled(parameterTypeAndNames, genericArguments, returnType))
+      if (!matcher.IsMatchToFlowControlled(method.Name, parameterTypeAndNames, genericArguments, returnType))
         throw new MissingMethodException();
       bool result = true;
       Action<object> localReturn = newValue => result = (bool)newValue;
