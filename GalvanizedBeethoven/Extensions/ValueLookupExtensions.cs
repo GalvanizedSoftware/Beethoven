@@ -6,12 +6,11 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
-  // ReSharper disable once InconsistentNaming
-  public static class IValueLookupExtensions
+  public static class ValueLookupExtensions
   {
     private static readonly MethodInfo lookupMethod;
 
-    static IValueLookupExtensions()
+    static ValueLookupExtensions()
     {
       lookupMethod = typeof(IValueLookup).GetMethod(nameof(IValueLookup.Lookup));
     }
