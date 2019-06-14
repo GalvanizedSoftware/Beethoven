@@ -58,7 +58,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         .Where(info => !info.IsSpecialName);
     }
 
-    public static object Create1(this Type type, Type genericType1, params object[] constructorParameters)
+    internal static object Create1(this Type type, Type genericType1, params object[] constructorParameters)
     {
       Type genericType = type.MakeGenericType(genericType1);
       ConstructorInfo[] constructors = genericType.GetConstructors(ResolveFlags);
@@ -71,18 +71,18 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         ?.Invoke(constructorParameters);
     }
 
-    public static object InvokeStatic(this Type type, string methodName, params object[] parameters)
+    internal static object InvokeStatic(this Type type, string methodName, params object[] parameters)
     {
       return type.GetMethod(methodName, StaticResolveFlags)
         ?.Invoke(type, parameters);
     }
 
-    public static object GetDefaultValue(this Type type)
+    internal static object GetDefaultValue(this Type type)
     {
       return type.IsValueType ? Activator.CreateInstance(type) : null;
     }
 
-    public static MethodInfo FindSingleMethod(this Type type, string targetName)
+    internal static MethodInfo FindSingleMethod(this Type type, string targetName)
     {
       MethodInfo[] methodInfos = type
         .GetAllMethods(targetName)
@@ -98,25 +98,19 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       }
     }
 
-    public static void CheckForDelegateType(this Type type)
+    internal static void CheckForDelegateType(this Type type)
     {
       if (!typeof(Delegate).IsAssignableFrom(type))
         throw new InvalidCastException("You must supply an action, func or delegate");
     }
 
-    public static bool IsMatch(this IEnumerable<Type> parameters, IEnumerable<Type> parameterTypes) =>
-      parameterTypes.SequenceEqual(parameters);
-
-    public static bool IsMatch(this Type type, Type otherType) =>
-      type?.FullName == otherType?.FullName;
-
-    public static bool IsMatchReturnType(this Type returnType, Type actualReturnType) =>
+    internal static bool IsMatchReturnType(this Type returnType, Type actualReturnType) =>
       returnType.FullName?.TrimEnd('&') == actualReturnType.FullName;
 
-    public static bool IsMatchReturnTypeIgnoreGeneric<TActual>(this Type mainReturnType) =>
+    internal static bool IsMatchReturnTypeIgnoreGeneric<TActual>(this Type mainReturnType) =>
       mainReturnType.IsMatchReturnTypeIgnoreGeneric(typeof(TActual));
 
-    public static bool IsMatchReturnTypeIgnoreGeneric(this Type mainReturnType, Type actualReturnType)
+    internal static bool IsMatchReturnTypeIgnoreGeneric(this Type mainReturnType, Type actualReturnType)
     {
       bool isMatchReturnTypeIgnoreGeneric = mainReturnType.IsGeneric() ?
         actualReturnType != typeof(void) :
@@ -124,7 +118,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       return isMatchReturnTypeIgnoreGeneric;
     }
 
-    public static bool IsGeneric(this Type type) =>
+    private static bool IsGeneric(this Type type) =>
       type == typeof(AnyGenericType) || type.FullName == null;
   }
 }
