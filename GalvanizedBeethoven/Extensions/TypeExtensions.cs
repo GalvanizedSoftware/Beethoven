@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core;
 using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
   internal static class TypeExtensions
   {
+    internal static Type RemoveGeneric(this Type type) =>
+      type.FullName == null ? typeof(AnyGenericType) : type;
+
+
     internal static IEnumerable<Type> GetAllTypes(this Type type)
     {
       return type == null ?
@@ -25,6 +30,12 @@ namespace GalvanizedSoftware.Beethoven.Extensions
              where methodInfo.Name == name
              select methodInfo;
     }
+
+    internal static EventInfo GetEventInfo(this Type type, string name) =>
+      type
+        .GetAllTypes()
+        .SelectMany(childType => childType.GetEvents(ResolveFlags))
+        .SingleOrDefault(eventInfo => eventInfo.Name == name);
 
     internal static IEnumerable<MethodInfo> GetNotSpecialMethods(this Type type)
     {
@@ -92,5 +103,28 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       if (!typeof(Delegate).IsAssignableFrom(type))
         throw new InvalidCastException("You must supply an action, func or delegate");
     }
+
+    public static bool IsMatch(this IEnumerable<Type> parameters, IEnumerable<Type> parameterTypes) =>
+      parameterTypes.SequenceEqual(parameters);
+
+    public static bool IsMatch(this Type type, Type otherType) =>
+      type?.FullName == otherType?.FullName;
+
+    public static bool IsMatchReturnType(this Type returnType, Type actualReturnType) =>
+      returnType.FullName?.TrimEnd('&') == actualReturnType.FullName;
+
+    public static bool IsMatchReturnTypeIgnoreGeneric<TActual>(this Type mainReturnType) =>
+      mainReturnType.IsMatchReturnTypeIgnoreGeneric(typeof(TActual));
+
+    public static bool IsMatchReturnTypeIgnoreGeneric(this Type mainReturnType, Type actualReturnType)
+    {
+      bool isMatchReturnTypeIgnoreGeneric = mainReturnType.IsGeneric() ?
+        actualReturnType != typeof(void) :
+        mainReturnType.IsMatchReturnType(actualReturnType);
+      return isMatchReturnTypeIgnoreGeneric;
+    }
+
+    public static bool IsGeneric(this Type type) =>
+      type == typeof(AnyGenericType) || type.FullName == null;
   }
 }
