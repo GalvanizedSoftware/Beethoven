@@ -23,9 +23,9 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethods(nameof(ITestMethods.Simple))
-          .PartialMatchAction(() => log.Add("Before"))
+          .Action(() => log.Add("Before"))
           .AutoMappedMethod(implementation)
-          .PartialMatchAction(() => log.Add("After")));
+          .Action(() => log.Add("After")));
       instance.Simple();
       CollectionAssert.AreEquivalent(new[] { "Before", "After" }, log);
     }
@@ -82,7 +82,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethods(nameof(ITestMethods.Simple))
           .SkipIf(() => skip)
-          .PartialMatchAction(() => calledCount++));
+          .Action(() => calledCount++));
       instance.Simple();
       instance.Simple();
       Assert.AreEqual(0, calledCount);
@@ -100,7 +100,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethods(nameof(ITestMethods.NoReturnValue))
           .SkipIf(valueCheck, nameof(valueCheck.HasNoValue1))
-          .PartialMatchAction(delegate { calledCount++; }));
+          .Action(delegate { calledCount++; }));
       instance.NoReturnValue("", "afasf");
       instance.NoReturnValue(null, "afasf");
       Assert.AreEqual(0, calledCount);
@@ -133,10 +133,10 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       WithParametersImplementation implentation = new WithParametersImplementation();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
-          .PartialMatchFunc((int count) => count)
+          .Func((int count) => count)
           .SkipIfResultCondition<int>(count => count == 0)
           .AutoMappedMethod(implentation)
-          .PartialMatchAction(() => calledCount++));
+          .Action(() => calledCount++));
       int result1 = instance.WithParameters("fegf", "ggn", 0);
       Assert.AreEqual(0, calledCount);
       Assert.AreEqual(0, result1);
@@ -185,7 +185,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
           .AutoMappedMethod(implentation)
-          .PartialMatchFunc(() => 5));
+          .Func(() => 5));
       int result = instance.WithParameters("fdgdf", "afasf", 3);
       Assert.AreEqual(5, result);
     }
@@ -210,9 +210,9 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       IEnumerable<int> instance = beethovenFactory.Generate<IEnumerable<int>>(
         new LinkedObjects(
-          PartialMatchAction.Create("GetEnumerator", () => log.Add("Before")),
+          ActionMethod.Create("GetEnumerator", () => log.Add("Before")),
           implementation,
-          PartialMatchAction.Create("GetEnumerator", () => log.Add("After"))));
+          ActionMethod.Create("GetEnumerator", () => log.Add("After"))));
       CollectionAssert.AreEqual(new[] { 5, 2, 17 }, instance.ToArray());
       CollectionAssert.AreEquivalent(new[] { "Before", "After" }, log);
     }

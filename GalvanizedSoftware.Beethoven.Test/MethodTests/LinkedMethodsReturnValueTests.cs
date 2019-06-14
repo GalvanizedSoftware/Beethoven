@@ -64,7 +64,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
         new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
           .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
           .InvertResult()
-          .PartialMatchAction(Assert.Fail));
+          .Action(Assert.Fail));
       string text2 = "wetwt";
       instance.OutAndRef(out string _, ref text2, 5);
     }
@@ -78,7 +78,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
           .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
-          .PartialMatchAction(() => called = true));
+          .Action(() => called = true));
       string text2 = "wetwt";
       instance.OutAndRef(out string _, ref text2, 5);
       Assert.IsTrue(called);
@@ -93,8 +93,8 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
           .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
-          .PartialMatchFunc(() => false)
-          .PartialMatchAction(() => called = true));
+          .Func(() => false)
+          .Action(() => called = true));
       string text2 = "wetwt";
       instance.OutAndRef(out string _, ref text2, 5);
       Assert.IsFalse(called);
@@ -109,7 +109,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
           parameter,
           new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
             .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
-            .PartialMatchAction<BoolContainer>(container => container.Value = true, parameter));
+            .Action<BoolContainer>(container => container.Value = true, parameter));
       BoolContainer boolContainer = new BoolContainer();
       ITestMethods instance = typeDefinition.Create(boolContainer);
       BoolContainer boolContainer2 = new BoolContainer();

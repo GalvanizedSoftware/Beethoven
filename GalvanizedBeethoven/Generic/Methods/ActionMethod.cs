@@ -8,7 +8,7 @@ using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class PartialMatchAction : Method
+  public class ActionMethod : Method
   {
     private class ConstructorValues
     {
@@ -37,24 +37,24 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly (Type, string)[] localParameters;
     private readonly int? parameterIndex;
 
-    public static PartialMatchAction Create(string mainName, Action action, IParameter parameter = null) =>
-      new PartialMatchAction(mainName, GetValues(action, parameter));
+    public static ActionMethod Create(string mainName, Action action, IParameter parameter = null) =>
+      new ActionMethod(mainName, GetValues(action, parameter));
 
-    public static PartialMatchAction Create<T>(string mainName, Action<T> action, IParameter parameter = null) =>
-      new PartialMatchAction(mainName, GetValues(action, parameter));
+    public static ActionMethod Create<T>(string mainName, Action<T> action, IParameter parameter = null) =>
+      new ActionMethod(mainName, GetValues(action, parameter));
 
-    public static PartialMatchAction Create<T1, T2>(string mainName, Action<T1, T2> action, IParameter parameter = null) =>
-      new PartialMatchAction(mainName, GetValues(action, parameter));
+    public static ActionMethod Create<T1, T2>(string mainName, Action<T1, T2> action, IParameter parameter = null) =>
+      new ActionMethod(mainName, GetValues(action, parameter));
 
-    public static PartialMatchAction Create<T1, T2, T3>(string mainName, Action<T1, T2, T3> action, IParameter parameter = null) =>
-      new PartialMatchAction(mainName, GetValues(action, parameter));
+    public static ActionMethod Create<T1, T2, T3>(string mainName, Action<T1, T2, T3> action, IParameter parameter = null) =>
+      new ActionMethod(mainName, GetValues(action, parameter));
 
-    public PartialMatchAction(string mainName, Delegate action, IParameter parameter = null) :
+    public ActionMethod(string mainName, Delegate action, IParameter parameter = null) :
       this(mainName, GetValues(action, parameter))
     {
     }
 
-    private PartialMatchAction(string mainName, ConstructorValues values) :
+    private ActionMethod(string mainName, ConstructorValues values) :
       base(mainName, values.MethodMatcher, values.Parameter)
     {
       action = values.Action;

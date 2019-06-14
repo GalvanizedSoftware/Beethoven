@@ -34,11 +34,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethods Add(Method method) =>
       new LinkedMethods(this, method);
 
-    public LinkedMethods PartialMatchAction(Action action) =>
-      Add(new PartialMatchAction(Name, action));
+    public LinkedMethods Action(Action action) =>
+      Add(new ActionMethod(Name, action));
 
-    public LinkedMethods PartialMatchAction<T>(Action<T> action) =>
-      Add(new PartialMatchAction(Name, action));
+    public LinkedMethods Action<T>(Action<T> action) =>
+      Add(new ActionMethod(Name, action));
 
     public LinkedMethods Lambda<T>(T actionOrFunc) =>
       Add(new LambdaMethod<T>(Name, actionOrFunc));

@@ -35,8 +35,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue Add(Method method) =>
       new LinkedMethodsReturnValue(this, method);
 
-    public LinkedMethodsReturnValue Func<TReturnType>(Func<TReturnType> func) =>
-      Add(new FuncMethod<TReturnType>(Name, func));
+    public LinkedMethodsReturnValue SimpleFunc<TReturnType>(Func<TReturnType> func) =>
+      Add(new SimpleFuncMethod<TReturnType>(Name, func));
 
     public LinkedMethodsReturnValue Lambda<T>(T actionOrFunc) =>
       Add(new LambdaMethod<T>(Name, actionOrFunc));
@@ -86,17 +86,17 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue PartialMatchMethod<TMain>(object instance, string mainParameterName) =>
       Add(new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
 
-    public LinkedMethodsReturnValue PartialMatchAction(Action action, IParameter localParameter = null) =>
-      Add(new PartialMatchAction(Name, action, localParameter));
+    public LinkedMethodsReturnValue Action(Action action, IParameter localParameter = null) =>
+      Add(new ActionMethod(Name, action, localParameter));
 
-    public LinkedMethodsReturnValue PartialMatchAction<T>(Action<T> action, IParameter localParameter = null) =>
-      Add(new PartialMatchAction(Name, action, localParameter));
+    public LinkedMethodsReturnValue Action<T>(Action<T> action, IParameter localParameter = null) =>
+      Add(new ActionMethod(Name, action, localParameter));
 
-    public LinkedMethodsReturnValue PartialMatchFunc<TReturn>(Func<TReturn> func, IParameter localParameter = null) =>
-      Add(new PartialMatchFunc(Name, func, localParameter));
+    public LinkedMethodsReturnValue Func<TReturn>(Func<TReturn> func, IParameter localParameter = null) =>
+      Add(new FuncMethod(Name, func, localParameter));
 
-    public LinkedMethodsReturnValue PartialMatchFunc<T, TReturn>(Func<T, TReturn> func, IParameter localParameter = null) =>
-      Add(new PartialMatchFunc(Name, func, localParameter));
+    public LinkedMethodsReturnValue Func<T, TReturn>(Func<T, TReturn> func, IParameter localParameter = null) =>
+      Add(new FuncMethod(Name, func, localParameter));
 
     public override void InvokeFindInstance(IInstanceMap instanceMap, Action<object> returnAction, 
       object[] parameters, Type[] genericArguments, MethodInfo methodInfo)

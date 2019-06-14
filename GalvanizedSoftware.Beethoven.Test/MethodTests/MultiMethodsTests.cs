@@ -35,7 +35,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       int callCount = 0;
       TypeDefinition<IMultiMethods1> typeDefinition =
         new TypeDefinition<IMultiMethods1>(
-          PartialMatchAction.Create("Foo", () => callCount++));
+          ActionMethod.Create("Foo", () => callCount++));
       IMultiMethods1 instance = typeDefinition.Create();
       instance.Foo();
       instance.Foo(5);
@@ -49,8 +49,8 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       int callCount = 0;
       TypeDefinition<IMultiMethods1> typeDefinition =
         new TypeDefinition<IMultiMethods1>(
-          PartialMatchAction.Create("Foo", (int a) => callCount++),
-          PartialMatchAction.Create("Foo", () => {}));
+          ActionMethod.Create("Foo", (int a) => callCount++),
+          ActionMethod.Create("Foo", () => {}));
       IMultiMethods1 instance = typeDefinition.Create();
       instance.Foo();
       instance.Foo(5);
