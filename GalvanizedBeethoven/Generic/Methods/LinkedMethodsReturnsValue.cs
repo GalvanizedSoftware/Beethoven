@@ -43,7 +43,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     public LinkedMethodsReturnValue FlowControl(Func<bool> func) =>
       Add(new FlowControlMethod(Name, func));
-    
+
     public LinkedMethodsReturnValue MappedMethod(object instance, string targetName) =>
       Add(new MappedMethod(Name, instance, targetName));
 
@@ -98,15 +98,14 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue Func<T, TReturn>(Func<T, TReturn> func, IParameter localParameter = null) =>
       Add(new FuncMethod(Name, func, localParameter));
 
-    public override void InvokeFindInstance(IInstanceMap instanceMap, Action<object> returnAction, 
+    public override void InvokeFindInstance(IInstanceMap instanceMap, ref object returnValue,
       object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
     {
-      object returnValue = methodInfo.ReturnType.GetDefaultValue();
+      returnValue = methodInfo.ReturnType.GetDefaultValue();
       (Type, string)[] parameterTypeAndNames = methodInfo.GetParameterTypeAndNames();
       foreach (Method method in methodList)
         if (!InvokeFirstMatch(instanceMap, method, ref returnValue, parameters, parameterTypeAndNames, genericArguments, methodInfo))
           break;
-      returnAction(returnValue);
     }
 
     private bool InvokeFirstMatch(IInstanceMap instanceMap, Method method, ref object returnValue, object[] parameterValues,
@@ -117,25 +116,21 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       IMethodMatcher matcher = method.MethodMatcher;
       if (matcher.IsMatch(method.Name, parameterTypeAndNames, genericArguments, returnType))
       {
-        object returnValueLocal = returnValue;
-        Action<object> returnAction = newValue => returnValueLocal = newValue;
-        method.InvokeFindInstance(instanceMap, returnAction, parameterValues, genericArguments, methodInfo);
-        returnValue = returnValueLocal;
+        method.InvokeFindInstance(instanceMap, ref returnValue, parameterValues, genericArguments, methodInfo);
         return true;
       }
       if (!matcher.IsMatchToFlowControlled(method.Name, parameterTypeAndNames, genericArguments, returnType))
         throw new MissingMethodException();
-      bool result = true;
-      Action<object> localReturn = newValue => result = (bool)newValue;
       object[] newParameters = parameterValues.Append(returnValue).ToArray();
-      method.InvokeFindInstance(instanceMap, localReturn, newParameters, genericArguments, methodInfo);
+      object flowResult = true;
+      method.InvokeFindInstance(instanceMap, ref flowResult, newParameters, genericArguments, methodInfo);
       for (int i = 0; i < parameterValues.Length; i++)
         parameterValues[i] = newParameters[i]; // In case of ref or out variables
       returnValue = newParameters.Last();
-      return result;
+      return (bool)flowResult;
     }
 
-    public IEnumerable<TChild> Get<TChild>() => 
+    public IEnumerable<TChild> Get<TChild>() =>
       objectProviderHandler.Get<TChild>();
   }
 }

@@ -81,7 +81,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       return this;
     }
 
-    public override void InvokeFindInstance(IInstanceMap instanceMap, Action<object> returnAction, object[] parameterValues,
+    public override void InvokeFindInstance(IInstanceMap instanceMap, ref object returnAction, object[] parameterValues,
       Type[] genericArguments,
       MethodInfo methodInfo)
     {
@@ -100,15 +100,15 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Type returnType = methodInfo.ReturnType;
       if (method.MethodMatcher.IsMatch(method.Name, parameterTypes, genericArguments, returnType))
       {
-        method.InvokeFindInstance(instanceMap, null, parameters, genericArguments, methodInfo);
+        object returnValue = null;
+        method.InvokeFindInstance(instanceMap, ref returnValue, parameters, genericArguments, methodInfo);
         return true;
       }
       if (!method.MethodMatcher.IsMatch(method.Name, parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
         throw new MissingMethodException();
-      bool result = true;
-      Action<object> localReturn = newValue => result = (bool)newValue;
-      method.InvokeFindInstance(instanceMap, localReturn, parameters, genericArguments, methodInfo);
-      return result;
+      object result = true;
+      method.InvokeFindInstance(instanceMap, ref result, parameters, genericArguments, methodInfo);
+      return (bool)result;
     }
 
     public IEnumerable<TChild> Get<TChild>() =>

@@ -79,6 +79,10 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 
     internal static object GetDefaultValue(this Type type)
     {
+      if (type == typeof(void))
+      {
+        return null;
+      }
       return type.IsValueType ? Activator.CreateInstance(type) : null;
     }
 
