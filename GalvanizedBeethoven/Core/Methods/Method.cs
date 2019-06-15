@@ -35,7 +35,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
       MethodInfo methodInfo) =>
       throw new MissingMemberException(methodInfo.DeclaringType?.FullName, methodInfo.Name);
 
-    public virtual void Invoke(IInstanceMap instanceMap,
+    public virtual void InvokeFindInstance(IInstanceMap instanceMap,
       Action<object> returnAction, object[] parameters, Type[] genericArguments,
       MethodInfo methodInfo) =>
       Invoke(instanceMap.GetLocal(parameter), returnAction, parameters, genericArguments, methodInfo);

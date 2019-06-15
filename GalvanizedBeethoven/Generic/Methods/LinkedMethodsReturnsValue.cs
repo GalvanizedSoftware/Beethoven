@@ -98,18 +98,18 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue Func<T, TReturn>(Func<T, TReturn> func, IParameter localParameter = null) =>
       Add(new FuncMethod(Name, func, localParameter));
 
-    public override void Invoke(IInstanceMap instanceMap, Action<object> returnAction, 
+    public override void InvokeFindInstance(IInstanceMap instanceMap, Action<object> returnAction, 
       object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
     {
       object returnValue = methodInfo.ReturnType.GetDefaultValue();
       (Type, string)[] parameterTypeAndNames = methodInfo.GetParameterTypeAndNames();
       foreach (Method method in methodList)
-        if (!Invoke(instanceMap, method, ref returnValue, parameters, parameterTypeAndNames, genericArguments, methodInfo))
+        if (!InvokeFirstMatch(instanceMap, method, ref returnValue, parameters, parameterTypeAndNames, genericArguments, methodInfo))
           break;
       returnAction(returnValue);
     }
 
-    private bool Invoke(IInstanceMap instanceMap, Method method, ref object returnValue, object[] parameterValues,
+    private bool InvokeFirstMatch(IInstanceMap instanceMap, Method method, ref object returnValue, object[] parameterValues,
       (Type, string)[] parameterTypeAndNames,
       Type[] genericArguments, MethodInfo methodInfo)
     {
@@ -119,7 +119,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       {
         object returnValueLocal = returnValue;
         Action<object> returnAction = newValue => returnValueLocal = newValue;
-        method.Invoke((object) instanceMap, returnAction, parameterValues, genericArguments, methodInfo);
+        method.InvokeFindInstance(instanceMap, returnAction, parameterValues, genericArguments, methodInfo);
         returnValue = returnValueLocal;
         return true;
       }
@@ -128,7 +128,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       bool result = true;
       Action<object> localReturn = newValue => result = (bool)newValue;
       object[] newParameters = parameterValues.Append(returnValue).ToArray();
-      method.Invoke((object) instanceMap, localReturn, newParameters, genericArguments, methodInfo);
+      method.InvokeFindInstance(instanceMap, localReturn, newParameters, genericArguments, methodInfo);
       for (int i = 0; i < parameterValues.Length; i++)
         parameterValues[i] = newParameters[i]; // In case of ref or out variables
       returnValue = newParameters.Last();

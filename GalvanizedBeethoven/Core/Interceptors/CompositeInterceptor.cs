@@ -35,9 +35,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
       }
       (Type, string)[] parameterTypes = methodInfo.GetParameterTypeAndNames();
       methods.FirstOrDefault(
-        method => method.MethodMatcher
-          .IsMatch(methodInfo.Name, parameterTypes, genericArguments, methodInfo.ReturnType))?
-        .Invoke((object) instanceMap, returnAction, parameters, genericArguments, methodInfo);
+        method => method.MethodMatcher.IsMatch(methodInfo.Name, parameterTypes, genericArguments, methodInfo.ReturnType))?
+        .InvokeFindInstance(instanceMap, returnAction, parameters, genericArguments, methodInfo);
     }
 
     public object MainDefinition => null;

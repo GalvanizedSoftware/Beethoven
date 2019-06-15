@@ -14,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
     }
 
     public void Invoke(InstanceMap instanceMap, Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo) =>
-      method.Invoke((object) instanceMap, returnAction, parameters, genericArguments, methodInfo);
+      method.InvokeFindInstance(instanceMap, returnAction, parameters, genericArguments, methodInfo);
 
     public object MainDefinition { get; }
   }
