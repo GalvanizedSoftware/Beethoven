@@ -81,7 +81,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       return this;
     }
 
-    public override void InvokeFindInstance(IInstanceMap instanceMap, Action<object> returnAction, object[] parameterValues,
+    public override void Invoke(IInstanceMap instanceMap, Action<object> returnAction, object[] parameterValues,
       Type[] genericArguments,
       MethodInfo methodInfo)
     {
@@ -97,17 +97,17 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Method method, object[] parameters, (Type, string)[] parameterTypes,
       Type[] genericArguments, MethodInfo methodInfo)
     {
-      Type returnType = methodInfo.ReturnType;
-      if (method.MethodMatcher.IsMatch(method.Name, parameterTypes, genericArguments, returnType))
+      IMethodMatcher matcher = method.MethodMatcher;
+      if (matcher.IsMatch(method.Name, parameterTypes, genericArguments, methodInfo.ReturnType))
       {
-        method.InvokeFindInstance(instanceMap, null, parameters, genericArguments, methodInfo);
+        method.Invoke((object) instanceMap, null, parameters, genericArguments, methodInfo);
         return true;
       }
-      if (!method.MethodMatcher.IsMatch(method.Name, parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
+      if (!matcher.IsMatch(method.Name, parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
         throw new MissingMethodException();
       bool result = true;
       Action<object> localReturn = newValue => result = (bool)newValue;
-      method.InvokeFindInstance(instanceMap, localReturn, parameters, genericArguments, methodInfo);
+      method.Invoke((object) instanceMap, localReturn, parameters, genericArguments, methodInfo);
       return result;
     }
 
