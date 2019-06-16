@@ -13,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
       parameterTypes = types;
     }
 
-    public bool IsMatch(string methodName, (Type, string)[] parameters, Type[] genericArguments, Type returnType) => 
+    public bool IsMatch((Type, string)[] parameters, Type[] __, Type returnType) => 
       returnType.IsByRef && 
       parameters.SkipLast().Select(tuple => tuple.Item1).SequenceEqual(parameterTypes);
   }

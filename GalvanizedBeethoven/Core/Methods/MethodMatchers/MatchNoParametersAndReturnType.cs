@@ -6,7 +6,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
 {
   public class MatchNoParametersAndReturnType<TReturnType>: IMethodMatcher
   {
-    public bool IsMatch(string methodName, (Type, string)[] parameters, Type[] genericArguments, Type returnType) =>
+    public bool IsMatch((Type, string)[] parameters, Type[] __, Type returnType) =>
       returnType.IsMatchReturnTypeIgnoreGeneric<TReturnType>() && !parameters.Any();
   }
 }

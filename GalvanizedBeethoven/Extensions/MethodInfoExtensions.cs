@@ -56,7 +56,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     public static object Invoke(this MethodInfo methodInfo, object instance, object[] parameters, Type[] genericArguments) =>
       methodInfo.GetActualMethod(genericArguments).Invoke(instance, parameters);
 
-    private static MethodInfo GetActualMethod(this MethodInfo methodInfo, Type[] genericArguments)
+    internal static MethodInfo GetActualMethod(this MethodInfo methodInfo, Type[] genericArguments)
     {
       return !methodInfo.IsGenericMethod ?
         methodInfo :

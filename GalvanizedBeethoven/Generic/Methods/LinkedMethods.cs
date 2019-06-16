@@ -98,13 +98,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Type[] genericArguments, MethodInfo methodInfo)
     {
       Type returnType = methodInfo.ReturnType;
-      if (method.MethodMatcher.IsMatch(method.Name, parameterTypes, genericArguments, returnType))
+      if (method.MethodMatcher.IsMatch(parameterTypes, genericArguments, returnType))
       {
         object returnValue = null;
         method.InvokeFindInstance(instanceMap, ref returnValue, parameters, genericArguments, methodInfo);
         return true;
       }
-      if (!method.MethodMatcher.IsMatch(method.Name, parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
+      if (!method.MethodMatcher.IsMatch(parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
         throw new MissingMethodException();
       object result = true;
       method.InvokeFindInstance(instanceMap, ref result, parameters, genericArguments, methodInfo);

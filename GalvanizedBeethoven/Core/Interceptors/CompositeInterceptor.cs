@@ -33,7 +33,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
       else
         methods.FirstOrDefault(method =>
             method.MethodMatcher
-              .IsMatch(methodInfo.Name, methodInfo.GetParameterTypeAndNames(), genericArguments, methodInfo.ReturnType))?
+              .IsMatch(methodInfo.GetParameterTypeAndNames(), genericArguments, methodInfo.ReturnType))?
           .InvokeFindInstance(instanceMap, ref returnValue, parameters, genericArguments, methodInfo);
     }
 

@@ -13,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
       this.methodInfo = methodInfo;
     }
 
-    public bool IsMatch(string methodName, (Type, string)[] parameters, Type[] genericArguments, Type returnType) => 
-      methodInfo.IsMatch(parameters, genericArguments, returnType);
+    public bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType) => 
+      methodInfo.GetActualMethod(genericArguments).IsMatch(parameters, genericArguments, returnType);
   }
 }

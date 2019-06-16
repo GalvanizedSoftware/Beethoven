@@ -33,7 +33,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
       isFlowControlled = methodInfo.ReturnType == typeof(bool);
     }
 
-    public bool IsMatch(string methodName, (Type, string)[] parameters, Type[] genericArguments, Type returnType) =>
+    public bool IsMatch((Type, string)[] parameters, Type[] __, Type returnType) =>
       isFlowControlled == returnType.IsByRef &&
       localParameters.All(parameters.Contains);
   }

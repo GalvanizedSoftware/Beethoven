@@ -114,12 +114,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
       Type returnType = methodInfo.ReturnType;
       IMethodMatcher matcher = method.MethodMatcher;
-      if (matcher.IsMatch(method.Name, parameterTypeAndNames, genericArguments, returnType))
+      if (matcher.IsMatch(parameterTypeAndNames, genericArguments, returnType))
       {
         method.InvokeFindInstance(instanceMap, ref returnValue, parameterValues, genericArguments, methodInfo);
         return true;
       }
-      if (!matcher.IsMatchToFlowControlled(method.Name, parameterTypeAndNames, genericArguments, returnType))
+      if (!matcher.IsMatchToFlowControlled(parameterTypeAndNames, genericArguments, returnType))
         throw new MissingMethodException();
       object[] newParameters = parameterValues.Append(returnValue).ToArray();
       object flowResult = true;
