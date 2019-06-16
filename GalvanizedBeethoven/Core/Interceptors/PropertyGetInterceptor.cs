@@ -10,7 +10,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
     {
     }
 
-    protected override void InvokeIntercept(InstanceMap instanceMap, Action<object> returnAction, object[] parameters) => 
-      returnAction(Property.InvokeGet(instanceMap));
+    protected override void InvokeIntercept(InstanceMap instanceMap, ref object returnValue, object[] parameters) => 
+      returnValue = Property.InvokeGet(instanceMap);
   }
 }

@@ -14,19 +14,18 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       this.method = method;
     }
 
-    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+    public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo methodInfo)
     {
-      bool returnValue = false;
-      method.Invoke(localInstance, value => InvertValue(value, out returnValue), parameters, genericArguments, methodInfo);
-      returnAction(!returnValue);
+      method.Invoke(localInstance, ref returnValue, parameters, genericArguments, methodInfo);
+      returnValue = InvertValue(returnValue);
     }
     
-    private static void InvertValue(object value, out bool returnValue)
+    private static bool InvertValue(object value)
     {
       if (!(value is bool boolValue))
         throw new ArgumentException("Method must return bool to use InvertResultMethod");
-      returnValue = boolValue;
+      return !boolValue;
     }
   }
 }

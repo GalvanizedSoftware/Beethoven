@@ -43,12 +43,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         .FindSingleMethod(targetName);
     }
 
-    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
-      MethodInfo _)
-    {
-      object returnValue = methodInfo.Invoke(instance, parameters, genericArguments);
-      if (hasReturnType)
-        returnAction(returnValue);
-    }
+    public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
+      MethodInfo _) =>
+      returnValue = methodInfo.Invoke(instance, parameters, genericArguments);
   }
 }

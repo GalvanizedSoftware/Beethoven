@@ -24,21 +24,17 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
         .ToArray();
     }
 
-    public void Invoke(InstanceMap instanceMap, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+    public void Invoke(InstanceMap instanceMap, ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo methodInfo)
     {
       if (methodInfo.IsSpecialName)
-      {
         foreach (IGeneralInterceptor interceptor in interceptors)
-          interceptor.Invoke(instanceMap, returnAction, parameters, genericArguments, methodInfo);
-        return;
-      }
-      (Type, string)[] parameterTypes = methodInfo.GetParameterTypeAndNames();
-      object returnValue = methodInfo.ReturnType.GetDefaultValue();
-      methods.FirstOrDefault(
-        method => method.MethodMatcher.IsMatch(methodInfo.Name, parameterTypes, genericArguments, methodInfo.ReturnType))?
-        .InvokeFindInstance(instanceMap, ref returnValue, parameters, genericArguments, methodInfo);
-      returnAction(returnValue);
+          interceptor.Invoke(instanceMap, ref returnValue, parameters, genericArguments, methodInfo);
+      else
+        methods.FirstOrDefault(method =>
+            method.MethodMatcher
+              .IsMatch(methodInfo.Name, methodInfo.GetParameterTypeAndNames(), genericArguments, methodInfo.ReturnType))?
+          .InvokeFindInstance(instanceMap, ref returnValue, parameters, genericArguments, methodInfo);
     }
 
     public object MainDefinition => null;

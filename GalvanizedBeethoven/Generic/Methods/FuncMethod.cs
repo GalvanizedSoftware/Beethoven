@@ -29,7 +29,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       this.target = target;
     }
 
-    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+    public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo masterMethodInfo)
     {
       (Type, string)[] masterParameters = masterMethodInfo
@@ -42,9 +42,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       object[] localParameterValues = indexes
         .Select(index => parameters[index])
         .ToArray();
-      object returnValue = methodInfo.Invoke(target, localParameterValues, genericArguments);
-      if (hasReturnType)
-        returnAction(returnValue);
+      returnValue = methodInfo.Invoke(target, localParameterValues, genericArguments);
     }
   }
 }

@@ -17,8 +17,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       this.func = func;
     }
 
-    public override void Invoke(object _, Action<object> returnAction, 
+    public override void Invoke(object _, ref object returnValue,
       object[] parameters, Type[] __, MethodInfo ___) =>
-      returnAction(func.DynamicInvoke(parameters.SkipLast().ToArray()));
+      returnValue = func.DynamicInvoke(parameters.SkipLast().ToArray());
   }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -18,7 +19,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       mainFunc = (methodInfo, objects) =>
       {
         mainAction?.Invoke(methodInfo, objects);
-        return null;
+        return methodInfo.GetDefaultReturnValue();
       };
     }
 

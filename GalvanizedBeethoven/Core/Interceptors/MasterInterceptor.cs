@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Castle.DynamicProxy;
+using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {
@@ -27,13 +28,15 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
       IGeneralInterceptor generalInterceptor = interceptorsMap.Find(methodInfo);
       if (generalInterceptor == null)
         throw new MissingMethodException($"{methodInfo} was not implemented");
+      object value = methodInfo.GetDefaultReturnValue();
       generalInterceptor
         .Invoke(
           instanceMap,
-          value => invocation.ReturnValue = value,
+          ref value,
           invocation.Arguments,
           invocation.GenericArguments,
           methodInfo);
+      invocation.ReturnValue = value;
     }
 
     public IEnumerable<TChild> Get<TChild>() =>

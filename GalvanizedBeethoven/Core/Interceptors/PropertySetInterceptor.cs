@@ -15,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
       objectProviderHandler = new ObjectProviderHandler(new[] { Property });
     }
 
-    protected override void InvokeIntercept(InstanceMap instanceMap, Action<object> returnAction, object[] parameters) => 
+    protected override void InvokeIntercept(InstanceMap instanceMap, ref object returnValue, object[] parameters) => 
       Property.InvokeSet(instanceMap, parameters.Single());
 
     public IEnumerable<TChild> Get<TChild>() => 

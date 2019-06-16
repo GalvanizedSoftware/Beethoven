@@ -22,7 +22,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
     }
 
-    private LambdaMethod(string name, Delegate lambdaDelegate) : 
+    private LambdaMethod(string name, Delegate lambdaDelegate) :
       base(name, new MatchMethodInfoExact(lambdaDelegate.Method))
     {
       methodInfo = lambdaDelegate.Method;
@@ -30,12 +30,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       hasReturnType = methodInfo.HasReturnType();
     }
 
-    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
-      MethodInfo _)
-    {
-      object returnValue = methodInfo.Invoke(target, parameters, genericArguments);
-      if (hasReturnType)
-        returnAction(returnValue);
-    }
+    public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
+      MethodInfo _) =>
+      returnValue = methodInfo.Invoke(target, parameters, genericArguments);
   }
 }

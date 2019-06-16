@@ -70,5 +70,8 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 
     public static bool HasReturnType(this MethodInfo methodInfo)
       => methodInfo.ReturnType != typeof(void);
+
+    public static object GetDefaultReturnValue(this MethodInfo methodInfo) =>
+      methodInfo.ReturnType.GetDefaultValue();
   }
 }

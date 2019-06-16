@@ -31,18 +31,13 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
         .Select(methodInfo => new InterceptorMap(methodInfo, new MethodInterceptor(this)));
 
     public virtual void Invoke(object localInstance,
-      Action<object> returnAction, object[] parameters, Type[] genericArguments,
+      ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo methodInfo) =>
       throw new MissingMemberException(methodInfo.DeclaringType?.FullName, methodInfo.Name);
 
     public virtual void InvokeFindInstance(IInstanceMap instanceMap,
       ref object returnValue, object[] parameters, Type[] genericArguments,
-      MethodInfo methodInfo)
-    {
-      object newValue = returnValue;
-      Action<object> returnAction = value => newValue = value;
-      Invoke(instanceMap.GetLocal(parameter), returnAction, parameters, genericArguments, methodInfo);
-      returnValue = newValue;
-    }
+      MethodInfo methodInfo) =>
+      Invoke(instanceMap.GetLocal(parameter), ref returnValue, parameters, genericArguments, methodInfo);
   }
 }

@@ -9,14 +9,14 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
   {
     private readonly Func<TReturnType> func;
 
-    public SimpleFuncMethod(string name, Func<TReturnType> func) : 
+    public SimpleFuncMethod(string name, Func<TReturnType> func) :
       base(name, new MatchNoParametersAndReturnType<TReturnType>())
     {
       this.func = func;
     }
 
-    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
-      MethodInfo _) => 
-      returnAction(func());
+    public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
+      MethodInfo _) =>
+      returnValue = func();
   }
 }

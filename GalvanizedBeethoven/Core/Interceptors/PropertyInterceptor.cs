@@ -13,16 +13,16 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
       MainDefinition = Property = property;
     }
 
-    public void Invoke(InstanceMap instanceMap, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+    public void Invoke(InstanceMap instanceMap, ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo methodInfo)
     {
       if (!Property.IsMatch(methodInfo))
         throw new NotImplementedException();
-      InvokeIntercept(instanceMap, returnAction, parameters);
+      InvokeIntercept(instanceMap, ref returnValue, parameters);
     }
 
     public object MainDefinition { get; }
 
-    protected abstract void InvokeIntercept(InstanceMap instanceMap, Action<object> returnAction, object[] parameters);
+    protected abstract void InvokeIntercept(InstanceMap instanceMap, ref object returnValue, object[] parameters);
   }
 }

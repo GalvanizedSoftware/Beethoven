@@ -25,12 +25,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     public object Instance { private get; set; }
 
-    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
-      MethodInfo _)
-    {
-      object returnValue = methodInfo.Invoke(Instance, parameters, genericArguments);
-      if (hasReturnType)
-        returnAction(returnValue);
-    }
+    public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
+      MethodInfo _) =>
+      returnValue = methodInfo.Invoke(Instance, parameters, genericArguments);
   }
 }

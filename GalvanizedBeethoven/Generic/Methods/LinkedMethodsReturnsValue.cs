@@ -101,7 +101,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public override void InvokeFindInstance(IInstanceMap instanceMap, ref object returnValue,
       object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
     {
-      returnValue = methodInfo.ReturnType.GetDefaultValue();
+      returnValue = methodInfo.GetDefaultReturnValue();
       (Type, string)[] parameterTypeAndNames = methodInfo.GetParameterTypeAndNames();
       foreach (Method method in methodList)
         if (!InvokeFirstMatch(instanceMap, method, ref returnValue, parameters, parameterTypeAndNames, genericArguments, methodInfo))

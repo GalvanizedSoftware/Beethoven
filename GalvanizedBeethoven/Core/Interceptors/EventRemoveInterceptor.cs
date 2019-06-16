@@ -14,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
       MainDefinition = this.actionEventNotifier = actionEventNotifier;
     }
 
-    public void Invoke(InstanceMap instanceMap, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+    public void Invoke(InstanceMap instanceMap, ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo methodInfo)
     {
       actionEventNotifier.Remove((Delegate)parameters.Single());

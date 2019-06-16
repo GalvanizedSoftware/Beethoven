@@ -47,10 +47,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     public object Instance { private get; set; }
 
-    public void Bind(object target) => 
+    public void Bind(object target) =>
       mainInstance = target;
 
-    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+    public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo masterMethodInfo)
     {
       (Type, string)[] masterParameters = masterMethodInfo
@@ -65,13 +65,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       object[] localParameterValues = indexes
         .Select(index => inputParameters[index])
         .ToArray();
-      object returnValue = methodInfo.Invoke(Instance, localParameterValues, genericArguments);
+      object invokeResult = methodInfo.Invoke(Instance, localParameterValues, genericArguments);
+      if (hasReturnType)
+        returnValue = invokeResult;
       // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
       localParameterValues.Zip(indexes,
         (value, index) => SetIfValid(parameters, index, value, masterParameters))
         .ToArray();
-      if (hasReturnType)
-        returnAction(returnValue);
     }
 
     private object[] GetInputParameters(object[] parameters, int length)

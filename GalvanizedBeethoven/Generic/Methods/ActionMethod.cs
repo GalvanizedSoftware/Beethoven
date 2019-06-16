@@ -74,7 +74,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       return new ConstructorValues(localParameters, methodMatcher, action, parameterIndex, parameter);
     }
 
-    public override void Invoke(object localInstance, Action<object> returnAction, object[] parameters, Type[] genericArguments,
+    public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo masterMethodInfo)
     {
       (Type, string)[] masterParameters = masterMethodInfo
