@@ -12,20 +12,27 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
   {
     private readonly MethodInfo methodInfo;
     private readonly object target;
-    private readonly bool hasReturnType;
     private readonly (Type, string)[] localParameters;
 
-    public FuncMethod(string mainName, Delegate lambdaDelegate, IParameter parameter) :
-      this(mainName, lambdaDelegate.Target, lambdaDelegate.Method, parameter)
+    public static FuncMethod Create<TReturn>(string mainName, Func<TReturn> func, IParameter parameter = null) =>
+      new FuncMethod(mainName, func, parameter);
+
+    public static FuncMethod Create<T1, TReturn>(string mainName, Func<T1, TReturn> func, IParameter parameter = null) =>
+      new FuncMethod(mainName, func, parameter);
+
+    public static FuncMethod Create<T1, T2, TReturn>(string mainName, Func<T1, T2, TReturn> func, IParameter parameter = null) =>
+      new FuncMethod(mainName, func, parameter);
+
+    public FuncMethod(string mainName, Delegate func, IParameter parameter) :
+      this(mainName, func.Target, func.Method, parameter)
     {
     }
 
-    private FuncMethod(string mainName, object target, MethodInfo lambdaMethodInfo, IParameter parameter) :
-      base(mainName, new MatchActionPartially(lambdaMethodInfo), parameter)
+    private FuncMethod(string mainName, object target, MethodInfo methodInfo, IParameter parameter) :
+      base(mainName, new MatchFuncPartially(methodInfo), parameter)
     {
-      methodInfo = lambdaMethodInfo;
-      localParameters = lambdaMethodInfo.GetParameterTypeAndNames();
-      hasReturnType = lambdaMethodInfo.HasReturnType();
+      this.methodInfo = methodInfo;
+      localParameters = methodInfo.GetParameterTypeAndNames();
       this.target = target;
     }
 

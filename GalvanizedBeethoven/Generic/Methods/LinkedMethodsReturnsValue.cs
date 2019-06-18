@@ -38,9 +38,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue SimpleFunc<TReturnType>(Func<TReturnType> func) =>
       Add(new SimpleFuncMethod<TReturnType>(Name, func));
 
-    public LinkedMethodsReturnValue Lambda<T>(T actionOrFunc) =>
-      Add(new LambdaMethod<T>(Name, actionOrFunc));
-
     public LinkedMethodsReturnValue FlowControl(Func<bool> func) =>
       Add(new FlowControlMethod(Name, func));
 
@@ -96,6 +93,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Add(new FuncMethod(Name, func, localParameter));
 
     public LinkedMethodsReturnValue Func<T, TReturn>(Func<T, TReturn> func, IParameter localParameter = null) =>
+      Add(new FuncMethod(Name, func, localParameter));
+
+    public LinkedMethodsReturnValue Func<T1, T2, TReturn>(Func<T1, T2, TReturn> func, IParameter localParameter = null) =>
       Add(new FuncMethod(Name, func, localParameter));
 
     public override void InvokeFindInstance(IInstanceMap instanceMap, ref object returnValue,

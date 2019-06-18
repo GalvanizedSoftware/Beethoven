@@ -24,7 +24,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     {
       TypeDefinition<IMultiMethods1> typeDefinition =
         new TypeDefinition<IMultiMethods1>(
-          new LambdaMethod<Action<int>>("Foo", value => { }));
+          ActionMethod.Create("Foo", (int a) => { }));
       IMultiMethods1 instance = typeDefinition.Create();
       instance.Foo(5);
     }
@@ -65,7 +65,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     {
       TypeDefinition<IMultiMethods1> typeDefinition =
         new TypeDefinition<IMultiMethods1>(
-          new LambdaMethod<Action<string>>("Foo", value => { }));
+          ActionMethod.Create("Foo", (string value) => { }));
       IMultiMethods1 instance = typeDefinition.Create();
       instance.Foo(5);
     }
@@ -76,7 +76,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     {
       TypeDefinition<IMultiMethods1> typeDefinition =
         new TypeDefinition<IMultiMethods1>(
-          new LambdaMethod<Action<short>>("Foo", value => { }));
+          ActionMethod.Create("Foo", (short value) => { }));
       IMultiMethods1 instance = typeDefinition.Create();
       instance.Foo(5);
     }

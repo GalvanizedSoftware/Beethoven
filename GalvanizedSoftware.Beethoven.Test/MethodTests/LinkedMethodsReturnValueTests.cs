@@ -93,7 +93,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
           .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
-          .Func(() => false)
+          .FlowControl(() => false)
           .Action(() => called = true));
       string text2 = "wetwt";
       instance.OutAndRef(out string _, ref text2, 5);

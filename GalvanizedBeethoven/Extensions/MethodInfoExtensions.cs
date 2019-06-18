@@ -73,5 +73,18 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 
     public static object GetDefaultReturnValue(this MethodInfo methodInfo) =>
       methodInfo.ReturnType.GetDefaultValue();
+
+    public static object[] GetLocalParameters(this MethodInfo methodInfo, 
+      object[] parameters, (Type, string)[] localParameters)
+    {
+      (Type, string)[] masterParameters = methodInfo
+        .GetParameterTypeAndNames()
+        .AppendReturnValue(methodInfo.ReturnType)
+        .ToArray();
+      return localParameters
+        .Select(item => Array.IndexOf(masterParameters, item))
+        .Select(index => index < 0 ? null : parameters[index])
+        .ToArray();
+    }
   }
 }

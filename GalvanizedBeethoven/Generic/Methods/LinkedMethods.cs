@@ -40,9 +40,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethods Action<T>(Action<T> action) =>
       Add(new ActionMethod(Name, action));
 
-    public LinkedMethods Lambda<T>(T actionOrFunc) =>
-      Add(new LambdaMethod<T>(Name, actionOrFunc));
-
     public LinkedMethods MappedMethod(object instance, string targetName) =>
       Add(new MappedMethod(Name, instance, targetName));
 

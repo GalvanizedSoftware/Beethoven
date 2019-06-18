@@ -104,7 +104,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
 
       BeethovenFactory factory = new BeethovenFactory();
       ITestMethods test = factory.Generate<ITestMethods>(
-        new LambdaMethod<Action>(nameof(ITestMethods.Simple), () => { }),
+        ActionMethod.Create(nameof(ITestMethods.Simple), () => { }),
         new DefaultMethod(LogCall));
       test.Simple();
       CollectionAssert.AreEquivalent(new string[0], methodsCalled);

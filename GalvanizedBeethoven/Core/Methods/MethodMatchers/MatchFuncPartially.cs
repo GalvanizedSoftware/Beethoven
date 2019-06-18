@@ -6,28 +6,25 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
 {
-  public class MatchActionPartially : IMethodMatcher
+  internal class MatchFuncPartially : IMethodMatcher
   {
+    private readonly Type funcReturnType;
     private readonly (Type, string)[] localParameters;
 
-
-    public MatchActionPartially(Delegate lambdaDelegate) :
-      this(lambdaDelegate.Method)
+    public MatchFuncPartially(MethodInfo methodInfo):
+      this(methodInfo.ReturnType,methodInfo.GetParameterTypeAndNames())
     {
     }
 
-    public MatchActionPartially(MethodInfo methodInfo):
-      this(methodInfo.GetParameterTypeAndNames())
+    public MatchFuncPartially(Type funcReturnType, IEnumerable<(Type, string)> parameters)
     {
-      localParameters = methodInfo.GetParameterTypeAndNames();
-    }
-
-    public MatchActionPartially(IEnumerable<(Type, string)> parameters)
-    {
+      this.funcReturnType = funcReturnType;
       localParameters = parameters.ToArray();
     }
 
     public bool IsMatch((Type, string)[] parameters, Type[] __, Type returnType) =>
+      !returnType.IsByRef &&
+      returnType.IsMatchReturnTypeIgnoreGeneric(funcReturnType) &&
       localParameters.All(parameters.Contains);
   }
 }

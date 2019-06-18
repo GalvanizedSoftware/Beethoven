@@ -114,13 +114,10 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     internal static bool IsMatchReturnTypeIgnoreGeneric<TActual>(this Type mainReturnType) =>
       mainReturnType.IsMatchReturnTypeIgnoreGeneric(typeof(TActual));
 
-    internal static bool IsMatchReturnTypeIgnoreGeneric(this Type mainReturnType, Type actualReturnType)
-    {
-      bool isMatchReturnTypeIgnoreGeneric = mainReturnType.IsGeneric() ?
+    internal static bool IsMatchReturnTypeIgnoreGeneric(this Type mainReturnType, Type actualReturnType) =>
+      mainReturnType.IsGeneric() ?
         actualReturnType != typeof(void) :
         mainReturnType.IsMatchReturnType(actualReturnType);
-      return isMatchReturnTypeIgnoreGeneric;
-    }
 
     private static bool IsGeneric(this Type type) =>
       type == typeof(AnyGenericType) || type.FullName == null;

@@ -77,14 +77,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo masterMethodInfo)
     {
-      (Type, string)[] masterParameters = masterMethodInfo
-        .GetParameterTypeAndNames()
-        .AppendReturnValue(masterMethodInfo.ReturnType)
-        .ToArray();
-      object[] localParameterValues = localParameters
-        .Select(item => Array.IndexOf(masterParameters, item))
-        .Select(index => index < 0 ? null : parameters[index])
-        .ToArray();
+      object[] localParameterValues = masterMethodInfo.GetLocalParameters(parameters, localParameters);
       if (parameterIndex != null)
         localParameterValues[parameterIndex.Value] = localInstance;
       action.DynamicInvoke(localParameterValues);
