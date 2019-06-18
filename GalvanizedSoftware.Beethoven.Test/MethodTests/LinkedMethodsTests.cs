@@ -134,7 +134,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
           .Func((int count) => count)
-          .SkipIfResultCondition<int>(count => count == 0)
+          .SkipIfResultCondition((int count) => count == 0)
           .AutoMappedMethod(implentation)
           .Action(() => calledCount++));
       int result1 = instance.WithParameters("fegf", "ggn", 0);

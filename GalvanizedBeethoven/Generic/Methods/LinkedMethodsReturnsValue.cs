@@ -58,13 +58,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     public LinkedMethodsReturnValue SkipIf(Func<bool> condition) =>
-      Add(ConditionCheckMethod.Create(Name, () => !condition()));
+      Add(new InvertResultMethod(FlowControlMethod.Create(Name, condition)));
 
     public LinkedMethodsReturnValue SkipIf<T1>(Func<T1, bool> condition) =>
-      Add(ConditionCheckMethod.Create<T1>(Name, arg1 => !condition(arg1)));
+      Add(new InvertResultMethod(FlowControlMethod.Create<T1>(Name, condition)));
 
     public LinkedMethodsReturnValue SkipIf<T1, T2>(Func<T1, T2, bool> condition) =>
-      Add(ConditionCheckMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
+      Add(new InvertResultMethod(FlowControlMethod.Create<T1, T2>(Name, condition)));
 
     public LinkedMethodsReturnValue SkipIfResultCondition<T>(Func<T, bool> condition) =>
       Add(new ReturnValueCheck<T>(Name, condition))

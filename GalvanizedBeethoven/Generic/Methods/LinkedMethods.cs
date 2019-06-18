@@ -50,13 +50,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Add(new MappedMethod(Name, instance));
 
     public LinkedMethods SkipIf(Func<bool> condition) =>
-      Add(ConditionCheckMethod.Create(Name, () => !condition()));
+      Add(FlowControlMethod.Create(Name, () => !condition()));
 
     public LinkedMethods SkipIf<T1>(Func<T1, bool> condition) =>
-      Add(ConditionCheckMethod.Create<T1>(Name, arg1 => !condition(arg1)));
+      Add(FlowControlMethod.Create<T1>(Name, arg1 => !condition(arg1)));
 
     public LinkedMethods SkipIf<T1, T2>(Func<T1, T2, bool> condition) =>
-      Add(ConditionCheckMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
+      Add(FlowControlMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
 
     public LinkedMethods SkipIf(object instance, string targetName) =>
       Add(new PartialMatchMethod(Name, instance, targetName))
