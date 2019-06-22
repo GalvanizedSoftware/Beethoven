@@ -121,7 +121,6 @@
     </Compile>
     <Compile Include="MultiComposition\MultiCompositionViewModel.cs" />
     <Compile Include="MultiComposition\Factory.cs" />
-    <Compile Include="MultiComposition\RemovedLogger.cs" />
     <Compile Include="UnityContainer\IUnityViewModel.cs" />
     <Compile Include="UnityContainer\UnityView.xaml.cs">
       <DependentUpon>UnityView.xaml</DependentUpon>

@@ -10,11 +10,6 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
       MultiCompositionViewModel multiCompositionViewModel = new MultiCompositionViewModel();
       DataContext = multiCompositionViewModel;
       InitializeComponent();
-      Binding myBinding = new Binding("Items")
-      {
-        Source = multiCompositionViewModel
-      };
-      BindingOperations.SetBinding(ListBox, ListBox.ItemsSourceProperty, myBinding);
     }
   }
 }

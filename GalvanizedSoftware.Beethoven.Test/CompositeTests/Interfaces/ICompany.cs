@@ -1,4 +1,4 @@
-﻿namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
+﻿namespace GalvanizedSoftware.Beethoven.Test.CompositeTests.Interfaces
 {
   public interface ICompany
   {

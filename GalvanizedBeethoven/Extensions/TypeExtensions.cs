@@ -13,23 +13,21 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       type.FullName == null ? typeof(AnyGenericType) : type;
 
 
-    internal static IEnumerable<Type> GetAllTypes(this Type type)
-    {
-      return type == null ?
+    internal static IEnumerable<Type> GetAllTypes(this Type type) =>
+      type == null ?
         new Type[0] :
         new[] { type }
           .Concat(type.GetInterfaces()
             .SelectMany(subType => subType.GetAllTypes()))
           .Concat(type.BaseType.GetAllTypes())
           .Distinct();
-    }
 
-    internal static IEnumerable<MethodInfo> GetAllMethods(this Type type, string name)
-    {
-      return from methodInfo in type.GetMethods(ResolveFlags)
-             where methodInfo.Name == name
-             select methodInfo;
-    }
+    internal static IEnumerable<MethodInfo> GetAllMethods(this Type masterType, string name) =>
+      masterType
+        .GetAllTypes()
+        .SelectMany(type => type
+          .GetMethods(ResolveFlags)
+          .Where(methodInfo => methodInfo.Name == name));
 
     internal static EventInfo GetEventInfo(this Type type, string name) =>
       type
@@ -37,54 +35,39 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         .SelectMany(childType => childType.GetEvents(ResolveFlags))
         .SingleOrDefault(eventInfo => eventInfo.Name == name);
 
-    internal static IEnumerable<MethodInfo> GetNotSpecialMethods(this Type type)
-    {
-      return from methodInfo in type.GetMethods(ResolveFlags)
-             where !methodInfo.IsSpecialName
-             select methodInfo;
-    }
+    internal static IEnumerable<MethodInfo> GetNotSpecialMethods(this Type type) =>
+      type.GetMethods(ResolveFlags)
+        .Where(methodInfo => !methodInfo.IsSpecialName);
 
-    internal static IEnumerable<MethodInfo> GetAllMethodsAndInherited(this Type type)
-    {
-      return type.GetAllTypes()
+    internal static IEnumerable<MethodInfo> GetAllMethodsAndInherited(this Type type) =>
+      type.GetAllTypes()
         .SelectMany(childType => childType
           .GetMethods(ResolveFlags));
-    }
 
-    internal static IEnumerable<MethodInfo> GetMethodsAndInherited(this Type type)
-    {
-      return type.GetAllTypes()
+    internal static IEnumerable<MethodInfo> GetMethodsAndInherited(this Type type) =>
+      type.GetAllTypes()
         .SelectMany(childType => childType.GetMethods(ResolveFlags))
         .Where(info => !info.IsSpecialName);
-    }
 
     internal static object Create1(this Type type, Type genericType1, params object[] constructorParameters)
     {
       Type genericType = type.MakeGenericType(genericType1);
       ConstructorInfo[] constructors = genericType.GetConstructors(ResolveFlags);
-      if (constructors.Length == 1)
-        return constructors.First().Invoke(constructorParameters);
-      return genericType
-        .GetConstructor(constructorParameters
-          .Select(obj => obj.GetType())
-          .ToArray())
-        ?.Invoke(constructorParameters);
+      return constructors.Length == 1 ?
+        constructors.First().Invoke(constructorParameters) :
+        genericType
+          .GetConstructor(constructorParameters
+            .Select(obj => obj.GetType())
+            .ToArray())?
+          .Invoke(constructorParameters);
     }
 
-    internal static object InvokeStatic(this Type type, string methodName, params object[] parameters)
-    {
-      return type.GetMethod(methodName, StaticResolveFlags)
-        ?.Invoke(type, parameters);
-    }
+    internal static object InvokeStatic(this Type type, string methodName, params object[] parameters) =>
+      type.GetMethod(methodName, StaticResolveFlags)?
+        .Invoke(type, parameters);
 
-    internal static object GetDefaultValue(this Type type)
-    {
-      if (type == typeof(void))
-      {
-        return null;
-      }
-      return type.IsValueType ? Activator.CreateInstance(type) : null;
-    }
+    internal static object GetDefaultValue(this Type type) => 
+      type == typeof(void) || !type.IsValueType ? null : Activator.CreateInstance(type);
 
     internal static MethodInfo FindSingleMethod(this Type type, string targetName)
     {
@@ -100,12 +83,6 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         default:
           throw new MissingMethodException($"Multiple versions of the method {targetName} were found");
       }
-    }
-
-    internal static void CheckForDelegateType(this Type type)
-    {
-      if (!typeof(Delegate).IsAssignableFrom(type))
-        throw new InvalidCastException("You must supply an action, func or delegate");
     }
 
     internal static bool IsMatchReturnType(this Type returnType, Type actualReturnType) =>

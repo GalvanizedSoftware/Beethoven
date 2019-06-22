@@ -1,11 +1,12 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Properties;
+﻿using System;
+using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using GalvanizedSoftware.Beethoven.Generic.ValueLookup;
-using System;
+using GalvanizedSoftware.Beethoven.Test.CompositeTests.Interfaces;
 using Unity;
 
-namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
+namespace GalvanizedSoftware.Beethoven.Test.CompositeTests.Implementations
 {
   internal class IocFactory
   {
