@@ -8,13 +8,18 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
   {
     private readonly Dictionary<string, Type> properties;
 
-    public PropertiesSignatureChecker()
+    private PropertiesSignatureChecker()
     {
       Type type = typeof(T);
       properties = type.GetProperties(Constants.ResolveFlags).ToDictionary(info => info.Name, info => info.PropertyType);
     }
 
-    public void CheckSignatures(IEnumerable<object> wrappers)
+    public static void CheckSignatures(IEnumerable<object> wrappers)
+    {
+      new PropertiesSignatureChecker<T>().CheckSignaturesInternal(wrappers);
+    }
+
+    private void CheckSignaturesInternal(IEnumerable<object> wrappers)
     {
       CheckProperty(wrappers.OfType<Property>().ToArray());
     }

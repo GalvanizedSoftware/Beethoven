@@ -1,7 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using GalvanizedSoftware.Beethoven.Core.Binding;
 using GalvanizedSoftware.Beethoven.Core.Events;
-using GalvanizedSoftware.Beethoven.Core.Properties;
 using System.Collections.Generic;
 using System.Linq;
 using GalvanizedSoftware.Beethoven.Core.Interceptors;
@@ -11,24 +10,20 @@ namespace GalvanizedSoftware.Beethoven.Core
   internal class InstanceContainer<T> : IObjectProvider where T : class
   {
     private readonly IObjectProvider objectProviderHandler;
-    private readonly PropertiesSignatureChecker<T> propertiesSignatureChecker = new PropertiesSignatureChecker<T>();
 
-    public InstanceContainer(object[] partDefinitions, List<object> wrappers, object[] parameters)
+    public InstanceContainer(object[] partDefinitions,
+      object[] parameters, EventInvokers eventInvokers, IEnumerable<InterceptorMap> wrapperFactories)
     {
-      propertiesSignatureChecker.CheckSignatures(wrappers);
-      InstanceMap instanceMap = new InstanceMap(partDefinitions, parameters);
-      EventInvokers = new EventInvokers(this);
       MasterInterceptor = new MasterInterceptor(
-        instanceMap,
-        new WrapperFactories<T>(wrappers, EventInvokers));
+        new InstanceMap(partDefinitions, parameters), 
+        wrapperFactories);
+      EventInvokersBinding eventInvokersBinding = new EventInvokersBinding(this, eventInvokers);
       objectProviderHandler = new ObjectProviderHandler(
         partDefinitions
         .Append(new TargetBindingParent(this))
-        .Append(EventInvokers)
+        .Append(eventInvokersBinding)
         .Append(MasterInterceptor));
     }
-
-    public EventInvokers EventInvokers { get; }
 
     public IEnumerable<TChild> Get<TChild>() =>
       objectProviderHandler.Get<TChild>();

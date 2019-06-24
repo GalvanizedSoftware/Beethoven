@@ -3,15 +3,9 @@ using GalvanizedSoftware.Beethoven.Core.Binding;
 
 namespace GalvanizedSoftware.Beethoven.Core.Events
 {
-  internal class EventInvokers : IBindingParent
+  internal class EventInvokers
   {
     private readonly Dictionary<string, ActionEventInvoker> dictionary = new Dictionary<string, ActionEventInvoker>();
-    private readonly ObjectProviderBinder<ITypeBinding<EventInvokers>> objectProviderBinder;
-
-    public EventInvokers(IObjectProvider objectProvider)
-    {
-      objectProviderBinder = new ObjectProviderBinder<ITypeBinding<EventInvokers>>(objectProvider);
-    }
 
     public ActionEventInvoker this[string name]
     {
@@ -24,8 +18,5 @@ namespace GalvanizedSoftware.Beethoven.Core.Events
         return actionEventInvoker;
       }
     }
-
-    public void Bind(object target) => 
-      objectProviderBinder.Bind(binding => binding.Bind(this));
   }
 }

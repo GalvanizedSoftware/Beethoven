@@ -34,8 +34,15 @@ namespace GalvanizedSoftware.Beethoven.Core
         .ToArray();
     }
 
-    internal static IEnumerable<object> GetWrappers(object[] partDefinitions) =>
+    internal static IEnumerable<object> CreateWrappers(object[] partDefinitions) =>
       new WrapperGenerator<T>(partDefinitions, GetDefinitionWrappers);
+
+    internal static object[] CreateAndCheckWrappers(object[] partDefinitions)
+    {
+      object[] wrappers = new WrapperGenerator<T>(partDefinitions, GetDefinitionWrappers).ToArray();
+      PropertiesSignatureChecker<T>.CheckSignatures(wrappers);
+      return wrappers;
+    }
 
     public IEnumerator<object> GetEnumerator()
     {

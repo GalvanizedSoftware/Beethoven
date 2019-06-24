@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Properties;
 
 namespace GalvanizedSoftware.Beethoven
 {
@@ -40,21 +41,31 @@ namespace GalvanizedSoftware.Beethoven
     public T Generate<T>(params object[] partDefinitions) where T : class
     {
       partDefinitions = partDefinitions.Concat(GeneralPartDefinitions).ToArray();
-      return Create<T>(partDefinitions,
-        WrapperGenerator<T>.GetWrappers(partDefinitions).ToList(),
-        new object[0]);
+      EventInvokers eventInvokers = new EventInvokers();
+      return Create<T>(partDefinitions, new object[0], eventInvokers, 
+        new WrapperFactories<T>(WrapperGenerator<T>.CreateAndCheckWrappers(partDefinitions), eventInvokers));
     }
 
     internal T Create<T>(object[] partDefinitions, List<object> wrappers, object[] parameters)
       where T : class
     {
-      InstanceContainer<T> instanceContainer = new InstanceContainer<T>(partDefinitions, wrappers, parameters);
+      EventInvokers eventInvokers = new EventInvokers();
+      PropertiesSignatureChecker<T>.CheckSignatures(wrappers);
+      WrapperFactories<T> wrapperFactories = new WrapperFactories<T>(wrappers, eventInvokers);
+      return Create<T>(partDefinitions, parameters, eventInvokers, wrapperFactories);
+    }
+
+    internal T Create<T>(object[] partDefinitions, object[] parameters,
+      EventInvokers eventInvokers, IEnumerable<InterceptorMap> wrapperFactories)
+      where T : class
+    {
+      InstanceContainer<T> instanceContainer = new InstanceContainer<T>(partDefinitions, parameters, eventInvokers, wrapperFactories);
       IInterceptor interceptor = instanceContainer.MasterInterceptor;
-      T target = typeof(T).IsInterface ?
-        generator.CreateInterfaceProxyWithoutTarget<T>(interceptor) :
-        generator.CreateClassProxy<T>(interceptor);
+      T target = typeof(T).IsInterface
+        ? generator.CreateInterfaceProxyWithoutTarget<T>(interceptor)
+        : generator.CreateClassProxy<T>(interceptor);
       instanceContainer.Bind(target);
-      generatedEventInvokers.Add(new WeakReference(target), instanceContainer.EventInvokers);
+      generatedEventInvokers.Add(new WeakReference(target), eventInvokers);
       return target;
     }
 

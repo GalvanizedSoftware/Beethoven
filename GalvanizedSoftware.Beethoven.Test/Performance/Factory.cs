@@ -4,23 +4,23 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
 {
   internal class Factory
   {
-    private readonly TypeDefinition<IPerformanceTest> typeDefinition;
+    private readonly CompiledTypeDefinition<IPerformanceTest> compiledTypeDefinition;
 
     public Factory()
     {
-      typeDefinition = new TypeDefinition<IPerformanceTest>
+      compiledTypeDefinition = new TypeDefinition<IPerformanceTest>
       (
         new DefaultProperty()
           .SkipIfEqual()
           .SetterGetter()
           .NotifyChanged()
       )
-      .AddMethodMapper(main => new FormatClass(main));
+      .AddMethodMapper(main => new FormatClass(main))
+      .Compile();
     }
 
     public IPerformanceTest Create() =>
-      typeDefinition
-      .Create();
+      compiledTypeDefinition.Create();
 
     private class FormatClass
     {
@@ -31,6 +31,7 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
         this.main = main;
       }
 
+      // ReSharper disable once UnusedMember.Local
       internal string Format(string format)
       {
         return string.Format(format, main.Name);

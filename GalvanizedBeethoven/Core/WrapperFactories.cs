@@ -11,7 +11,7 @@ namespace GalvanizedSoftware.Beethoven.Core
   {
     private readonly InterceptorMap[] interceptorMaps;
 
-    public WrapperFactories(List<object> wrappers, EventInvokers eventInvokers)
+    public WrapperFactories(IList<object> wrappers, EventInvokers eventInvokers)
     {
       interceptorMaps =
         new PropertiesFactory(wrappers.OfType<Property>())
