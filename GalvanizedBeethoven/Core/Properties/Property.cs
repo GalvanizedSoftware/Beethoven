@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Interceptors;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
@@ -12,15 +13,16 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     private static readonly MethodInfo createGenericMethodInfo = type
       .GetMethod(nameof(CreateGeneric), Constants.StaticResolveFlags);
 
-    protected Property(string name, Type propertyType)
+    protected Property(string name, Type propertyType, IParameter parameter = null)
     {
       Name = name;
       PropertyType = propertyType;
       MemberInfo = type.GetProperty(name);
+      Parameter = parameter;
     }
 
-    protected Property(Property previous) :
-      this(previous.Name, previous.PropertyType)
+    protected Property(Property previous, IParameter parameter = null) :
+      this(previous.Name, previous.PropertyType, parameter ?? previous.Parameter)
     {
     }
 
@@ -29,6 +31,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     public MemberInfo MemberInfo { get; }
 
     public Type PropertyType { get; }
+    public IParameter Parameter { get; }
 
     public IEnumerable<InterceptorMap> GetInterceptorMaps<T>()
     {

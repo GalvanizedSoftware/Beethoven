@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Generic;
 using GalvanizedSoftware.Beethoven.Generic.Parameters;
 using Tuple = System.Tuple<GalvanizedSoftware.Beethoven.Generic.Parameters.IParameter, object>;
@@ -10,9 +11,14 @@ namespace GalvanizedSoftware.Beethoven.Core
   {
     private readonly Dictionary<IParameter, object> dictionary;
 
-    public InstanceMap(IEnumerable<object> partDefinitions, IEnumerable<object> parameters)
+    public InstanceMap(object[] partDefinitions, IEnumerable<object> parameters)
     {
-      IParameter[] array = partDefinitions.OfType<IParameter>().ToArray();
+      IParameter[] array = partDefinitions.OfType<IParameter>()
+        .Concat(partDefinitions
+          .OfType<Property>()
+          .Select(property => property.Parameter)
+          .Where(parameter => parameter != null))
+        .ToArray();
       dictionary = array
             .OfType<ConstructorParameter>()
             .Zip(parameters, (parameter, instance) => new Tuple(parameter, instance))

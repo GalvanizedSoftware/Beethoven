@@ -113,16 +113,12 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
     [TestMethod]
     public void AutoAssignTest5()
     {
-      IParameter nameParameter = ConstructorParameter.Create<string>("Name");
-      IParameter addressParameter = ConstructorParameter.Create<string>("Address");
       TypeDefinition<ICompanyInformation> typeDefinition = new TypeDefinition<ICompanyInformation>(
-        nameParameter,
-        addressParameter,
         new Property<string>("Name")
-          .InitialValue(nameParameter)
+          .ConstructorParameter()
           .SetterGetter(),
         new Property<string>("Address")
-          .InitialValue(addressParameter)
+          .ConstructorParameter()
           .SetterGetter()
         );
       ICompanyInformation companyInformation = 
@@ -134,11 +130,9 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
     [TestMethod]
     public void AutoAssignTest6()
     {
-      IParameter nameParameter = ConstructorParameter.Create<string>("Name");
       TypeDefinition<ICompanyInformation> typeDefinition = new TypeDefinition<ICompanyInformation>(
-        nameParameter,
         new Property<string>("Name")
-          .InitialValue(nameParameter)
+          .ConstructorParameter()
           .SetterGetter()      );
       ICompanyInformation companyInformation =
         typeDefinition.Create("The evil company");

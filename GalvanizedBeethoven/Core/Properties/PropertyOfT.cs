@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
+using GalvanizedSoftware.Beethoven.Generic.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
@@ -14,8 +16,26 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       definitions = new IPropertyDefinition<T>[0];
     }
 
-    public Property(Property<T> previous, params IPropertyDefinition<T>[] propertyDefinitions) :
-      base(previous)
+    public Property(Property<T> previous) :
+      this(previous, new IPropertyDefinition<T>[0])
+    {
+    }
+
+    public Property(Property<T> previous,
+      IPropertyDefinition<T> propertyDefinition) :
+      this(previous, new[] { propertyDefinition })
+    {
+    }
+
+    public Property(Property<T> previous, IParameter parameter) :
+      this(previous, new IPropertyDefinition<T>[] { new InitialParameterValue<T>(parameter) }, parameter)
+    {
+    }
+
+
+    public Property(Property<T> previous, IPropertyDefinition<T>[] propertyDefinitions,
+      IParameter parameter = null) :
+      base(previous, parameter)
     {
       definitions = previous
         .definitions
@@ -25,7 +45,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       objectProviderHandler = new ObjectProviderHandler(definitions);
     }
 
-    public IEnumerable<TChild> Get<TChild>() => 
+    public IEnumerable<TChild> Get<TChild>() =>
       objectProviderHandler.Get<TChild>();
 
     public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
@@ -51,7 +71,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       return value;
     }
 
-    internal override void InvokeSet(InstanceMap instanceMap, object newValue) => 
+    internal override void InvokeSet(InstanceMap instanceMap, object newValue) =>
       InvokeSetter(instanceMap, (T)newValue);
   }
 }
