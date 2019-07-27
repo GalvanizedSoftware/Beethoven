@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core;
+using GalvanizedSoftware.Beethoven.Core.Methods;
 using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
@@ -27,7 +28,8 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         .GetAllTypes()
         .SelectMany(type => type
           .GetMethods(ResolveFlags)
-          .Where(methodInfo => methodInfo.Name == name));
+          .Where(methodInfo => methodInfo.Name == name))
+        .Distinct(new ExactMethodComparer());
 
     internal static EventInfo GetEventInfo(this Type type, string name) =>
       type
