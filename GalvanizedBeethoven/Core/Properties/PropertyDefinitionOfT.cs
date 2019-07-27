@@ -6,35 +6,35 @@ using GalvanizedSoftware.Beethoven.Generic.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  public sealed class Property<T> : Property, IObjectProvider, IPropertyDefinition<T>
+  public sealed class PropertyDefinition<T> : PropertyDefinition, IObjectProvider, IPropertyDefinition<T>
   {
     private readonly IPropertyDefinition<T>[] definitions;
     private readonly IObjectProvider objectProviderHandler;
 
-    public Property(string name) :
+    public PropertyDefinition(string name) :
       base(name, typeof(T))
     {
       definitions = Array.Empty<IPropertyDefinition<T>>();
     }
 
-    public Property(Property<T> previous) :
+    public PropertyDefinition(PropertyDefinition<T> previous) :
       this(previous, Array.Empty<IPropertyDefinition<T>>())
     {
     }
 
-    public Property(Property<T> previous,
+    public PropertyDefinition(PropertyDefinition<T> previous,
       IPropertyDefinition<T> propertyDefinition) :
       this(previous, new[] { propertyDefinition })
     {
     }
 
-    public Property(Property<T> previous, IParameter parameter) :
+    public PropertyDefinition(PropertyDefinition<T> previous, IParameter parameter) :
       this(previous, new IPropertyDefinition<T>[] { new InitialParameterValue<T>(parameter) }, parameter)
     {
     }
 
 
-    public Property(Property<T> previous, IPropertyDefinition<T>[] propertyDefinitions,
+    public PropertyDefinition(PropertyDefinition<T> previous, IPropertyDefinition<T>[] propertyDefinitions,
       IParameter parameter = null) :
       base(previous, parameter)
     {

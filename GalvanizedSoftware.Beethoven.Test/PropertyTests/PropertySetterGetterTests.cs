@@ -14,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
+        new PropertyDefinition<int>(nameof(ITestProperties.Property1))
         .SetterGetter());
       Assert.AreEqual(0, test.Property1);
       test.Property1 = 42;
@@ -26,7 +26,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<string>(nameof(ITestProperties.Property2))
+        new PropertyDefinition<string>(nameof(ITestProperties.Property2))
           .SetterGetter());
       Assert.AreEqual(null, test.Property2);
       test.Property2 = "abc";
@@ -38,10 +38,10 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<string>(nameof(ITestProperties.Property2))
+        new PropertyDefinition<string>(nameof(ITestProperties.Property2))
           .SetterGetter());
       ITestProperties test2 = factory.Generate<ITestProperties>(
-        new Property<string>(nameof(ITestProperties.Property2))
+        new PropertyDefinition<string>(nameof(ITestProperties.Property2))
           .SetterGetter());
       test.Property2 = "abc";
       Assert.AreEqual(null, test2.Property2);
@@ -53,7 +53,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property2))
+        new PropertyDefinition<int>(nameof(ITestProperties.Property2))
           .SetterGetter());
       Assert.AreEqual(null, test.Property2);
     }

@@ -28,7 +28,7 @@ namespace GalvanizedSoftware.Beethoven.Generic
 
     public IEnumerable GetWrappers<T>() where T : class
     {
-      foreach (Property property in GetProperties())
+      foreach (PropertyDefinition property in GetProperties())
         yield return property;
       foreach (Method method in GetMethods<T>())
         yield return method;
@@ -42,25 +42,25 @@ namespace GalvanizedSoftware.Beethoven.Generic
         .Select(CreateMethod);
     }
 
-    public IEnumerable<Property> GetProperties()
+    public IEnumerable<PropertyDefinition> GetProperties()
     {
-      Dictionary<string, List<Property>> propertiesMap = new Dictionary<string, List<Property>>();
-      foreach (Property property in partDefinitions.SelectMany(CreateProperties))
+      Dictionary<string, List<PropertyDefinition>> propertiesMap = new Dictionary<string, List<PropertyDefinition>>();
+      foreach (PropertyDefinition property in partDefinitions.SelectMany(CreateProperties))
       {
         string propertyName = property.Name;
-        if (!propertiesMap.TryGetValue(propertyName, out List<Property> existingProperties))
+        if (!propertiesMap.TryGetValue(propertyName, out List<PropertyDefinition> existingProperties))
         {
-          existingProperties = new List<Property>();
+          existingProperties = new List<PropertyDefinition>();
           propertiesMap.Add(propertyName, existingProperties);
         }
         existingProperties.Add(property);
       }
 
-      foreach (KeyValuePair<string, List<Property>> pair in propertiesMap)
+      foreach (KeyValuePair<string, List<PropertyDefinition>> pair in propertiesMap)
       {
-        Property property = Property.Create(pair.Value.First().PropertyType, pair.Key, pair.Value);
-        if (property != null)
-          yield return property;
+        PropertyDefinition propertyDefinition = PropertyDefinition.Create(pair.Value.First().PropertyType, pair.Key, pair.Value);
+        if (propertyDefinition != null)
+          yield return propertyDefinition;
       }
     }
 
@@ -78,13 +78,13 @@ namespace GalvanizedSoftware.Beethoven.Generic
           (value, method) => value.Add(method));
     }
 
-    private static IEnumerable<Property> CreateProperties(object definition)
+    private static IEnumerable<PropertyDefinition> CreateProperties(object definition)
     {
       switch (definition)
       {
         case Method _:
-          return Array.Empty<Property>();
-        case Property property:
+          return Array.Empty<PropertyDefinition>();
+        case PropertyDefinition property:
           return new[] { property };
         default:
           return new PropertiesMapper(definition);
@@ -113,7 +113,7 @@ namespace GalvanizedSoftware.Beethoven.Generic
       switch (obj)
       {
         case Method _:
-        case Property _:
+        case PropertyDefinition _:
         case IParameter _:
           return null;
       }

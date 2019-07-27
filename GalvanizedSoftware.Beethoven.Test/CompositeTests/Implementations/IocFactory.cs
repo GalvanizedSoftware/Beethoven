@@ -36,9 +36,9 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests.Implementations
     private object CreateInformationInstance(IUnityContainer unityContainer, Type type, string name)
     {
       return beethovenFactory.Generate(type,
-        new Property<string>(nameof(ICompanyInformation.Name))
+        new PropertyDefinition<string>(nameof(ICompanyInformation.Name))
           .Constant(unityContainer.Resolve<string>("informationName")),
-        new Property<string>(nameof(ICompanyInformation.Address))
+        new PropertyDefinition<string>(nameof(ICompanyInformation.Address))
           .Constant(unityContainer.Resolve<string>("informationAddress"))
       );
     }

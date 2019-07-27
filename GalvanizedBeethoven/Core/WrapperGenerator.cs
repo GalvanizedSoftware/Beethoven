@@ -29,7 +29,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       defaultProperty = partDefinitions.OfType<DefaultProperty>().SingleOrDefault();
       defaultMethod = partDefinitions.OfType<DefaultMethod>().SingleOrDefault();
       this.partDefinitions = this.partDefinitions
-        .Concat(GetDefaultProperties(flatDefinitions.OfType<Property>()))
+        .Concat(GetDefaultProperties(flatDefinitions.OfType<PropertyDefinition>()))
         .Concat(GetDefaultMethods())
         .ToArray();
     }
@@ -51,7 +51,7 @@ namespace GalvanizedSoftware.Beethoven.Core
         switch (definition)
         {
           case IParameter _:
-          case Property _:
+          case PropertyDefinition _:
           case Method _:
             yield return definition;
             break;
@@ -75,8 +75,8 @@ namespace GalvanizedSoftware.Beethoven.Core
         {
           case null:
             break;
-          case IEnumerable<Property> properties:
-            foreach (Property property in properties)
+          case IEnumerable<PropertyDefinition> properties:
+            foreach (PropertyDefinition property in properties)
               yield return property;
             break;
           case IEnumerable<Method> methods:
@@ -96,7 +96,7 @@ namespace GalvanizedSoftware.Beethoven.Core
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    private IEnumerable<object> GetDefaultProperties(IEnumerable<Property> propertyWrappers)
+    private IEnumerable<object> GetDefaultProperties(IEnumerable<PropertyDefinition> propertyWrappers)
     {
       if (defaultProperty == null)
         yield break;

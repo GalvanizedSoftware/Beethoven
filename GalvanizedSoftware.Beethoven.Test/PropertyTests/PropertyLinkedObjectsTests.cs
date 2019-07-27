@@ -17,9 +17,9 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       int setCount = 0;
       ITestProperties test = factory.Generate<ITestProperties>(
         new LinkedObjects(
-          new Property<int>(nameof(ITestProperties.Property1))
+          new PropertyDefinition<int>(nameof(ITestProperties.Property1))
             .SkipIfEqual(),
-          new Property<int>(nameof(ITestProperties.Property1))
+          new PropertyDefinition<int>(nameof(ITestProperties.Property1))
             .DelegatedSetter(value => setCount++)));
       test.Property1 = 5;
       test.Property1 = 5;
@@ -33,9 +33,9 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       int setCount = 0;
       ITestProperties test = factory.Generate<ITestProperties>(
         new LinkedObjects(
-          new Property<int>(nameof(ITestProperties.Property1))
+          new PropertyDefinition<int>(nameof(ITestProperties.Property1))
             .DelegatedSetter(value => setCount++),
-          new Property<int>(nameof(ITestProperties.Property1))
+          new PropertyDefinition<int>(nameof(ITestProperties.Property1))
             .SkipIfEqual()));
       test.Property1 = 5;
       test.Property1 = 5;
@@ -49,9 +49,9 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       int setCount = 0;
       ITestProperties test = factory.Generate<ITestProperties>(
         new LinkedObjects(
-          new Property<int>(nameof(ITestProperties.Property1))
+          new PropertyDefinition<int>(nameof(ITestProperties.Property1))
             .SkipIfEqual(),
-          new Property<int>(nameof(ITestProperties.Property1))
+          new PropertyDefinition<int>(nameof(ITestProperties.Property1))
             .DelegatedSetter(value => setCount++)));
       test.Property1 = 5;
       test.Property1 = 6;

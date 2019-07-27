@@ -25,15 +25,15 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       creators = previous?.creators.Concat(new[] { creator }).ToArray();
     }
 
-    public Property Create(Type type, string name)
+    public PropertyDefinition Create(Type type, string name)
     {
-      return (Property)createMethodInfo.Invoke(this, new object[] { name }, new[] { type });
+      return (PropertyDefinition)createMethodInfo.Invoke(this, new object[] { name }, new[] { type });
     }
 
-    private Property<T> CreateGeneric<T>(string name)
+    private PropertyDefinition<T> CreateGeneric<T>(string name)
     {
-      return creators.Aggregate(new Property<T>(name),
-        (property, creator) => new Property<T>(property, (IPropertyDefinition<T>)creator(typeof(T), name)));
+      return creators.Aggregate(new PropertyDefinition<T>(name),
+        (property, creator) => new PropertyDefinition<T>(property, (IPropertyDefinition<T>)creator(typeof(T), name)));
     }
 
     public DefaultProperty ValidityCheck(object target, string methodName)

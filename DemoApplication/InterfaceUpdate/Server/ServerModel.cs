@@ -33,10 +33,10 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate.Server
         PersonV2ToV1Converter converter = new PersonV2ToV1Converter(person, cultureInfo);
         return factory.Generate<T>(
           person,
-          new Property<string>("BirthDate")
+          new PropertyDefinition<string>("BirthDate")
           .DelegatedGetter(converter.GetBirthDateString)
           .DelegatedSetter(converter.SetBirthDateDateTime),
-          new Property<string>("Country")
+          new PropertyDefinition<string>("Country")
           .Constant(cultureInfo.Name)
         );
       }

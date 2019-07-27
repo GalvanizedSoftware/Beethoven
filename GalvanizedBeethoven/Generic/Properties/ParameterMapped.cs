@@ -38,7 +38,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       return true;
     }
 
-    public Property CreateMasterProperty() =>
-      new Property<T>(new Property<T>(name), this);
+    public PropertyDefinition CreateMasterProperty() =>
+      new PropertyDefinition<T>(new PropertyDefinition<T>(name), this);
   }
 }

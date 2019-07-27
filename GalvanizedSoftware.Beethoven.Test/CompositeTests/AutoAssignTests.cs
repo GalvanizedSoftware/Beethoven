@@ -113,10 +113,10 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
     public void AutoAssignTest5()
     {
       TypeDefinition<ICompanyInformation> typeDefinition = new TypeDefinition<ICompanyInformation>(
-        new Property<string>("Name")
+        new PropertyDefinition<string>("Name")
           .ConstructorParameter()
           .SetterGetter(),
-        new Property<string>("Address")
+        new PropertyDefinition<string>("Address")
           .ConstructorParameter()
           .SetterGetter()
         );
@@ -130,7 +130,7 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
     public void AutoAssignTest6()
     {
       TypeDefinition<ICompanyInformation> typeDefinition = new TypeDefinition<ICompanyInformation>(
-        new Property<string>("Name")
+        new PropertyDefinition<string>("Name")
           .ConstructorParameter()
           .SetterGetter()      );
       ICompanyInformation companyInformation =

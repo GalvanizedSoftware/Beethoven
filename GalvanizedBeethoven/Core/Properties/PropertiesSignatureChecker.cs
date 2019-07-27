@@ -21,16 +21,16 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
 
     private void CheckSignaturesInternal(IEnumerable<object> wrappers)
     {
-      CheckProperty(wrappers.OfType<Property>().ToArray());
+      CheckProperty(wrappers.OfType<PropertyDefinition>().ToArray());
     }
 
-    private void CheckProperty(Property[] propertyWrappers)
+    private void CheckProperty(PropertyDefinition[] propertyWrappers)
     {
       foreach (KeyValuePair<string, Type> pair in properties)
         CheckProperty(pair.Key, pair.Value, propertyWrappers);
     }
 
-    private static void CheckProperty(string name, Type actualType, Property[] wrappers)
+    private static void CheckProperty(string name, Type actualType, PropertyDefinition[] wrappers)
     {
       int matchingCount = wrappers
         .Where(property => property.Name == name)

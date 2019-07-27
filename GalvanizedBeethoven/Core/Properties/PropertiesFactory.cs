@@ -6,15 +6,15 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
   internal sealed class PropertiesFactory : IEnumerable<IInterceptorProvider>
   {
-    private readonly IEnumerable<Property> properties;
+    private readonly IEnumerable<PropertyDefinition> propertyDefinitions;
 
-    public PropertiesFactory(IEnumerable<Property> properties)
+    public PropertiesFactory(IEnumerable<PropertyDefinition> propertyDefinitions)
     {
-      this.properties = properties;
+      this.propertyDefinitions = propertyDefinitions;
     }
 
     public IEnumerator<IInterceptorProvider> GetEnumerator() => 
-      properties.GetEnumerator();
+      propertyDefinitions.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
   }

@@ -14,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     public WrapperFactories(IList<object> wrappers, EventInvokers eventInvokers)
     {
       interceptorMaps =
-        new PropertiesFactory(wrappers.OfType<Property>())
+        new PropertiesFactory(wrappers.OfType<PropertyDefinition>())
         .Concat(new MethodsFactory(wrappers.OfType<Method>()))
         .Concat(new EventsFactory<T>(eventInvokers))
         .SelectMany(provider => provider.GetInterceptorMaps<T>())

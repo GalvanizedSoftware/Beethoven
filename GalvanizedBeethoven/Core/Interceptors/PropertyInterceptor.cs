@@ -6,17 +6,17 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {
   internal abstract class PropertyInterceptor : IGeneralInterceptor
   {
-    internal Property Property { get; }
+    internal PropertyDefinition PropertyDefinition { get; }
 
-    protected PropertyInterceptor(Property property)
+    protected PropertyInterceptor(PropertyDefinition propertyDefinition)
     {
-      MainDefinition = Property = property;
+      MainDefinition = PropertyDefinition = propertyDefinition;
     }
 
     public void Invoke(InstanceMap instanceMap, ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo methodInfo)
     {
-      if (!Property.IsMatch(methodInfo))
+      if (!PropertyDefinition.IsMatch(methodInfo))
         throw new NotImplementedException();
       InvokeIntercept(instanceMap, ref returnValue, parameters);
     }

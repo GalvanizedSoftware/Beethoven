@@ -188,7 +188,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
+        new PropertyDefinition<int>(nameof(ITestProperties.Property1))
           .MappedGetter(() => 6),
         new DefaultProperty()
           .SetterGetter());
@@ -204,7 +204,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
+        new PropertyDefinition<int>(nameof(ITestProperties.Property1))
           .SetterGetter(),
         new DefaultProperty()
           .NotifyChanged()

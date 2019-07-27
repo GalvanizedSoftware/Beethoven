@@ -15,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     {
       IParameter[] array = partDefinitions.OfType<IParameter>()
         .Concat(partDefinitions
-          .OfType<Property>()
+          .OfType<PropertyDefinition>()
           .Select(property => property.Parameter)
           .Where(parameter => parameter != null))
         .ToArray();

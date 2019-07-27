@@ -4,12 +4,12 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
 {
   internal sealed class PropertyGetInterceptor : PropertyInterceptor
   {
-    public PropertyGetInterceptor(Property property)
-      :base(property)
+    public PropertyGetInterceptor(PropertyDefinition propertyDefinition)
+      :base(propertyDefinition)
     {
     }
 
     protected override void InvokeIntercept(InstanceMap instanceMap, ref object returnValue, object[] parameters) => 
-      returnValue = Property.InvokeGet(instanceMap);
+      returnValue = PropertyDefinition.InvokeGet(instanceMap);
   }
 }

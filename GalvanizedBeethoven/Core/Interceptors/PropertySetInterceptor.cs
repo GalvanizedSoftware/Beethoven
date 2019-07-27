@@ -8,14 +8,14 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
   {
     private readonly IObjectProvider objectProviderHandler;
 
-    public PropertySetInterceptor(Property property) :
-      base(property)
+    public PropertySetInterceptor(PropertyDefinition propertyDefinition) :
+      base(propertyDefinition)
     {
-      objectProviderHandler = new ObjectProviderHandler(new[] { Property });
+      objectProviderHandler = new ObjectProviderHandler(new[] { PropertyDefinition });
     }
 
     protected override void InvokeIntercept(InstanceMap instanceMap, ref object returnValue, object[] parameters) => 
-      Property.InvokeSet(instanceMap, parameters.Single());
+      PropertyDefinition.InvokeSet(instanceMap, parameters.Single());
 
     public IEnumerable<TChild> Get<TChild>() => 
       objectProviderHandler.Get<TChild>();

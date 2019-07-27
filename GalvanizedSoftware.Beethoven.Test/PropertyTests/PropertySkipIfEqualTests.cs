@@ -15,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       BeethovenFactory factory = new BeethovenFactory();
       int setCount = 0;
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
+        new PropertyDefinition<int>(nameof(ITestProperties.Property1))
           .SkipIfEqual()
           .DelegatedSetter(value => setCount++));
       test.Property1 = 5;
@@ -29,7 +29,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       BeethovenFactory factory = new BeethovenFactory();
       int setCount = 0;
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
+        new PropertyDefinition<int>(nameof(ITestProperties.Property1))
           .DelegatedSetter(value => setCount++)
           .SkipIfEqual());
       test.Property1 = 5;
@@ -43,7 +43,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       BeethovenFactory factory = new BeethovenFactory();
       int setCount = 0;
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
+        new PropertyDefinition<int>(nameof(ITestProperties.Property1))
           .SkipIfEqual()
           .DelegatedSetter(value => setCount++));
       test.Property1 = 5;

@@ -8,13 +8,13 @@ using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  public abstract class Property : IInterceptorProvider
+  public abstract class PropertyDefinition : IInterceptorProvider
   {
-    private static readonly Type type = typeof(Property);
+    private static readonly Type type = typeof(PropertyDefinition);
     private static readonly MethodInfo createGenericMethodInfo = type
       .GetMethod(nameof(CreateGeneric), Constants.StaticResolveFlags);
 
-    protected Property(string name, Type propertyType, IParameter parameter = null)
+    protected PropertyDefinition(string name, Type propertyType, IParameter parameter = null)
     {
       Name = name;
       PropertyType = propertyType;
@@ -22,7 +22,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       Parameter = parameter;
     }
 
-    protected Property(Property previous, IParameter parameter = null) :
+    protected PropertyDefinition(PropertyDefinition previous, IParameter parameter = null) :
       this(previous?.Name, previous?.PropertyType, parameter ?? previous?.Parameter)
     {
     }
@@ -47,19 +47,19 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
 
     internal abstract void InvokeSet(InstanceMap instanceMap, object newValue);
 
-    public static Property Create(Type propertyType, string name, IEnumerable<Property> propertyDefinitions)
+    public static PropertyDefinition Create(Type propertyType, string name, IEnumerable<PropertyDefinition> propertyDefinitions)
     {
-      return (Property)createGenericMethodInfo
+      return (PropertyDefinition)createGenericMethodInfo
         .MakeGenericMethod(propertyType)
         .Invoke(type, new object[] { name, propertyDefinitions.ToArray() });
     }
 
-    private static Property CreateGeneric<T>(string name, Property[] propertyDefinitions)
+    private static PropertyDefinition CreateGeneric<T>(string name, PropertyDefinition[] propertyDefinitions)
     {
-      Property<T> property = new Property<T>(name);
+      PropertyDefinition<T> propertyDefinition = new PropertyDefinition<T>(name);
       return propertyDefinitions.Length == 0 ?
-        property :
-        new Property<T>(property, propertyDefinitions.OfType<IPropertyDefinition<T>>().ToArray());
+        propertyDefinition :
+        new PropertyDefinition<T>(propertyDefinition, propertyDefinitions.OfType<IPropertyDefinition<T>>().ToArray());
     }
 
     internal bool IsMatch(MethodInfo methodInfo)
