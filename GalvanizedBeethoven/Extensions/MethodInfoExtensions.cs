@@ -35,11 +35,10 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     public static bool IsMatch(this MethodInfo methodInfo, IEnumerable<Type> parameters, Type[] genericArguments, Type returnType)
     {
       MethodInfo actualMethod = methodInfo.GetActualMethod(genericArguments);
-      bool isMatchReturnTypeIgnoreGeneric = actualMethod
-                                              .GetParameterTypes()
-                                              .SequenceEqual(parameters) &&
-                                            returnType.IsMatchReturnTypeIgnoreGeneric(actualMethod);
-      return isMatchReturnTypeIgnoreGeneric;
+      return actualMethod
+               .GetParameterTypes()
+               .SequenceEqual(parameters) &&
+             returnType.IsMatchReturnTypeIgnoreGeneric(actualMethod);
     }
 
     public static bool IsGenericSafe(this MethodInfo methodInfo) =>

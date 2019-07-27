@@ -6,13 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core.Properties;
 
 namespace GalvanizedSoftware.Beethoven
 {
   public sealed class BeethovenFactory
   {
-    public object[] GeneralPartDefinitions { get; set; }
     private static readonly ProxyGenerator generator = new ProxyGenerator();
 
     private readonly Dictionary<WeakReference, EventInvokers> generatedEventInvokers =
@@ -28,6 +26,8 @@ namespace GalvanizedSoftware.Beethoven
       GeneralPartDefinitions = generalPartDefinitions;
     }
 
+    public IEnumerable<object> GeneralPartDefinitions { get; set; }
+
     public object Generate(Type type, params object[] partDefinitions) =>
       generateMethodInfo
         .MakeGenericMethod(type)
@@ -39,15 +39,6 @@ namespace GalvanizedSoftware.Beethoven
       EventInvokers eventInvokers = new EventInvokers();
       return Create<T>(partDefinitions, Array.Empty<object>(), eventInvokers, 
         new WrapperFactories<T>(WrapperGenerator<T>.CreateAndCheckWrappers(partDefinitions), eventInvokers));
-    }
-
-    internal T Create<T>(object[] partDefinitions, List<object> wrappers, object[] parameters)
-      where T : class
-    {
-      EventInvokers eventInvokers = new EventInvokers();
-      PropertiesSignatureChecker<T>.CheckSignatures(wrappers);
-      WrapperFactories<T> wrapperFactories = new WrapperFactories<T>(wrappers, eventInvokers);
-      return Create<T>(partDefinitions, parameters, eventInvokers, wrapperFactories);
     }
 
     internal T Create<T>(object[] partDefinitions, object[] parameters,
