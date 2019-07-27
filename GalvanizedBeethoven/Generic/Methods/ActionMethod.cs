@@ -64,6 +64,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     private static ConstructorValues GetValues(Delegate action, IParameter parameter)
     {
+      if (action==null)
+        throw new NullReferenceException();
       (Type, string)[] localParameters = action.Method.GetParameterTypeAndNames();
       int? parameterIndex = localParameters
         .Select((tuple, i) => (tuple, (int?)i))

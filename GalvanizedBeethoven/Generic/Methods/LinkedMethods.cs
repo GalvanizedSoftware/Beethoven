@@ -15,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly ObjectProviderHandler objectProviderHandler;
 
     public LinkedMethods(string name) :
-      this(name, new Method[0])
+      this(name, Array.Empty<Method>())
     {
     }
 
@@ -94,14 +94,14 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Method method, object[] parameters, (Type, string)[] parameterTypes,
       Type[] genericArguments, MethodInfo methodInfo)
     {
-      Type returnType = methodInfo.ReturnType;
-      if (method.MethodMatcher.IsMatch(parameterTypes, genericArguments, returnType))
+      Type returnType = methodInfo?.ReturnType;
+      if (method.MethodMatcher.IsMatchCheck(parameterTypes, genericArguments, returnType))
       {
         object returnValue = null;
         method.InvokeFindInstance(instanceMap, ref returnValue, parameters, genericArguments, methodInfo);
         return true;
       }
-      if (!method.MethodMatcher.IsMatch(parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
+      if (!method.MethodMatcher.IsMatchCheck(parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
         throw new MissingMethodException();
       object result = true;
       method.InvokeFindInstance(instanceMap, ref result, parameters, genericArguments, methodInfo);

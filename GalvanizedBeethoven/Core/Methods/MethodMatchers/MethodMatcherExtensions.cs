@@ -9,23 +9,28 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
   {
     public static bool IsMatchToFlowControlled(this IMethodMatcher methodMatcher, (Type, string)[] parameterTypeAndNames,
       Type[] genericArguments, Type returnType) =>
-      methodMatcher.IsMatch(parameterTypeAndNames.AppendReturnValue(returnType).ToArray(),
+      methodMatcher.IsMatchCheck(parameterTypeAndNames?.AppendReturnValue(returnType)?.ToArray(),
         genericArguments,
         typeof(bool).MakeByRefType());
 
     public static bool IsNonGenericMatch(this IMethodMatcher methodMatcher, MethodInfo methodInfo) =>
-      methodMatcher.IsMatch(methodInfo.GetParameterTypeAndNames(),
-        new Type[0],
-        methodInfo.ReturnType);
+      methodMatcher.IsMatchCheck(methodInfo.GetParameterTypeAndNames(),
+        Array.Empty<Type>(),
+        methodInfo?.ReturnType);
 
     public static bool IsMatchIgnoreGeneric(this IMethodMatcher methodMatcher, MethodInfo methodInfo) =>
-      methodMatcher.IsMatchEitherType(methodInfo.GetParameterTypeAndNames(), 
-        null, methodInfo.ReturnType.RemoveGeneric());
+      methodMatcher.IsMatchEitherType(methodInfo.GetParameterTypeAndNames(),
+        null, methodInfo?.ReturnType.RemoveGeneric());
 
     public static bool IsMatchEitherType(this IMethodMatcher methodMatcher,
       (Type, string)[] parameters, Type[] genericArguments, Type returnType) =>
-      !returnType.IsByRef &&
-      (methodMatcher.IsMatch(parameters, genericArguments, returnType) ||
+      !returnType.IsByRefence() &&
+      methodMatcher != null &&
+      (methodMatcher.IsMatchCheck(parameters, genericArguments, returnType) ||
        methodMatcher.IsMatchToFlowControlled(parameters, genericArguments, returnType));
+
+    public static bool IsMatchCheck(this IMethodMatcher methodMatcher, (Type, string)[] parameterTypeAndNames,
+      Type[] genericArguments, Type returnType) =>
+      methodMatcher?.IsMatch(parameterTypeAndNames, genericArguments, returnType) == true;
   }
 }

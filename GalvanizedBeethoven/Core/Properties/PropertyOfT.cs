@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GalvanizedSoftware.Beethoven.Generic.Parameters;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
@@ -13,11 +14,11 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     public Property(string name) :
       base(name, typeof(T))
     {
-      definitions = new IPropertyDefinition<T>[0];
+      definitions = Array.Empty<IPropertyDefinition<T>>();
     }
 
     public Property(Property<T> previous) :
-      this(previous, new IPropertyDefinition<T>[0])
+      this(previous, Array.Empty<IPropertyDefinition<T>>())
     {
     }
 
@@ -37,7 +38,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       IParameter parameter = null) :
       base(previous, parameter)
     {
-      definitions = previous
+      definitions = previous?
         .definitions
         .Concat(propertyDefinitions
           .Where(definition => definition != null))

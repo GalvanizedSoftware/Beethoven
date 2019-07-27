@@ -24,16 +24,16 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       new FuncMethod(mainName, func, parameter);
 
     public FuncMethod(string mainName, Delegate func, IParameter parameter) :
-      this(mainName, func.Target, func.Method, parameter)
+      this(mainName, func?.Target, func?.Method, parameter)
     {
     }
 
     private FuncMethod(string mainName, object target, MethodInfo methodInfo, IParameter parameter) :
       base(mainName, new MatchFuncPartially(methodInfo), parameter)
     {
-      this.methodInfo = methodInfo;
+      this.target = target ?? throw new NullReferenceException();
+      this.methodInfo = methodInfo ?? throw new NullReferenceException();
       localParameters = methodInfo.GetParameterTypeAndNames();
-      this.target = target;
     }
 
     public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
@@ -41,7 +41,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
       (Type, string)[] masterParameters = masterMethodInfo
         .GetParameterTypeAndNames()
-        .AppendReturnValue(masterMethodInfo.ReturnType)
+        .AppendReturnValue(masterMethodInfo?.ReturnType)
         .ToArray();
       int[] indexes = localParameters
         .Select(item => Array.IndexOf(masterParameters, item))

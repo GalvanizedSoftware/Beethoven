@@ -16,6 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private object mainInstance;
     private readonly Type mainType;
     private readonly string mainParameterName;
+    private readonly object instance;
 
     public PartialMatchMethod(string mainName, object instance) :
       this(mainName, instance, mainName, "")
@@ -34,18 +35,16 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     public PartialMatchMethod(string mainName, object instance, string targetName, string mainParameterName) :
-      base(mainName, new MatchMethodNoReturn(instance.GetType(), targetName, mainParameterName))
+      base(mainName, new MatchMethodNoReturn(instance?.GetType(), targetName, mainParameterName))
     {
-      Instance = instance;
-      methodInfo = instance
+      this.instance = instance;
+      methodInfo = instance?
         .GetType()
         .FindSingleMethod(targetName);
       localParameters = methodInfo.GetParameterTypeAndNames();
       hasReturnType = methodInfo.HasReturnType();
       this.mainParameterName = mainParameterName;
     }
-
-    public object Instance { private get; set; }
 
     public void Bind(object target) =>
       mainInstance = target;
@@ -55,7 +54,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
       (Type, string)[] masterParameters = masterMethodInfo
         .GetParameterTypeAndNames()
-        .AppendReturnValue(masterMethodInfo.ReturnType)
+        .AppendReturnValue(masterMethodInfo?.ReturnType)
         .Append((mainType, mainParameterName))
         .ToArray();
       int[] indexes = localParameters
@@ -65,7 +64,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       object[] localParameterValues = indexes
         .Select(index => inputParameters[index])
         .ToArray();
-      object invokeResult = methodInfo.Invoke(Instance, localParameterValues, genericArguments);
+      object invokeResult = methodInfo.Invoke(instance, localParameterValues, genericArguments);
       if (hasReturnType)
         returnValue = invokeResult;
       // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
@@ -76,6 +75,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     private object[] GetInputParameters(object[] parameters, int length)
     {
+      if (parameters == null || length == 0)
+        return Array.Empty<object>();
       object[] returnValues = new object[length];
       for (int i = 0; i < parameters.Length; i++)
         returnValues[i] = parameters[i];
@@ -85,7 +86,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     private static object SetIfValid(object[] parameters, int index, object value, (Type, string)[] masterParameters)
     {
-      if (index >= 0 && index < parameters.Length && masterParameters[index].Item1.IsByRef)
+      if (index >= 0 && index < parameters.Length && masterParameters[index].Item1.IsByRefence())
         parameters[index] = value;
       return null;
     }

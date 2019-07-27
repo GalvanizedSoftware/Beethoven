@@ -13,8 +13,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
       parameterTypes = types;
     }
 
-    public bool IsMatch((Type, string)[] parameters, Type[] __, Type returnType) => 
-      returnType.IsByRef && 
+    public bool IsMatch((Type, string)[] parameters, Type[] __, Type returnType) =>
+      returnType.IsByRefence() &&
       parameters.SkipLast().Select(tuple => tuple.Item1).SequenceEqual(parameterTypes);
   }
 }

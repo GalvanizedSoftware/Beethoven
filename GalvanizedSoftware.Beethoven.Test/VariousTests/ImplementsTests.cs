@@ -12,31 +12,31 @@ namespace GalvanizedSoftware.Beethoven.Test.VariousTests
     [TestMethod]
     public void ImplementsTest1()
     {
-      Assert.IsTrue(beethovenFactory.Implements<ITestImplements, FullImplements>());
+      Assert.IsTrue(BeethovenFactory.Implements<ITestImplements, FullImplements>());
     }
 
     [TestMethod]
     public void ImplementsTest2()
     {
-      Assert.IsFalse(beethovenFactory.Implements<ITestImplements, InvalidImplementation1>());
+      Assert.IsFalse(BeethovenFactory.Implements<ITestImplements, InvalidImplementation1>());
     }
 
     [TestMethod]
     public void ImplementsTest3()
     {
-      Assert.IsFalse(beethovenFactory.Implements<ITestImplements, InvalidImplementation2>());
+      Assert.IsFalse(BeethovenFactory.Implements<ITestImplements, InvalidImplementation2>());
     }
 
     [TestMethod]
     public void ImplementsTest4()
     {
-      Assert.IsFalse(beethovenFactory.Implements<ITestImplements, InvalidImplementation3>());
+      Assert.IsFalse(BeethovenFactory.Implements<ITestImplements, InvalidImplementation3>());
     }
 
     [TestMethod]
     public void ImplementsTest5()
     {
-      Assert.IsFalse(beethovenFactory.Implements<ITestImplements, InvalidImplementation4>());
+      Assert.IsFalse(BeethovenFactory.Implements<ITestImplements, InvalidImplementation4>());
     }
 
     [TestMethod]

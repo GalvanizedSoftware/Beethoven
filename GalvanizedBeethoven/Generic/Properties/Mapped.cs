@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using static GalvanizedSoftware.Beethoven.Core.Constants;
@@ -16,7 +17,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     {
       this.name = name;
       main = target;
-      PropertyInfo propertyInfo = target.GetType().GetProperty(name, ResolveFlags);
+      PropertyInfo propertyInfo = target?.GetType().GetProperty(name, ResolveFlags);
       if (propertyInfo == null)
         return;
       getMethod = propertyInfo.CanRead ? propertyInfo.GetMethod : null;
@@ -26,7 +27,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
     {
       if (getMethod != null)
-        returnValue = (T)getMethod.Invoke(main, new object[0]);
+        returnValue = (T)getMethod.Invoke(main, Array.Empty<object>());
       return true;
     }
 

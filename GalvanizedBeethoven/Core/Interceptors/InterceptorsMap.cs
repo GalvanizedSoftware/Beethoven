@@ -32,6 +32,6 @@ namespace GalvanizedSoftware.Beethoven.Core.Interceptors
         methodInfo1
           .GetParameterTypesIgnoreGeneric()
           .SequenceEqual(methodInfo2.GetParameterTypesIgnoreGeneric()) &&
-        methodInfo1.ReturnType.IsMatchReturnTypeIgnoreGeneric(methodInfo2.ReturnType);
+        methodInfo1.ReturnType.IsMatchReturnTypeIgnoreGeneric(methodInfo2);
   }
 }

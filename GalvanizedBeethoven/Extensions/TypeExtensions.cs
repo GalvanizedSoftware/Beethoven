@@ -15,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 
     internal static IEnumerable<Type> GetAllTypes(this Type type) =>
       type == null ?
-        new Type[0] :
+        Array.Empty<Type>() :
         new[] { type }
           .Concat(type.GetInterfaces()
             .SelectMany(subType => subType.GetAllTypes()))
@@ -57,7 +57,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         constructors.First().Invoke(constructorParameters) :
         genericType
           .GetConstructor(constructorParameters
-            .Select(obj => obj.GetType())
+            .Select(obj => obj?.GetType())
             .ToArray())?
           .Invoke(constructorParameters);
     }
@@ -86,7 +86,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     }
 
     internal static bool IsMatchReturnType(this Type returnType, Type actualReturnType) =>
-      returnType.FullName?.TrimEnd('&') == actualReturnType.FullName;
+      returnType?.FullName?.TrimEnd('&') == actualReturnType?.FullName;
 
     internal static bool IsMatchReturnTypeIgnoreGeneric<TActual>(this Type mainReturnType) =>
       mainReturnType.IsMatchReturnTypeIgnoreGeneric(typeof(TActual));
@@ -96,7 +96,14 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         actualReturnType != typeof(void) :
         mainReturnType.IsMatchReturnType(actualReturnType);
 
+    internal static bool IsMatchReturnTypeIgnoreGeneric(this Type mainReturnType, MethodInfo actualMethod) =>
+      mainReturnType.IsMatchReturnTypeIgnoreGeneric(actualMethod?.ReturnType);
+
+    internal static bool IsByRefence(this Type type) =>
+      type?.IsByRef == true;
+
     private static bool IsGeneric(this Type type) =>
       type == typeof(AnyGenericType) || type.FullName == null;
+
   }
 }

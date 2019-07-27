@@ -8,12 +8,8 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 {
   public static class ValueLookupExtensions
   {
-    private static readonly MethodInfo lookupMethod;
-
-    static ValueLookupExtensions()
-    {
-      lookupMethod = typeof(IValueLookup).GetMethod(nameof(IValueLookup.Lookup));
-    }
+    private static readonly MethodInfo lookupMethod =
+      typeof(IValueLookup).GetMethod(nameof(IValueLookup.Lookup));
 
     public static IEnumerable<object> Lookup(this IValueLookup lookup, Type type, string name)
     {

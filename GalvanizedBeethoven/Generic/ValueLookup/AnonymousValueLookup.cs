@@ -12,7 +12,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.ValueLookup
     public AnonymousValueLookup(object instance)
     {
       this.instance = instance;
-      propertyInfos = instance.GetType().GetProperties();
+      propertyInfos = instance?.GetType().GetProperties();
     }
 
     public IEnumerable<T> Lookup<T>(string name)

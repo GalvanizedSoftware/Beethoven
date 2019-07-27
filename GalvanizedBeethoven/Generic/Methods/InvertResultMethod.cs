@@ -9,7 +9,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly Method method;
 
     public InvertResultMethod(Method method) : 
-      base(method.Name, method.MethodMatcher)
+      base(method?.Name, method?.MethodMatcher)
     {
       this.method = method;
     }

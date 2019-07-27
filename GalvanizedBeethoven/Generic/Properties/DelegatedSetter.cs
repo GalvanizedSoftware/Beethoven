@@ -30,6 +30,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     public static DelegatedSetter<T> CreateWithReflection(object target, string methodName, string propertyName)
     {
+      if (target == null)
+        throw new NullReferenceException();
       MethodInfo methodInfo = target
         .GetType()
         .GetMethod(methodName, Constants.ResolveFlags)
@@ -50,7 +52,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
           Debug.Assert(parameterTypes[1] == typeof(T));
           return newValue => methodInfo.Invoke(target, new object[] { propertyName, newValue });
         default:
-          throw new ArgumentException($"Method: {methodInfo.Name} not found or has incorrect signature");
+          throw new ArgumentException($"Method: {methodInfo?.Name} not found or has incorrect signature");
       }
     }
   }

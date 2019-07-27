@@ -9,10 +9,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
   public class MappedMethodDelayed : Method
   {
     private readonly MethodInfo methodInfo;
-    private readonly bool hasReturnType;
+    private object instance;
 
     public MappedMethodDelayed(MethodInfo methodInfo) :
-      this(methodInfo.Name, methodInfo)
+      this(methodInfo?.Name, methodInfo)
     {
     }
 
@@ -20,13 +20,14 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       base(mainName, new MatchMethodInfoExact(methodInfo))
     {
       this.methodInfo = methodInfo;
-      hasReturnType = methodInfo.HasReturnType();
+      methodInfo.HasReturnType();
     }
 
-    public object Instance { private get; set; }
+    public void SetInstance(object value) =>
+      instance = value;
 
     public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo _) =>
-      returnValue = methodInfo.Invoke(Instance, parameters, genericArguments);
+      returnValue = methodInfo.Invoke(instance, parameters, genericArguments);
   }
 }

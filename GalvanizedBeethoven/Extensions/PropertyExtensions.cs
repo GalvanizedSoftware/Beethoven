@@ -24,10 +24,10 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       new Property<T>(property, new NotSupported<T>());
 
     public static Property<T> NotifyChanged<T>(this Property<T> property) => 
-      new Property<T>(property, new NotifyChanged<T>(property.Name));
+      new Property<T>(property, new NotifyChanged<T>(property?.Name));
 
     public static Property<T> MappedFrom<T>(this Property<T> property, object main) => 
-      new Property<T>(property, new Mapped<T>(main, property.Name));
+      new Property<T>(property, new Mapped<T>(main, property?.Name));
 
     public static Property<T> MappedGetter<T>(this Property<T> property, Func<T> getterFunc) => 
       new Property<T>(property, new DelegatedGetter<T>(getterFunc));
@@ -39,7 +39,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       new Property<T>(property, new InitialValue<T>(value));
 
     public static Property<T> ConstructorParameter<T>(this Property<T> property) => 
-      new Property<T>(property, new ConstructorParameter(property.Name, typeof(T)));
+      new Property<T>(property, new ConstructorParameter(property?.Name, typeof(T)));
 
     public static Property<T> DelegatedSetter<T>(this Property<T> property, Action<T> action) => 
       new Property<T>(property, new DelegatedSetter<T>(action));

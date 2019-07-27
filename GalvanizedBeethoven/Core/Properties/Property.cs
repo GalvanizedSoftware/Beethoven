@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Interceptors;
+using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
@@ -22,7 +23,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     }
 
     protected Property(Property previous, IParameter parameter = null) :
-      this(previous.Name, previous.PropertyType, parameter ?? previous.Parameter)
+      this(previous?.Name, previous?.PropertyType, parameter ?? previous?.Parameter)
     {
     }
 
@@ -63,13 +64,11 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
 
     internal bool IsMatch(MethodInfo methodInfo)
     {
-      if (!methodInfo.IsSpecialName)
-        return false;
-      if (methodInfo.Name == "get_" + Name)
-        return methodInfo.ReturnType == PropertyType;
-      if (methodInfo.Name == "set_" + Name)
-        return methodInfo.GetParameters().SingleOrDefault()?.ParameterType == PropertyType;
-      return false;
+      string name = methodInfo.Name;
+      return methodInfo.IsSpecialName &&
+              (name == "get_" + Name ? methodInfo.ReturnType == PropertyType :
+               name == "set_" + Name &&
+               methodInfo.GetParametersSafe().SingleOrDefault()?.ParameterType == PropertyType);
     }
   }
 }

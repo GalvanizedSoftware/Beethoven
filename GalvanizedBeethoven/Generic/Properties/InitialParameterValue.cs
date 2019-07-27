@@ -12,7 +12,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     public InitialParameterValue(IParameter parameter)
     {
-      this.parameter = parameter;
+      this.parameter = parameter ?? throw new NullReferenceException();
       if (parameter.Type != typeof(T))
         throw new InvalidCastException();
     }
@@ -21,7 +21,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     {
       if (valueSet)
         return true;
-      returnValue = (T) instanceMap.GetLocal(parameter);
+      returnValue = (T) instanceMap?.GetLocal(parameter);
       return false;
     }
 

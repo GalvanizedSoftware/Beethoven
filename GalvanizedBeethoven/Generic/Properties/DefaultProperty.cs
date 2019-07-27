@@ -12,21 +12,17 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
   public class DefaultProperty
   {
     private readonly Func<Type, string, object>[] creators;
-    private static readonly MethodInfo createMethodInfo;
-
-    static DefaultProperty()
-    {
-      createMethodInfo = typeof(DefaultProperty).GetMethod(nameof(CreateGeneric), Constants.ResolveFlags);
-    }
+    private static readonly MethodInfo createMethodInfo = 
+      typeof(DefaultProperty).GetMethod(nameof(CreateGeneric), Constants.ResolveFlags);
 
     public DefaultProperty()
     {
-      creators = new Func<Type, string, object>[0];
+      creators = Array.Empty<Func<Type, string, object>>();
     }
 
     public DefaultProperty(DefaultProperty previous, Func<Type, string, object> creator)
     {
-      creators = previous.creators.Concat(new[] { creator }).ToArray();
+      creators = previous?.creators.Concat(new[] { creator }).ToArray();
     }
 
     public Property Create(Type type, string name)
@@ -89,7 +85,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public DefaultProperty InitialValue(params object[] initialValues)
     {
       return new DefaultProperty(this, (type, name) => typeof(InitialValue<>).Create1(type,
-        initialValues.FirstOrDefault(obj => obj.GetType() == type)));
+        initialValues.FirstOrDefault(obj => obj?.GetType() == type)));
     }
 
     public DefaultProperty ValueLookup(IValueLookup valueLookup)

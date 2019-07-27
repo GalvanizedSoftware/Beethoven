@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using GalvanizedSoftware.Beethoven.Core.Binding;
 
 namespace GalvanizedSoftware.Beethoven.Core.Events
 {

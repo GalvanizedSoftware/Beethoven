@@ -12,7 +12,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
   public abstract class Method : IInterceptorProvider
   {
-    protected readonly IParameter parameter;
+    private readonly IParameter parameter;
 
     protected Method(string name, IMethodMatcher methodMatcher, IParameter parameter = null)
     {
@@ -33,11 +33,11 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     public virtual void Invoke(object localInstance,
       ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo methodInfo) =>
-      throw new MissingMemberException(methodInfo.DeclaringType?.FullName, methodInfo.Name);
+      throw new MissingMemberException(methodInfo?.DeclaringType?.FullName, methodInfo?.Name);
 
     public virtual void InvokeFindInstance(IInstanceMap instanceMap,
       ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo methodInfo) =>
-      Invoke(instanceMap.GetLocal(parameter), ref returnValue, parameters, genericArguments, methodInfo);
+      Invoke(instanceMap?.GetLocal(parameter), ref returnValue, parameters, genericArguments, methodInfo);
   }
 }

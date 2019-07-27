@@ -113,6 +113,7 @@
     <Compile Include="Extending\Approvers\LocalManager.cs" />
     <Compile Include="Extending\Approvers\Myself.cs" />
     <Compile Include="Extending\Services\MailService.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MultiComposition\CollectionChangedImplementation.cs" />
     <Compile Include="MultiComposition\IPersonCollection.cs" />
     <Compile Include="MultiComposition\IPerson.cs" />

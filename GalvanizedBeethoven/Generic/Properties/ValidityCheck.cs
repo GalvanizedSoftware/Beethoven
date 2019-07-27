@@ -29,12 +29,14 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     public static ValidityCheck<T> CreateWithReflection(object target, string methodName)
     {
-      MethodInfo methodInfo = target
+      Func<T, bool> CheckFunc(MethodInfo methodInfo1) => 
+        newValue => (bool)methodInfo1.Invoke(target, new object[] { newValue });
+
+      MethodInfo methodInfo = target?
         .GetType()
         .GetMethod(methodName, Constants.ResolveFlags)
         .MakeGeneric<T>();
-      Func<T, bool> checkFunc = newValue => (bool)methodInfo.Invoke(target, new object[] { newValue });
-      return new ValidityCheck<T>(checkFunc);
+      return new ValidityCheck<T>(CheckFunc(methodInfo ?? throw new NullReferenceException()));
     }
   }
 }

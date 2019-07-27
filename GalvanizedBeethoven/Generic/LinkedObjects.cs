@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -82,7 +83,7 @@ namespace GalvanizedSoftware.Beethoven.Generic
       switch (definition)
       {
         case Method _:
-          return new Property[0];
+          return Array.Empty<Property>();
         case Property property:
           return new[] { property };
         default:
@@ -116,7 +117,7 @@ namespace GalvanizedSoftware.Beethoven.Generic
         case IParameter _:
           return null;
       }
-      return obj
+      return obj?
         .GetType()
         .GetAllTypes()
         .SelectMany(type => type.GetNotSpecialMethods())

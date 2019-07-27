@@ -22,7 +22,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Parameters
 
     public bool Equals(IParameter other) => 
       ReferenceEquals(this, other) || 
-      other is AutoParameter && Equals((other.Type, ""));
+      other is AutoParameter && Equals((other?.Type, ""));
 
     public bool Equals((Type, string) other) =>
       string.Equals(Type.FullName, other.Item1.FullName, StringComparison.Ordinal);

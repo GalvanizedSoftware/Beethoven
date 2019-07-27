@@ -12,7 +12,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
 
 
     public MatchActionPartially(Delegate lambdaDelegate) :
-      this(lambdaDelegate.Method)
+      this(lambdaDelegate?.Method)
     {
     }
 

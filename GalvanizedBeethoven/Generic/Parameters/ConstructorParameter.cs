@@ -15,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Parameters
     public ConstructorParameter(string name, Type type)
     {
       Name = name;
-      Type = type;
+      Type = type ?? throw new NullReferenceException();
       typeFullName = Type.FullName;
     }
 

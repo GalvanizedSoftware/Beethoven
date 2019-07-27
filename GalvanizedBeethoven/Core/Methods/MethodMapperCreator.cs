@@ -35,7 +35,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     {
       object methodInstance = creatorFunc(target as TMain);
       foreach (MappedMethodDelayed method in methods)
-        method.Instance = methodInstance;
+        method.SetInstance(methodInstance);
     }
   }
 }

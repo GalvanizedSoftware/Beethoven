@@ -23,7 +23,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
     }
 
     public bool IsMatch((Type, string)[] parameters, Type[] __, Type returnType) =>
-      !returnType.IsByRef &&
+      !returnType.IsByRefence() &&
       returnType.IsMatchReturnTypeIgnoreGeneric(funcReturnType) &&
       localParameters.All(parameters.Contains);
   }

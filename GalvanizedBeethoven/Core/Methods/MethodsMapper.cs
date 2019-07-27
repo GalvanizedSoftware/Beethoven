@@ -19,7 +19,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     public MethodsMapper(object baseObject)
     {
       IParameter parameter = (baseObject as DefinitionImport)?.Parameter;
-      Type baseType = parameter?.Type ?? baseObject.GetType();
+      Type baseType = parameter?.Type ?? baseObject?.GetType();
       Func<MethodInfo, Method> methodCreator = parameter != null ? (Func<MethodInfo, Method>)
         (methodInfo => new ParameterMappedMethod(methodInfo, parameter)) :
         methodInfo => new MappedMethod(methodInfo, baseObject);

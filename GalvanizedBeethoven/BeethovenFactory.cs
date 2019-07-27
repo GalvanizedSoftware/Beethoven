@@ -18,15 +18,10 @@ namespace GalvanizedSoftware.Beethoven
     private readonly Dictionary<WeakReference, EventInvokers> generatedEventInvokers =
       new Dictionary<WeakReference, EventInvokers>();
 
-    private static readonly MethodInfo generateMethodInfo;
-
-    static BeethovenFactory()
-    {
-      generateMethodInfo = typeof(BeethovenFactory)
-        .GetMethods()
-        .Where(info => info.Name == nameof(Generate))
-        .First(info => info.IsGenericMethod);
-    }
+    private static readonly MethodInfo generateMethodInfo = typeof(BeethovenFactory)
+      .GetMethods()
+      .Where(info => info.Name == nameof(Generate))
+      .First(info => info.IsGenericMethod);
 
     public BeethovenFactory(params object[] generalPartDefinitions)
     {
@@ -42,7 +37,7 @@ namespace GalvanizedSoftware.Beethoven
     {
       partDefinitions = partDefinitions.Concat(GeneralPartDefinitions).ToArray();
       EventInvokers eventInvokers = new EventInvokers();
-      return Create<T>(partDefinitions, new object[0], eventInvokers, 
+      return Create<T>(partDefinitions, Array.Empty<object>(), eventInvokers, 
         new WrapperFactories<T>(WrapperGenerator<T>.CreateAndCheckWrappers(partDefinitions), eventInvokers));
     }
 
@@ -69,13 +64,13 @@ namespace GalvanizedSoftware.Beethoven
       return target;
     }
 
-    public bool Implements<TInterface, TClass>() =>
+    public static bool Implements<TInterface, TClass>() =>
       !new GeneralSignatureChecker(typeof(TInterface), typeof(TClass))
         .FindMissing()
         .Any();
 
-    public bool Implements<TInterface>(object instance) =>
-      !new GeneralSignatureChecker(typeof(TInterface), instance.GetType())
+    public static bool Implements<TInterface>(object instance) =>
+      !new GeneralSignatureChecker(typeof(TInterface), instance?.GetType())
         .FindMissing()
         .Any();
 

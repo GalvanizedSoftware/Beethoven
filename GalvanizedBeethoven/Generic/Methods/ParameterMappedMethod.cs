@@ -10,10 +10,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
   public class ParameterMappedMethod : Method
   {
     private readonly MethodInfo methodInfo;
-    private readonly bool hasReturnType;
 
     public ParameterMappedMethod(MethodInfo methodInfo, IParameter parameter) :
-      this(methodInfo.Name, parameter, methodInfo)
+      this(methodInfo?.Name, parameter, methodInfo)
     {
     }
 
@@ -21,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       base(mainName, new MatchMethodInfoExact(methodInfo), parameter)
     {
       this.methodInfo = methodInfo;
-      hasReturnType = methodInfo.HasReturnType();
+      methodInfo.HasReturnType();
     }
 
     public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,

@@ -1,7 +1,4 @@
-﻿using System.Windows.Controls;
-using System.Windows.Data;
-
-namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
+﻿namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
 {
   public partial class MultiCompositionView
   {

@@ -10,7 +10,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
   {
     private readonly object instance;
     private readonly MethodInfo methodInfo;
-    private readonly bool hasReturnType;
 
     public MappedMethod(string name, object instance) :
       this(name, instance, name)
@@ -18,7 +17,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     public MappedMethod(MethodInfo methodInfo, object instance) :
-      this(methodInfo.Name, instance, methodInfo)
+      this(methodInfo?.Name, instance, methodInfo)
     {
     }
 
@@ -33,12 +32,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
       this.instance = instance;
       this.methodInfo = methodInfo;
-      hasReturnType = methodInfo.HasReturnType();
+      methodInfo.HasReturnType();
     }
 
     private static MethodInfo GetMethod(object instance, string targetName)
     {
-      return instance
+      return instance?
         .GetType()
         .FindSingleMethod(targetName);
     }

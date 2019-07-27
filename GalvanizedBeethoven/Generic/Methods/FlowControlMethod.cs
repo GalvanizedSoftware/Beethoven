@@ -23,7 +23,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     internal FlowControlMethod(string name, Delegate func) :
       base(name, new MatchFlowControl())
     {
-      this.func = func;
+      this.func = func ?? throw new NullReferenceException();
       localParameters = func.Method.GetParameterTypeAndNames();
     }
 

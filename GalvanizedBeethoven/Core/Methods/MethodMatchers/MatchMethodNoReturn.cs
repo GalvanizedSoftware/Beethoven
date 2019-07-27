@@ -19,7 +19,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
     }
 
     public bool IsMatch((Type, string)[] parameters, Type[] __, Type returnType) =>
-      (methodInfo.ReturnType != typeof(bool) || returnType.IsByRef) &&
+      (methodInfo.ReturnType != typeof(bool) || returnType.IsByRefence()) &&
       localParameters
         .Where(tuple => tuple.Item2 != mainParameterName)
         .ToArray().All(parameters.Contains);

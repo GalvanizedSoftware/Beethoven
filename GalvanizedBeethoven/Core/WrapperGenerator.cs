@@ -118,7 +118,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     }
 
     private static IEnumerable<object> GetDefinitionWrappers(object definition) =>
-      new object[0]
+      Array.Empty<object>()
         .Concat(new PropertiesMapper(definition))
         .Concat(new MethodsMapper<T>(definition));
 

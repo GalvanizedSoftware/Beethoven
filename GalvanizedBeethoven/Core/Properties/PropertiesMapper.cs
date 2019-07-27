@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -32,7 +33,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       switch (baseObject)
       {
         case null:
-          return new Property[0];
+          return Array.Empty<Property>();
         case DefinitionImport definitionImport:
           IParameter parameter = definitionImport.Parameter;
           PropertyInfo[] propertyInfos = parameter.Type
