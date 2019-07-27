@@ -33,10 +33,5 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       valueSet = true;
       return true;
     }
-
-    public static LazyCreator<T> CreateIfMatch(Type type, Func<object> creatorFunc)
-    {
-      return type != typeof(T) ? null : new LazyCreator<T>(() => (T)creatorFunc());
-    }
   }
 }

@@ -68,19 +68,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       return new DefaultProperty(this, (type, name) => typeof(Constant<>).Create1(type, valueGetter(type)));
     }
 
-    public DefaultProperty DelegatedSetter(object target, string methodName)
-    {
-      return new DefaultProperty(this, (type, name) => typeof(DelegatedSetter<>)
-        .MakeGenericType(type)
-        .InvokeStatic(nameof(DelegatedSetter<object>.CreateWithReflection), target, methodName, name));
-    }
+    public DefaultProperty DelegatedSetter(object target, string methodName) =>
+      new DefaultProperty(this, 
+        (type, name) => DelegatedSetterFactory.Create(type, target, methodName, name));
 
-    public DefaultProperty DelegatedGetter(object target, string methodName)
-    {
-      return new DefaultProperty(this, (type, name) => typeof(DelegatedGetter<>)
-        .MakeGenericType(type)
-        .InvokeStatic(nameof(DelegatedGetter<object>.CreateWithReflection), target, methodName, name));
-    }
+    public DefaultProperty DelegatedGetter(object target, string methodName) =>
+      new DefaultProperty(this, (type, name) => 
+        DelegatedGetterFactory.Create(type, target, methodName, name));
 
     public DefaultProperty InitialValue(params object[] initialValues)
     {
@@ -102,7 +96,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     public DefaultProperty LazyCreator<T>(Func<object> creatorFunc)
     {
-      return new DefaultProperty(this, (type, name) => Properties.LazyCreator<T>.CreateIfMatch(type, creatorFunc));
+      return new DefaultProperty(this, (type, name) => LazyCreatorFactory.CreateIfMatch<T>(type, creatorFunc));
     }
   }
 }

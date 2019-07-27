@@ -28,32 +28,5 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     {
       return true;
     }
-
-    public static DelegatedGetter<T> CreateWithReflection(object target, string methodName, string propertyName)
-    {
-      MethodInfo methodInfo = target?
-        .GetType()
-        .GetMethod(methodName, Constants.ResolveFlags)
-        .MakeGeneric<T>();
-      return new DelegatedGetter<T>(CreateFunc(target, methodInfo, propertyName));
-    }
-
-    public static Func<T> CreateFunc(object target, MethodInfo methodInfo, string propertyName)
-    {
-      Type returnType = (methodInfo ?? throw new NullReferenceException()).ReturnType;
-      if (methodInfo.ReturnType != typeof(T))
-        throw new ArgumentException($"Method: {methodInfo.Name} has incorrect return type expected: {typeof(T).FullName}, actual: {returnType.FullName}");
-      Type[] parameterTypes = methodInfo.GetParameterTypes().ToArray();
-      switch (parameterTypes.Length)
-      {
-        case 0:
-          return () => (T)methodInfo.Invoke(target, Array.Empty<object>());
-        case 1:
-          Debug.Assert(parameterTypes[0] == typeof(string));
-          return () => (T)methodInfo.Invoke(target, new object[] { propertyName, });
-        default:
-          throw new ArgumentException($"Method: {methodInfo.Name} not found or has incorrect signature");
-      }
-    }
   }
 }

@@ -178,7 +178,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       Assert.AreEqual(0, test.Property1);
       test.Property2 = "Nothing";
       test.Property2 = "Some value";
-      Assert.AreEqual("Some value", test.Property2);
+      Assert.AreEqual("Some value", test.Property2);  
       test.Property1 = 55;
       Assert.AreEqual(55, test.Property1);
     }
