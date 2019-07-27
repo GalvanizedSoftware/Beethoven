@@ -9,15 +9,13 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
   {
     private readonly EquivalentTypeComparer equivalentTypeComparer = new EquivalentTypeComparer();
 
-    public bool Equals(MethodInfo x, MethodInfo y)
-    {
-      if (ReferenceEquals(x, y))
-        return true;
-      return x != null && y != null && 
-             x.Name == y.Name && 
-             equivalentTypeComparer.Equals(x.ReturnType, y.ReturnType) && 
-             x.GetParameterTypes().SequenceEqual(y.GetParameterTypes(), equivalentTypeComparer);
-    }
+    public bool Equals(MethodInfo x, MethodInfo y) =>
+      ReferenceEquals(x, y) || 
+      x != null && 
+      y != null &&
+      x.Name == y.Name &&
+      equivalentTypeComparer.Equals(x.ReturnType, y.ReturnType) &&
+      x.GetParameterTypes().SequenceEqual(y.GetParameterTypes(), equivalentTypeComparer);
 
     public int GetHashCode(MethodInfo obj)
     {

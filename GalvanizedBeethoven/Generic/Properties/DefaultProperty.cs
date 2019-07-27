@@ -25,48 +25,31 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       creators = previous?.creators.Concat(new[] { creator }).ToArray();
     }
 
-    public PropertyDefinition Create(Type type, string name)
-    {
-      return (PropertyDefinition)createMethodInfo.Invoke(this, new object[] { name }, new[] { type });
-    }
+    public PropertyDefinition Create(Type type, string name) => 
+      (PropertyDefinition)createMethodInfo.Invoke(this, new object[] { name }, new[] { type });
 
-    private PropertyDefinition<T> CreateGeneric<T>(string name)
-    {
-      return creators.Aggregate(new PropertyDefinition<T>(name),
+    private PropertyDefinition<T> CreateGeneric<T>(string name) =>
+      creators.Aggregate(new PropertyDefinition<T>(name),
         (property, creator) => new PropertyDefinition<T>(property, (IPropertyDefinition<T>)creator(typeof(T), name)));
-    }
 
-    public DefaultProperty ValidityCheck(object target, string methodName)
-    {
-      return new DefaultProperty(this, (type, name) => typeof(ValidityCheck<>)
-        .MakeGenericType(type)
-        .InvokeStatic(nameof(ValidityCheck<object>.CreateWithReflection), target, methodName));
-    }
+    public DefaultProperty ValidityCheck(object target, string methodName) =>
+      new DefaultProperty(this, 
+        (type, name) => ValidityCheckFactory.Create(type, target, methodName));
 
-    public DefaultProperty SkipIfEqual()
-    {
-      return new DefaultProperty(this, (type, name) => typeof(SkipIfEqual<>).Create1(type));
-    }
+    public DefaultProperty SkipIfEqual() => 
+      new DefaultProperty(this, (type, name) => typeof(SkipIfEqual<>).Create1(type));
 
-    public DefaultProperty SetterGetter()
-    {
-      return new DefaultProperty(this, (type, name) => typeof(SetterGetter<>).Create1(type));
-    }
+    public DefaultProperty SetterGetter() => 
+      new DefaultProperty(this, (type, name) => typeof(SetterGetter<>).Create1(type));
 
-    public DefaultProperty NotSupported()
-    {
-      return new DefaultProperty(this, (type, name) => typeof(NotSupported<>).Create1(type));
-    }
+    public DefaultProperty NotSupported() => 
+      new DefaultProperty(this, (type, name) => typeof(NotSupported<>).Create1(type));
 
-    public DefaultProperty NotifyChanged()
-    {
-      return new DefaultProperty(this, (type, name) => typeof(NotifyChanged<>).Create1(type, name));
-    }
+    public DefaultProperty NotifyChanged() => 
+      new DefaultProperty(this, (type, name) => typeof(NotifyChanged<>).Create1(type, name));
 
-    public DefaultProperty Constant(Func<Type, object> valueGetter)
-    {
-      return new DefaultProperty(this, (type, name) => typeof(Constant<>).Create1(type, valueGetter(type)));
-    }
+    public DefaultProperty Constant(Func<Type, object> valueGetter) => 
+      new DefaultProperty(this, (type, name) => typeof(Constant<>).Create1(type, valueGetter(type)));
 
     public DefaultProperty DelegatedSetter(object target, string methodName) =>
       new DefaultProperty(this, 
@@ -76,27 +59,19 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       new DefaultProperty(this, (type, name) => 
         DelegatedGetterFactory.Create(type, target, methodName, name));
 
-    public DefaultProperty InitialValue(params object[] initialValues)
-    {
-      return new DefaultProperty(this, (type, name) => typeof(InitialValue<>).Create1(type,
+    public DefaultProperty InitialValue(params object[] initialValues) =>
+      new DefaultProperty(this, (type, name) => typeof(InitialValue<>).Create1(type,
         initialValues.FirstOrDefault(obj => obj?.GetType() == type)));
-    }
 
-    public DefaultProperty ValueLookup(IValueLookup valueLookup)
-    {
-      return new DefaultProperty(this, (type, name) => typeof(InitialValue<>).Create1(type,
+    public DefaultProperty ValueLookup(IValueLookup valueLookup) =>
+      new DefaultProperty(this, (type, name) => typeof(InitialValue<>).Create1(type,
         valueLookup.Lookup(type, name).FirstOrDefault()));
-    }
 
-    public DefaultProperty AnonymousValueLookup(object defaultValues)
-    {
-      return new DefaultProperty(this, (type, name) => typeof(InitialValue<>).Create1(type,
+    public DefaultProperty AnonymousValueLookup(object defaultValues) =>
+      new DefaultProperty(this, (type, name) => typeof(InitialValue<>).Create1(type,
         new AnonymousValueLookup(defaultValues).Lookup(type, name).FirstOrDefault()));
-    }
 
-    public DefaultProperty LazyCreator<T>(Func<object> creatorFunc)
-    {
-      return new DefaultProperty(this, (type, name) => LazyCreatorFactory.CreateIfMatch<T>(type, creatorFunc));
-    }
+    public DefaultProperty LazyCreator<T>(Func<object> creatorFunc) => 
+      new DefaultProperty(this, (type, name) => LazyCreatorFactory.CreateIfMatch<T>(type, creatorFunc));
   }
 }
