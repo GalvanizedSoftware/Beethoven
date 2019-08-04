@@ -2,16 +2,16 @@
 {
   internal class Company
   {
-    public Company(string name, string abreviation)
+    public Company(string name, string abbreviation)
     {
       Name = name;
-      Abreviation = abreviation;
+      Abbreviation = abbreviation;
     }
 
     public string Name { get; }
-    public string Abreviation { get; }
+    public string Abbreviation { get; }
 
-    public string ShortName => Abreviation;
+    public string ShortName => Abbreviation;
     public string LongName => Name;
 
     public override string ToString()
