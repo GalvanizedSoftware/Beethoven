@@ -195,7 +195,7 @@ New is more robust to localization differences using a ```DateTime```:
     DateTime BirthDate{ get;set; }
   }
 ```
-So the chalange is, if the server part has new new version,
+So the challenge is, if the server part has new new version,
 but some clients are using the new version, some the old,
 how can we convert from new version to old version.
 
