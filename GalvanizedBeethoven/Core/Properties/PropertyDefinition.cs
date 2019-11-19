@@ -18,7 +18,6 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     {
       Name = name;
       PropertyType = propertyType;
-      MemberInfo = type.GetProperty(name);
       Parameter = parameter;
     }
 
@@ -28,8 +27,6 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     }
 
     public string Name { get; }
-
-    public MemberInfo MemberInfo { get; }
 
     public Type PropertyType { get; }
     public IParameter Parameter { get; }
