@@ -5,7 +5,7 @@ Not using inheritance enables inclusion of the code actually needed.
 Inheritance can lead to a vast class inheritance strucure.
 
 The starting point of this project was the fluent programming style to import code.
-But it turned out there were amny more possibilities ...
+But it turned out there were many more possibilities ...
 
 ## Fluent programming style
 ```C#
@@ -22,11 +22,11 @@ class Factory
   public IPerson CreatePerson()
   {
     return factory.Generate<IPerson>(
-      new Property<string>("FirstName")
+      new PropertyDefinition<string>("FirstName")
         .SkipIfEqual()
         .SetterGetter()
         .NotifyChanged(),
-      new Property<string>("LastName")
+      new PropertyDefinition<string>("LastName")
         .SkipIfEqual()
         .SetterGetter()
         .NotifyChanged()
@@ -173,7 +173,7 @@ And finally the code needed to do duck-typing by wrapping (duck wrapping?):
 ```
 Will work for both classes.
 
-## Interface convertion
+## Interface conversion
 With the automapping functionality, it is easy to change an interface,
 but only implementing the changes needed to convert from one version to another.
 
@@ -224,7 +224,7 @@ Wrapping it is relatively simple:
         PersonV2ToV1Converter converter = new PersonV2ToV1Converter(person, cultureInfo);
         return factory.Generate<T>(
           personV2,
-          new Property<string>("BirthDate")
+          new PropertyDefinition<string>("BirthDate")
             .DelegatedGetter(converter.GetBirthDateString)
             .DelegatedSetter(converter.SetBirthDateDateTime)
         );
