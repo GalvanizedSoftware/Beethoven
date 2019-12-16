@@ -1,22 +1,26 @@
-﻿using GalvanizedSoftware.Beethoven.Generic;
-using GalvanizedSoftware.Beethoven.Generic.Properties;
+﻿using GalvanizedSoftware.Beethoven.Generic.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Test.Performance
 {
   internal class Factory
   {
-    private readonly BeethovenFactory factory = new BeethovenFactory();
+    private readonly CompiledTypeDefinition<IPerformanceTest> compiledTypeDefinition;
 
-    public IPerformanceTest Create()
+    public Factory()
     {
-      FactoryHelper<IPerformanceTest> factoryHelper = new FactoryHelper<IPerformanceTest>();
-      return factory.Generate<IPerformanceTest>(
+      compiledTypeDefinition = new TypeDefinition<IPerformanceTest>
+      (
         new DefaultProperty()
           .SkipIfEqual()
           .SetterGetter()
-          .NotifyChanged(),
-        factoryHelper.MethodMapper(main => new FormatClass(main)));
+          .NotifyChanged()
+      )
+      .AddMethodMapper(main => new FormatClass(main))
+      .Compile();
     }
+
+    public IPerformanceTest Create() =>
+      compiledTypeDefinition.Create();
 
     private class FormatClass
     {
@@ -27,6 +31,7 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
         this.main = main;
       }
 
+      // ReSharper disable once UnusedMember.Local
       internal string Format(string format)
       {
         return string.Format(format, main.Name);

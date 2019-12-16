@@ -22,10 +22,11 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     {
       unchecked // Overflow is fine
       {
-        return new[] { obj.Name.GetHashCode(), equivalentTypeComparer.GetHashCode(obj.ReturnType) }
-          .Concat(obj.GetParameterTypes()
-            .Select(type => equivalentTypeComparer.GetHashCode(type)))
+        int hashCode = obj.GetParameterTypes()
+          .Append(obj.ReturnType)
+          .Select(type => equivalentTypeComparer.GetHashCode(type))
           .Aggregate((int)2166136261, (seed, value) => (seed * 16777619) ^ value);
+        return hashCode;
       }
     }
   }

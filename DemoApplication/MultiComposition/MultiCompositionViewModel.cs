@@ -31,9 +31,9 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
       return newPerson;
     }
 
-    public string NewFirstName { get; set; }
+    public string NewFirstName { get; set; } = "";
 
-    public string NewLastName { get; set; }
+    public string NewLastName { get; set; } = "";
 
     public ICommand AddCommand { get; }
 
@@ -48,7 +48,8 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
       get => selected;
       set
       {
-        if (Equals(value, selected)) return;
+        if (Equals(value, selected))
+          return;
         selected = value;
         OnPropertyChanged();
       }

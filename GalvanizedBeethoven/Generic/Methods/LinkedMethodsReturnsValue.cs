@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -14,7 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly ObjectProviderHandler objectProviderHandler;
 
     public LinkedMethodsReturnValue(string name) :
-      this(name, new Method[0])
+      this(name, Array.Empty<Method>())
     {
     }
 
@@ -23,7 +25,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
     }
 
-    private LinkedMethodsReturnValue(string name, Method[] methodList) : base(name)
+    private LinkedMethodsReturnValue(string name, Method[] methodList) :
+      base(name, new MatchAll(methodList.Select(method => method.MethodMatcher)))
     {
       this.methodList = methodList;
       objectProviderHandler = new ObjectProviderHandler(methodList);
@@ -32,17 +35,17 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue Add(Method method) =>
       new LinkedMethodsReturnValue(this, method);
 
-    public LinkedMethodsReturnValue Func<TReturnType>(Func<TReturnType> func) =>
-      Add(new FuncMethod<TReturnType>(Name, func));
+    public LinkedMethodsReturnValue SimpleFunc<TReturnType>(Func<TReturnType> func) =>
+      Add(new SimpleFuncMethod<TReturnType>(Name, func));
 
-    public LinkedMethodsReturnValue Lambda<T>(T actionOrFunc) =>
-      Add(new LambdaMethod<T>(Name, actionOrFunc));
+    public LinkedMethodsReturnValue FlowControl(Func<bool> func) =>
+      Add(new FlowControlMethod(Name, func));
 
     public LinkedMethodsReturnValue MappedMethod(object instance, string targetName) =>
       Add(new MappedMethod(Name, instance, targetName));
 
     public LinkedMethodsReturnValue MappedMethod(object instance, MethodInfo methodInfo) =>
-      Add(new MappedMethod(instance, methodInfo));
+      Add(new MappedMethod(methodInfo, instance));
 
     public LinkedMethodsReturnValue AutoMappedMethod(object instance) =>
       Add(new MappedMethod(Name, instance, Name));
@@ -55,13 +58,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     public LinkedMethodsReturnValue SkipIf(Func<bool> condition) =>
-      Add(ConditionCheckMethod.Create(Name, () => !condition()));
+      Add(new InvertResultMethod(FlowControlMethod.Create(Name, condition)));
 
     public LinkedMethodsReturnValue SkipIf<T1>(Func<T1, bool> condition) =>
-      Add(ConditionCheckMethod.Create<T1>(Name, arg1 => !condition(arg1)));
+      Add(new InvertResultMethod(FlowControlMethod.Create<T1>(Name, condition)));
 
     public LinkedMethodsReturnValue SkipIf<T1, T2>(Func<T1, T2, bool> condition) =>
-      Add(ConditionCheckMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
+      Add(new InvertResultMethod(FlowControlMethod.Create<T1, T2>(Name, condition)));
 
     public LinkedMethodsReturnValue SkipIfResultCondition<T>(Func<T, bool> condition) =>
       Add(new ReturnValueCheck<T>(Name, condition))
@@ -80,54 +83,56 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue PartialMatchMethod<TMain>(object instance, string mainParameterName) =>
       Add(new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
 
-    public LinkedMethodsReturnValue PartialMatchLambda<T>(T actionOrFunc) => 
-      Add(new PartialMatchLamda<T>(Name, actionOrFunc));
+    public LinkedMethodsReturnValue Action(Action action, IParameter localParameter = null) =>
+      Add(new ActionMethod(Name, action, localParameter));
 
-    public override bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType)
-    {
-      return methodList.Any(method => method.IsMatch(parameters, genericArguments, returnType)) ||
-             methodList.Any(method => method.IsMatchToFlowControlled(parameters, genericArguments, returnType));
-    }
+    public LinkedMethodsReturnValue Action<T>(Action<T> action, IParameter localParameter = null) =>
+      Add(new ActionMethod(Name, action, localParameter));
 
-    internal override void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
+    public LinkedMethodsReturnValue Func<TReturn>(Func<TReturn> func, IParameter localParameter = null) =>
+      Add(new FuncMethod(Name, func, localParameter));
+
+    public LinkedMethodsReturnValue Func<T, TReturn>(Func<T, TReturn> func, IParameter localParameter = null) =>
+      Add(new FuncMethod(Name, func, localParameter));
+
+    public LinkedMethodsReturnValue Func<T1, T2, TReturn>(Func<T1, T2, TReturn> func, IParameter localParameter = null) =>
+      Add(new FuncMethod(Name, func, localParameter));
+
+    public override void InvokeFindInstance(IInstanceMap instanceMap, ref object returnValue,
+      object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
     {
-      object returnValue = methodInfo.ReturnType.GetDefaultValue();
+      if (parameters == null || methodInfo == null)
+        throw new NullReferenceException();
+      returnValue = methodInfo.GetDefaultReturnValue();
       (Type, string)[] parameterTypeAndNames = methodInfo.GetParameterTypeAndNames();
       foreach (Method method in methodList)
-      {
-        if (!InvokeFirstMatch(method, ref returnValue, parameters, parameterTypeAndNames, genericArguments, methodInfo))
+        if (!InvokeFirstMatch(instanceMap, method, ref returnValue, parameters, parameterTypeAndNames, genericArguments, methodInfo))
           break;
-      }
-      returnAction(returnValue);
     }
 
-    private bool InvokeFirstMatch(Method method, ref object returnValue, object[] parameterValues, (Type, string)[] parameterTypeAndNames,
+    private bool InvokeFirstMatch(IInstanceMap instanceMap, Method method, ref object returnValue, object[] parameterValues,
+      (Type, string)[] parameterTypeAndNames,
       Type[] genericArguments, MethodInfo methodInfo)
     {
       Type returnType = methodInfo.ReturnType;
-      if (method.IsMatch(parameterTypeAndNames, genericArguments, returnType))
+      IMethodMatcher matcher = method.MethodMatcher;
+      if (matcher.IsMatchCheck(parameterTypeAndNames, genericArguments, returnType))
       {
-        object returnValueLocal = returnValue;
-        Action<object> returnAction = newValue => returnValueLocal = newValue;
-        method.Invoke(returnAction, parameterValues, genericArguments, methodInfo);
-        returnValue = returnValueLocal;
+        method.InvokeFindInstance(instanceMap, ref returnValue, parameterValues, genericArguments, methodInfo);
         return true;
       }
-      if (!method.IsMatchToFlowControlled(parameterTypeAndNames, genericArguments, returnType))
+      if (!matcher.IsMatchToFlowControlled(parameterTypeAndNames, genericArguments, returnType))
         throw new MissingMethodException();
-      bool result = true;
-      Action<object> localReturn = newValue => result = (bool)newValue;
       object[] newParameters = parameterValues.Append(returnValue).ToArray();
-      method.Invoke(localReturn, newParameters, genericArguments, methodInfo);
+      object flowResult = true;
+      method.InvokeFindInstance(instanceMap, ref flowResult, newParameters, genericArguments, methodInfo);
       for (int i = 0; i < parameterValues.Length; i++)
         parameterValues[i] = newParameters[i]; // In case of ref or out variables
       returnValue = newParameters.Last();
-      return result;
+      return (bool)flowResult;
     }
 
-    public IEnumerable<TChild> Get<TChild>()
-    {
-      return objectProviderHandler.Get<TChild>();
-    }
+    public IEnumerable<TChild> Get<TChild>() =>
+      objectProviderHandler.Get<TChild>();
   }
 }

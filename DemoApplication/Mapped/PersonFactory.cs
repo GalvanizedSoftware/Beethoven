@@ -15,8 +15,8 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Mapped
         fullName, 
 
         // Manual mapping
-        new Property<string>(nameof(IPerson.FullAddress)).MappedGetter(() => address.FullAddress),
-        new Property<string>(nameof(IPerson.Country)).Constant(address.Country)
+        new PropertyDefinition<string>(nameof(IPerson.FullAddress)).MappedGetter(() => address.FullAddress),
+        new PropertyDefinition<string>(nameof(IPerson.Country)).Constant(address.Country)
       );
     }
   }

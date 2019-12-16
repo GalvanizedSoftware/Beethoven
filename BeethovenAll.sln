@@ -1,16 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalvanizedSoftware.Beethoven", "GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj", "{49F5B760-8F8D-4A0B-978E-142266A03389}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GalvanizedSoftware.Beethoven.Test", "GalvanizedSoftware.Beethoven.Test\GalvanizedSoftware.Beethoven.Test.csproj", "{427D067D-91CF-43C3-BD58-111311C2234F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalvanizedSoftware.Beethoven.Test", "GalvanizedSoftware.Beethoven.Test\GalvanizedSoftware.Beethoven.Test.csproj", "{427D067D-91CF-43C3-BD58-111311C2234F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoApplication", "DemoApplication\DemoApplication.csproj", "{89DDF7AC-671F-4DB8-8EF4-ADEA789B0A44}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57EF90DC-1A47-4D0B-AC33-F6E952DD3FD6}"
 	ProjectSection(SolutionItems) = preProject
+		readme short.md = readme short.md
 		README.md = README.md
 	EndProjectSection
 EndProject

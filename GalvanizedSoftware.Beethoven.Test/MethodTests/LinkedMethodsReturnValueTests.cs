@@ -1,5 +1,6 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -63,11 +64,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
         new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
           .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
           .InvertResult()
-          .Func(() =>
-          {
-            Assert.Fail();
-            return true;
-          }));
+          .Action(Assert.Fail));
       string text2 = "wetwt";
       instance.OutAndRef(out string _, ref text2, 5);
     }
@@ -81,11 +78,46 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
           .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
-          .PartialMatchLambda<Func<bool>>(() => called = true));
+          .Action(() => called = true));
       string text2 = "wetwt";
       instance.OutAndRef(out string _, ref text2, 5);
       Assert.IsTrue(called);
     }
 
+    [TestMethod]
+    public void LinkedMethodsReturnValueTest6()
+    {
+      CustomImplentation implementation = new CustomImplentation();
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      bool called = false;
+      ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
+        new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
+          .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
+          .FlowControl(() => false)
+          .Action(() => called = true));
+      string text2 = "wetwt";
+      instance.OutAndRef(out string _, ref text2, 5);
+      Assert.IsFalse(called);
+    }
+
+    [TestMethod]
+    public void LinkedMethodsReturnValueTest7()
+    {
+      CustomImplentation implementation = new CustomImplentation();
+      ConstructorParameter parameter = ConstructorParameter.Create<BoolContainer>("container");
+      TypeDefinition<ITestMethods> typeDefinition = new TypeDefinition<ITestMethods>(
+          parameter,
+          new LinkedMethodsReturnValue(nameof(ITestMethods.OutAndRef))
+            .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
+            .Action<BoolContainer>(container => container.Value = true, parameter));
+      BoolContainer boolContainer = new BoolContainer();
+      ITestMethods instance = typeDefinition.Create(boolContainer);
+      BoolContainer boolContainer2 = new BoolContainer();
+      typeDefinition.Create(boolContainer2);
+      string text2 = "wetwt";
+      instance.OutAndRef(out string _, ref text2, 5);
+      Assert.IsTrue(boolContainer.Value);
+      Assert.IsFalse(boolContainer2.Value);
+    }
   }
 }

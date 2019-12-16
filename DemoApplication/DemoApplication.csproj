@@ -113,6 +113,7 @@
     <Compile Include="Extending\Approvers\LocalManager.cs" />
     <Compile Include="Extending\Approvers\Myself.cs" />
     <Compile Include="Extending\Services\MailService.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MultiComposition\CollectionChangedImplementation.cs" />
     <Compile Include="MultiComposition\IPersonCollection.cs" />
     <Compile Include="MultiComposition\IPerson.cs" />
@@ -121,7 +122,6 @@
     </Compile>
     <Compile Include="MultiComposition\MultiCompositionViewModel.cs" />
     <Compile Include="MultiComposition\Factory.cs" />
-    <Compile Include="MultiComposition\RemovedLogger.cs" />
     <Compile Include="UnityContainer\IUnityViewModel.cs" />
     <Compile Include="UnityContainer\UnityView.xaml.cs">
       <DependentUpon>UnityView.xaml</DependentUpon>
@@ -283,9 +283,6 @@
     <Folder Include="MiscMethods\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Castle.Core">
-      <Version>4.3.1</Version>
-    </PackageReference>
     <PackageReference Include="System.Configuration.ConfigurationManager">
       <Version>4.5.0</Version>
     </PackageReference>
@@ -293,7 +290,7 @@
       <Version>4.5.2</Version>
     </PackageReference>
     <PackageReference Include="Unity">
-      <Version>5.9.5</Version>
+      <Version>5.10.3</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

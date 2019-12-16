@@ -1,5 +1,4 @@
-﻿using System;
-using GalvanizedSoftware.Beethoven.Generic.Methods;
+﻿using GalvanizedSoftware.Beethoven.Generic.Methods;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -52,14 +51,13 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     [TestMethod]
     public void LinkedMethodsReturnValueTest4()
     {
-      PartialMethods partialMethods = new PartialMethods();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       string gotValue1 = "";
       string gotValue2 = "";
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
-          .PartialMatchLambda<Action<string>>(text1 => gotValue1 = text1)
-          .PartialMatchLambda<Action<string>>(text2 => gotValue2 = text2)
+          .Action((string text1) => gotValue1 = text1)
+          .Action((string text2) => gotValue2 = text2)
         );
       instance.WithParameters("w", "sd", 3);
       Assert.AreEqual(gotValue1, "w");

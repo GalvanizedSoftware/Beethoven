@@ -1,6 +1,7 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Test.PropertyTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
@@ -14,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
+        new PropertyDefinition<int>(nameof(ITestProperties.Property1))
         .Constant(5));
       Assert.AreEqual(5, test.Property1);
     }
@@ -24,7 +25,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
+        new PropertyDefinition<int>(nameof(ITestProperties.Property1))
         .Constant(5));
       test.Property1 = 5;
     }
@@ -35,9 +36,19 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     {
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
+        new PropertyDefinition<int>(nameof(ITestProperties.Property1))
         .Constant(5));
       test.Property1 = 42;
+    }
+
+    [TestMethod]
+    public void TestMethodProperty4()
+    {
+      ITestProperties test = new TypeDefinition<ITestProperties>()
+        .Add(new PropertyDefinition<int>(nameof(ITestProperties.Property1))
+          .Constant(5))
+        .Create();
+      test.Property1 = 5;
     }
   }
 }

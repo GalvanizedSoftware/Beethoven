@@ -6,17 +6,24 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Galvanized Software</Authors>
     <Company>Galvanized Software</Company>
-    <Description>Fluent.style class implementation / composition. Automapping, duck-typing, auto-implementation and more ...</Description>
+    <Description>Fluent-style class implementation / composition. Automapping, duck-typing, auto-implementation and more ...</Description>
     <PackageTags>composition;dynamic creation;duck typing;castle.core;auto interface implementation</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.4.3.0</Version>
-    <AssemblyVersion>0.4.3.0</AssemblyVersion>
-    <PackageLicenseUrl></PackageLicenseUrl>
-    <Copyright>Copyright 2018 Galvanized Software</Copyright>
+    <Version>0.5.0.0</Version>
+    <Copyright>Copyright 2019-2019 Galvanized Software</Copyright>
     <PackageProjectUrl>https://github.com/GalvanizedSoftware/Beethoven</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GalvanizedSoftware/Beethoven</RepositoryUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'"><!--<CodeAnalysisRuleSet>AllRulesDefault.ruleset</CodeAnalysisRuleSet>-->
+  
+    <CodeAnalysisRuleSet />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.3.1" />
+    <PackageReference Include="Castle.Core" Version="4.1.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.3" />
   </ItemGroup>
 
 </Project>

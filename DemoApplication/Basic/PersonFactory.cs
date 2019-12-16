@@ -10,7 +10,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Basic
     public IPerson CreatePerson()
     {
       return factory.Generate<IPerson>(
-        new Property<string>("FirstName").
+        new PropertyDefinition<string>("FirstName").
           ValidityCheck(name => !string.IsNullOrEmpty(name)).
           SkipIfEqual().
           SetterGetter().
@@ -19,9 +19,9 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Basic
       );
     }
 
-    private static Property CreateMvvmStringProperty(string propertyName)
+    private static PropertyDefinition CreateMvvmStringProperty(string propertyName)
     {
-      return new Property<string>(propertyName).
+      return new PropertyDefinition<string>(propertyName).
         ValidityCheck(name => !string.IsNullOrEmpty(name)).
         SkipIfEqual().
         SetterGetter().

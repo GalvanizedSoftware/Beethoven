@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Core
@@ -26,7 +27,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       IObjectProvider[] children = objectProviders.SelectMany(
         objectProvider => objectProvider.Get<IObjectProvider>()).ToArray();
       if (children.Length == 0)
-        return new IObjectProvider[0];
+        return Array.Empty<IObjectProvider>();
       return children.Concat(GetChildren(children));
     }
   }

@@ -1,6 +1,7 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Test.PropertyTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
@@ -17,7 +18,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       Func<int> action = () => value;
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
+        new PropertyDefinition<int>(nameof(ITestProperties.Property1))
         .DelegatedGetter(action));
       Assert.AreEqual(0, test.Property1);
       value = 5;
@@ -35,7 +36,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
       };
       BeethovenFactory factory = new BeethovenFactory();
       ITestProperties test = factory.Generate<ITestProperties>(
-        new Property<int>(nameof(ITestProperties.Property1))
+        new PropertyDefinition<int>(nameof(ITestProperties.Property1))
           .DelegatedGetter(action));
       Assert.AreEqual(0, getCount);
       Assert.AreEqual(55, test.Property1);

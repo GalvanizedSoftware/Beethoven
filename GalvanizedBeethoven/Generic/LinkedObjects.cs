@@ -5,9 +5,11 @@ using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Binding;
 using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Generic
 {
@@ -26,27 +28,40 @@ namespace GalvanizedSoftware.Beethoven.Generic
 
     public IEnumerable GetWrappers<T>() where T : class
     {
-      foreach (Property property in partDefinitions.SelectMany(CreateProperties))
+      foreach (PropertyDefinition property in GetProperties())
         yield return property;
-      foreach (Method method in typeof(T).GetAllMethodsAndInherited().Select(CreateMethod))
+      foreach (Method method in GetMethods<T>())
         yield return method;
     }
 
-    public IEnumerable<Property> GetProperties(IEnumerable<Property> properties)
+    private IEnumerable<Method> GetMethods<T>() where T : class
     {
-      Dictionary<string, List<Property>> propertiesMap = new Dictionary<string, List<Property>>();
-      foreach (Property property in properties)
+      return typeof(T)
+        .GetAllMethodsAndInherited()
+        .Where(methodInfo => !methodInfo.IsSpecialName)
+        .Select(CreateMethod);
+    }
+
+    public IEnumerable<PropertyDefinition> GetProperties()
+    {
+      Dictionary<string, List<PropertyDefinition>> propertiesMap = new Dictionary<string, List<PropertyDefinition>>();
+      foreach (PropertyDefinition property in partDefinitions.SelectMany(CreateProperties))
       {
         string propertyName = property.Name;
-        if (!propertiesMap.TryGetValue(propertyName, out List<Property> existingProperties))
+        if (!propertiesMap.TryGetValue(propertyName, out List<PropertyDefinition> existingProperties))
         {
-          existingProperties = new List<Property>();
+          existingProperties = new List<PropertyDefinition>();
           propertiesMap.Add(propertyName, existingProperties);
         }
         existingProperties.Add(property);
       }
-      return propertiesMap.Select(pair =>
-        Property.Create(pair.Value.First().PropertyType, pair.Key, pair.Value));
+
+      foreach (KeyValuePair<string, List<PropertyDefinition>> pair in propertiesMap)
+      {
+        PropertyDefinition propertyDefinition = PropertyDefinition.Create(pair.Value.First().PropertyType, pair.Key, pair.Value);
+        if (propertyDefinition != null)
+          yield return propertyDefinition;
+      }
     }
 
     private Method CreateMethod(MethodInfo methodInfo)
@@ -63,13 +78,13 @@ namespace GalvanizedSoftware.Beethoven.Generic
           (value, method) => value.Add(method));
     }
 
-    private static IEnumerable<Property> CreateProperties(object definition)
+    private static IEnumerable<PropertyDefinition> CreateProperties(object definition)
     {
       switch (definition)
       {
         case Method _:
-          return new Property[0];
-        case Property property:
+          return Array.Empty<PropertyDefinition>();
+        case PropertyDefinition property:
           return new[] { property };
         default:
           return new PropertiesMapper(definition);
@@ -81,17 +96,14 @@ namespace GalvanizedSoftware.Beethoven.Generic
       switch (definition)
       {
         case Method method:
-          (Type, string)[] parameterTypes = methodInfo.GetParameterTypeAndNames();
-          if (method.IsMatch(parameterTypes, new Type[0], methodInfo.ReturnType))
+          if (method.MethodMatcher.IsNonGenericMatch(methodInfo))
             yield return method;
           break;
-        case Property _:
-          yield break;
         default:
           MethodInfo actualMethodInfo = methodInfos
             .FirstOrDefault(item => methodComparer.Equals(methodInfo, item));
           if (actualMethodInfo != null)
-            yield return new MappedMethod(definition, actualMethodInfo);
+            yield return new MappedMethod(actualMethodInfo, definition);
           break;
       }
     }
@@ -101,10 +113,11 @@ namespace GalvanizedSoftware.Beethoven.Generic
       switch (obj)
       {
         case Method _:
-        case Property _:
+        case PropertyDefinition _:
+        case IParameter _:
           return null;
       }
-      return obj
+      return obj?
         .GetType()
         .GetAllTypes()
         .SelectMany(type => type.GetNotSpecialMethods())

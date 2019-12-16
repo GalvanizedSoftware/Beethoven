@@ -9,7 +9,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
   public class InvalidSignatureTests
   {
     [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
+    [ExpectedException(typeof(MissingMethodException))]
     public void MethodSimpleInvalid()
     {
       BeethovenFactory factory = new BeethovenFactory();
@@ -19,7 +19,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
+    [ExpectedException(typeof(MissingMethodException))]
     public void MethodReturnValueInvalid()
     {
       BeethovenFactory factory = new BeethovenFactory();
@@ -29,7 +29,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
+    [ExpectedException(typeof(MissingMethodException))]
     public void MethodWithParametersInvalid1()
     {
       BeethovenFactory factory = new BeethovenFactory();
@@ -39,7 +39,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
+    [ExpectedException(typeof(MissingMethodException))]
     public void MethodWithParametersInvalid2()
     {
       BeethovenFactory factory = new BeethovenFactory();
@@ -49,7 +49,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
+    [ExpectedException(typeof(MissingMethodException))]
     public void MethodOutAndRefInvalid()
     {
       BeethovenFactory factory = new BeethovenFactory();
@@ -60,7 +60,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
+    [ExpectedException(typeof(MissingMethodException))]
     public void MethodSimpleMissing()
     {
       BeethovenFactory factory = new BeethovenFactory();
@@ -70,7 +70,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
+    [ExpectedException(typeof(MissingMethodException))]
     public void MethodRefInvalid()
     {
       BeethovenFactory factory = new BeethovenFactory();

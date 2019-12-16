@@ -8,24 +8,29 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
   {
     private readonly Dictionary<string, Type> properties;
 
-    public PropertiesSignatureChecker()
+    private PropertiesSignatureChecker()
     {
       Type type = typeof(T);
       properties = type.GetProperties(Constants.ResolveFlags).ToDictionary(info => info.Name, info => info.PropertyType);
     }
 
-    public void CheckSignatures(IEnumerable<object> wrappers)
+    public static void CheckSignatures(IEnumerable<object> wrappers)
     {
-      CheckProperty(wrappers.OfType<Property>().ToArray());
+      new PropertiesSignatureChecker<T>().CheckSignaturesInternal(wrappers);
     }
 
-    private void CheckProperty(Property[] propertyWrappers)
+    private void CheckSignaturesInternal(IEnumerable<object> wrappers)
+    {
+      CheckProperty(wrappers.OfType<PropertyDefinition>().ToArray());
+    }
+
+    private void CheckProperty(PropertyDefinition[] propertyWrappers)
     {
       foreach (KeyValuePair<string, Type> pair in properties)
         CheckProperty(pair.Key, pair.Value, propertyWrappers);
     }
 
-    private static void CheckProperty(string name, Type actualType, Property[] wrappers)
+    private static void CheckProperty(string name, Type actualType, PropertyDefinition[] wrappers)
     {
       int matchingCount = wrappers
         .Where(property => property.Name == name)

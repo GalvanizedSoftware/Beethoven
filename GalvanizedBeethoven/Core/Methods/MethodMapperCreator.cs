@@ -11,14 +11,14 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
   public class MethodMapperCreator<TMain, TChild> : IEnumerable<Method>, IBindingParent where TMain : class
   {
     private readonly Func<TMain, TChild> creatorFunc;
-    private readonly List<MappedMethod> methods;
+    private readonly List<MappedMethodDelayed> methods;
 
     public MethodMapperCreator(Func<TMain, TChild> creatorFunc)
     {
       this.creatorFunc = creatorFunc;
-      methods = new List<MappedMethod>(typeof(TChild)
+      methods = new List<MappedMethodDelayed>(typeof(TChild)
           .GetNotSpecialMethods()
-          .Select(methodInfo => new MappedMethod(methodInfo)));
+          .Select(methodInfo => new MappedMethodDelayed(methodInfo)));
     }
 
     public IEnumerator<Method> GetEnumerator()
@@ -34,8 +34,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     public void Bind(object target)
     {
       object methodInstance = creatorFunc(target as TMain);
-      foreach (MappedMethod method in methods)
-        method.Instance = methodInstance;
+      foreach (MappedMethodDelayed method in methods)
+        method.SetInstance(methodInstance);
     }
   }
 }

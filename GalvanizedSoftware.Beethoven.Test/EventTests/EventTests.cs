@@ -1,4 +1,5 @@
-﻿using GalvanizedSoftware.Beethoven.Generic.Events;
+﻿using System;
+using GalvanizedSoftware.Beethoven.Generic.Events;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 
@@ -7,12 +8,13 @@ namespace GalvanizedSoftware.Beethoven.Test.EventTests
   [TestClass]
   public class EventTests
   {
+
     [TestMethod]
-    public void EventSimple()
+    public void EventSimple2()
     {
-      BeethovenFactory factory = new BeethovenFactory();
-      ITestEvents test = factory.Generate<ITestEvents>();
-      IEventTrigger trigger = factory.CreateEventTrigger(test, nameof(ITestEvents.Simple));
+      TypeDefinition<ITestEvents> typeDefinition = new TypeDefinition<ITestEvents>();
+      ITestEvents test = typeDefinition.Create();
+      IEventTrigger trigger = typeDefinition.CreateEventTrigger(test, nameof(ITestEvents.Simple));
       bool simpleEventCalled = false;
       bool otherEventCalled = false;
       test.Simple += delegate { simpleEventCalled = true; };
@@ -21,6 +23,20 @@ namespace GalvanizedSoftware.Beethoven.Test.EventTests
       trigger.Notify();
       Assert.IsTrue(simpleEventCalled);
       Assert.IsFalse(otherEventCalled);
+    }
+
+    [TestMethod]
+    public void EventSimpleRemoved1()
+    {
+      BeethovenFactory factory = new BeethovenFactory();
+      ITestEvents test = factory.Generate<ITestEvents>();
+      IEventTrigger trigger = factory.CreateEventTrigger(test, nameof(ITestEvents.Simple));
+      bool simpleEventCalled = false;
+      Action delegate1 = delegate { simpleEventCalled = true; };
+      test.Simple += delegate1;
+      test.Simple -= delegate1;
+      trigger.Notify();
+      Assert.IsFalse(simpleEventCalled);
     }
 
     [TestMethod]

@@ -11,7 +11,6 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
       return text1.Length + text2.Length + count;
     }
 
-    // ReSharper disable once RedundantAssignment
     internal bool GetLength2(ref int length, string text1, string text2, int count)
     {
       length = text1.Length + text2.Length + count;

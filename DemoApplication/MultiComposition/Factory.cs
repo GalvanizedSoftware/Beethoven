@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using GalvanizedSoftware.Beethoven.Fluent;
 using GalvanizedSoftware.Beethoven.Generic;
 using GalvanizedSoftware.Beethoven.Generic.Events;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
@@ -31,8 +30,9 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
       typeDefinition.RegisterEvent(
         nameof(IPersonCollection.CollectionChanged),
         eventTrigger => trigger = eventTrigger);
+      IPersonCollection personCollection = typeDefinition.Create();
       collectionChanged.CollectionChanged += (sender, args) => trigger.Notify(sender, args);
-      return typeDefinition.Create();
+      return personCollection;
     }
 
     public IPerson CreatePerson() =>

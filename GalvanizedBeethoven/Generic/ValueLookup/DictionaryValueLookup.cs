@@ -4,9 +4,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.ValueLookup
 {
   public class DictionaryValueLookup : IValueLookup
   {
-    private readonly Dictionary<string, object> defaultValues;
+    private readonly IDictionary<string, object> defaultValues;
 
-    public DictionaryValueLookup(Dictionary<string, object> defaultValues)
+    public DictionaryValueLookup(IDictionary<string, object> defaultValues)
     {
       this.defaultValues = defaultValues;
     }

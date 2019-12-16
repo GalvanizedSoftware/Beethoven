@@ -1,31 +1,43 @@
-﻿using Castle.DynamicProxy;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Interceptors;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic;
+using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-  public abstract class Method : IInterceptor
+  public abstract class Method : IInterceptorProvider
   {
-    protected Method(string name)
+    private readonly IParameter parameter;
+
+    protected Method(string name, IMethodMatcher methodMatcher, IParameter parameter = null)
     {
       Name = name;
+      MethodMatcher = methodMatcher ?? new MatchNothing();
+      this.parameter = parameter;
     }
 
     public string Name { get; }
+    public IMethodMatcher MethodMatcher { get; }
 
-    public abstract bool IsMatch((Type, string)[] parameters, Type[] genericArguments, Type returnType);
+    public IEnumerable<InterceptorMap> GetInterceptorMaps<T>() =>
+      typeof(T)
+        .GetAllMethods(Name)
+        .Where(methodInfo => MethodMatcher.IsMatchIgnoreGeneric(methodInfo))
+        .Select(methodInfo => new InterceptorMap(methodInfo, new MethodInterceptor(this)));
 
-    internal abstract void Invoke(Action<object> returnAction, object[] parameters, Type[] genericArguments, MethodInfo methodInfo);
+    public virtual void Invoke(object localInstance,
+      ref object returnValue, object[] parameters, Type[] genericArguments,
+      MethodInfo methodInfo) =>
+      throw new MissingMemberException(methodInfo?.DeclaringType?.FullName, methodInfo?.Name);
 
-    public void Intercept(IInvocation invocation) => 
-      Invoke(value => invocation.ReturnValue = value, invocation.Arguments, invocation.GenericArguments, invocation.Method);
-
-    public bool IsMatchToFlowControlled((Type, string)[] parameterTypeAndNames, Type[] genericArguments, Type returnType) =>
-      IsMatch(
-        parameterTypeAndNames.AppendReturnValue(returnType).ToArray(), 
-        genericArguments, 
-        typeof(bool).MakeByRefType());
+    public virtual void InvokeFindInstance(IInstanceMap instanceMap,
+      ref object returnValue, object[] parameters, Type[] genericArguments,
+      MethodInfo methodInfo) =>
+      Invoke(instanceMap?.GetLocal(parameter), ref returnValue, parameters, genericArguments, methodInfo);
   }
 }

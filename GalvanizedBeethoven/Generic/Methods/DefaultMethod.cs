@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -18,13 +19,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       mainFunc = (methodInfo, objects) =>
       {
         mainAction?.Invoke(methodInfo, objects);
-        return null;
+        return methodInfo.GetDefaultReturnValue();
       };
     }
 
-    public Method CreateMapped(MethodInfo methodInfo)
-    {
-      return new MappedDefaultMethod(methodInfo, mainFunc);
-    }
+    public Method CreateMapped(MethodInfo methodInfo) => 
+      new MappedDefaultMethod(methodInfo, mainFunc);
   }
 }

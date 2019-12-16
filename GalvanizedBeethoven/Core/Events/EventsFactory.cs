@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Core.Interceptors;
 using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Events
 {
-  internal sealed class EventsFactory<T> : IEnumerable<InterceptorMap>
+  internal sealed class EventsFactory<T> : IEnumerable<IInterceptorProvider>
   {
     private readonly EventInvokers eventInvokers;
     private readonly Type masterType = typeof(T);
@@ -16,22 +17,14 @@ namespace GalvanizedSoftware.Beethoven.Core.Events
       this.eventInvokers = eventInvokers;
     }
 
-    public IEnumerator<InterceptorMap> GetEnumerator()
-    {
-      return masterType.GetAllTypes().SelectMany(type => type.GetEvents()).Select(eventInfo => eventInfo.Name)
-        .SelectMany(GetEventHandlers).GetEnumerator();
-    }
+    public IEnumerator<IInterceptorProvider> GetEnumerator() =>
+      masterType
+        .GetAllTypes()
+        .SelectMany(type => type.GetEvents())
+        .Select(eventInfo => eventInfo.Name)
+        .Select(name => eventInvokers[name])
+        .GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
-    }
-
-    private IEnumerable<InterceptorMap> GetEventHandlers(string name)
-    {
-      ActionEventInvoker actionEventNotifier = eventInvokers[name];
-      yield return new InterceptorMap("add_" + name, new EventAddInterceptor(actionEventNotifier));
-      yield return new InterceptorMap("remove_" + name, new EventRemoveInterceptor(actionEventNotifier));
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
   }
 }

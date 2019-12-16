@@ -1,5 +1,6 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Properties;
 using System;
+using GalvanizedSoftware.Beethoven.Core;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
@@ -15,7 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.valueCreator = valueCreator;
     }
 
-    public bool InvokeGetter(ref T returnValue)
+    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
     {
       if (valueSet)
         return true;
@@ -26,16 +27,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       return false;
     }
 
-    public bool InvokeSetter(T newValue)
+    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
     {
       value = default(T);
       valueSet = true;
       return true;
-    }
-
-    public static LazyCreator<T> CreateIfMatch(Type type, Func<object> creatorFunc)
-    {
-      return type != typeof(T) ? null : new LazyCreator<T>(() => (T)creatorFunc());
     }
   }
 }

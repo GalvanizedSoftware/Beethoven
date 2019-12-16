@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using System;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(TargetParameterCountException))]
+    [ExpectedException(typeof(MissingMethodException))]
     public void MethodMapperSimpleTest2()
     {
       CustomImplentation customImplentation = new CustomImplentation();

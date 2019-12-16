@@ -4,6 +4,7 @@ using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using GalvanizedSoftware.Beethoven.Generic;
 
 // ReSharper disable StringLiteralTypo
@@ -22,9 +23,9 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethods(nameof(ITestMethods.Simple))
-          .Lambda<Action>(() => log.Add("Before"))
+          .Action(() => log.Add("Before"))
           .AutoMappedMethod(implementation)
-          .Lambda<Action>(() => log.Add("After")));
+          .Action(() => log.Add("After")));
       instance.Simple();
       CollectionAssert.AreEquivalent(new[] { "Before", "After" }, log);
     }
@@ -38,7 +39,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethods(nameof(ITestMethods.Simple))
           .AutoMappedMethod(implementation)
-          .Lambda<Action<int>>(value => { }));
+          .Action((int value) => { }));
       instance.Simple();
       Assert.Fail();
     }
@@ -51,9 +52,10 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
         new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
           .SkipIf<string, string>((text1, text2) => string.IsNullOrEmpty(text1))
           .SkipIf<string, string>((text1, text2) => string.IsNullOrEmpty(text2))
-          .Lambda<Func<string, string, int>>((text1, text2) => text1.Length + text2.Length));
+          .Func((string text1, string text2) => text1.Length + text2.Length));
       Assert.AreEqual(0, instance.WithParameters(null, null));
       Assert.AreEqual(0, instance.WithParameters("", "dsfgdsfhsd"));
+      Assert.AreEqual(0, instance.WithParameters("gjgkffg", ""));
       Assert.AreEqual(15, instance.WithParameters("fdsfd", "dsfgdsfhsd"));
     }
 
@@ -65,7 +67,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.ReturnValue))
           .SkipIf(() => skip)
-          .Lambda<Func<int>>(() => 477));
+          .Func(() => 477));
       Assert.AreEqual(0, instance.ReturnValue());
       skip = false;
       Assert.AreEqual(477, instance.ReturnValue());
@@ -80,7 +82,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethods(nameof(ITestMethods.Simple))
           .SkipIf(() => skip)
-          .Lambda<Action>(() => calledCount++));
+          .Action(() => calledCount++));
       instance.Simple();
       instance.Simple();
       Assert.AreEqual(0, calledCount);
@@ -98,7 +100,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethods(nameof(ITestMethods.NoReturnValue))
           .SkipIf(valueCheck, nameof(valueCheck.HasNoValue1))
-          .Lambda<Action<string, string>>(delegate { calledCount++; }));
+          .Action(delegate { calledCount++; }));
       instance.NoReturnValue("", "afasf");
       instance.NoReturnValue(null, "afasf");
       Assert.AreEqual(0, calledCount);
@@ -115,7 +117,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
           .SkipIf(valueCheck, nameof(valueCheck.HasNoValue2))
-          .Lambda<Func<string, string, int>>((arg1, arg2) => calledCount++));
+          .Func((string text1, string text2) => calledCount++));
       instance.WithParameters("", "");
       instance.WithParameters("fegf", null);
       Assert.AreEqual(0, calledCount);
@@ -131,10 +133,10 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       WithParametersImplementation implentation = new WithParametersImplementation();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
-          .PartialMatchLambda<Func<int, int>>(count => count)
-          .SkipIfResultCondition<int>(count => count == 0)
+          .Func((int count) => count)
+          .SkipIfResultCondition((int count) => count == 0)
           .AutoMappedMethod(implentation)
-          .PartialMatchLambda<Action>(() => calledCount++));
+          .Action(() => calledCount++));
       int result1 = instance.WithParameters("fegf", "ggn", 0);
       Assert.AreEqual(0, calledCount);
       Assert.AreEqual(0, result1);
@@ -149,13 +151,69 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       List<string> log = new List<string>();
       SimpleImplementation implementation = new SimpleImplementation();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
-      string name = nameof(ITestMethods.Simple);
+      const string name = nameof(ITestMethods.Simple);
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new LinkedObjects(
-            new LambdaMethod<Action>(name, () => log.Add("Before")),
+            ActionMethod.Create(name, () => log.Add("Before")),
             new MappedMethod(name, implementation),
-            new LambdaMethod<Action>(name, () => log.Add("After"))));
+            ActionMethod.Create(name, () => log.Add("After"))));
       instance.Simple();
+      CollectionAssert.AreEquivalent(new[] { "Before", "After" }, log);
+    }
+
+    [TestMethod]
+    public void LinkedMethodsTest10()
+    {
+      List<string> log = new List<string>();
+      SimpleImplementation implementation = new SimpleImplementation();
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
+        new LinkedObjects(
+          ActionMethod.Create("Simple", () => log.Add("Before")),
+          implementation,
+          ActionMethod.Create("Simple", () => log.Add("After"))));
+      instance.Simple();
+      CollectionAssert.AreEquivalent(new[] { "Before", "After" }, log);
+    }
+
+
+    [TestMethod]
+    public void LinkedMethodsTest11()
+    {
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      WithParametersImplementation implentation = new WithParametersImplementation();
+      ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
+        new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
+          .AutoMappedMethod(implentation)
+          .Func(() => 5));
+      int result = instance.WithParameters("fdgdf", "afasf", 3);
+      Assert.AreEqual(5, result);
+    }
+
+    [TestMethod]
+    public void LinkedMethodsTest12()
+    {
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      IGenericMethods instance = beethovenFactory.Generate<IGenericMethods>(
+        new LinkedMethodsReturnValue(nameof(IGenericMethods.Simple))
+          .Func(() => true)
+          .FlowControl(() => false)
+          .Func(() => false));
+      Assert.AreEqual(true, instance.Simple<bool>());
+    }
+
+    [TestMethod]
+    public void LinkedMethodsTest13()
+    {
+      List<string> log = new List<string>();
+      List<int> implementation = new List<int> { 5, 2, 17 };
+      BeethovenFactory beethovenFactory = new BeethovenFactory();
+      IEnumerable<int> instance = beethovenFactory.Generate<IEnumerable<int>>(
+        new LinkedObjects(
+          ActionMethod.Create("GetEnumerator", () => log.Add("Before")),
+          implementation,
+          ActionMethod.Create("GetEnumerator", () => log.Add("After"))));
+      CollectionAssert.AreEqual(new[] { 5, 2, 17 }, instance.ToArray());
       CollectionAssert.AreEquivalent(new[] { "Before", "After" }, log);
     }
   }

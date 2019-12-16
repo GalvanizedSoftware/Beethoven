@@ -1,19 +1,18 @@
-﻿using GalvanizedSoftware.Beethoven.Generic;
-
-namespace GalvanizedSoftware.Beethoven.DemoApp.ClassInjection
+﻿namespace GalvanizedSoftware.Beethoven.DemoApp.ClassInjection
 {
   internal class PersonFactory
   {
-    private readonly BeethovenFactory factory = new BeethovenFactory();
-
-    public IPerson CreatePerson()
+    public IPerson CreatePerson(string firstName, string lastName)
     {
-      FullName fullName = new FullName();
-      FactoryHelper<IPerson> factoryHelper = new FactoryHelper<IPerson>();
-      return factory.Generate<IPerson>(
-        fullName,
-        factoryHelper.MethodMapper(main => new FullNameFormatter(main))
-      );
+      FullName fullName = new FullName
+      {
+        FirstName = firstName,
+        LastName = lastName
+      };
+      return new TypeDefinition<IPerson>()
+        .Add(fullName)
+        .AddMethodMapper(main => new FullNameFormatter(main))
+        .Create();
     }
   }
 }

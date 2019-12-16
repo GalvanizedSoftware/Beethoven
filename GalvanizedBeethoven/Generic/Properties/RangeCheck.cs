@@ -1,5 +1,6 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Properties;
 using System;
+using GalvanizedSoftware.Beethoven.Core;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
@@ -14,12 +15,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.maximum = maximum;
     }
 
-    public bool InvokeGetter(ref T returnValue)
+    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
     {
       return true;
     }
 
-    public bool InvokeSetter(T newValue)
+    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
     {
       if (newValue.CompareTo(minimum) < 0)
         throw new ArgumentOutOfRangeException(nameof(newValue), "Value too low");

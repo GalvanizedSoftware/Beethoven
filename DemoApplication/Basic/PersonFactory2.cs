@@ -1,6 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Fluent;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.Basic
 {
@@ -14,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Basic
     public PersonFactory2()
     {
       personTypeDefinition = new TypeDefinition<IPerson>()
-        .Add(new Property<string>("FirstName").
+        .Add(new PropertyDefinition<string>("FirstName").
             ValidityCheck(name => !string.IsNullOrEmpty(name)).
             SkipIfEqual().
             SetterGetter().
@@ -24,9 +23,9 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Basic
 
     public IPerson CreatePerson() => personTypeDefinition.Create();
 
-    private static Property CreateMvvmStringProperty(string propertyName)
+    private static PropertyDefinition CreateMvvmStringProperty(string propertyName)
     {
-      return new Property<string>(propertyName).
+      return new PropertyDefinition<string>(propertyName).
         ValidityCheck(name => !string.IsNullOrEmpty(name)).
         SkipIfEqual().
         SetterGetter().

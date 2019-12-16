@@ -1,41 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GalvanizedSoftware.Beethoven.Core.Interceptors;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  internal sealed class PropertiesFactory : IEnumerable<InterceptorMap>
+  internal sealed class PropertiesFactory : IEnumerable<IInterceptorProvider>
   {
-    private readonly IEnumerable<Property> properties;
+    private readonly IEnumerable<PropertyDefinition> propertyDefinitions;
 
-    public PropertiesFactory(IEnumerable<Property> properties)
+    public PropertiesFactory(IEnumerable<PropertyDefinition> propertyDefinitions)
     {
-      this.properties = properties;
+      this.propertyDefinitions = propertyDefinitions;
     }
 
-    public IEnumerator<InterceptorMap> GetEnumerator()
-    {
-      foreach (Property property in properties)
-      {
-        yield return CreatePropertyGetter(property);
-        yield return CreatePropertySetter(property);
-      }
-    }
+    public IEnumerator<IInterceptorProvider> GetEnumerator() => 
+      propertyDefinitions.GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
-    }
-
-    private static InterceptorMap CreatePropertyGetter(Property property)
-    {
-      return new InterceptorMap(
-        "get_" + property.Name, new PropertyGetInterceptor(property));
-    }
-
-    private static InterceptorMap CreatePropertySetter(Property property)
-    {
-      return new InterceptorMap(
-        "set_" + property.Name, new PropertySetInterceptor(property));
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
   }
 }
