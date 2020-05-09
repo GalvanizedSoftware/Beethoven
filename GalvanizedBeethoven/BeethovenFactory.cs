@@ -31,11 +31,15 @@ namespace GalvanizedSoftware.Beethoven
         .MakeGenericMethod(type)
         .Invoke(this, new object[] { partDefinitions });
 
-    private static int someNumber;
+    private static int assemblyNumber = 1;
 
     public T Generate<T>(params object[] partDefinitions) where T : class =>
-      Generate<T>(partDefinitions, Array.Empty<object>());
-    public T Generate<T>(object[] partDefinitions, object[] parameters) where T : class
+      Compile<T>(partDefinitions).Create();
+
+    public T Generate<T>(object[] partDefinitions, object[] parameters) where T : class =>
+      Compile<T>(partDefinitions).Create(parameters);
+
+    public CompiledTypeDefinition<T> Compile<T>(object[] partDefinitions) where T : class
     {
       partDefinitions = partDefinitions.Concat(GeneralPartDefinitions).ToArray();
 
@@ -66,7 +70,6 @@ namespace GalvanizedSoftware.Beethoven
       analyzingAssemblies.AddRange(assemblies);
       IEnumerable<Assembly> allAssemblies = assemblies
         .SelectMany(GetAssemblies)
-        //.Concat(assemblies)
         .Where(assembly => loadedAssemblies.Contains(assembly))
         .Distinct()
         .ToArray();
@@ -76,7 +79,7 @@ namespace GalvanizedSoftware.Beethoven
       SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);
       CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
       CSharpCompilation compilation = CSharpCompilation.Create(
-        $"TmpAssembly{++someNumber}",
+        $"TmpAssembly{++assemblyNumber}",
         new[] { syntaxTree },
         references,
         options);
@@ -92,11 +95,8 @@ namespace GalvanizedSoftware.Beethoven
           throw new Exception("Internal compilation error");
         Assembly assembly = Assembly.Load(assemblyStream.ToArray(), pbdStream.ToArray());
         Type compiledType = assembly.GetType($"{type.Namespace}.{className}");
-        object instance = compiledType.Create(parameters);
-        allPartDefinitions
-          .OfType<IBindingParent>()
-          .ForEach(bindingParent => bindingParent.Bind(instance));
-        return instance as T;
+        IBindingParent bindingParents = new BindingParents(allPartDefinitions);
+        return new CompiledTypeDefinition<T>(compiledType, bindingParents);
       }
     }
 
@@ -117,7 +117,6 @@ namespace GalvanizedSoftware.Beethoven
         return result;
       result = FindReferencedAssemblies(assembly)
         .Append(assembly)
-        //.Concat(new[] { assembly }.SelectMany(FindNew))
         .ToArray();
       assemblyCache.Add(assembly, result);
       return result;

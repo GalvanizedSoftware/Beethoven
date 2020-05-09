@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven
     }
 
     public CompiledTypeDefinition<T> Compile() =>
-      new CompiledTypeDefinition<T>(beethovenFactory, partDefinitions);
+      beethovenFactory.Compile<T>(partDefinitions);
 
     public TypeDefinition<T> Add(params object[] newImplementationObjects) =>
       new TypeDefinition<T>(this, newImplementationObjects);

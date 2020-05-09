@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Extensions;
 
@@ -6,18 +6,20 @@ namespace GalvanizedSoftware.Beethoven
 {
   public class CompiledTypeDefinition<T> where T : class
   {
-    private readonly object[] partDefinitions;
-    private readonly BeethovenFactory beethovenFactory;
+    private readonly Type compiledType;
+    private readonly IBindingParent bindingParents;
 
-    internal CompiledTypeDefinition(BeethovenFactory beethovenFactory,
-      object[] partDefinitions)
+    public CompiledTypeDefinition(Type compiledType, IBindingParent bindingParents)
     {
-      this.partDefinitions = partDefinitions;
-      this.beethovenFactory = beethovenFactory;
-      partDefinitions.OfType<IMainTypeUser>().SetAll(typeof(T));
+      this.compiledType = compiledType;
+      this.bindingParents = bindingParents;
     }
 
-    public T Create(params object[] parameters) =>
-      beethovenFactory.Create<T>(partDefinitions, parameters);
+    public T Create(params object[] parameters)
+    {
+      object instance = compiledType.Create(parameters);
+      bindingParents.Bind(instance);
+      return instance as T;
+    }
   }
 }
