@@ -23,8 +23,9 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
 
     [TestMethod]
     // On my system the result compared to classic implementation is:
-    // Commit 0dca2387: 100 times slower, on average 1.3 µs per cal
-    // Commit dcdf4581: 24 times slower, on average 1.31 µs per cal
+    // Commit 0dca2387: 100 times slower, on average 1.3 µs per call
+    // Commit dcdf4581: 24 times slower, on average 1.31 µs per call
+    // Commit 4a54ee7b: 3.1 times slower, on average 0.18 µs per call
     public void PerformanceTestGetValue()
     {
       IPerformanceTest classic = new Classic { Name = "Name" };
@@ -39,8 +40,9 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
 
     [TestMethod]
     // On my system the result compared to classic implementation is:
-    // Commit 0dca2387: 5 times slower, on average 2.2 µs per cal
-    // Commit dcdf4581: 31 times slower, on average 1.71 µs per cal
+    // Commit 0dca2387: 5 times slower, on average 2.2 µs per call
+    // Commit dcdf4581: 31 times slower, on average 1.71 µs per call
+    // Commit 4a54ee7b: 2.4 times slower, on average 0.13 µs per call
     public void PerformanceTestSetValue()
     {
       IPerformanceTest classic = new Classic { Name = "Name" };
@@ -55,8 +57,9 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
 
     [TestMethod]
     // On my system the result compared to classic implementation is:
-    // Commit 0dca2387: 10 times slower, on average 3.6 µs per cal
-    // Commit dcdf4581: 10 times slower, on average 4.0 µs per cal
+    // Commit 0dca2387: 10 times slower, on average 3.6 µs per call
+    // Commit dcdf4581: 10 times slower, on average 4.0 µs per call
+    // Commit 4a54ee7b: 3.4 times slower, on average 1.56 µs per call
     public void PerformanceTestCallMethod()
     {
       IPerformanceTest classic = new Classic { Name = "Name" };
@@ -70,8 +73,9 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
 
     [TestMethod]
     // On my system the result compared to classic implementation is:
-    // Commit 0dca2387: 1000-1400 times slower (yikes!), on average 130-170 µs per cal
-    // Commit dcdf4581: 500-700 times slower, on average 110-120 µs per cal
+    // Commit 0dca2387: 1000-1400 times slower (yikes!), on average 130-170 µs per call
+    // Commit dcdf4581: 500-700 times slower, on average 110-120 µs per call
+    // Commit 4a54ee7b: 7.6 times slower, on average 1.90 µs per call
     public void PerformanceTestCreation()
     {
       const int callCount1 = 2000000;
