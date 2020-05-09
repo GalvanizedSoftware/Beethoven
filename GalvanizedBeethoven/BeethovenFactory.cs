@@ -31,7 +31,7 @@ namespace GalvanizedSoftware.Beethoven
     public object Generate(Type type, params object[] partDefinitions) =>
       generateMethodInfo
         .MakeGenericMethod(type)
-        .Invoke(this, new object[] { GetCallingAssembly(), partDefinitions, new object[0] });
+        .Invoke(this, new object[] { GetCallingAssembly(), partDefinitions, Array.Empty<object>() });
 
     public T Generate<T>(params object[] partDefinitions) where T : class =>
       CompileInternal<T>(GetCallingAssembly(), partDefinitions).Create();
