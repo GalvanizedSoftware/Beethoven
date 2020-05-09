@@ -61,19 +61,13 @@ namespace GalvanizedSoftware.Beethoven
         typeof(T).Assembly,
         Assembly.GetCallingAssembly(),
       };
-      Assembly[] loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-      loadedAssemblyNames.Clear();
-      assemblyCache.Clear();
-      analyzingAssemblies.Clear();
-      foreach (Assembly assembly in loadedAssemblies)
-        loadedAssemblyNames.Add(assembly.GetName().FullName, assembly);
-      analyzingAssemblies.AddRange(assemblies);
-      IEnumerable<Assembly> allAssemblies = assemblies
-        .SelectMany(GetAssemblies)
-        .Where(assembly => loadedAssemblies.Contains(assembly))
-        .Distinct()
-        .ToArray();
-      MetadataReference[] references = allAssemblies
+      AssemblyCache assemblyCache = new AssemblyCache(
+        new[]
+      {
+        typeof(object).Assembly,
+        typeof(T).Assembly,
+        Assembly.GetCallingAssembly()});
+      MetadataReference[] references = assemblyCache
         .Select(assembly => MetadataReference.CreateFromFile(assembly.Location))
         .ToArray();
       SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);
@@ -107,57 +101,6 @@ namespace GalvanizedSoftware.Beethoven
         IEnumerable<ICodeGenerator> codeGenerators => codeGenerators,
         _ => Enumerable.Empty<ICodeGenerator>()
       };
-
-    Dictionary<Assembly, Assembly[]> assemblyCache = new Dictionary<Assembly, Assembly[]>();
-    Dictionary<string, Assembly> loadedAssemblyNames = new Dictionary<string, Assembly>();
-
-    private IEnumerable<Assembly> GetAssemblies(Assembly assembly)
-    {
-      if (assemblyCache.TryGetValue(assembly, out Assembly[] result))
-        return result;
-      result = FindReferencedAssemblies(assembly)
-        .Append(assembly)
-        .ToArray();
-      assemblyCache.Add(assembly, result);
-      return result;
-    }
-
-    private IEnumerable<Assembly> FindReferencedAssemblies(Assembly assembly)
-    {
-      IEnumerable<Assembly> enumerable = assembly
-                 .GetReferencedAssemblies()
-                 .Select(LoadAssembly)
-                 .SelectMany(FindNew)
-                 .ToArray();
-      return enumerable
-        .SelectMany(GetAssemblies);
-    }
-
-    private IEnumerable<Assembly> FindNew(Assembly assembly)
-    {
-      if (analyzingAssemblies.Contains(assembly) || assembly == null)
-        yield break;
-      analyzingAssemblies.Add(assembly);
-      yield return assembly;
-    }
-
-    private readonly List<Assembly> analyzingAssemblies = new List<Assembly>();
-
-    private Assembly LoadAssembly(AssemblyName assemblyName)
-    {
-      string fullName = assemblyName.FullName;
-      if (loadedAssemblyNames.TryGetValue(fullName, out Assembly assembly))
-        return assembly;
-      //assembly = Assembly.ReflectionOnlyLoad(fullName);
-      //loadedAssemblies.Add(fullName, assembly);
-      return assembly;
-    }
-
-    internal T Create<T>(object[] partDefinitions, object[] parameters)
-      where T : class
-    {
-      return Generate<T>(partDefinitions, parameters);
-    }
 
     public static bool Implements<TInterface, TClass>() =>
       !new GeneralSignatureChecker(typeof(TInterface), typeof(TClass))
