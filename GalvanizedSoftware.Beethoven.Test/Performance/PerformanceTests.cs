@@ -75,7 +75,7 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
     public void PerformanceTestCreation()
     {
       const int callCount1 = 2000000;
-      const int callCount2 = 100;
+      const int callCount2 = 200000;
       PerformanceTest(
         () => new Classic(), callCount1,
         () => factory.Create(), callCount2);
