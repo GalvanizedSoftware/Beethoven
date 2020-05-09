@@ -1,22 +1,24 @@
 ﻿using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+using GalvanizedSoftware.Beethoven.Extensions;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Emit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis;
 using System.IO;
-using Microsoft.CodeAnalysis.Emit;
-using GalvanizedSoftware.Beethoven.Extensions;
+using static System.Reflection.Assembly;
 
 namespace GalvanizedSoftware.Beethoven
 {
   public sealed class BeethovenFactory
   {
+    private static int assemblyNumber = 1;
     private static readonly MethodInfo generateMethodInfo = typeof(BeethovenFactory)
-      .GetMethods()
-      .Where(info => info.Name == nameof(Generate))
+      .GetMethods(Constants.ResolveFlags)
+      .Where(info => info.Name == nameof(GenerateInternal))
       .First(info => info.IsGenericMethod);
 
     public BeethovenFactory(params object[] generalPartDefinitions)
@@ -29,17 +31,21 @@ namespace GalvanizedSoftware.Beethoven
     public object Generate(Type type, params object[] partDefinitions) =>
       generateMethodInfo
         .MakeGenericMethod(type)
-        .Invoke(this, new object[] { partDefinitions });
-
-    private static int assemblyNumber = 1;
+        .Invoke(this, new object[] { GetCallingAssembly(), partDefinitions, new object[0] });
 
     public T Generate<T>(params object[] partDefinitions) where T : class =>
-      Compile<T>(partDefinitions).Create();
+      CompileInternal<T>(GetCallingAssembly(), partDefinitions).Create();
 
     public T Generate<T>(object[] partDefinitions, object[] parameters) where T : class =>
-      Compile<T>(partDefinitions).Create(parameters);
+      CompileInternal<T>(GetCallingAssembly(), partDefinitions).Create(parameters);
 
-    public CompiledTypeDefinition<T> Compile<T>(object[] partDefinitions) where T : class
+    public CompiledTypeDefinition<T> Compile<T>(object[] partDefinitions) where T : class =>
+      CompileInternal<T>(GetCallingAssembly(), partDefinitions);
+
+    internal T GenerateInternal<T>(Assembly callingAssembly, object[] partDefinitions, object[] parameters) where T : class =>
+      CompileInternal<T>(callingAssembly, partDefinitions).Create(parameters);
+
+    internal CompiledTypeDefinition<T> CompileInternal<T>(Assembly callingAssembly, object[] partDefinitions) where T : class
     {
       partDefinitions = partDefinitions.Concat(GeneralPartDefinitions).ToArray();
 
@@ -61,12 +67,7 @@ namespace GalvanizedSoftware.Beethoven
         typeof(T).Assembly,
         Assembly.GetCallingAssembly(),
       };
-      AssemblyCache assemblyCache = new AssemblyCache(
-        new[]
-      {
-        typeof(object).Assembly,
-        typeof(T).Assembly,
-        Assembly.GetCallingAssembly()});
+      AssemblyCache<T> assemblyCache = new AssemblyCache<T>(callingAssembly);
       MetadataReference[] references = assemblyCache
         .Select(assembly => MetadataReference.CreateFromFile(assembly.Location))
         .ToArray();
