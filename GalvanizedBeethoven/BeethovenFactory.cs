@@ -44,7 +44,6 @@ namespace GalvanizedSoftware.Beethoven
     internal CompiledTypeDefinition<T> CompileInternal<T>(Assembly callingAssembly, object[] partDefinitions) where T : class
     {
       partDefinitions = partDefinitions.Concat(GeneralPartDefinitions).ToArray();
-
       Type type = typeof(T);
       partDefinitions.OfType<IMainTypeUser>().SetAll(type);
 
@@ -55,8 +54,8 @@ namespace GalvanizedSoftware.Beethoven
         .GetAllDefinitions();
       string className = $"{type.GetFormattedName()}Implementation";
       ClassGenerator classGenerator = new ClassGenerator(type, className, definitions);
-      GeneratorContext generatorContext = new GeneratorContext(className, type);
-      string code = classGenerator.Generate(generatorContext).Format(0);
+      string code = classGenerator.Generate().Format(0);
+
       IEnumerable<Assembly> assemblyCache = new AssemblyCache<T>(callingAssembly);
       Compiler compiler = new Compiler(code, assemblyCache);
       return new CompiledTypeDefinition<T>(

@@ -13,7 +13,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven
 {
-  internal class ClassGenerator : ICodeGenerator
+  internal class ClassGenerator
   {
     internal static readonly string GeneratedClassName = typeof(IGeneratedClass).FullName;
     private readonly string classNamespace;
@@ -22,13 +22,14 @@ namespace GalvanizedSoftware.Beethoven
     private readonly PropertiesGenerator propertiesGenerator;
     private readonly MethodsGenerator methodsGenerator;
     private readonly EventsGenerator eventsGenerator;
+    private readonly Type interfaceType;
     private readonly string className;
-    private readonly MemberInfo[] membersInfos;
 
     public ClassGenerator(Type interfaceType, string className, IDefinition[] definitions)
     {
+      this.interfaceType = interfaceType;
       this.className = className;
-      membersInfos = interfaceType
+      MemberInfo[] membersInfos = interfaceType
         .GetAllTypes()
         .SelectMany(type => type.GetMembers())
         .Where(FilterMemberInfo)
@@ -41,14 +42,9 @@ namespace GalvanizedSoftware.Beethoven
       eventsGenerator = new EventsGenerator(membersInfos, definitions);
     }
 
-    private static bool FilterMemberInfo(MemberInfo memberInfo) => memberInfo switch
+    public IEnumerable<string> Generate()
     {
-      MethodInfo methodInfo => !methodInfo.IsSpecialName,
-      _ => true,
-    };
-
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
-    {
+      GeneratorContext generatorContext = new GeneratorContext(className, interfaceType);
       yield return $"namespace {classNamespace}";
       yield return "{";
       yield return $"	public class {className} : {generatorContext.InterfaceType.GetFullName()}, {GeneratedClassName}";
@@ -65,5 +61,11 @@ namespace GalvanizedSoftware.Beethoven
       yield return "	}";
       yield return "}";
     }
+
+    private static bool FilterMemberInfo(MemberInfo memberInfo) => memberInfo switch
+    {
+      MethodInfo methodInfo => !methodInfo.IsSpecialName,
+      _ => true,
+    };
   }
 }
