@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using GalvanizedSoftware.Beethoven.Generic.Parameters;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
@@ -26,15 +25,15 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     {
     }
 
-    public PropertyDefinition(PropertyDefinition<T> previous, IParameter parameter) :
-      this(previous, new IPropertyDefinition<T>[] { new InitialParameterValue<T>(parameter) }, parameter)
+    public PropertyDefinition(PropertyDefinition<T> previous, IDefinition additionalDefinition) :
+      this(previous, new IPropertyDefinition<T>[] { new InitialParameterValue<T>() }, additionalDefinition)
     {
     }
 
 
-    public PropertyDefinition(PropertyDefinition<T> previous, IPropertyDefinition<T>[] propertyDefinitions,
-      IParameter parameter = null) :
-      base(previous, parameter)
+    public PropertyDefinition(PropertyDefinition<T> previous, IPropertyDefinition<T>[] propertyDefinitions, 
+      params IDefinition[] additionalDefinitions) :
+      base(previous, additionalDefinitions)
     {
       definitions = previous?
         .definitions

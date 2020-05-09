@@ -6,7 +6,6 @@ using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
@@ -15,17 +14,21 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     private static readonly Type type = typeof(PropertyDefinition);
     private static readonly MethodInfo createGenericMethodInfo = type
       .GetMethod(nameof(CreateGeneric), Constants.StaticResolveFlags);
+    private readonly IDefinition[] additionalDefinitions;
 
-    protected PropertyDefinition(string name, Type propertyType, IParameter parameter = null)
+    protected PropertyDefinition(string name, Type propertyType, params IDefinition[] additionalDefinitions)
     {
       Name = name;
       PropertyType = propertyType;
-      Parameter = parameter;
+      this.additionalDefinitions = additionalDefinitions;
     }
 
-    protected PropertyDefinition(PropertyDefinition previous, IParameter parameter = null) :
-      this(previous?.Name, previous?.PropertyType, parameter ?? previous?.Parameter)
+    protected PropertyDefinition(PropertyDefinition previous, params IDefinition[] additionalDefinitions) :
+      this(previous?.Name, previous?.PropertyType)
     {
+      this.additionalDefinitions = previous?.additionalDefinitions?
+        .Concat(additionalDefinitions)?
+        .ToArray() ?? throw new NullReferenceException();
     }
 
     public string Name { get; }
@@ -33,7 +36,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     public Type PropertyType { get; }
     internal abstract object[] Definitions { get; }
 
-    public IParameter Parameter { get; }
+    public IDefinition Parameter { get; }
 
     public int SortOrder => 1;
 
@@ -74,7 +77,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
 
     public IEnumerator<IDefinition> GetEnumerator()
     {
-      if (Parameter is IDefinition definition)
+      foreach (IDefinition definition in additionalDefinitions)
         yield return definition;
       yield return this;
     }

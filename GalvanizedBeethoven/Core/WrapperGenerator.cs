@@ -22,16 +22,16 @@ namespace GalvanizedSoftware.Beethoven.Core
 
     public IEnumerator<IDefinition> GetEnumerator() => wrappers.GetEnumerator();
 
-    private static IEnumerable<object> FilterNonDefinitions(object definition)
+    internal static IEnumerable<object> FilterNonDefinitions(object instance)
     {
-      switch (definition)
+      switch (instance)
       {
         case null:
         case IDefinition _:
         case IEnumerable<IDefinition> __:
           break;
         default:
-          yield return definition;
+          yield return instance;
           break;
       }
     }

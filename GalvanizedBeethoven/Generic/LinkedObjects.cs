@@ -8,7 +8,6 @@ using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
-using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Generic
 {
@@ -101,9 +100,7 @@ namespace GalvanizedSoftware.Beethoven.Generic
     {
       switch (obj)
       {
-        case MethodDefinition _:
-        case PropertyDefinition _:
-        case IParameter _:
+        case IDefinition _:
           return null;
       }
       return obj?

@@ -1,9 +1,6 @@
-﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
-using GalvanizedSoftware.Beethoven.Core.Fields;
+﻿using GalvanizedSoftware.Beethoven.Core.Fields;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Generic;
-using GalvanizedSoftware.Beethoven.Generic.Parameters;
 using GalvanizedSoftware.Beethoven.Test.PropertyTests.Implementations;
 using GalvanizedSoftware.Beethoven.Test.PropertyTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

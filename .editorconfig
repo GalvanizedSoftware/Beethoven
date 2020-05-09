@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CA1040: Avoid empty interfaces
+dotnet_diagnostic.CA1040.severity = none
