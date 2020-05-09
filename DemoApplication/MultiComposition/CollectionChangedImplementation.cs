@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
-using GalvanizedSoftware.Beethoven.Core.Binding;
+using GalvanizedSoftware.Beethoven.Core;
 
 // ReSharper disable UnusedMember.Global
 
@@ -30,7 +30,8 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
     {
       collectionChanged(master, new NotifyCollectionChangedEventArgs(
         NotifyCollectionChangedAction.Add,
-        new[] { item }));
+        new[] { item },
+        getIndex(item)));
     }
 
     public void Clear()

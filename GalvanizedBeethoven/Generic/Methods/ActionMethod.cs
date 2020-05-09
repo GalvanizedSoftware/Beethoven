@@ -8,7 +8,7 @@ using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class ActionMethod : Method
+  public class ActionMethod : MethodDefinition
   {
     private class ConstructorValues
     {
@@ -49,13 +49,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public static ActionMethod Create<T1, T2, T3>(string mainName, Action<T1, T2, T3> action, IParameter parameter = null) =>
       new ActionMethod(mainName, GetValues(action, parameter));
 
-    public ActionMethod(string mainName, Delegate action, IParameter parameter = null) :
-      this(mainName, GetValues(action, parameter))
+    public ActionMethod(string mainName, Delegate action) :
+      this(mainName, GetValues(action, null))
     {
     }
 
     private ActionMethod(string mainName, ConstructorValues values) :
-      base(mainName, values.MethodMatcher, values.Parameter)
+      base(mainName, values.MethodMatcher)
     {
       action = values.Action;
       localParameters = values.LocalParameters;

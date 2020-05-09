@@ -7,13 +7,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
   {
     private T value;
 
-    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
+    public bool InvokeGetter(object _, ref T returnValue)
     {
       returnValue = value;
       return true;
     }
 
-    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
+    public bool InvokeSetter(object _, T newValue)
     {
       value = newValue;
       return true;

@@ -31,7 +31,7 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
       IPerformanceTest newWay = factory.Create();
       newWay.Name = "Name";
       const int callCount1 = 10000000;
-      const int callCount2 = 500000;
+      const int callCount2 = 2000000;
       PerformanceTest(
         () => classic.Name, callCount1,
         () => newWay.Name, callCount2);
@@ -47,7 +47,7 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
       IPerformanceTest newWay = factory.Create();
       newWay.Name = "Name";
       const int callCount1 = 10000000;
-      const int callCount2 = 300000;
+      const int callCount2 = 3000000;
       PerformanceTest(
         () => classic.Name = "Name", callCount1,
         () => newWay.Name = "Name", callCount2);
@@ -75,7 +75,7 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
     public void PerformanceTestCreation()
     {
       const int callCount1 = 2000000;
-      const int callCount2 = 4000;
+      const int callCount2 = 100;
       PerformanceTest(
         () => new Classic(), callCount1,
         () => factory.Create(), callCount2);
@@ -87,7 +87,7 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
     {
       double timePerCall1 = TimePerCall("Classic:", classicAction, classicCount);
       double timePerCall2 = TimePerCall("New:", newAction, newCount);
-      Console.WriteLine($"{ (int)(timePerCall2 / timePerCall1)} Times slower");
+      Console.WriteLine($"{ timePerCall2 / timePerCall1:0.0} Times slower");
     }
 
     private static double TimePerCall(string header, Func<object> classicAction, int classicCount)

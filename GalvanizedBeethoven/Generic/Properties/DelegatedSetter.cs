@@ -17,12 +17,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.delegateAction = delegateAction;
     }
 
-    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
+    public bool InvokeGetter(object _, ref T returnValue)
     {
       return true;
     }
 
-    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
+    public bool InvokeSetter(object _, T newValue)
     {
       delegateAction(newValue);
       return true;

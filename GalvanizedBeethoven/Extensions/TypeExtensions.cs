@@ -31,11 +31,23 @@ namespace GalvanizedSoftware.Beethoven.Extensions
           .Where(methodInfo => methodInfo.Name == name))
         .Distinct(new ExactMethodComparer());
 
+    internal static IEnumerable<PropertyInfo> GetAllProperties(this Type masterType) =>
+      masterType
+        .GetAllTypes()
+        .SelectMany(type => type
+          .GetProperties(ResolveFlags))
+        .DistinctProperties();
+
     internal static EventInfo GetEventInfo(this Type type, string name) =>
       type
         .GetAllTypes()
         .SelectMany(childType => childType.GetEvents(ResolveFlags))
         .SingleOrDefault(eventInfo => eventInfo.Name == name);
+
+    internal static IEnumerable<EventInfo> GetEventInfos(this Type type) =>
+      type
+        .GetAllTypes()
+        .SelectMany(childType => childType.GetEvents(ResolveFlags));
 
     internal static IEnumerable<MethodInfo> GetNotSpecialMethods(this Type type) =>
       type.GetMethods(ResolveFlags)
@@ -68,7 +80,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       type.GetMethod(methodName, StaticResolveFlags)?
         .Invoke(type, parameters);
 
-    internal static object GetDefaultValue(this Type type) => 
+    internal static object GetDefaultValue(this Type type) =>
       type == typeof(void) || !type.IsValueType ? null : Activator.CreateInstance(type);
 
     internal static MethodInfo FindSingleMethod(this Type type, string targetName)
@@ -104,8 +116,51 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     internal static bool IsByRefence(this Type type) =>
       type?.IsByRef == true;
 
+    internal static MemberInfo FindMember(this Type type, string name, int index)
+    {
+      return
+        type.FindMember(type => type.GetProperty(name)) ?? (MemberInfo)
+        type.FindMember(type => type.GetEventInfo(name)) ??
+        type.FindMember(type => type
+            .GetMethods()
+            .Where(method => method.Name == name)
+            .Where((_, i) => i == index)
+            .FirstOrDefault());
+    }
+
+    internal static T FindMember<T>(this Type type, Func<Type, T> predicate) where T : class => type
+        .GetAllTypes()
+        .Select(type => predicate(type))
+        .FirstOrDefault(value => value != null);
+
+    internal static string GetFullName(this Type type)
+    {
+      string fullName = type.Name.TrimEnd('&');
+      if (type.FullName == null)
+        return type.Name;
+      if (!type.IsGenericType)
+        return $"{type.Namespace}.{fullName}";
+      int index = fullName.IndexOf('`');
+      fullName = fullName.Substring(0, index);
+      return $"{type.Namespace}.{fullName}<{type.GetGenericTypes()}>";
+    }
+
+    internal static object Create(this Type type, object[] parameters) =>
+      type.GetConstructors().Single().Invoke(parameters);
+
+    internal static string GetBaseName(this Type type)
+    {
+      if (type.BaseType == typeof(ValueType))
+        return "struct";
+      return type.GetFullName();
+    }
+
+    internal static string GetFormattedName(this Type type) => $"{type.Name.Replace("`", "_")}";
+
+    private static string GetGenericTypes(this Type type) =>
+      string.Join(",", type.GetGenericArguments().Select(type => type.GetFullName()));
+
     private static bool IsGeneric(this Type type) =>
       type == typeof(AnyGenericType) || type.FullName == null;
-
   }
 }

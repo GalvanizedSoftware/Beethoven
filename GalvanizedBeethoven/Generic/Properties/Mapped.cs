@@ -24,14 +24,14 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       setMethod = propertyInfo.CanWrite ? propertyInfo.SetMethod : null;
     }
 
-    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
+    public bool InvokeGetter(object _, ref T returnValue)
     {
       if (getMethod != null)
         returnValue = (T)getMethod.Invoke(main, Array.Empty<object>());
       return true;
     }
 
-    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
+    public bool InvokeSetter(object _, T newValue)
     {
       setMethod?.Invoke(main, new object[] { newValue });
       return true;

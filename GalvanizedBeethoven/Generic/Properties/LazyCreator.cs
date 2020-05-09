@@ -16,7 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.valueCreator = valueCreator;
     }
 
-    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
+    public bool InvokeGetter(object _, ref T returnValue)
     {
       if (valueSet)
         return true;
@@ -27,7 +27,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       return false;
     }
 
-    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
+    public bool InvokeSetter(object _, T __)
     {
       value = default(T);
       valueSet = true;

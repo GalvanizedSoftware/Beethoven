@@ -1,125 +1,46 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Core.Properties;
-using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Generic;
-using GalvanizedSoftware.Beethoven.Generic.Methods;
-using GalvanizedSoftware.Beethoven.Generic.Parameters;
-using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
-  internal class WrapperGenerator<T> : IEnumerable<object> where T : class
+  internal class WrapperGenerator<T> : IEnumerable<IDefinition> where T : class
   {
-    private readonly object[] partDefinitions;
-    private readonly Func<object, IEnumerable<object>> getWrappers;
-    private readonly DefaultProperty defaultProperty;
-    private readonly DefaultMethod defaultMethod;
+    private readonly IEnumerable<IDefinition> wrappers;
 
-    private WrapperGenerator(object[] partDefinitions, Func<object, IEnumerable<object>> getWrappers)
+    internal WrapperGenerator(object[] partDefinitions)
     {
-      object[] flatDefinitions = Flatten(partDefinitions).ToArray();
-      this.partDefinitions = flatDefinitions;
-      this.getWrappers = getWrappers;
-      defaultProperty = partDefinitions.OfType<DefaultProperty>().SingleOrDefault();
-      defaultMethod = partDefinitions.OfType<DefaultMethod>().SingleOrDefault();
-      this.partDefinitions = this.partDefinitions
-        .Concat(GetDefaultProperties(flatDefinitions.OfType<PropertyDefinition>()))
-        .Concat(GetDefaultMethods())
+      wrappers = partDefinitions
+        .SelectMany(definition => FilterNonDefinitions(definition))
+        .SelectMany(GetDefinitionWrappers)
         .ToArray();
+      PropertiesSignatureChecker<T>.CheckSignatures(this);
     }
 
-    internal static IEnumerable<object> CreateWrappers(object[] partDefinitions) =>
-      new WrapperGenerator<T>(partDefinitions, GetDefinitionWrappers);
+    public IEnumerator<IDefinition> GetEnumerator() => wrappers.GetEnumerator();
 
-    internal static object[] CreateAndCheckWrappers(object[] partDefinitions)
+    private static IEnumerable<object> FilterNonDefinitions(object definition)
     {
-      object[] wrappers = new WrapperGenerator<T>(partDefinitions, GetDefinitionWrappers).ToArray();
-      PropertiesSignatureChecker<T>.CheckSignatures(wrappers);
-      return wrappers;
-    }
-
-    public IEnumerator<object> GetEnumerator()
-    {
-      foreach (object definition in partDefinitions)
+      switch (definition)
       {
-        switch (definition)
-        {
-          case IParameter _:
-          case PropertyDefinition _:
-          case Method _:
-            yield return definition;
-            break;
-          case LinkedObjects linkedObjects:
-            foreach (object wrapper in linkedObjects.GetWrappers<T>())
-              yield return wrapper;
-            break;
-          default:
-            foreach (object wrapper in getWrappers(definition))
-              yield return wrapper;
-            break;
-        }
-      }
-    }
-
-    private static IEnumerable<object> Flatten(IEnumerable<object> objects)
-    {
-      foreach (object definition in objects)
-      {
-        switch (definition)
-        {
-          case null:
-            break;
-          case IEnumerable<PropertyDefinition> properties:
-            foreach (PropertyDefinition property in properties)
-              yield return property;
-            break;
-          case IEnumerable<Method> methods:
-            foreach (Method method in methods)
-              yield return method;
-            break;
-          case IEnumerable<DefinitionImport> imports:
-            foreach (DefinitionImport definitionImport in imports)
-              yield return definitionImport;
-            break;
-          default:
-            yield return definition;
-            break;
-        }
+        case null:
+        case IDefinition _:
+        case IEnumerable<IDefinition> __:
+          break;
+        default:
+          yield return definition;
+          break;
       }
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    private IEnumerable<object> GetDefaultProperties(IEnumerable<PropertyDefinition> propertyWrappers)
-    {
-      if (defaultProperty == null)
-        yield break;
-      IDictionary<string, Type> propertyInfos = typeof(T)
-        .GetProperties(ResolveFlags)
-        .ToDictionary(propertyInfo => propertyInfo.Name, propertyInfo => propertyInfo.PropertyType);
-      string[] typeProperties = propertyInfos.Keys.ToArray();
-      HashSet<string> alreadyImplemented = new HashSet<string>(propertyWrappers.Select(p => p.Name));
-      foreach (string propertyName in typeProperties.Except(alreadyImplemented))
-        yield return defaultProperty.Create(propertyInfos[propertyName], propertyName);
-    }
-
-    private IEnumerable<object> GetDefaultMethods()
-    {
-      if (defaultMethod == null)
-        yield break;
-      foreach (MethodInfo methodInfo in typeof(T).GetMethodsAndInherited())
-        yield return defaultMethod.CreateMapped(methodInfo);
-    }
-
-    private static IEnumerable<object> GetDefinitionWrappers(object definition) =>
-      Array.Empty<object>()
-        .Concat(new PropertiesMapper(definition))
+    internal static IEnumerable<IDefinition> GetDefinitionWrappers(object definition) =>
+      Array.Empty<IDefinition>()
+        .Concat(new PropertiesMapper(typeof(T), definition))
         .Concat(new MethodsMapper<T>(definition));
 
   }

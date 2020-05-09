@@ -39,7 +39,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       new PropertyDefinition<T>(propertyDefinition, new InitialValue<T>(value));
 
     public static PropertyDefinition<T> ConstructorParameter<T>(this PropertyDefinition<T> propertyDefinition) => 
-      new PropertyDefinition<T>(propertyDefinition, new ConstructorParameter(propertyDefinition?.Name, typeof(T)));
+      new PropertyDefinition<T>(propertyDefinition, new PropertyConstructorInitialized(propertyDefinition?.Name, typeof(T)));
 
     public static PropertyDefinition<T> DelegatedSetter<T>(this PropertyDefinition<T> propertyDefinition, Action<T> action) => 
       new PropertyDefinition<T>(propertyDefinition, new DelegatedSetter<T>(action));

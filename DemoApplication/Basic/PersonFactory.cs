@@ -1,5 +1,7 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Properties;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events;
+using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
+using System.ComponentModel;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.Basic
 {
@@ -15,7 +17,8 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Basic
           SkipIfEqual().
           SetterGetter().
           NotifyChanged(),
-        CreateMvvmStringProperty("LastName")
+        CreateMvvmStringProperty("LastName"),
+        new SimpleEventDefinition<PropertyChangedEventHandler>(nameof(INotifyPropertyChanged.PropertyChanged))
       );
     }
 

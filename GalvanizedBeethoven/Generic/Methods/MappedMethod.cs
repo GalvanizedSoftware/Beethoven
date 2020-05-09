@@ -6,7 +6,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class MappedMethod : Method
+  public class MappedMethod : MethodDefinition
   {
     private readonly object instance;
     private readonly MethodInfo methodInfo;

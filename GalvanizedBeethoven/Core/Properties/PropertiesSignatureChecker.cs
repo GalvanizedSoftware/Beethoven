@@ -41,7 +41,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
         case 1:
           return;
         default:
-          throw new NotImplementedException($"Multiple implementation found for property: {actualType} {name}");
+          throw new MissingMethodException($"Multiple implementation found for property: {actualType} {name}");
       }
     }
   }

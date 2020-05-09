@@ -3,21 +3,20 @@ using System;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class ParameterMappedMethod : Method
+  public class ParameterMappedMethod : MethodDefinition
   {
     private readonly MethodInfo methodInfo;
 
-    public ParameterMappedMethod(MethodInfo methodInfo, IParameter parameter) :
-      this(methodInfo?.Name, parameter, methodInfo)
+    public ParameterMappedMethod(MethodInfo methodInfo) :
+      this(methodInfo?.Name, methodInfo)
     {
     }
 
-    private ParameterMappedMethod(string mainName, IParameter parameter, MethodInfo methodInfo) :
-      base(mainName, new MatchMethodInfoExact(methodInfo), parameter)
+    private ParameterMappedMethod(string mainName, MethodInfo methodInfo) :
+      base(mainName, new MatchMethodInfoExact(methodInfo))
     {
       this.methodInfo = methodInfo;
       methodInfo.HasReturnType();

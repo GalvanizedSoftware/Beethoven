@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using GalvanizedSoftware.Beethoven.Generic.Parameters;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  public sealed class PropertyDefinition<T> : PropertyDefinition, IObjectProvider, IPropertyDefinition<T>
+  public sealed class PropertyDefinition<T> : PropertyDefinition, IPropertyDefinition<T>
   {
     private readonly IPropertyDefinition<T>[] definitions;
-    private readonly IObjectProvider objectProviderHandler;
 
     public PropertyDefinition(string name) :
       base(name, typeof(T))
@@ -43,36 +41,24 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
         .Concat(propertyDefinitions
           .Where(definition => definition != null))
         .ToArray();
-      objectProviderHandler = new ObjectProviderHandler(definitions);
     }
 
-    public IEnumerable<TChild> Get<TChild>() =>
-      objectProviderHandler.Get<TChild>();
+    internal override object[] Definitions => definitions.OfType<object>().ToArray();
 
-    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
+    public bool InvokeGetter(object master, ref T returnValue)
     {
       foreach (IPropertyDefinition<T> definition in definitions)
-        if (!definition.InvokeGetter(instanceMap, ref returnValue))
+        if (!definition.InvokeGetter(master, ref returnValue))
           return false;
       return true;
     }
 
-    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
+    public bool InvokeSetter(object master, T newValue)
     {
       foreach (IPropertyDefinition<T> definition in definitions)
-        if (!definition.InvokeSetter(instanceMap, newValue))
+        if (!definition.InvokeSetter(master, newValue))
           return false;
       return true;
     }
-
-    internal override object InvokeGet(InstanceMap instanceMap)
-    {
-      T value = default;
-      InvokeGetter(instanceMap, ref value);
-      return value;
-    }
-
-    internal override void InvokeSet(InstanceMap instanceMap, object newValue) =>
-      InvokeSetter(instanceMap, (T)newValue);
   }
 }

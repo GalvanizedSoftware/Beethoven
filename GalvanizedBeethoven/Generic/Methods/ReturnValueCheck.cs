@@ -6,7 +6,7 @@ using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class ReturnValueCheck<T> : Method
+  public class ReturnValueCheck<T> : MethodDefinition
   {
     private readonly Func<T, bool> condition;
 

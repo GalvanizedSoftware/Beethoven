@@ -28,8 +28,7 @@
       <Button Content="Remove" Command="{Binding RemoveCommand}" Style="{StaticResource Style}"/>
       <Button Content="Reset" Command="{Binding ResetCommand}" Style="{StaticResource Style}"/>
     </StackPanel>
-    <!--ItemsSource="{Binding Items}"-->
-    <ListBox Grid.Row="4"  SelectedItem="{Binding Selected}" SelectionMode="Single" x:Name="ListBox">
+    <ListBox Grid.Row="4" ItemsSource="{Binding Items}" SelectedItem="{Binding Selected}" SelectionMode="Single" x:Name="ListBox">
       <ListBox.ItemTemplate>
         <DataTemplate>
           <TextBlock>

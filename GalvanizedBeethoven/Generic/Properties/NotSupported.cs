@@ -6,12 +6,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   public class NotSupported<T> : IPropertyDefinition<T>
   {
-    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
+    public bool InvokeGetter(object _, ref T __)
     {
       throw new NotSupportedException("Property is not supported.");
     }
 
-    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
+    public bool InvokeSetter(object _, T __)
     {
       throw new NotSupportedException("Property is not supported.");
     }

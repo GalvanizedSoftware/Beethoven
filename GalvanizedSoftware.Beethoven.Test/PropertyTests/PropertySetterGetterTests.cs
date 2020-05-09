@@ -48,7 +48,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(NotImplementedException))]
+    [ExpectedException(typeof(MissingMethodException))]
     public void TestMethodProperty4()
     {
       BeethovenFactory factory = new BeethovenFactory();

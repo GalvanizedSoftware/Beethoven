@@ -10,7 +10,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility1
     public IApproverChain CreateChain(params IApprover[] approvers)
     {
       LinkedMethodsReturnValue linkedMethods = approvers
-        .Aggregate(new LinkedMethodsReturnValue(nameof(IApproverChain.Approve)),
+        .Aggregate(LinkedMethodsReturnValue.Create<IApproverChain>(nameof(IApproverChain.Approve)),
         (value, approver) => value
           .AutoMappedMethod(approver)
           .InvertResult());

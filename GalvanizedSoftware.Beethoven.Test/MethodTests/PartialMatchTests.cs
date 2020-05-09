@@ -14,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       PartialMethods partialMethods = new PartialMethods();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
-        new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
+        LinkedMethodsReturnValue.Create<ITestMethods>(nameof(ITestMethods.WithParameters), 1)
           .PartialMatchMethod(partialMethods, nameof(partialMethods.WithParameters1))
           .PartialMatchMethod(partialMethods, nameof(partialMethods.WithParameters2))
           .PartialMatchMethod(partialMethods, nameof(partialMethods.WithParametersCount))
@@ -31,7 +31,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       PartialMethods partialMethods = new PartialMethods();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
-        new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
+        LinkedMethodsReturnValue.Create<ITestMethods>(nameof(ITestMethods.WithParameters), 1)
           .PartialMatchMethod(partialMethods, nameof(partialMethods.WithParametersReturnValue)));
       Assert.AreEqual(5, instance.WithParameters("w", "sd", 3));
     }
@@ -42,7 +42,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       PartialMethods partialMethods = new PartialMethods();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
-        new LinkedMethodsReturnValue(nameof(ITestMethods.GetMain))
+        LinkedMethodsReturnValue.Create<ITestMethods>(nameof(ITestMethods.GetMain))
           .PartialMatchMethod<ITestMethods>(partialMethods, "testMethods"));
       object actual = instance.GetMain("w", "sd");
       Assert.AreEqual(instance, actual);
@@ -55,7 +55,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       string gotValue1 = "";
       string gotValue2 = "";
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
-        new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
+        LinkedMethodsReturnValue.Create<ITestMethods>(nameof(ITestMethods.WithParameters), 1)
           .Action((string text1) => gotValue1 = text1)
           .Action((string text2) => gotValue2 = text2)
         );

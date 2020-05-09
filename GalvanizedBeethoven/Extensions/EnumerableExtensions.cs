@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalvanizedSoftware.Beethoven.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,5 +32,31 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 
     public static IEnumerable<T> ExceptIndex<T>(this IEnumerable<T> enumerable, int skipIndex) =>
       enumerable.Where((item, i) => i != skipIndex);
+
+    internal static string ToString(this IEnumerable<char> chars) =>
+      new string(chars.ToArray());
+
+    internal static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
+    {
+      if (collection == null)
+        return;
+      foreach (T item in collection)
+        action(item);
+    }
+
+    internal static IDefinition[] GetAllDefinitions(this IEnumerable<object> collection) =>
+      collection
+        .SelectMany(GetAllDefinitions)
+        .Distinct()
+        .OrderBy(definition => definition.SortOrder)
+        .ToArray();
+
+    private static IEnumerable<IDefinition> GetAllDefinitions(object part) =>
+      part switch
+      {
+        IEnumerable<IDefinition> definition => definition,
+        IDefinition definition => new[] { definition },
+        _ => Enumerable.Empty<IDefinition>()
+      };
   }
 }

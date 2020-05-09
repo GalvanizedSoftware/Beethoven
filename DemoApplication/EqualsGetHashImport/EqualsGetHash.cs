@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GalvanizedSoftware.Beethoven.Core.Binding;
+using GalvanizedSoftware.Beethoven.Core;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport
 {

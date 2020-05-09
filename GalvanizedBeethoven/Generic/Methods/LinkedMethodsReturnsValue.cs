@@ -10,29 +10,36 @@ using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class LinkedMethodsReturnValue : Method, IObjectProvider
+  public class LinkedMethodsReturnValue : MethodDefinition
   {
-    private readonly Method[] methodList;
-    private readonly ObjectProviderHandler objectProviderHandler;
+    private readonly MethodDefinition[] methodList;
+    private readonly MethodInfo methodInfo;
 
-    public LinkedMethodsReturnValue(string name) :
-      this(name, Array.Empty<Method>())
+    public LinkedMethodsReturnValue(MethodInfo methodInfo) :
+      this(methodInfo ?? throw new NullReferenceException(), Array.Empty<MethodDefinition>())
     {
     }
 
-    private LinkedMethodsReturnValue(LinkedMethodsReturnValue previous, Method newMethod) :
-      this(previous.Name, previous.methodList.Append(newMethod).ToArray())
+    private LinkedMethodsReturnValue(LinkedMethodsReturnValue previous, MethodDefinition newMethod) :
+      this(previous.methodInfo, previous.methodList.Append(newMethod).ToArray())
     {
     }
 
-    private LinkedMethodsReturnValue(string name, Method[] methodList) :
-      base(name, new MatchAll(methodList.Select(method => method.MethodMatcher)))
+    private LinkedMethodsReturnValue(MethodInfo methodInfo, MethodDefinition[] methodList) :
+      base(methodInfo.Name, new MatchMethodInfoExact(methodInfo))
     {
       this.methodList = methodList;
-      objectProviderHandler = new ObjectProviderHandler(methodList);
+      this.methodInfo = methodInfo;
     }
 
-    public LinkedMethodsReturnValue Add(Method method) =>
+    public static LinkedMethodsReturnValue Create<T>(string name, int index = 0) =>
+      new LinkedMethodsReturnValue(typeof(T)
+        .GetAllMethods(name)
+        .Where((_, i) => i == index)
+        .FirstOrDefault());
+
+
+    public LinkedMethodsReturnValue Add(MethodDefinition method) =>
       new LinkedMethodsReturnValue(this, method);
 
     public LinkedMethodsReturnValue SimpleFunc<TReturnType>(Func<TReturnType> func) =>
@@ -83,34 +90,34 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue PartialMatchMethod<TMain>(object instance, string mainParameterName) =>
       Add(new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
 
-    public LinkedMethodsReturnValue Action(Action action, IParameter localParameter = null) =>
-      Add(new ActionMethod(Name, action, localParameter));
+    public LinkedMethodsReturnValue Action(Action action) =>
+      Add(new ActionMethod(Name, action));
 
-    public LinkedMethodsReturnValue Action<T>(Action<T> action, IParameter localParameter = null) =>
-      Add(new ActionMethod(Name, action, localParameter));
+    public LinkedMethodsReturnValue Action<T>(Action<T> action) =>
+      Add(new ActionMethod(Name, action));
 
-    public LinkedMethodsReturnValue Func<TReturn>(Func<TReturn> func, IParameter localParameter = null) =>
-      Add(new FuncMethod(Name, func, localParameter));
+    public LinkedMethodsReturnValue Func<TReturn>(Func<TReturn> func) =>
+      Add(new FuncMethod(Name, func));
 
-    public LinkedMethodsReturnValue Func<T, TReturn>(Func<T, TReturn> func, IParameter localParameter = null) =>
-      Add(new FuncMethod(Name, func, localParameter));
+    public LinkedMethodsReturnValue Func<T, TReturn>(Func<T, TReturn> func) =>
+      Add(new FuncMethod(Name, func));
 
-    public LinkedMethodsReturnValue Func<T1, T2, TReturn>(Func<T1, T2, TReturn> func, IParameter localParameter = null) =>
-      Add(new FuncMethod(Name, func, localParameter));
+    public LinkedMethodsReturnValue Func<T1, T2, TReturn>(Func<T1, T2, TReturn> func) =>
+      Add(new FuncMethod(Name, func));
 
-    public override void InvokeFindInstance(IInstanceMap instanceMap, ref object returnValue,
+    public override void Invoke(object localInstance, ref object returnValue,
       object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
     {
       if (parameters == null || methodInfo == null)
         throw new NullReferenceException();
       returnValue = methodInfo.GetDefaultReturnValue();
       (Type, string)[] parameterTypeAndNames = methodInfo.GetParameterTypeAndNames();
-      foreach (Method method in methodList)
-        if (!InvokeFirstMatch(instanceMap, method, ref returnValue, parameters, parameterTypeAndNames, genericArguments, methodInfo))
+      foreach (MethodDefinition method in methodList)
+        if (!InvokeFirstMatch(localInstance, method, ref returnValue, parameters, parameterTypeAndNames, genericArguments, methodInfo))
           break;
     }
 
-    private bool InvokeFirstMatch(IInstanceMap instanceMap, Method method, ref object returnValue, object[] parameterValues,
+    private bool InvokeFirstMatch(object localInstance, MethodDefinition method, ref object returnValue, object[] parameterValues,
       (Type, string)[] parameterTypeAndNames,
       Type[] genericArguments, MethodInfo methodInfo)
     {
@@ -118,21 +125,18 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       IMethodMatcher matcher = method.MethodMatcher;
       if (matcher.IsMatchCheck(parameterTypeAndNames, genericArguments, returnType))
       {
-        method.InvokeFindInstance(instanceMap, ref returnValue, parameterValues, genericArguments, methodInfo);
+        method.Invoke(localInstance, ref returnValue, parameterValues, genericArguments, methodInfo);
         return true;
       }
       if (!matcher.IsMatchToFlowControlled(parameterTypeAndNames, genericArguments, returnType))
         throw new MissingMethodException();
       object[] newParameters = parameterValues.Append(returnValue).ToArray();
       object flowResult = true;
-      method.InvokeFindInstance(instanceMap, ref flowResult, newParameters, genericArguments, methodInfo);
+      method.Invoke(localInstance, ref flowResult, newParameters, genericArguments, methodInfo);
       for (int i = 0; i < parameterValues.Length; i++)
         parameterValues[i] = newParameters[i]; // In case of ref or out variables
       returnValue = newParameters.Last();
       return (bool)flowResult;
     }
-
-    public IEnumerable<TChild> Get<TChild>() =>
-      objectProviderHandler.Get<TChild>();
   }
 }

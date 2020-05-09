@@ -17,15 +17,15 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
         throw new InvalidCastException();
     }
 
-    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
+    public bool InvokeGetter(object master, ref T returnValue)
     {
       if (valueSet)
         return true;
-      returnValue = (T) instanceMap?.GetLocal(parameter);
+      //returnValue = (T) master?.GetLocal(parameter);
       return false;
     }
 
-    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
+    public bool InvokeSetter(object instanceMap, T newValue)
     {
       valueSet = true;
       return true;

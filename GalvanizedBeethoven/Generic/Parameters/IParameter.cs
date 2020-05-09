@@ -1,9 +1,11 @@
-﻿using System;
+﻿using GalvanizedSoftware.Beethoven.Core;
+using System;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Parameters
 {
-  public interface IParameter : IEquatable<IParameter>, IEquatable<(Type, string)>
+  public interface IParameter
   {
     Type Type { get; }
+    string Name { get; }
   }
 }

@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core.Interceptors;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Parameters;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  public abstract class PropertyDefinition : IInterceptorProvider
+  public abstract class PropertyDefinition : IDefinition, IEnumerable<IDefinition>
   {
     private static readonly Type type = typeof(PropertyDefinition);
     private static readonly MethodInfo createGenericMethodInfo = type
@@ -29,20 +31,11 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     public string Name { get; }
 
     public Type PropertyType { get; }
+    internal abstract object[] Definitions { get; }
+
     public IParameter Parameter { get; }
 
-    public IEnumerable<InterceptorMap> GetInterceptorMaps<T>()
-    {
-      PropertyInfo propertyInfo = typeof(T).GetProperty(Name);
-      if (propertyInfo == null)
-        yield break;
-      yield return new InterceptorMap(propertyInfo.GetMethod, new PropertyGetInterceptor(this));
-      yield return new InterceptorMap(propertyInfo.SetMethod, new PropertySetInterceptor(this));
-    }
-
-    internal abstract object InvokeGet(InstanceMap instanceMap);
-
-    internal abstract void InvokeSet(InstanceMap instanceMap, object newValue);
+    public int SortOrder => 1;
 
     public static PropertyDefinition Create(Type propertyType, string name, IEnumerable<PropertyDefinition> propertyDefinitions)
     {
@@ -67,5 +60,25 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
                name == "set_" + Name &&
                methodInfo.GetParametersSafe().SingleOrDefault()?.ParameterType == PropertyType);
     }
+
+    public bool CanGenerate(MemberInfo memberInfo) =>
+      memberInfo switch
+      {
+        PropertyInfo propertyInfo =>
+            propertyInfo.Name == Name && propertyInfo.PropertyType == PropertyType,
+        _ => false,
+      };
+
+    public ICodeGenerator GetGenerator() =>
+      new PropertyGenerator(this);
+
+    public IEnumerator<IDefinition> GetEnumerator()
+    {
+      if (Parameter is IDefinition definition)
+        yield return definition;
+      yield return this;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
   }
 }

@@ -5,10 +5,12 @@ using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class MappedDefaultMethod : Method
+  public class MappedDefaultMethod : MethodDefinition
   {
     private readonly MethodInfo methodInfo;
     private readonly Func<MethodInfo, object[], object> mainFunc;
+
+    public override int SortOrder => 2;
 
     public MappedDefaultMethod(MethodInfo methodInfo, Func<MethodInfo, object[], object> mainFunc) :
       base(methodInfo?.Name, new MatchMethodInfoExact(methodInfo))

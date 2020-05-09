@@ -4,11 +4,11 @@ using GalvanizedSoftware.Beethoven.Core.Methods;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class InvertResultMethod : Method
+  public class InvertResultMethod : MethodDefinition
   {
-    private readonly Method method;
+    private readonly MethodDefinition method;
 
-    public InvertResultMethod(Method method) : 
+    public InvertResultMethod(MethodDefinition method) : 
       base(method?.Name, method?.MethodMatcher)
     {
       this.method = method;

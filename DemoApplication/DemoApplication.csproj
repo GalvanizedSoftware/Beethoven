@@ -51,6 +51,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Basic\PersonFactory2.cs" />
+    <Compile Include="Basic\TestClass.cs" />
     <Compile Include="ChainOfResponsibility2\ApproverLink.cs" />
     <Compile Include="ChainOfResponsibility2\ChainView.xaml.cs">
       <DependentUpon>ChainView.xaml</DependentUpon>

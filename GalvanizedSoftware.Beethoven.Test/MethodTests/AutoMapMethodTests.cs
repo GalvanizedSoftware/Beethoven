@@ -57,22 +57,6 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     }
 
     [TestMethod]
-    public void MethodWithParameters3()
-    {
-      IParameter parameter = AutoParameter.Create(() =>
-      {
-        ITestMethods fake = A.Fake<ITestMethods>();
-        A.CallTo(() => fake.WithParameters("123", "abc", 5)).Returns(42);
-        return fake;
-      });
-      TypeDefinition<ITestMethods> typeDefinition =
-        new TypeDefinition<ITestMethods>(
-          new DefinitionImport(parameter));
-      ITestMethods test = typeDefinition.Create();
-      Assert.AreEqual(42, test.WithParameters("123", "abc", 5));
-    }
-
-    [TestMethod]
     public void MethodOutAndRef()
     {
       OutAndRefImplementation obj = new OutAndRefImplementation();
