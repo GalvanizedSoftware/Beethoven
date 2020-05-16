@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
-using GalvanizedSoftware.Beethoven.Core.Events;
+using GalvanizedSoftware.Beethoven.Generic.Events;
 
 namespace GalvanizedSoftware.Beethoven.Test.EventTests
 {
@@ -46,7 +46,7 @@ namespace GalvanizedSoftware.Beethoven.Test.EventTests
     public void EventSimpleError()
     {
       BeethovenFactory factory = new BeethovenFactory();
-      ITestEvents test = factory.Generate<ITestEvents>(new DefaultSimpleEvent());
+      ITestEvents test = factory.Generate<ITestEvents>(new DefaultEvent());
       Action<int> trigger = 
         new EventTrigger(test, nameof(ITestEvents.Simple)).ToAction<int>();
       bool simpleEventCalled = false;

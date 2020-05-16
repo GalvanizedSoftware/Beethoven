@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
     {
       GeneratorContext localContext = generatorContext.CreateLocal(dummyFieldInfo);
       return definitions
-        .Select(definition => definition.GetGenerator())
+        .Select(definition => definition.GetGenerator(generatorContext))
         .SelectMany(generator => generator.Generate(localContext));
     }
   }

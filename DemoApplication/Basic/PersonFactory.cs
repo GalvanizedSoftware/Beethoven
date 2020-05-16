@@ -1,6 +1,6 @@
-﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events;
-using GalvanizedSoftware.Beethoven.Core.Properties;
+﻿using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic.Events;
 using System.ComponentModel;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.Basic

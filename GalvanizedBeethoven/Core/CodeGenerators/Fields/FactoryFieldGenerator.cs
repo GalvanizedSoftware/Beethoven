@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
-  public class FactoryFieldGenerator : ICodeGenerator<ConstructorInfo>
+  internal class FactoryFieldGenerator : ICodeGenerator<ConstructorInfo>
   {
     private readonly Type type;
     private readonly string fieldName;

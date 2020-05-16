@@ -20,6 +20,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public bool CanGenerate(MemberInfo memberInfo) =>
       memberInfo is ConstructorInfo;
 
-    public ICodeGenerator GetGenerator() => generator;
+    public ICodeGenerator GetGenerator(GeneratorContext _) => generator;
   }
 }

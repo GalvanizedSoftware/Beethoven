@@ -11,7 +11,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
-  public class MethodGenerator : ICodeGenerator
+  internal class MethodGenerator : ICodeGenerator
   {
     public MethodGenerator(MethodDefinition methodDefinition)
     {

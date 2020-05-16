@@ -4,7 +4,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
 {
-  public class MatchFlowFunc : IMethodMatcher
+  internal class MatchFlowFunc : IMethodMatcher
   {
     private readonly Type[] parameterTypes;
 

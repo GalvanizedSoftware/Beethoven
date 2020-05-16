@@ -10,21 +10,21 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
   {
     private static readonly ConstructorInfo dummyConstructorInfo = typeof(object).GetConstructor(Array.Empty<Type>());
     private readonly string className;
-    private ICodeGenerator[] codeGenerators;
+    private readonly IDefinition[] definitions;
 
     public ConstructorGenerator(string className, IEnumerable<IDefinition> definitions)
     {
       this.className = className;
-      codeGenerators = definitions
+      this.definitions = definitions
         .Where(definition => definition.CanGenerate(dummyConstructorInfo))
-        .Select(generator => generator.GetGenerator())
         .ToArray();
     }
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
       GeneratorContext localGeneratorContext = generatorContext.CreateLocal(dummyConstructorInfo);
-      string[][] codeElements = codeGenerators
+      string[][] codeElements = definitions
+        .Select(generator => generator.GetGenerator(localGeneratorContext))
         .Select(generator => generator.Generate(localGeneratorContext).ToArray())
         .Where(element => element.Length == 2)
         .ToArray();

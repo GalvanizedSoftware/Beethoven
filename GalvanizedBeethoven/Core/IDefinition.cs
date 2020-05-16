@@ -7,6 +7,6 @@ namespace GalvanizedSoftware.Beethoven.Core
   {
     int SortOrder { get; }
     bool CanGenerate(MemberInfo memberInfo);
-    ICodeGenerator GetGenerator();
+    ICodeGenerator GetGenerator(GeneratorContext generatorContext);
   }
 }

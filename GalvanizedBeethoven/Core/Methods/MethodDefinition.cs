@@ -30,7 +30,6 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
       _ => false,
     };
 
-    public ICodeGenerator GetGenerator() =>
-      null;
+    public ICodeGenerator GetGenerator(GeneratorContext _) => null;
   }
 }

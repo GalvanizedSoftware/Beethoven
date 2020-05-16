@@ -4,7 +4,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
-  public class FieldMappedMethodGenerator : ICodeGenerator
+  internal class FieldMappedMethodGenerator : ICodeGenerator
   {
     private readonly string fieldName;
 

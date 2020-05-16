@@ -38,17 +38,17 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
     private IEnumerable<string> GenerateDeclaration(GeneratorContext generatorContext) =>
       membersInfos
         .OfType<EventInfo>()
-        .SelectMany(eventInfo => GenerateInnerEventCode(
-          generatorContext.CreateLocal(eventInfo), () => DefaultSimpleEvent.Create(eventInfo)));
+        .SelectMany(eventInfo => GenerateInnerEventCode(generatorContext, eventInfo));
 
-    private IEnumerable<string> GenerateInnerEventCode(GeneratorContext generatorContext,
-      Func<ICodeGenerator> defaultCreator)
+    private IEnumerable<string> GenerateInnerEventCode(GeneratorContext generatorContext, EventInfo eventInfo)
     {
+      GeneratorContext localContext = generatorContext.CreateLocal(eventInfo);
       ICodeGenerator codeGenerator = definitions
-        .Where(definition => definition.CanGenerate(generatorContext.MemberInfo))
-        .Select(generator => generator.GetGenerator())
-        .FirstOrDefault() ?? defaultCreator();
-      foreach (string item in codeGenerator?.Generate(generatorContext))
+        .Where(definition => definition.CanGenerate(eventInfo))
+        .Append(new DefaultEvent())
+        .FirstOrDefault()
+        .GetGenerator(localContext);
+      foreach (string item in codeGenerator?.Generate(localContext))
         yield return item;
     }
 

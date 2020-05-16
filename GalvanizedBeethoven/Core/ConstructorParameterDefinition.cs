@@ -22,6 +22,6 @@ namespace GalvanizedSoftware.Beethoven.Core.Fields
 
     public bool CanGenerate(MemberInfo memberInfo) => checkerFunc(memberInfo);
 
-    public ICodeGenerator GetGenerator() => generator;
+    public ICodeGenerator GetGenerator(GeneratorContext _) => generator;
   }
 }

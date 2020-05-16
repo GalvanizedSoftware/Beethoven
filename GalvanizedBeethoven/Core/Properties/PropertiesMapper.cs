@@ -11,7 +11,7 @@ using static GalvanizedSoftware.Beethoven.Core.Constants;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  public class PropertiesMapper : IEnumerable<PropertyDefinition>, IEnumerable<ICodeGenerator>
+  internal class PropertiesMapper : IEnumerable<PropertyDefinition>, IEnumerable<ICodeGenerator>
   {
     private readonly PropertyDefinition[] propertyDefinitions;
     private static readonly MethodInfo createGenericMethodInfo =

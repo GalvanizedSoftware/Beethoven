@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
-  public class GeneralSignatureChecker
+  internal class GeneralSignatureChecker
   {
     private readonly MethodInfo[] interfaceMethods;
     private readonly MethodInfo[] classMethods;

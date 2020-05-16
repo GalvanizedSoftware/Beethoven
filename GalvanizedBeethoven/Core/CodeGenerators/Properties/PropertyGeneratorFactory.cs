@@ -11,10 +11,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
   {
     private readonly MemberInfo memberInfo;
     private readonly IDefinition[] definitions;
+    private readonly GeneratorContext generatorContext;
 
-    public PropertyGeneratorFactory(MemberInfo memberInfo, IEnumerable<IDefinition> definitions)
+    public PropertyGeneratorFactory(GeneratorContext generatorContext, IEnumerable<IDefinition> definitions)
     {
-      this.memberInfo = memberInfo;
+      this.generatorContext = generatorContext;
+      memberInfo = this.generatorContext.MemberInfo;
       this.definitions = definitions
         .Where(definition => definition.CanGenerate(memberInfo))
         .ToArray();
@@ -27,12 +29,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       _ => GetMultiGenerator()
     };
 
-    private static ICodeGenerator GetSingleGenerator(IDefinition definition) =>
+    private ICodeGenerator GetSingleGenerator(IDefinition definition) =>
       definition switch
       {
         PropertyDefinition propertyDefinition => new PropertyGenerator(propertyDefinition),
         DefaultProperty defaultProperty => defaultProperty,
-        IDefinition otherDefinition => otherDefinition.GetGenerator(),
+        IDefinition otherDefinition => otherDefinition.GetGenerator(generatorContext),
         _ => throw new MissingMethodException()
       };
 

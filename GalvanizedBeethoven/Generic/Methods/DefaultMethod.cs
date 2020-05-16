@@ -41,7 +41,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       return methodInfo == null ?
         Enumerable.Empty<string>() :
         (new MappedDefaultMethod(methodInfo, mainFunc))
-          .GetGenerator()
+          .GetGenerator(generatorContext)
           .Generate(generatorContext);
     }
 

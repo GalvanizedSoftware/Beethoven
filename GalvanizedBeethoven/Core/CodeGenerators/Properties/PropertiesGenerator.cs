@@ -20,8 +20,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext) =>
       propertyInfos
-        .SelectMany(propertyInfo => new PropertyGeneratorFactory(propertyInfo, definitions)
+        .Select(propertyInfo => generatorContext.CreateLocal(propertyInfo))
+        .SelectMany(localContext => new PropertyGeneratorFactory(localContext, definitions)
           .Create()
-          .Generate(generatorContext.CreateLocal(propertyInfo)));
+          .Generate(localContext));
   }
 }

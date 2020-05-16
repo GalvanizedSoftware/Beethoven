@@ -1,9 +1,9 @@
-﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events;
-using GalvanizedSoftware.Beethoven.Core.Properties;
+﻿using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Test.VariousTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System.ComponentModel;
+using GalvanizedSoftware.Beethoven.Generic.Events;
 
 namespace GalvanizedSoftware.Beethoven.Test.VariousTests
 {

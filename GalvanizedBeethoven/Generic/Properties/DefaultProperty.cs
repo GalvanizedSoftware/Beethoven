@@ -91,11 +91,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       return propertyInfo == null ?
         Enumerable.Empty<string>() :
         Create(propertyInfo.PropertyType, propertyInfo.Name)
-        .GetGenerator()
+        .GetGenerator(generatorContext)
         .Generate(generatorContext);
     }
 
-    public ICodeGenerator GetGenerator() =>
+    public ICodeGenerator GetGenerator(GeneratorContext _) =>
       this;
   }
 }

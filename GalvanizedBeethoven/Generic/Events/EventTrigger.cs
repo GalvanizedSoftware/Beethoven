@@ -1,7 +1,7 @@
-﻿using GalvanizedSoftware.Beethoven.Generic.Events;
+﻿using GalvanizedSoftware.Beethoven.Core;
 using System;
 
-namespace GalvanizedSoftware.Beethoven.Core.Events
+namespace GalvanizedSoftware.Beethoven.Generic.Events
 {
   public class EventTrigger : IEventTrigger
   {

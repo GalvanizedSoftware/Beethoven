@@ -4,7 +4,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
 {
-  public class MatchMethodInfoExact: IMethodMatcher
+  internal class MatchMethodInfoExact: IMethodMatcher
   {
     private readonly MethodInfo methodInfo;
 

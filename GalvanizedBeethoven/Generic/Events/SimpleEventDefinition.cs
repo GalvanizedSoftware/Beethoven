@@ -1,6 +1,9 @@
-﻿using System.Reflection;
+﻿using GalvanizedSoftware.Beethoven.Core;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events;
+using System.Reflection;
 
-namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
+namespace GalvanizedSoftware.Beethoven.Generic.Events
 {
   public class SimpleEventDefinition<T> : IDefinition
   {
@@ -20,6 +23,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
         _ => false,
       };
 
-    public ICodeGenerator GetGenerator() => new SimpleEventGenerator<T>(name);
+    public ICodeGenerator GetGenerator(GeneratorContext _) => new SimpleEventGenerator<T>(name);
   }
 }

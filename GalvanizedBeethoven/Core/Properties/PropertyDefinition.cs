@@ -72,7 +72,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
         _ => false,
       };
 
-    public ICodeGenerator GetGenerator() =>
+    public ICodeGenerator GetGenerator(GeneratorContext _) =>
       new PropertyGenerator(this);
 
     public IEnumerator<IDefinition> GetEnumerator()

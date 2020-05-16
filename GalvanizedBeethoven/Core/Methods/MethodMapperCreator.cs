@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-  public class MethodMapperCreator<TMain, TChild> : IEnumerable<MethodDefinition> where TMain : class
+  internal class MethodMapperCreator<TMain, TChild> : IEnumerable<MethodDefinition> where TMain : class
   {
     private readonly Func<TMain, TChild> creatorFunc;
     private readonly List<MappedMethodDelayed> methods;

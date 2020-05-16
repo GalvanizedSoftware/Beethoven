@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 {
-  public sealed class PropertyNotImplementedGenerator : ICodeGenerator
+  internal sealed class PropertyNotImplementedGenerator : ICodeGenerator
   {
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
