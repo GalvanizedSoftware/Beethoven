@@ -4,11 +4,10 @@ using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Core;
 using System.Linq;
 using System.Collections;
-using GalvanizedSoftware.Beethoven.Generic.Methods;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
-  public class FieldMappedProperties : IEnumerable<IDefinition>
+  public class FieldMappedProperties : IDefinitions
   {
     private readonly string fieldName;
     private Type mainType;
@@ -19,17 +18,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.mainType = mainType;
     }
 
-    public IEnumerator<IDefinition> GetEnumerator()
-    {
-      IEnumerable<System.Reflection.PropertyInfo> enumerable = mainType
-              .GetAllTypes()
-              .SelectMany(type => type.GetProperties());
-      IEnumerable<FieldMappedProperty> enumerable1 = enumerable
+    public IEnumerable<IDefinition> GetDefinitions() =>
+      mainType
+        .GetAllTypes()
+        .SelectMany(type => type.GetProperties())
         .Select(propertyInfo => new FieldMappedProperty(propertyInfo, fieldName))
         .ToArray();
-      return enumerable1.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
   }
 }

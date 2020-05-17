@@ -10,14 +10,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 {
   internal class PropertyGenerator : ICodeGenerator
   {
-    private readonly string name;
     private readonly object[] definitions;
     private readonly string invokerTypeName;
 
     internal PropertyGenerator(PropertyDefinition propertyDefinition)
     {
-      this.name = propertyDefinition.Name;
-      this.definitions = propertyDefinition.Definitions;
+      definitions = propertyDefinition.Definitions;
       invokerTypeName = typeof(PropertyInvoker<>)
         .MakeGenericType(propertyDefinition.PropertyType)
         .GetFullName();
@@ -25,8 +23,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
-      GeneratorContext localContext = generatorContext.CreateLocal(name);
-      PropertyInfo propertyInfo = localContext.MemberInfo as PropertyInfo;
+      PropertyInfo propertyInfo = generatorContext.MemberInfo as PropertyInfo;
       Type propertyType = propertyInfo.PropertyType;
       string typeName = propertyType.FullName;
       string propertyName = propertyInfo.Name;

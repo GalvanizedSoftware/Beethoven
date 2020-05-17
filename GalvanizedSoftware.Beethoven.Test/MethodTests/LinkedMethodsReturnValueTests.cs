@@ -1,5 +1,5 @@
 ﻿using System;
-using GalvanizedSoftware.Beethoven.Core.Fields;
+using GalvanizedSoftware.Beethoven.Generic.Fields;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;

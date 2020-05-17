@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Core;
 using System.Linq;
-using System.Collections;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class FieldMappedMethods : IEnumerable<IDefinition>
+  public class FieldMappedMethods : IDefinitions
   {
     private readonly string fieldName;
     private Type mainType;
@@ -18,12 +17,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       this.mainType = mainType;
     }
 
-    public IEnumerator<IDefinition> GetEnumerator() =>
+    public IEnumerable<IDefinition> GetDefinitions() =>
       mainType
         .GetAllMethodsAndInherited()
-        .Select(methodInfo => new FieldMappedMethod(methodInfo, fieldName))
-        .GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        .Select(methodInfo => new FieldMappedMethod(methodInfo, fieldName));
   }
 }

@@ -7,10 +7,11 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using static GalvanizedSoftware.Beethoven.Core.Fields.GeneratorWrapperDefinition;
+using GalvanizedSoftware.Beethoven.Core;
 
-namespace GalvanizedSoftware.Beethoven.Core.Fields
+namespace GalvanizedSoftware.Beethoven.Generic.Fields
 {
-  public class FieldDefinition : IEnumerable<IDefinition>
+  public class FieldDefinition : IDefinitions
   {
     private readonly Type type;
     private readonly string fieldName;
@@ -29,7 +30,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Fields
       return new FieldDefinition(type, fieldName, definitionFactoryFunc);
     }
 
-    private FieldDefinition(Type type, string fieldName, 
+    private FieldDefinition(Type type, string fieldName,
         Func<FieldDefinition, IEnumerable<IDefinition>> definitionFactoryFunc)
     {
       this.type = type;
@@ -37,12 +38,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Fields
       definitions = definitionFactoryFunc(this).ToArray();
     }
 
-    public ImportedFieldDefinition ImportInMain() =>
-      new ImportedFieldDefinition(fieldName, this);
-
-    public IEnumerator<IDefinition> GetEnumerator() => definitions.GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public IDefinitions ImportInMain() =>
+      new ImportedFieldDefinition(this, fieldName);
 
     public IEnumerable<IDefinition> GetConstructorParameterDefinitions<T>()
     {
@@ -52,7 +49,9 @@ namespace GalvanizedSoftware.Beethoven.Core.Fields
 
     public IEnumerable<IDefinition> GetFactoryDefinitions<T>(Func<T> factoryFunc)
     {
-      yield return Create(new FactoryFieldGenerator(type, fieldName, ()=> factoryFunc()));
+      yield return Create(new FactoryFieldGenerator(type, fieldName, () => factoryFunc()));
     }
+
+    public IEnumerable<IDefinition> GetDefinitions() => definitions;
   }
 }

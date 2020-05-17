@@ -19,13 +19,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
       MethodIndex = methodIndex;
     }
 
-    public GeneratorContext CreateLocal(string memberName, int index = -1) =>
-      new GeneratorContext(this, InterfaceType.FindMember(memberName, index));
-
     public string GeneratedClassName { get; }
     public Type InterfaceType { get; }
     public MemberInfo MemberInfo { get; }
-
     public int? MethodIndex { get; }
 
     internal GeneratorContext CreateLocal(MemberInfo memberInfo, int? methodIndex = null) =>

@@ -9,7 +9,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  public abstract class PropertyDefinition : IDefinition, IEnumerable<IDefinition>
+  public abstract class PropertyDefinition : IDefinition, IDefinitions
   {
     private static readonly Type type = typeof(PropertyDefinition);
     private static readonly MethodInfo createGenericMethodInfo = type
@@ -75,13 +75,11 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     public ICodeGenerator GetGenerator(GeneratorContext _) =>
       new PropertyGenerator(this);
 
-    public IEnumerator<IDefinition> GetEnumerator()
+    public IEnumerable<IDefinition> GetDefinitions()
     {
       foreach (IDefinition definition in additionalDefinitions)
         yield return definition;
       yield return this;
     }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
   }
 }

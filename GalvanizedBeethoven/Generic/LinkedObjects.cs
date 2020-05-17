@@ -11,7 +11,7 @@ using GalvanizedSoftware.Beethoven.Generic.Methods;
 
 namespace GalvanizedSoftware.Beethoven.Generic
 {
-  public class LinkedObjects : IEnumerable<IDefinition>, IMainTypeUser, IBindingParent
+  public class LinkedObjects : IDefinitions, IMainTypeUser, IBindingParent
   {
     private readonly Dictionary<object, MethodInfo[]> implementationMethods;
     private readonly ExactMethodComparer methodComparer = new ExactMethodComparer();
@@ -110,15 +110,13 @@ namespace GalvanizedSoftware.Beethoven.Generic
         .ToArray();
     }
 
-    public IEnumerator<IDefinition> GetEnumerator()
+    public IEnumerable<IDefinition> GetDefinitions()
     {
       foreach (PropertyDefinition property in GetProperties())
         yield return property;
       foreach (MethodDefinition method in GetMethods())
         yield return method;
     }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     public void Set(Type mainType) =>
       this.mainType = mainType;

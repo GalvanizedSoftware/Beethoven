@@ -11,7 +11,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class DefaultMethod : IEnumerable<IDefinition>, IMainTypeUser
+  public class DefaultMethod : IDefinitions, IMainTypeUser
   {
     private readonly Func<MethodInfo, object[], object> mainFunc;
     private Type mainType;
@@ -48,12 +48,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public void Set(Type mainType) =>
       this.mainType = mainType;
 
-    public IEnumerator<IDefinition> GetEnumerator() => 
+    public IEnumerable<IDefinition> GetDefinitions() => 
       mainType
         .GetAllMethodsAndInherited()
-        .Select(methodInfo => new MappedDefaultMethod(methodInfo, mainFunc))
-        .GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        .Select(methodInfo => new MappedDefaultMethod(methodInfo, mainFunc));
   }
 }

@@ -6,7 +6,7 @@ using GalvanizedSoftware.Beethoven.Generic;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-  internal class MethodsMapper<T> : IEnumerable<MethodDefinition>, IEnumerable<IDefinition>
+  internal class MethodsMapper<T> : IEnumerable<MethodDefinition>, IDefinitions
   {
 
     private static readonly MethodsMapperEngine methodsMapperEngine = new MethodsMapperEngine(typeof(T));
@@ -20,10 +20,9 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
         .ToArray();
     }
 
-    public IEnumerator<MethodDefinition> GetEnumerator() => methods.AsEnumerable().GetEnumerator();
+    public IEnumerable<IDefinition> GetDefinitions() => methods.OfType<IDefinition>();
 
-    IEnumerator<IDefinition> IEnumerable<IDefinition>.GetEnumerator() =>
-      methods.OfType<IDefinition>().GetEnumerator();
+    public IEnumerator<MethodDefinition> GetEnumerator() => methods.AsEnumerable().GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
   }

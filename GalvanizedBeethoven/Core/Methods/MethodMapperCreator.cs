@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-  internal class MethodMapperCreator<TMain, TChild> : IEnumerable<MethodDefinition> where TMain : class
+  internal class MethodMapperCreator<TMain, TChild> : IDefinitions where TMain : class
   {
     private readonly Func<TMain, TChild> creatorFunc;
     private readonly List<MappedMethodDelayed> methods;
@@ -21,9 +21,6 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
           .Select(methodInfo => new MappedMethodDelayed(methodInfo, (target) => creatorFunc(target as TMain))));
     }
 
-    public IEnumerator<MethodDefinition> GetEnumerator() =>
-      methods.OfType<MethodDefinition>().GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public IEnumerable<IDefinition> GetDefinitions() => methods;
   }
 }
