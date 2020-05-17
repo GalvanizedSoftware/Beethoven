@@ -14,14 +14,14 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       properties = type.GetProperties(Constants.ResolveFlags).ToDictionary(info => info.Name, info => info.PropertyType);
     }
 
-    public static void CheckSignatures(IEnumerable<object> wrappers)
+    public static void CheckSignatures(IDefinitions wrappers)
     {
       new PropertiesSignatureChecker<T>().CheckSignaturesInternal(wrappers);
     }
 
-    private void CheckSignaturesInternal(IEnumerable<object> wrappers)
+    private void CheckSignaturesInternal(IDefinitions wrappers)
     {
-      CheckProperty(wrappers.OfType<PropertyDefinition>().ToArray());
+      CheckProperty(wrappers.GetDefinitions().OfType<PropertyDefinition>().ToArray());
     }
 
     private void CheckProperty(PropertyDefinition[] propertyWrappers)

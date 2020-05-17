@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
-  internal class WrapperGenerator<T> : IEnumerable<IDefinition> where T : class
+  internal class WrapperGenerator<T> : IDefinitions where T : class
   {
     private readonly IEnumerable<IDefinition> wrappers;
 
@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       PropertiesSignatureChecker<T>.CheckSignatures(this);
     }
 
-    public IEnumerator<IDefinition> GetEnumerator() => wrappers.GetEnumerator();
+    public IEnumerable<IDefinition> GetDefinitions() => wrappers;
 
     internal static IEnumerable<object> FilterNonDefinitions(object instance)
     {
@@ -36,12 +36,9 @@ namespace GalvanizedSoftware.Beethoven.Core
       }
     }
 
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
     internal static IEnumerable<IDefinition> GetDefinitionWrappers(object definition) =>
       Array.Empty<IDefinition>()
         .Concat(new PropertiesMapper(typeof(T), definition))
         .Concat(new MethodsMapper<T>(definition));
-
   }
 }
