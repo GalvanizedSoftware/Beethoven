@@ -47,7 +47,9 @@ namespace GalvanizedSoftware.Beethoven
       Type type = typeof(T);
       partDefinitions.OfType<IMainTypeUser>().SetAll(type);
 
-      IDefinition[] wrapperDefinitions = new WrapperGenerator<T>(partDefinitions).ToArray();
+      IDefinition[] wrapperDefinitions = new WrapperGenerator<T>(partDefinitions)
+        .GetDefinitions()
+        .ToArray();
       IEnumerable<object> allPartDefinitions = partDefinitions
         .Concat(wrapperDefinitions);
       IDefinition[] definitions = allPartDefinitions
