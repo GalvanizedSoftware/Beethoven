@@ -2,7 +2,7 @@
 using GalvanizedSoftware.Beethoven.Core.Events;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 
-namespace GalvanizedSoftware.Beethoven.MVVM.Properties
+namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   internal class NotifyChanged<T> :
     IPropertyDefinition<T>

@@ -1,7 +1,6 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
-using GalvanizedSoftware.Beethoven.MVVM.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
