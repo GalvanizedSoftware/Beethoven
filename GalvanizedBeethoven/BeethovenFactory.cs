@@ -47,11 +47,11 @@ namespace GalvanizedSoftware.Beethoven
       Type type = typeof(T);
       partDefinitions.OfType<IMainTypeUser>().SetAll(type);
 
-      IDefinition[] wrapperDefinitions = new WrapperGenerator<T>(partDefinitions)
-        .GetDefinitions()
+      object[] allPartDefinitions = partDefinitions
+        .Concat(
+          new WrapperGenerator<T>(partDefinitions)
+          .GetDefinitions())
         .ToArray();
-      IEnumerable<object> allPartDefinitions = partDefinitions
-        .Concat(wrapperDefinitions);
       IDefinition[] definitions = allPartDefinitions
         .GetAllDefinitions();
       string className = $"{type.GetFormattedName()}Implementation";
@@ -60,9 +60,8 @@ namespace GalvanizedSoftware.Beethoven
 
       IEnumerable<Assembly> assemblyCache = new AssemblyCache<T>(callingAssembly);
       Compiler compiler = new Compiler(code, assemblyCache);
-      return new CompiledTypeDefinition<T>(
-        compiler.GenerateAssembly().GetType($"{type.Namespace}.{className}"),
-        new BindingParents(allPartDefinitions));
+      Type compiledType = compiler.GenerateAssembly().GetType($"{type.Namespace}.{className}");
+      return new CompiledTypeDefinition<T>(compiledType, new BindingParents(allPartDefinitions));
     }
 
     private IEnumerable<ICodeGenerator> GetAllCodeGenerators(object part) =>
