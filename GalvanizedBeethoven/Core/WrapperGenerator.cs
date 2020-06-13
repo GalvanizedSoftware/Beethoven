@@ -14,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     internal WrapperGenerator(object[] partDefinitions)
     {
       wrappers = partDefinitions
-        .SelectMany(definition => FilterNonDefinitions(definition))
+        .SelectMany(FilterNonDefinitions)
         .SelectMany(GetDefinitionWrappers)
         .ToArray();
       PropertiesSignatureChecker<T>.CheckSignatures(this);
