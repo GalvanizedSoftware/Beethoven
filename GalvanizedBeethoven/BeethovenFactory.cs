@@ -22,7 +22,7 @@ namespace GalvanizedSoftware.Beethoven
       GeneralPartDefinitions = generalPartDefinitions;
     }
 
-    public IEnumerable<object> GeneralPartDefinitions { get; set; }
+    public IEnumerable<object> GeneralPartDefinitions { get; }
 
     public object Generate(Type type, params object[] partDefinitions) =>
       generateMethodInfo

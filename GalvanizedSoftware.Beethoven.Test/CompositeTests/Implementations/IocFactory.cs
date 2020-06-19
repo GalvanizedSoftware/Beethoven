@@ -15,15 +15,10 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests.Implementations
     public IocFactory(IUnityContainer container)
     {
       IValueLookup lookup = new CompositeValueLookup(new InterfaceFactoryValueLookup((type, name) => container.Resolve(type)));
-      beethovenFactory = new BeethovenFactory
-      {
-        GeneralPartDefinitions = new object[]
-        {
-          new DefaultProperty()
-            .ValueLookup(lookup)
-            .SetterGetter()
-        }
-      };
+      beethovenFactory = new BeethovenFactory(
+        new DefaultProperty()
+          .ValueLookup(lookup)
+          .SetterGetter());
       container.RegisterFactory<ICompany>(CreateInstance);
       container.RegisterFactory<ICompanyInformation>(CreateInformationInstance);
     }
