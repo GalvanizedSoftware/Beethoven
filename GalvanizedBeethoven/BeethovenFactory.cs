@@ -1,9 +1,6 @@
 ﻿using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
-using GalvanizedSoftware.Beethoven.Extensions;
 using Microsoft.CodeAnalysis;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using static System.Reflection.Assembly;
@@ -16,7 +13,8 @@ namespace GalvanizedSoftware.Beethoven
       .GetMethods(Constants.ResolveFlags)
       .Where(info => info.Name == nameof(GenerateInternal))
       .First(info => info.IsGenericMethod);
-    private IEnumerable<object> generalPartDefinitions;
+    private Assembly callingAssembly = GetCallingAssembly();
+    private object[] generalPartDefinitions;
 
     public BeethovenFactory(params object[] generalPartDefinitions)
     {
@@ -27,50 +25,26 @@ namespace GalvanizedSoftware.Beethoven
     public object Generate(Type type, params object[] partDefinitions) =>
       generateMethodInfo
         .MakeGenericMethod(type)
-        .Invoke(this, new object[] { GetCallingAssembly(), partDefinitions, Array.Empty<object>() });
+        .Invoke(this, new object[] { partDefinitions, Array.Empty<object>() });
 
     public T Generate<T>(params object[] partDefinitions) where T : class =>
-      CompileInternal<T>(GetCallingAssembly(), partDefinitions).Create();
+      CompileInternal<T>(partDefinitions).Create();
 
     public T Generate<T>(object[] partDefinitions, object[] parameters) where T : class =>
-      CompileInternal<T>(GetCallingAssembly(), partDefinitions).Create(parameters);
+      CompileInternal<T>(partDefinitions).Create(parameters);
 
     public CompiledTypeDefinition<T> Compile<T>(object[] partDefinitions) where T : class =>
-      CompileInternal<T>(GetCallingAssembly(), partDefinitions);
+      CompileInternal<T>(partDefinitions);
 
-    internal T GenerateInternal<T>(Assembly callingAssembly, object[] partDefinitions, object[] parameters) where T : class =>
-      CompileInternal<T>(callingAssembly, partDefinitions).Create(parameters);
+    internal T GenerateInternal<T>(object[] partDefinitions, object[] parameters) where T : class =>
+      CompileInternal<T>(partDefinitions).Create(parameters);
 
-    internal CompiledTypeDefinition<T> CompileInternal<T>(Assembly callingAssembly, object[] partDefinitions) where T : class
-    {
-      partDefinitions = partDefinitions.Concat(generalPartDefinitions).ToArray();
-      Type type = typeof(T);
-      partDefinitions.OfType<IMainTypeUser>().SetAll(type);
+    private CompiledTypeDefinition<T> CompileInternal<T>(object[] partDefinitions) where T : class =>
+      new TypeDefinition<T>(GetPartDefinitions(partDefinitions))
+        .CompileInternal(callingAssembly);
 
-      object[] allPartDefinitions = partDefinitions
-        .Concat(
-          new WrapperGenerator<T>(partDefinitions)
-          .GetDefinitions())
-        .ToArray();
-      IDefinition[] definitions = allPartDefinitions
-        .GetAllDefinitions();
-      string className = $"{type.GetFormattedName()}Implementation";
-      ClassGenerator classGenerator = new ClassGenerator(type, className, definitions);
-      string code = classGenerator.Generate().Format(0);
-
-      IEnumerable<Assembly> assemblyCache = new AssemblyCache<T>(callingAssembly);
-      Compiler compiler = new Compiler(code, assemblyCache);
-      Type compiledType = compiler.GenerateAssembly().GetType($"{type.Namespace}.{className}");
-      return new CompiledTypeDefinition<T>(compiledType, new BindingParents(allPartDefinitions));
-    }
-
-    private IEnumerable<ICodeGenerator> GetAllCodeGenerators(object part) =>
-      part switch
-      {
-        ICodeGenerator codeGenerator => new[] { codeGenerator },
-        IEnumerable<ICodeGenerator> codeGenerators => codeGenerators,
-        _ => Enumerable.Empty<ICodeGenerator>()
-      };
+    private PartDefinitions GetPartDefinitions(object[] partDefinitions) =>
+      new PartDefinitions(partDefinitions).Concat(generalPartDefinitions);
 
     public static bool Implements<TInterface, TClass>() =>
       !new GeneralSignatureChecker(typeof(TInterface), typeof(TClass))
