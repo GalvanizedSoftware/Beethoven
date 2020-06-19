@@ -16,13 +16,13 @@ namespace GalvanizedSoftware.Beethoven
       .GetMethods(Constants.ResolveFlags)
       .Where(info => info.Name == nameof(GenerateInternal))
       .First(info => info.IsGenericMethod);
+    private IEnumerable<object> generalPartDefinitions;
 
     public BeethovenFactory(params object[] generalPartDefinitions)
     {
-      GeneralPartDefinitions = generalPartDefinitions;
+      this.generalPartDefinitions = generalPartDefinitions;
     }
 
-    public IEnumerable<object> GeneralPartDefinitions { get; }
 
     public object Generate(Type type, params object[] partDefinitions) =>
       generateMethodInfo
@@ -43,7 +43,7 @@ namespace GalvanizedSoftware.Beethoven
 
     internal CompiledTypeDefinition<T> CompileInternal<T>(Assembly callingAssembly, object[] partDefinitions) where T : class
     {
-      partDefinitions = partDefinitions.Concat(GeneralPartDefinitions).ToArray();
+      partDefinitions = partDefinitions.Concat(generalPartDefinitions).ToArray();
       Type type = typeof(T);
       partDefinitions.OfType<IMainTypeUser>().SetAll(type);
 
