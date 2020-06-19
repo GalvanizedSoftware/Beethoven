@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 using static System.Reflection.Assembly;
 
 namespace GalvanizedSoftware.Beethoven.Core
@@ -20,7 +22,17 @@ namespace GalvanizedSoftware.Beethoven.Core
     {
       this.code = code;
       this.assemblyCache = assemblyCache;
+      string data = 
+        string.Join(
+          Environment.NewLine,
+          assemblyCache
+            .Select(assembly => assembly.GetName().FullName)) +
+        code;
+      using SHA256 sha = SHA256.Create();
+      Hash = sha.ComputeHash(Encoding.UTF8.GetBytes(data));
     }
+
+    public byte[] Hash { get; }
 
     internal Assembly GenerateAssembly()
     {
