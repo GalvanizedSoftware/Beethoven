@@ -25,16 +25,16 @@ namespace GalvanizedSoftware.Beethoven
     private readonly Type interfaceType;
     private readonly string className;
 
-    public ClassGenerator(Type interfaceType, string className, IDefinition[] definitions)
+    public ClassGenerator(Type interfaceType, string className, string classNamespace, IDefinition[] definitions)
     {
       this.interfaceType = interfaceType;
       this.className = className;
+      this.classNamespace = classNamespace;
       MemberInfo[] membersInfos = interfaceType
         .GetAllTypes()
         .SelectMany(type => type.GetMembers())
         .Where(FilterMemberInfo)
         .ToArray();
-      classNamespace = interfaceType.Namespace;
       constructorGenerator = new ConstructorGenerator(className, definitions);
       fieldsGenerator = new FieldsGenerator(definitions);
       propertiesGenerator = new PropertiesGenerator(membersInfos, definitions);

@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
-  internal class AssemblyCache<T> : IEnumerable<Assembly>
+  internal class AssemblyCache : IEnumerable<Assembly>
   {
     private readonly List<Assembly> analyzingAssemblies = new List<Assembly>();
     private readonly Dictionary<Assembly, Assembly[]> assemblyCache = new Dictionary<Assembly, Assembly[]>();
@@ -15,12 +15,12 @@ namespace GalvanizedSoftware.Beethoven.Core
     private readonly Assembly[] assemblies;
     private readonly Assembly[] domainAssemblies;
 
-    internal AssemblyCache(Assembly callingAssembly)
+    internal AssemblyCache(Assembly mainAssembly, Assembly callingAssembly)
     {
       if (callingAssembly.GetName().Name == "GalvanizedSoftware.Beethoven")
         throw new InvalidOperationException("callingAssembly is GalvanizedSoftware.Beethoven");
       assemblies =
-        new[] { typeof(object).Assembly, typeof(T).Assembly, callingAssembly }
+        (new[] { typeof(object).Assembly, mainAssembly, callingAssembly })
           .Distinct()
           .ToArray();
       domainAssemblies = AppDomain.CurrentDomain.GetAssemblies();

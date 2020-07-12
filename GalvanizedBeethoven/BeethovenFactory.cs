@@ -40,11 +40,8 @@ namespace GalvanizedSoftware.Beethoven
       CompileInternal<T>(partDefinitions).Create(parameters);
 
     private CompiledTypeDefinition<T> CompileInternal<T>(object[] partDefinitions) where T : class =>
-      new TypeDefinition<T>(GetPartDefinitions(partDefinitions))
+      TypeDefinition.Create<T>(partDefinitions, generalPartDefinitions)
         .CompileInternal(callingAssembly);
-
-    private PartDefinitions GetPartDefinitions(object[] partDefinitions) =>
-      new PartDefinitions(partDefinitions).Concat(generalPartDefinitions);
 
     public static bool Implements<TInterface, TClass>() =>
       !new GeneralSignatureChecker(typeof(TInterface), typeof(TClass))

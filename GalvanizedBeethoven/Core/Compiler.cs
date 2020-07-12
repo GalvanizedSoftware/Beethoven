@@ -14,15 +14,14 @@ namespace GalvanizedSoftware.Beethoven.Core
 {
   class Compiler
   {
-    private static int assemblyNumber = 1;
     private readonly string code;
     private readonly IEnumerable<Assembly> assemblyCache;
 
-    public Compiler(string code, IEnumerable<Assembly> assemblyCache)
+    public Compiler(Assembly mainAssembly, Assembly callingAssembly, string[] codeParts)
     {
-      this.code = code;
-      this.assemblyCache = assemblyCache;
-      string data = 
+      this.assemblyCache = new AssemblyCache(mainAssembly, callingAssembly);
+      this.code = string.Join(Environment.NewLine, codeParts);
+      string data =
         string.Join(
           Environment.NewLine,
           assemblyCache
@@ -34,7 +33,7 @@ namespace GalvanizedSoftware.Beethoven.Core
 
     public byte[] Hash { get; }
 
-    internal Assembly GenerateAssembly()
+    internal Assembly GenerateAssembly(string assemblyName)
     {
       MetadataReference[] references = assemblyCache
         .Select(assembly => MetadataReference.CreateFromFile(assembly.Location))
@@ -42,7 +41,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);
       CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
       CSharpCompilation compilation = CSharpCompilation.Create(
-        $"TmpAssembly{++assemblyNumber}",
+        assemblyName,
         new[] { syntaxTree },
         references,
         options);

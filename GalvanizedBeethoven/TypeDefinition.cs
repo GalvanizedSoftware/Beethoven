@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.Methods;
@@ -7,27 +8,39 @@ using static System.Reflection.Assembly;
 
 namespace GalvanizedSoftware.Beethoven
 {
-  public class TypeDefinition<T> where T : class
+  public class TypeDefinition<T> : TypeDefinition where T : class
   {
     private readonly PartDefinitions partDefinitions;
+    private readonly string className;
+    private readonly string classNamespace;
+    private static readonly Assembly mainAssembly = typeof(T).Assembly;
 
-    internal TypeDefinition(PartDefinitions partDefinitions)
+    internal TypeDefinition(PartDefinitions partDefinitions, string classNamespace, string className)
     {
       this.partDefinitions = partDefinitions;
+      this.className = className ?? $"{typeof(T).GetFormattedName()}Implementation";
+      this.classNamespace = classNamespace ?? $"{typeof(T).Namespace}";
     }
 
-    public TypeDefinition(params object[] newPartDefinitions)
+    public TypeDefinition(params object[] newPartDefinitions) :
+      this(new PartDefinitions(newPartDefinitions), null, null)
     {
-      partDefinitions = new PartDefinitions(newPartDefinitions);
+    }
+
+    public TypeDefinition(string name, params object[] newPartDefinitions) :
+      this(new PartDefinitions(newPartDefinitions), null, name)
+    {
     }
 
     private TypeDefinition(TypeDefinition<T> previousDefinition, object[] newPartDefinitions) :
-      this(previousDefinition.partDefinitions.Concat(newPartDefinitions))
+      this(previousDefinition.partDefinitions.Concat(newPartDefinitions),
+           previousDefinition.classNamespace, 
+           previousDefinition.className)
     {
     }
 
     public TypeDefinition<T> Add(params object[] newImplementationObjects) =>
-      new TypeDefinition<T>(this, newImplementationObjects);
+       new TypeDefinition<T>(this, newImplementationObjects);
 
     public TypeDefinition<T> AddMethodMapper<TChild>(Func<T, TChild> creatorFunc) =>
       new TypeDefinition<T>(this, new object[] { new MethodMapperCreator<T, TChild>(creatorFunc) });
@@ -40,21 +53,26 @@ namespace GalvanizedSoftware.Beethoven
 
     internal CompiledTypeDefinition<T> CompileInternal(Assembly callingAssembly)
     {
-      Type type = typeof(T);
-      partDefinitions.SetMainTypeUser<T>();
-      object[] allPartDefinitions = partDefinitions.GetAll<T>();
-      IDefinition[] definitions = allPartDefinitions
-        .GetAllDefinitions();
-      string className = $"{type.GetFormattedName()}Implementation";
-      string code = new ClassGenerator(type, className, definitions)
-        .Generate()
-        .Format(0);
-      Type compiledType = new Compiler(code, new AssemblyCache<T>(callingAssembly))
-        .GenerateAssembly().GetType($"{type.Namespace}.{className}");
-      return new CompiledTypeDefinition<T>(compiledType, new BindingParents(allPartDefinitions));
+      BoundTypeDefinition<T> boundTypeDefinition = BindDefinition();
+      AssemblyDefinition assemblyDefinition = new AssemblyDefinition().Add(boundTypeDefinition);
+      Assembly assembly = assemblyDefinition.GenerateAssembly(mainAssembly, callingAssembly);
+      return boundTypeDefinition.Link(assembly);
     }
+
+    private BoundTypeDefinition<T> BindDefinition() =>
+      new BoundTypeDefinition<T>(className, classNamespace, partDefinitions);
 
     internal T CreateInternal(Assembly callingAssembly, params object[] parameters) =>
       CompileInternal(callingAssembly).Create(parameters);
+  }
+
+  public abstract class TypeDefinition
+  {
+    internal protected TypeDefinition()
+    {
+    }
+
+    public static TypeDefinition<T> Create<T>(object[] partDefinitions, object[] generalPartDefinitions) where T : class  =>
+      new TypeDefinition<T>(partDefinitions.Concat(generalPartDefinitions).ToArray());
   }
 }

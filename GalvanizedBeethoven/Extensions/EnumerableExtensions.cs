@@ -54,7 +54,6 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     private static IEnumerable<IDefinition> GetAllDefinitions(object part) =>
       part switch
       {
-        //IEnumerable<IDefinition> definition => definition,
         IDefinitions definitions => definitions.GetDefinitions(),
         IDefinition definition => new[] { definition },
         _ => Enumerable.Empty<IDefinition>()
