@@ -9,13 +9,13 @@ namespace GalvanizedSoftware.Beethoven.Core
   {
     private object[] partDefinitions;
 
-    public PartDefinitions(object[] newPartDefinitions)
+    public PartDefinitions(IEnumerable<object> newPartDefinitions)
     {
-      partDefinitions = newPartDefinitions;
+      partDefinitions = newPartDefinitions.ToArray();
     }
 
     internal PartDefinitions Concat(object[] concatPartDefinitions) =>
-      new PartDefinitions(partDefinitions.Concat(concatPartDefinitions).ToArray());
+      new PartDefinitions(partDefinitions.Concat(concatPartDefinitions));
 
     internal void SetMainTypeUser(Type mainType) =>
       partDefinitions.OfType<IMainTypeUser>().SetAll(mainType);

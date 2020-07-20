@@ -71,8 +71,5 @@ namespace GalvanizedSoftware.Beethoven
     internal protected TypeDefinition()
     {
     }
-
-    public static TypeDefinition<T> Create<T>(object[] partDefinitions, object[] generalPartDefinitions) where T : class  =>
-      new TypeDefinition<T>(partDefinitions.Concat(generalPartDefinitions).ToArray());
   }
 }
