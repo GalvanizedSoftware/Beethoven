@@ -1,12 +1,13 @@
-﻿using GalvanizedSoftware.Beethoven.Extensions;
-using System;
+﻿using System;
+using System.Globalization;
 using System.Reflection;
+using static System.Environment;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 {
   public class GeneratorContext
   {
-    public GeneratorContext(string generatedClassName, Type interfaceType)
+    internal GeneratorContext(string generatedClassName, Type interfaceType)
     {
       GeneratedClassName = generatedClassName;
       InterfaceType = interfaceType;
@@ -26,5 +27,11 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 
     internal GeneratorContext CreateLocal(MemberInfo memberInfo, int? methodIndex = null) =>
       new GeneratorContext(this, memberInfo, methodIndex);
+
+    public override int GetHashCode() =>
+      ($"{GeneratedClassName}" + NewLine +
+      $"{InterfaceType.FullName}" + NewLine +
+      $"{MemberInfo.Name}" + NewLine +
+      $"{(MethodIndex?.ToString(CultureInfo.InvariantCulture) ?? "")}").GetHashCode();
   }
 }

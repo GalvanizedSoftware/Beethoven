@@ -27,7 +27,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       Type propertyType = propertyInfo.PropertyType;
       string typeName = propertyType.FullName;
       string propertyName = propertyInfo.Name;
-      string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{propertyName}{new TagGenerator()}";
+      string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{propertyName}{new TagGenerator(generatorContext)}";
       InvokerList.SetInvoker(uniqueInvokerName,
         InvokerFactory.CreatePropertyInvoker(propertyType, definitions));
       string invokerName = $"invoker{propertyName}";

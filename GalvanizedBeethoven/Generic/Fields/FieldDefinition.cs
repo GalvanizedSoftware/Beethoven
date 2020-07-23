@@ -1,13 +1,12 @@
-﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+﻿using GalvanizedSoftware.Beethoven.Core;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using static GalvanizedSoftware.Beethoven.Core.Fields.GeneratorWrapperDefinition;
-using GalvanizedSoftware.Beethoven.Core;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Fields
 {
@@ -26,7 +25,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
     private static FieldDefinition InternalCreate<T>(Func<FieldDefinition, IEnumerable<IDefinition>> definitionFactoryFunc)
     {
       Type type = typeof(T);
-      string fieldName = $"field{type.GetFormattedName()}{new TagGenerator()}";
+      string formattedName = type.GetFormattedName();
+      string fieldName = $"field{formattedName}{new TagGenerator(formattedName)}";
       return new FieldDefinition(type, fieldName, definitionFactoryFunc);
     }
 

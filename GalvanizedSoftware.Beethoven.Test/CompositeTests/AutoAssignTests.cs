@@ -59,23 +59,18 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
     public void AutoAssignTest3()
     {
       BeethovenFactory factory = new BeethovenFactory();
-      var defaultValues1 = new
-      {
-        Name = "The evil company",
-        Address = "2460 Sunshine road"
-      };
       DefaultProperty defaultProperty1 = new DefaultProperty()
-        .AnonymousValueLookup(defaultValues1)
+        .AnonymousValueLookup(new
+        {
+          Name = "The evil company",
+          Address = "2460 Sunshine road"
+        })
         .SetterGetter();
       ICompanyInformation companyInformation = factory.Generate<ICompanyInformation>(defaultProperty1);
       Assert.AreEqual("The evil company", companyInformation.Name);
       Assert.AreEqual("2460 Sunshine road", companyInformation.Address);
-      var defaultValues2 = new
-      {
-        Name = "",
-      };
       DefaultProperty defaultProperty2 = new DefaultProperty()
-        .AnonymousValueLookup(defaultValues2)
+        .AnonymousValueLookup(new { Name = "" })
         .SetterGetter();
       companyInformation = factory.Generate<ICompanyInformation>(defaultProperty2);
       Assert.AreEqual("", companyInformation.Name);

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.Invokers;
 using GalvanizedSoftware.Beethoven.Core.Invokers.Factories;
 using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
@@ -26,7 +25,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       if (methodInfo == null || generatorContext == null)
         yield break;
       string methodName = $"{methodInfo.Name}{generatorContext.MethodIndex}";
-      string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{methodName}_{new TagGenerator()}";
+      string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{methodName}_{new TagGenerator(generatorContext)}";
       InvokerList.SetInvoker(uniqueInvokerName,
         InvokerFactory.CreateMethodInvoker(methodInfo, methodDefinition));
       string invokerName = $"invoker{methodName}";
