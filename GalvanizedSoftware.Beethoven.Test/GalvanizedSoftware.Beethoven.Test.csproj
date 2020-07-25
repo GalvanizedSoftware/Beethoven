@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Authors>Galvanized Software</Authors>
     <Company>Galvanized Software</Company>
     <Version>0.4.3.0</Version>
@@ -18,14 +18,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj">
-      <Project>{49f5b760-8f8d-4a0b-978e-142266a03389}</Project>
-      <Name>GalvanizedSoftware.Beethoven</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.1.0" />
     <PackageReference Include="FakeItEasy" Version="5.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
