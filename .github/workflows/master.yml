@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: 3.1.301
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore BeethovenAll.sln
     - name: Add msbuild
       uses: microsoft/setup-msbuild@v1.0.1
       with:
@@ -26,4 +26,4 @@ jobs:
     - name: Build
       run: msbuild BeethovenAll.sln -p:Configuration=Release
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet BeethovenAll.sln test --no-restore --verbosity normal
