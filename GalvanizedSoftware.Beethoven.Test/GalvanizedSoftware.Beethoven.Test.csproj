@@ -10,6 +10,7 @@
     <Copyright>Copyright 2018 Galvanized Software</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <LangVersion>latest</LangVersion>
+    <GenerateResourceMSBuildArchitecture>CurrentArchitecture</GenerateResourceMSBuildArchitecture>
   </PropertyGroup>
 
   <PropertyGroup>
