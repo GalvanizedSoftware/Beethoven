@@ -1,5 +1,6 @@
 # Beethoven
 ![All MSBuild (Windows)](https://github.com/GalvanizedSoftware/Beethoven/workflows/All%20MSBuild%20(Windows)/badge.svg)
+
 ![Continuous Integration (ubuntu)](https://github.com/GalvanizedSoftware/Beethoven/workflows/Continuous%20Integration%20(ubuntu)/badge.svg)
 
 ## Introduction
