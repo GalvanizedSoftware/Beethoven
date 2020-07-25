@@ -17,12 +17,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'"><!--<CodeAnalysisRuleSet>AllRulesDefault.ruleset</CodeAnalysisRuleSet>-->
-  
-    <CodeAnalysisRuleSet />
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup>
     <CodeAnalysisRuleSet />
   </PropertyGroup>
 
