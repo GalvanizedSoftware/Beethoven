@@ -26,4 +26,4 @@ jobs:
     - name: Build
       run: msbuild BeethovenAll.sln -p:Configuration=Release
     - name: Test
-      run: dotnet BeethovenAll.sln test --no-restore --verbosity normal
+      run: dotnet test BeethovenAll.sln --no-restore --verbosity normal
