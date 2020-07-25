@@ -1,5 +1,5 @@
 # Beethoven
-![.NET Core](https://github.com/GalvanizedSoftware/Beethoven/workflows/.NET%20Core/badge.svg)
+![.NET win](https://github.com/GalvanizedSoftware/Beethoven/workflows/.NET%20win/badge.svg)
 
 ## Introduction
 Composing classes in fluet-style programming.
