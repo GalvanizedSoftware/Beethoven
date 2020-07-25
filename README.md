@@ -1,4 +1,5 @@
 # Beethoven
+## Introduction
 Composing classes in fluet-style programming.
 Frequently used implementations can be reused without inheritance.
 Not using inheritance enables inclusion of the code actually needed.
@@ -6,6 +7,9 @@ Inheritance can lead to a vast class inheritance strucure.
 
 The starting point of this project was the fluent programming style to import code.
 But it turned out there were many more possibilities ...
+
+## Code state
+![.NET Core](https://github.com/GalvanizedSoftware/Beethoven/workflows/.NET%20Core/badge.svg)
 
 ## Fluent programming style
 ```C#
@@ -195,7 +199,7 @@ New is more robust to localization differences using a ```DateTime```:
     DateTime BirthDate{ get;set; }
   }
 ```
-So the chalange is, if the server part has new new version,
+So the challenge is, if the server part has new new version,
 but some clients are using the new version, some the old,
 how can we convert from new version to old version.
 
