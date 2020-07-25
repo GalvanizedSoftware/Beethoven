@@ -4,6 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <RuntimeIdentifier>win</RuntimeIdentifier>
     <ProjectGuid>{89DDF7AC-671F-4DB8-8EF4-ADEA789B0A44}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>GalvanizedSoftware.Beethoven.DemoApp</RootNamespace>
