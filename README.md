@@ -1,4 +1,5 @@
 # Beethoven
+![.NET Core](https://github.com/GalvanizedSoftware/Beethoven/workflows/.NET%20Core/badge.svg)
 ## Introduction
 Composing classes in fluet-style programming.
 Frequently used implementations can be reused without inheritance.
@@ -7,9 +8,6 @@ Inheritance can lead to a vast class inheritance strucure.
 
 The starting point of this project was the fluent programming style to import code.
 But it turned out there were many more possibilities ...
-
-## Code state
-![.NET Core](https://github.com/GalvanizedSoftware/Beethoven/workflows/.NET%20Core/badge.svg)
 
 ## Fluent programming style
 ```C#
