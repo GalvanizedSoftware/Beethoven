@@ -3,6 +3,7 @@
 
 ![Continuous Integration (ubuntu)](https://github.com/GalvanizedSoftware/Beethoven/workflows/Continuous%20Integration%20(ubuntu)/badge.svg)
 
+![Continuous Integration (macOS)](https://github.com/GalvanizedSoftware/Beethoven/workflows/Continuous%20Integration%20(macOS)/badge.svg)
 ## Introduction
 Composing classes in fluet-style programming.
 Frequently used implementations can be reused without inheritance.
