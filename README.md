@@ -1,5 +1,6 @@
 # Beethoven
 ![.NET Core](https://github.com/GalvanizedSoftware/Beethoven/workflows/.NET%20Core/badge.svg)
+
 ## Introduction
 Composing classes in fluet-style programming.
 Frequently used implementations can be reused without inheritance.
