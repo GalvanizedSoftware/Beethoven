@@ -53,14 +53,14 @@ namespace GalvanizedSoftware.Beethoven
 
     internal CompiledTypeDefinition<T> CompileInternal(Assembly callingAssembly)
     {
-      BoundTypeDefinition<T> boundTypeDefinition = BindDefinition();
+      BoundTypeDefinitionOfT<T> boundTypeDefinition = BindDefinition();
       AssemblyDefinition assemblyDefinition = new AssemblyDefinition().Add(boundTypeDefinition);
       Assembly assembly = assemblyDefinition.GenerateAssembly(mainAssembly, callingAssembly);
       return boundTypeDefinition.Link(assembly);
     }
 
-    private BoundTypeDefinition<T> BindDefinition() =>
-      new BoundTypeDefinition<T>(className, classNamespace, partDefinitions);
+    private BoundTypeDefinitionOfT<T> BindDefinition() =>
+      new BoundTypeDefinitionOfT<T>(className, classNamespace, partDefinitions);
 
     internal T CreateInternal(Assembly callingAssembly, params object[] parameters) =>
       CompileInternal(callingAssembly).Create(parameters);

@@ -13,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
   {
     private static readonly Type type = typeof(PropertyDefinition);
     private static readonly MethodInfo createGenericMethodInfo = type
-      .GetMethod(nameof(CreateGeneric), Constants.StaticResolveFlags);
+      .GetMethod(nameof(CreateGeneric), ReflectionConstants.StaticResolveFlags);
     private readonly IDefinition[] additionalDefinitions;
 
     protected PropertyDefinition(string name, Type propertyType, params IDefinition[] additionalDefinitions)

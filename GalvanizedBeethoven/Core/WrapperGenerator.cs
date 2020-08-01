@@ -1,7 +1,6 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Core.Properties;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 

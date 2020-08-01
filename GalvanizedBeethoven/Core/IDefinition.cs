@@ -3,7 +3,6 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
-
   public interface IDefinition
   {
     int SortOrder { get; }

@@ -28,6 +28,14 @@ namespace GalvanizedSoftware.Beethoven.Core
         loadedAssemblyNames.Add(assembly.GetName().FullName, assembly);
       analyzingAssemblies.AddRange(assemblies);
     }
+    public IEnumerator<Assembly> GetEnumerator() =>
+      assemblies
+              .SelectMany(GetAssemblies)
+              .Where(assembly => domainAssemblies.Contains(assembly))
+              .Distinct()
+      .GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     private IEnumerable<Assembly> GetAssemblies(Assembly assembly)
     {
@@ -43,7 +51,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     private IEnumerable<Assembly> FindReferencedAssemblies(Assembly assembly) =>
       assembly
         .GetReferencedAssemblies()
-        .Select(assmbly => assmbly.FullName)
+        .Select(item => item.FullName)
         .Select(loadedAssemblyNames.TryGetValue)
         .SelectMany(FindNew)
         .SelectMany(GetAssemblies);
@@ -55,14 +63,5 @@ namespace GalvanizedSoftware.Beethoven.Core
       analyzingAssemblies.Add(assembly);
       yield return assembly;
     }
-
-    public IEnumerator<Assembly> GetEnumerator() =>
-      assemblies
-              .SelectMany(GetAssemblies)
-              .Where(assembly => domainAssemblies.Contains(assembly))
-              .Distinct()
-      .GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
   }
 }

@@ -25,7 +25,7 @@ namespace GalvanizedSoftware.Beethoven
         .ToArray();
     }
 
-    internal AssemblyDefinition Add<T>(BoundTypeDefinition<T> boundTypeDefinition) where T : class =>
+    internal AssemblyDefinition Add<T>(BoundTypeDefinitionOfT<T> boundTypeDefinition) where T : class =>
       new AssemblyDefinition(this, boundTypeDefinition);
 
     internal Assembly GenerateAssembly(Assembly mainAssembly, Assembly callingAssembly) =>

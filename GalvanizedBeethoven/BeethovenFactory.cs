@@ -10,7 +10,7 @@ namespace GalvanizedSoftware.Beethoven
   public sealed class BeethovenFactory
   {
     private static readonly MethodInfo generateMethodInfo = typeof(BeethovenFactory)
-      .GetMethods(Constants.ResolveFlags)
+      .GetMethods(ReflectionConstants.ResolveFlags)
       .Where(info => info.Name == nameof(GenerateInternal))
       .First(info => info.IsGenericMethod);
     private Assembly callingAssembly = GetCallingAssembly();

@@ -14,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
   {
     private readonly Func<Type, string, object>[] creators;
     private static readonly MethodInfo createMethodInfo =
-      typeof(DefaultProperty).GetMethod(nameof(CreateGeneric), Constants.ResolveFlags);
+      typeof(DefaultProperty).GetMethod(nameof(CreateGeneric), ReflectionConstants.ResolveFlags);
 
     public DefaultProperty()
     {

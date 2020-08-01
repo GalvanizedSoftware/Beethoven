@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.Methods;
-using static GalvanizedSoftware.Beethoven.Core.Constants;
+using static GalvanizedSoftware.Beethoven.Core.ReflectionConstants;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {

@@ -18,9 +18,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       classMethods = classType.GetAllMethodsAndInherited().ToArray();
     }
 
-    public IEnumerable<MethodInfo> FindMissing()
-    {
-      return interfaceMethods.Except(classMethods, new ExactMethodComparer());
-    }
+    public IEnumerable<MethodInfo> FindMissing() =>
+      interfaceMethods.Except(classMethods, new ExactMethodComparer());
   }
 }

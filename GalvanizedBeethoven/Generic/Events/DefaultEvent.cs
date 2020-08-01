@@ -10,7 +10,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
   public class DefaultEvent : IDefinition
   {
     private static readonly MethodInfo createMethodInfo =
-      typeof(DefaultEvent).GetMethod(nameof(CreateGeneric), Constants.ResolveFlags);
+      typeof(DefaultEvent).GetMethod(nameof(CreateGeneric), ReflectionConstants.ResolveFlags);
 
     public int SortOrder => 2;
 

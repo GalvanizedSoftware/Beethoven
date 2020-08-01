@@ -7,7 +7,7 @@ using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
-using static GalvanizedSoftware.Beethoven.Core.Constants;
+using static GalvanizedSoftware.Beethoven.Core.ReflectionConstants;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {

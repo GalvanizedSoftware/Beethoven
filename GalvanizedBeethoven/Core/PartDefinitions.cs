@@ -28,7 +28,6 @@ namespace GalvanizedSoftware.Beethoven.Core
           .ToArray();
 
     public IEnumerable<IDefinition> GetDefinitions() =>
-    //partDefinitions.GetAllDefinitions();
       partDefinitions.OfType<IDefinition>();
   }
 }
