@@ -74,7 +74,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     public static string GetReturnType(this MethodInfo methodInfo)
     {
       Type returnType = methodInfo?.ReturnType;
-      return returnType != typeof(void) ? returnType.FullName : "void";
+      return returnType != typeof(void) ? returnType.GetFullName() : "void";
     }
 
     public static object GetDefaultReturnValue(this MethodInfo methodInfo) =>

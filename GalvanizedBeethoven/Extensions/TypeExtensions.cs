@@ -135,9 +135,40 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 
     internal static string GetFullName(this Type type)
     {
-      string fullName = type.Name.TrimEnd('&');
       if (type.FullName == null)
         return type.Name;
+      switch (Type.GetTypeCode(type))
+      {
+        case TypeCode.String:
+          return "string";
+        case TypeCode.Boolean:
+          return "bool";
+        case TypeCode.Char:
+          return "char";
+        case TypeCode.SByte:
+          return "sbyte";
+        case TypeCode.Byte:
+          return "byte";
+        case TypeCode.Int16:
+          return "short";
+        case TypeCode.UInt16:
+          return "ushort";
+        case TypeCode.Int32:
+          return "int";
+        case TypeCode.UInt32:
+          return "uint";
+        case TypeCode.Int64:
+          return "long";
+        case TypeCode.UInt64:
+          return "ulong";
+        case TypeCode.Single:
+          return "float";
+        case TypeCode.Double:
+          return "double";
+        case TypeCode.Decimal:
+          return "decimal";
+      }
+      string fullName = type.Name.TrimEnd('&');
       if (!type.IsGenericType)
         return $"{type.Namespace}.{fullName}";
       int index = fullName.IndexOf('`');

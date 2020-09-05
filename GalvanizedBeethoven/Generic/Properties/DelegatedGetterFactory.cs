@@ -30,7 +30,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     {
       Type returnType = (methodInfo ?? throw new NullReferenceException()).ReturnType;
       if (methodInfo.ReturnType != typeof(T))
-        throw new ArgumentException($"Method: {methodInfo.Name} has incorrect return type expected: {typeof(T).FullName}, actual: {returnType.FullName}");
+        throw new ArgumentException($"Method: {methodInfo.Name} has incorrect return type expected: {typeof(T).GetFullName()}, actual: {returnType.GetFullName()}");
       Type[] parameterTypes = methodInfo.GetParameterTypes().ToArray();
       switch (parameterTypes.Length)
       {
