@@ -133,41 +133,30 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         .Select(type => predicate(type))
         .FirstOrDefault(value => value != null);
 
-    internal static string GetFullName(this Type type)
+    internal static string GetFullName(this Type type) =>
+      Type.GetTypeCode(type) switch
+      {
+        TypeCode.String => "string",
+        TypeCode.Boolean => "bool",
+        TypeCode.Char => "char",
+        TypeCode.SByte => "sbyte",
+        TypeCode.Byte => "byte",
+        TypeCode.Int16 => "short",
+        TypeCode.UInt16 => "ushort",
+        TypeCode.Int32 => "int",
+        TypeCode.UInt32 => "uint",
+        TypeCode.Int64 => "long",
+        TypeCode.UInt64 => "ulong",
+        TypeCode.Single => "float",
+        TypeCode.Double => "double",
+        TypeCode.Decimal => "decimal",
+        _ => GetTypeNameFallback(type)
+      };
+
+    private static string GetTypeNameFallback(Type type)
     {
       if (type.FullName == null)
         return type.Name;
-      switch (Type.GetTypeCode(type))
-      {
-        case TypeCode.String:
-          return "string";
-        case TypeCode.Boolean:
-          return "bool";
-        case TypeCode.Char:
-          return "char";
-        case TypeCode.SByte:
-          return "sbyte";
-        case TypeCode.Byte:
-          return "byte";
-        case TypeCode.Int16:
-          return "short";
-        case TypeCode.UInt16:
-          return "ushort";
-        case TypeCode.Int32:
-          return "int";
-        case TypeCode.UInt32:
-          return "uint";
-        case TypeCode.Int64:
-          return "long";
-        case TypeCode.UInt64:
-          return "ulong";
-        case TypeCode.Single:
-          return "float";
-        case TypeCode.Double:
-          return "double";
-        case TypeCode.Decimal:
-          return "decimal";
-      }
       string fullName = type.Name.TrimEnd('&');
       if (!type.IsGenericType)
         return $"{type.Namespace}.{fullName}";
@@ -179,12 +168,8 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     internal static object Create(this Type type, object[] parameters) =>
       type.GetConstructors().Single().Invoke(parameters);
 
-    internal static string GetBaseName(this Type type)
-    {
-      if (type.BaseType == typeof(ValueType))
-        return "struct";
-      return type.GetFullName();
-    }
+    internal static string GetBaseName(this Type type) =>
+      type.BaseType == typeof(ValueType) ? "struct" : type.GetFullName();
 
     internal static string GetFormattedName(this Type type) => $"{type.Name.Replace("`", "_")}";
 
