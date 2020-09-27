@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     public Compiler(Assembly mainAssembly, Assembly callingAssembly, string[] codeParts)
     {
       assemblyCache = new AssemblyCache(mainAssembly, callingAssembly);
-      code = System.String.Join(Environment.NewLine, codeParts);
+      code = string.Join(Environment.NewLine, codeParts);
       string data =
         string.Join(
           Environment.NewLine,
