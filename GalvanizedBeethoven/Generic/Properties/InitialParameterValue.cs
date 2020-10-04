@@ -8,6 +8,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     public bool InvokeGetter(object master, ref T returnValue) => valueSet;
 
-    public bool InvokeSetter(object instanceMap, T newValue) => valueSet = true;
+    public bool InvokeSetter(object master, T newValue) => valueSet = true;
   }
 }
