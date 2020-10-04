@@ -1,7 +1,7 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Invokers;
 using GalvanizedSoftware.Beethoven.Core.Invokers.Factories;
-using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System;
 using System.Collections.Generic;
 using System.Reflection;

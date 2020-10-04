@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
+using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties
+namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   public abstract class PropertyDefinition : IDefinition, IDefinitions
   {

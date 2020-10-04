@@ -1,5 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Properties;
-using GalvanizedSoftware.Beethoven.Generic.Properties;
+﻿using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
-using GalvanizedSoftware.Beethoven.Generic.Properties;
+using GalvanizedSoftware.Beethoven.Core;
+using GalvanizedSoftware.Beethoven.Core.Properties;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties
+namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   public sealed class PropertyDefinition<T> : PropertyDefinition, IPropertyDefinition<T>
   {
@@ -31,7 +32,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
     }
 
 
-    public PropertyDefinition(PropertyDefinition<T> previous, IPropertyDefinition<T>[] propertyDefinitions, 
+    public PropertyDefinition(PropertyDefinition<T> previous, IPropertyDefinition<T>[] propertyDefinitions,
       params IDefinition[] additionalDefinitions) :
       base(previous, additionalDefinitions)
     {

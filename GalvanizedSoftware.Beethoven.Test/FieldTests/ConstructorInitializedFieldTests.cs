@@ -1,7 +1,7 @@
 ﻿using FakeItEasy;
-using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Events;
+using GalvanizedSoftware.Beethoven.Generic.Properties;
 using GalvanizedSoftware.Beethoven.Test.FieldTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
