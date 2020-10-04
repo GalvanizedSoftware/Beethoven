@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GalvanizedSoftware.Beethoven.Core
+namespace GalvanizedSoftware.Beethoven.Interfaces
 {
   public interface IDefinitions
   {

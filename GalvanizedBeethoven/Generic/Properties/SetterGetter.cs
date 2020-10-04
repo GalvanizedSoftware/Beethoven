@@ -1,5 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.Properties;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {

@@ -1,4 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Core;
+﻿using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Events

@@ -1,11 +1,12 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
-    internal class MethodsGenerator
+  internal class MethodsGenerator
   {
     private readonly MethodInfo[] methodInfos;
     private readonly IEnumerable<MethodDefinition> definitions;

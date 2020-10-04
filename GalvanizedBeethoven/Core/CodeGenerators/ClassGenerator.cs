@@ -1,11 +1,11 @@
-﻿using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

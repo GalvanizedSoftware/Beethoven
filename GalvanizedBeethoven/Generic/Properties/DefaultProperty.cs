@@ -1,8 +1,8 @@
 ﻿using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
-using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.ValueLookup;
+using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

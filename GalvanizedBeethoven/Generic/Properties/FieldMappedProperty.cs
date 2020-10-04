@@ -1,6 +1,6 @@
-﻿using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
+using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties

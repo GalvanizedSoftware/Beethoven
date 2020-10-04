@@ -1,5 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
 using GalvanizedSoftware.Beethoven.Extensions;
@@ -7,6 +6,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using static GalvanizedSoftware.Beethoven.Core.Fields.GeneratorWrapperDefinition;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Fields
 {

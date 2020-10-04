@@ -3,6 +3,7 @@ using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using System.Collections.Generic;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {

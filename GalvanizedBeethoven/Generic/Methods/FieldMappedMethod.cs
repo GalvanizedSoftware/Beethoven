@@ -2,8 +2,8 @@
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {

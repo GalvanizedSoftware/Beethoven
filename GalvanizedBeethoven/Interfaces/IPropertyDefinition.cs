@@ -1,4 +1,4 @@
-﻿namespace GalvanizedSoftware.Beethoven.Core.Properties
+﻿namespace GalvanizedSoftware.Beethoven.Interfaces
 {
   public interface IPropertyDefinition<T>
   {

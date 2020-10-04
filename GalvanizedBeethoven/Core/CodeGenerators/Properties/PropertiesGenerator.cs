@@ -1,4 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
+using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;

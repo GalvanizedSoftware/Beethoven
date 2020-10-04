@@ -1,7 +1,7 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using System.Reflection;
 
-namespace GalvanizedSoftware.Beethoven.Core
+namespace GalvanizedSoftware.Beethoven.Interfaces
 {
   public interface IDefinition
   {
