@@ -71,7 +71,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       if (hasReturnType)
         returnValue = invokeResult;
       // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-      localParameterValues.Zip(indexes,
+      _ = localParameterValues.Zip(indexes,
         (value, index) => SetIfValid(parameters, index, value, masterParameters))
         .ToArray();
     }
