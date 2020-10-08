@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
 {
@@ -18,8 +19,13 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
-      yield return $"{type.GetFullName()} {fieldName}";
-      yield return $"this.{fieldName} = {fieldName};";
+      yield return
+        generatorContext.CodeType switch
+        {
+          ConstructorSignature => $"{type.GetFullName()} {fieldName}",
+          ConstructorCode => $"this.{fieldName} = {fieldName};",
+          _ => null
+        };
     }
   }
 }

@@ -22,6 +22,7 @@ namespace GalvanizedSoftware.Beethoven
     private readonly PropertiesGenerator propertiesGenerator;
     private readonly MethodsGenerator methodsGenerator;
     private readonly EventsGenerator eventsGenerator;
+    private readonly GeneratorContext generatorContext;
     private readonly Type interfaceType;
     private readonly string className;
 
@@ -40,27 +41,29 @@ namespace GalvanizedSoftware.Beethoven
       propertiesGenerator = new PropertiesGenerator(membersInfos, definitions);
       methodsGenerator = new MethodsGenerator(membersInfos, definitions);
       eventsGenerator = new EventsGenerator(membersInfos, definitions);
+      generatorContext = new GeneratorContext(className, interfaceType);
     }
 
     public IEnumerable<string> Generate()
     {
-      GeneratorContext generatorContext = new GeneratorContext(className, interfaceType);
       yield return $"namespace {classNamespace}";
       yield return "{";
       yield return $"	public class {className} : {generatorContext.InterfaceType.GetFullName()}, {GeneratedClassName}";
       yield return "	{";
-      yield return $"{fieldsGenerator.Generate(generatorContext).Format(2)}";
-      yield return "";
-      yield return $"{constructorGenerator.Generate(generatorContext).Format(2)}";
-      yield return "";
-      yield return $"{propertiesGenerator.Generate(generatorContext).Format(2)}";
-      yield return "";
-      yield return $"{methodsGenerator.Generate(generatorContext).Format(2)}";
-      yield return "";
-      yield return $"{eventsGenerator.Generate(generatorContext).Format(2)}";
+      yield return Generate(fieldsGenerator);
+      yield return Generate(constructorGenerator);
+      yield return Generate(propertiesGenerator);
+      yield return Generate(methodsGenerator);
+      yield return Generate(eventsGenerator);
       yield return "	}";
       yield return "}";
     }
+
+    private string Generate(ICodeGenerator codeGenerator) =>
+      codeGenerator
+      .Generate(generatorContext)
+      .Where(code => !string.IsNullOrEmpty(code))
+      .Format(2) + Environment.NewLine;
 
     private static bool FilterMemberInfo(MemberInfo memberInfo) => memberInfo switch
     {

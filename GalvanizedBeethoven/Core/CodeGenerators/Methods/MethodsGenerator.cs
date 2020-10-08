@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
-  internal class MethodsGenerator
+  internal class MethodsGenerator : ICodeGenerator
   {
     private readonly MethodInfo[] methodInfos;
     private readonly IEnumerable<MethodDefinition> definitions;
@@ -27,11 +27,11 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
           methodInfo => FindIndex(methodInfo));
     }
 
-    internal IEnumerable<string> Generate(GeneratorContext generatorContext) =>
+    public IEnumerable<string> Generate(GeneratorContext generatorContext) =>
       methodInfos
         .SelectMany(methodInfo => new MethodGeneratorFactory(methodInfo, definitions)
           .Create()
-          .Generate(generatorContext.CreateLocal(methodInfo, methodIndexes[methodInfo])));
+          .Generate(generatorContext.CreateLocal(methodInfo, CodeType.Methods, methodIndexes[methodInfo])));
 
     private int? FindIndex(MethodInfo methodInfo)
     {

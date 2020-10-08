@@ -23,11 +23,13 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
+      if (generatorContext.CodeType != CodeType.ConstructorCode)
+        yield break;
       string uniqueBackingId = $"{generatorContext?.GeneratedClassName}{fieldName}Factory";
       InvokerList.SetInvoker(uniqueBackingId, factoryFunc);
       string typeName = type.GetFullName();
-      yield return $"{typeName} {fieldName} = " +
-        $@"new {invokerTypeName}(""{uniqueBackingId}"").Create<{typeName}>();";
+      yield return
+        $@"{typeName} {fieldName} = new {invokerTypeName}(""{uniqueBackingId}"").Create<{typeName}>();";
     }
   }
 }

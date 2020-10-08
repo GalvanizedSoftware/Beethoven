@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
-  internal class FieldsGenerator
+  internal class FieldsGenerator : ICodeGenerator
   {
     private static readonly FieldInfo dummyFieldInfo = typeof(int).GetField(nameof(int.MaxValue));
     private readonly IEnumerable<IDefinition> definitions;
@@ -19,7 +19,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
-      GeneratorContext localContext = generatorContext.CreateLocal(dummyFieldInfo);
+      GeneratorContext localContext = generatorContext.CreateLocal(dummyFieldInfo, CodeType.Fields);
       return definitions
         .Select(definition => definition.GetGenerator(generatorContext))
         .SelectMany(generator => generator.Generate(localContext));

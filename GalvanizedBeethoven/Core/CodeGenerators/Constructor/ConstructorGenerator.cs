@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
 {
@@ -23,18 +24,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
-      GeneratorContext localGeneratorContext = generatorContext.CreateLocal(dummyConstructorInfo);
-      string[][] codeElements = definitions
-        .Select(generator => generator.GetGenerator(localGeneratorContext))
-        .Select(generator => generator.Generate(localGeneratorContext).ToArray())
-        .Where(element => element.Length == 2)
-        .ToArray();
-      string[] parameters = codeElements
-        .Select(element => element[0])
-        .ToArray();
-      string[] initializers = codeElements
-        .Select(element => element[1])
-        .ToArray();
+      string[] parameters = definitions.GenerateCode(
+        generatorContext.CreateLocal(dummyConstructorInfo, ConstructorSignature));
+      string[] initializers = definitions.GenerateCode(
+        generatorContext.CreateLocal(dummyConstructorInfo, ConstructorCode));
       yield return $"public {className}({string.Join(", ", parameters)})";
       yield return "{";
       foreach (string line in initializers)

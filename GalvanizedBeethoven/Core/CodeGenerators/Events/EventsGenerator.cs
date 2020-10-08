@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
 {
-  internal class EventsGenerator
+  internal class EventsGenerator : ICodeGenerator
   {
     private readonly EventInfo[] membersInfos;
     private readonly IDefinition[] definitions;
@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
       this.definitions = definitions.ToArray();
     }
 
-    internal IEnumerable<string> Generate(GeneratorContext generatorContext)
+    public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
       foreach (string line in GenerateDeclaration(generatorContext))
         yield return line;
@@ -43,7 +43,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
 
     private IEnumerable<string> GenerateInnerEventCode(GeneratorContext generatorContext, EventInfo eventInfo)
     {
-      GeneratorContext localContext = generatorContext.CreateLocal(eventInfo);
+      GeneratorContext localContext = generatorContext.CreateLocal(eventInfo, CodeType.Events);
       ICodeGenerator codeGenerator = definitions
         .Where(definition => definition.CanGenerate(eventInfo))
         .Append(new DefaultEvent())

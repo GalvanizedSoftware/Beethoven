@@ -1,12 +1,11 @@
-﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
-using GalvanizedSoftware.Beethoven.Interfaces;
+﻿using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 {
-  class PropertiesGenerator
+  class PropertiesGenerator : ICodeGenerator
   {
     private readonly PropertyInfo[] propertyInfos;
     private IEnumerable<IDefinition> definitions;
@@ -21,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext) =>
       propertyInfos
-        .Select(propertyInfo => generatorContext.CreateLocal(propertyInfo))
+        .Select(propertyInfo => generatorContext.CreateLocal(propertyInfo, CodeType.Properties))
         .SelectMany(localContext => new PropertyGeneratorFactory(localContext, definitions)
           .Create()
           .Generate(localContext));

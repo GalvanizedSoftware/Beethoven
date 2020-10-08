@@ -1,4 +1,5 @@
-﻿using GalvanizedSoftware.Beethoven.Interfaces;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,5 +59,21 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         IDefinition definition => new[] { definition },
         _ => Enumerable.Empty<IDefinition>()
       };
+
+    internal static string[] GenerateCode(this IEnumerable<IDefinition> definitions,
+      GeneratorContext generatorContext) =>
+      definitions
+        .Select(generator => generator.GetGenerator(generatorContext))
+        .SelectMany(generator => generator.Generate(generatorContext))
+        .ToArray();
+
+    public static IEnumerable<T> SkipNull<T>(this IEnumerable<T> enumerable) where T : class
+    {
+      if (enumerable == null)
+        yield break;
+      foreach (T item in enumerable)
+        if (item != null)
+          yield return item;
+    }
   }
 }

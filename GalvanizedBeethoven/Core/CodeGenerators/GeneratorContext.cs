@@ -13,20 +13,24 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
       InterfaceType = interfaceType;
     }
 
-    private GeneratorContext(GeneratorContext baseContext, MemberInfo memberInfo, int? methodIndex = null) :
+    private GeneratorContext(GeneratorContext baseContext, MemberInfo memberInfo, CodeType codeType, int? methodIndex = null) :
       this(baseContext.GeneratedClassName, baseContext.InterfaceType)
     {
       MemberInfo = memberInfo;
+      CodeType = codeType;
       MethodIndex = methodIndex;
     }
 
     public string GeneratedClassName { get; }
     public Type InterfaceType { get; }
     public MemberInfo MemberInfo { get; }
+
+    internal CodeType CodeType { get; }
+
     public int? MethodIndex { get; }
 
-    internal GeneratorContext CreateLocal(MemberInfo memberInfo, int? methodIndex = null) =>
-      new GeneratorContext(this, memberInfo, methodIndex);
+    internal GeneratorContext CreateLocal(MemberInfo memberInfo, CodeType codeType, int? methodIndex = null) =>
+      new GeneratorContext(this, memberInfo, codeType, methodIndex);
 
     public override int GetHashCode() =>
       ($"{GeneratedClassName}" + NewLine +
