@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
-  internal class FactoryFieldGenerator : ICodeGenerator<ConstructorInfo>
+  internal class FactoryFieldGenerator : ICodeGenerator<FieldInfo>
   {
     private readonly Type type;
     private readonly string fieldName;
@@ -23,7 +23,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
-      if (generatorContext.CodeType != CodeType.ConstructorCode)
+      if (generatorContext.CodeType != CodeType.Fields)
         yield break;
       string uniqueBackingId = $"{generatorContext?.GeneratedClassName}{fieldName}Factory";
       InvokerList.SetInvoker(uniqueBackingId, factoryFunc);

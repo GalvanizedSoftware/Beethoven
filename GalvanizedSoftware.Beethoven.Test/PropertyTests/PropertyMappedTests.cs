@@ -175,5 +175,19 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
           .Constant("42"));
       Assert.AreEqual("42", test.Property2);
     }
+
+    [TestMethod]
+    public void TestMethodPropertyPropertyMapped13()
+    {
+      TypeDefinition<ITestProperties> typeDefinition = new TypeDefinition<ITestProperties>
+      (
+        FieldDefinition
+          .CreateFromFactory(() => new MappedTestClass())
+          .ImportInMain()
+      );
+      ITestProperties test = typeDefinition.Create();
+      test.Property1 = 42;
+      Assert.AreEqual(42, test.Property1);
+    }
   }
 }

@@ -14,8 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
     public ConstructorGenerator(string className, IEnumerable<IDefinition> definitions)
     {
       this.className = className;
-      this.definitions = definitions
-        .ToArray();
+      this.definitions = definitions.ToArray();
     }
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)

@@ -11,7 +11,11 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Factories
       masterInvoker = InvokerList.GetInvoker(uniqueName);
     }
 
-    public T Create<T>() =>
-      (masterInvoker as Func<T> ?? (() => default))();
+    public T Create<T>() => GetFunc<T>()();
+
+    private Func<T> GetFunc<T>() => 
+      masterInvoker is Func<T> func ? func : 
+      masterInvoker is Func<object> funcObject ? (Func<T>)(() => (T)funcObject()) :
+        (() => default);
   }
 }
