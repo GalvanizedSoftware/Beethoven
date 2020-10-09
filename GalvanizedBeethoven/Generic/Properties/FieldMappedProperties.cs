@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System.Linq;
-using System.Collections;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties

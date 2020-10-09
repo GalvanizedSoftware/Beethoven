@@ -21,9 +21,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
-      MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;
-      if (methodInfo == null || generatorContext == null)
+      if (generatorContext.CodeType != CodeType.Methods)
         yield break;
+      MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;
       string methodName = $"{methodInfo.Name}{generatorContext.MethodIndex}";
       string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{methodName}_{new TagGenerator(generatorContext)}";
       InvokerList.SetInvoker(uniqueInvokerName,

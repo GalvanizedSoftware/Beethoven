@@ -8,9 +8,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
   {
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
-      MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;
-      if (methodInfo == null)
+      if (generatorContext?.CodeType != CodeType.Methods)
         yield break;
+      MethodInfo methodInfo = generatorContext.MemberInfo as MethodInfo;
       foreach (string line in new MethodSignatureGenerator(methodInfo).GenerateDeclaration())
         yield return line;
       yield return "=>".Format(1);

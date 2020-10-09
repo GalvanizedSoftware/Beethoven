@@ -23,6 +23,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
+      if (generatorContext.CodeType != CodeType.Properties)
+        yield break;
       PropertyInfo propertyInfo = generatorContext.MemberInfo as PropertyInfo;
       Type propertyType = propertyInfo.PropertyType;
       string typeName = propertyType.GetFullName();

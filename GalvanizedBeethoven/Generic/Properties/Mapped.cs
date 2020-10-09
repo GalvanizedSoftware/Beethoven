@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using static GalvanizedSoftware.Beethoven.Core.ReflectionConstants;
 

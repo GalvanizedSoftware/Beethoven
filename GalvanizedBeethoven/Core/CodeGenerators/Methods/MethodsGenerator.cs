@@ -31,7 +31,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       methodInfos
         .SelectMany(methodInfo => new MethodGeneratorFactory(methodInfo, definitions)
           .Create()
-          .Generate(generatorContext.CreateLocal(methodInfo, CodeType.Methods, methodIndexes[methodInfo])));
+          .Generate(generatorContext.CreateLocal(methodInfo, methodIndexes[methodInfo])));
 
     private int? FindIndex(MethodInfo methodInfo)
     {

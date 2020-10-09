@@ -1,6 +1,6 @@
-﻿using GalvanizedSoftware.Beethoven.Generic.Properties;
+﻿using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -43,14 +43,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
 
     private IEnumerable<string> GenerateInnerEventCode(GeneratorContext generatorContext, EventInfo eventInfo)
     {
-      GeneratorContext localContext = generatorContext.CreateLocal(eventInfo, CodeType.Events);
-      ICodeGenerator codeGenerator = definitions
-        .Where(definition => definition.CanGenerate(eventInfo))
+      GeneratorContext localContext = generatorContext.CreateLocal(eventInfo);
+      return definitions
         .Append(new DefaultEvent())
-        .FirstOrDefault()
-        .GetGenerator(localContext);
-      foreach (string item in codeGenerator?.Generate(localContext))
-        yield return item;
+        .GetGenerators(localContext)
+        .FirstOrDefault()?
+        .Generate(localContext);
     }
 
     internal IEnumerable<string> GenerateNotifyCode() =>

@@ -1,6 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {

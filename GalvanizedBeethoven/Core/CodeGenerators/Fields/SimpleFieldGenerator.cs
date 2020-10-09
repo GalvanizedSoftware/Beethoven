@@ -18,7 +18,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
-      yield return $"{type.GetFullName()} {fieldName};";
+      if (generatorContext.CodeType == CodeType.Fields)
+        yield return $"{type.GetFullName()} {fieldName};";
     }
   }
 }

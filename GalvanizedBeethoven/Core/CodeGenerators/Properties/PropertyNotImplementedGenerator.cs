@@ -8,9 +8,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
   {
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
-      PropertyInfo propertyInfo = generatorContext?.MemberInfo as PropertyInfo;
-      if (propertyInfo == null)
+      if (generatorContext.CodeType != CodeType.Properties)
         yield break;
+      PropertyInfo propertyInfo = generatorContext?.MemberInfo as PropertyInfo;
       yield return $@"public {propertyInfo.PropertyType.GetFullName()} {propertyInfo.Name}";
       yield return "{";
       yield return $"get => throw new System.MissingMethodException();".Format(1);

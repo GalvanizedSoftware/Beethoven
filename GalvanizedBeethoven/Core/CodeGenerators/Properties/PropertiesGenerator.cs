@@ -8,7 +8,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
   class PropertiesGenerator : ICodeGenerator
   {
     private readonly PropertyInfo[] propertyInfos;
-    private IEnumerable<IDefinition> definitions;
+    private readonly IEnumerable<IDefinition> definitions;
 
     public PropertiesGenerator(MemberInfo[] membersInfos, IEnumerable<IDefinition> definitions)
     {
@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext) =>
       propertyInfos
-        .Select(propertyInfo => generatorContext.CreateLocal(propertyInfo, CodeType.Properties))
+        .Select(propertyInfo => generatorContext.CreateLocal(propertyInfo))
         .SelectMany(localContext => new PropertyGeneratorFactory(localContext, definitions)
           .Create()
           .Generate(localContext));

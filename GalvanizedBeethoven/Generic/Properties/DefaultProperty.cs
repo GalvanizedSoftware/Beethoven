@@ -86,10 +86,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
+      if (generatorContext?.CodeType != CodeType.Properties)
+        return Enumerable.Empty<string>();
       PropertyInfo propertyInfo = generatorContext?.MemberInfo as PropertyInfo;
-      return propertyInfo == null ?
-        Enumerable.Empty<string>() :
-        Create(propertyInfo.PropertyType, propertyInfo.Name)
+      return Create(propertyInfo.PropertyType, propertyInfo.Name)
         .GetGenerator(generatorContext)
         .Generate(generatorContext);
     }

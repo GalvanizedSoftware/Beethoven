@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
+﻿namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 {
   internal enum CodeType
   {

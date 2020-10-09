@@ -1,5 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Collections.Generic;
@@ -16,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.ConstructorParameters
 
     public PropertyInitializedGenerator(string name, Type type)
     {
-      this.name = name;
+      this.name = name ?? throw new NullReferenceException();
       this.type = type ?? throw new NullReferenceException();
       parameterName = $"{char.ToUpper(name[0], CultureInfo.InvariantCulture)}{name.Substring(1)}";
     }

@@ -25,14 +25,17 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     public ICodeGenerator GetGenerator(GeneratorContext generatorContext)
     {
-      EventInfo eventInfo = generatorContext?.MemberInfo as EventInfo ?? throw new NullReferenceException();
-      return Create(eventInfo.EventHandlerType, eventInfo.Name);
+      EventInfo eventInfo = generatorContext?.MemberInfo as EventInfo;
+      return eventInfo == null ? null : 
+        Create(eventInfo.EventHandlerType, eventInfo.Name);
     }
 
     private ICodeGenerator Create(Type type, string name) =>
        (ICodeGenerator)createMethodInfo.Invoke(this, new object[] { name }, new[] { type });
 
+#pragma warning disable CA1822 // Mark members as static
     private ICodeGenerator CreateGeneric<T>(string name) =>
       new SimpleEventGenerator<T>(name);
+#pragma warning restore CA1822 // Mark members as static
   }
 }

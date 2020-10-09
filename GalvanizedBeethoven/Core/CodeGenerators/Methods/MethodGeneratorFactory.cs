@@ -1,5 +1,4 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
-using GalvanizedSoftware.Beethoven.Generic.Methods;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -36,7 +35,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       return definition switch
       {
         MethodDefinition methodDefinition => new MethodGenerator(methodDefinition),
-        //DefaultMethod defaultMethod => defaultMethod,
         _ => throw new MissingMethodException()
       };
     }

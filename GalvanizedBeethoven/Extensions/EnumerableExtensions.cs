@@ -60,12 +60,19 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         _ => Enumerable.Empty<IDefinition>()
       };
 
-    internal static string[] GenerateCode(this IEnumerable<IDefinition> definitions,
-      GeneratorContext generatorContext) =>
+    internal static string[] GenerateCode(this IEnumerable<IDefinition> definitions, GeneratorContext generatorContext) =>
       definitions
-        .Select(generator => generator.GetGenerator(generatorContext))
+        .GetGenerators(generatorContext)
         .SelectMany(generator => generator.Generate(generatorContext))
+        .SkipNull()
         .ToArray();
+
+    internal static IEnumerable<ICodeGenerator> GetGenerators(
+      this IEnumerable<IDefinition> definitions, GeneratorContext generatorContext) =>
+      definitions
+        .Where(definition => definition.CanGenerate(generatorContext.MemberInfo))
+        .Select(definition => definition.GetGenerator(generatorContext))
+        .SkipNull();
 
     public static IEnumerable<T> SkipNull<T>(this IEnumerable<T> enumerable) where T : class
     {

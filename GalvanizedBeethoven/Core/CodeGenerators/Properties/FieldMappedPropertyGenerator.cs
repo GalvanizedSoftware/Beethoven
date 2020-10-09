@@ -16,9 +16,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
-      PropertyInfo propertyInfo = generatorContext?.MemberInfo as PropertyInfo;
-      if (propertyInfo == null)
+      if (generatorContext.CodeType != CodeType.Properties)
         yield break;
+      PropertyInfo propertyInfo = generatorContext?.MemberInfo as PropertyInfo;
       Type propertyType = propertyInfo.PropertyType;
       string typeName = propertyType.GetFullName();
       string propertyName = propertyInfo.Name;
