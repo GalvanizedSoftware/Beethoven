@@ -5,23 +5,22 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.Fields
 {
-  internal class GeneratorWrapperDefinition : IDefinition
+  internal class ContructorFieldsWrapperDefinition : IDefinition
   {
     private readonly ICodeGenerator generator;
-    private readonly Func<MemberInfo, bool> checkerFunc;
 
-    public static IDefinition Create<T>(ICodeGenerator<T> generator) where T : MemberInfo =>
-      new GeneratorWrapperDefinition(generator, (memberInfo) => memberInfo is T);
+    public static IDefinition Create(ICodeGenerator generator) =>
+      new ContructorFieldsWrapperDefinition(generator);
 
-    private GeneratorWrapperDefinition(ICodeGenerator generator, Func<MemberInfo, bool> checkerFunc)
+    private ContructorFieldsWrapperDefinition(ICodeGenerator generator)
     {
       this.generator = generator;
-      this.checkerFunc = checkerFunc;
     }
 
     public int SortOrder => 1;
 
-    public bool CanGenerate(MemberInfo memberInfo) => checkerFunc(memberInfo);
+    public bool CanGenerate(MemberInfo memberInfo) => 
+      memberInfo is ConstructorInfo || memberInfo is FieldInfo;
 
     public ICodeGenerator GetGenerator(GeneratorContext _) => generator;
   }

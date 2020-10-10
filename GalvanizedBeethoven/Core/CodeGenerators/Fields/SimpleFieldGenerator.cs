@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
-  internal class SimpleFieldGenerator : ICodeGenerator<FieldInfo>
+  internal class SimpleFieldGenerator : ICodeGenerator
   {
     private readonly Type type;
     private readonly string fieldName;

@@ -5,7 +5,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using static GalvanizedSoftware.Beethoven.Core.Fields.GeneratorWrapperDefinition;
+using static GalvanizedSoftware.Beethoven.Core.Fields.ContructorFieldsWrapperDefinition;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Fields

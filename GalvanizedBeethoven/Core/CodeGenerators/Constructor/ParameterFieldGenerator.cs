@@ -6,7 +6,7 @@ using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
 {
-  internal class ParameterFieldGenerator : ICodeGenerator<ConstructorInfo>
+  internal class ParameterFieldGenerator : ICodeGenerator
   {
     private readonly string fieldName;
     private readonly Type type;
