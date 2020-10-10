@@ -22,7 +22,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
         yield return line;
       yield return "=>".Format(1);
       yield return $"{fieldName}.;".Format(1);
-      yield return "";
     }
   }
 }
