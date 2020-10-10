@@ -1,4 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Reflection;
 
@@ -18,8 +19,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Fields
 
     public int SortOrder => 1;
 
-    public bool CanGenerate(MemberInfo memberInfo) => 
-      memberInfo is ConstructorInfo || memberInfo is FieldInfo;
+    public bool CanGenerate(MemberInfo memberInfo) =>
+      memberInfo is null;
 
     public ICodeGenerator GetGenerator(GeneratorContext _) => generator;
   }

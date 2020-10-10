@@ -18,7 +18,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public int SortOrder => 1;
 
     public bool CanGenerate(MemberInfo memberInfo) =>
-      memberInfo is ConstructorInfo;
+      memberInfo is null;
 
     public ICodeGenerator GetGenerator(GeneratorContext _) => generator;
   }

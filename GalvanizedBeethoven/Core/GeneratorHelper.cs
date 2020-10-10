@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using GalvanizedSoftware.Beethoven.Core.Invokers.Factories;
+using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
   public static class GeneratorHelper
   {
-    internal static IEnumerable<string> AsCollection(string code)
-    {
-      if (!string.IsNullOrEmpty(code))
-        yield return code;
-    }
+    internal static readonly string InvokerTypeName = typeof(RuntimeInvokerFactory).GetFullName();
   }
 }

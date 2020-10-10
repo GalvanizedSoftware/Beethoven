@@ -1,8 +1,8 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Invokers;
-using GalvanizedSoftware.Beethoven.Core.Invokers.Factories;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Collections.Generic;
+using static GalvanizedSoftware.Beethoven.Core.GeneratorHelper;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
@@ -11,24 +11,31 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
     private readonly Type type;
     private readonly string fieldName;
     private readonly Func<object> factoryFunc;
-    private static readonly string invokerTypeName = typeof(RuntimeInvokerFactory).GetFullName();
+    private readonly string typeName;
 
     public FactoryFieldGenerator(Type type, string fieldName, Func<object> factoryFunc)
     {
       this.type = type ?? throw new NullReferenceException();
       this.fieldName = fieldName;
       this.factoryFunc = factoryFunc;
+      typeName = type.GetFullName();
     }
 
     public IEnumerable<string> Generate(GeneratorContext generatorContext)
     {
-      if (generatorContext.CodeType != CodeType.Fields)
-        yield break;
+      yield return generatorContext.CodeType switch
+      {
+        CodeType.Fields => $@"{typeName} {fieldName};",
+        CodeType.ConstructorCode => GenerateConstructorCode(generatorContext),
+        _ => null
+      };
+    }
+
+    private string GenerateConstructorCode(GeneratorContext generatorContext)
+    {
       string uniqueBackingId = $"{generatorContext?.GeneratedClassName}{fieldName}Factory";
       InvokerList.SetInvoker(uniqueBackingId, factoryFunc);
-      string typeName = type.GetFullName();
-      yield return
-        $@"{typeName} {fieldName} = new {invokerTypeName}(""{uniqueBackingId}"").Create<{typeName}>();";
+      return $@"{fieldName} = new {InvokerTypeName}(""{ uniqueBackingId}"").Create <{ typeName}> (); ";
     }
   }
 }

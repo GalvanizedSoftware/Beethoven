@@ -16,7 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
     public PropertyGeneratorFactory(GeneratorContext generatorContext, IEnumerable<IDefinition> definitions)
     {
       this.generatorContext = generatorContext;
-      memberInfo = this.generatorContext.MemberInfo;
+      memberInfo = generatorContext.MemberInfo;
       this.definitions = definitions
         .Where(definition => definition.CanGenerate(memberInfo))
         .ToArray();
