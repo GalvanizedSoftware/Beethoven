@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using static System.Environment;
 using static System.Reflection.Assembly;
 
 namespace GalvanizedSoftware.Beethoven.Core
@@ -20,10 +21,10 @@ namespace GalvanizedSoftware.Beethoven.Core
     public Compiler(Assembly mainAssembly, Assembly callingAssembly, string[] codeParts)
     {
       assemblyCache = new AssemblyCache(mainAssembly, callingAssembly);
-      code = string.Join(Environment.NewLine, codeParts);
+      code = string.Join(NewLine, codeParts);
       string data =
         string.Join(
-          Environment.NewLine,
+          NewLine,
           assemblyCache
             .Select(assembly => assembly.GetName().FullName)) +
         code;

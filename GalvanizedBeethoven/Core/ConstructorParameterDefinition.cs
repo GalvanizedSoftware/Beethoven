@@ -1,5 +1,4 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
-using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Reflection;
 

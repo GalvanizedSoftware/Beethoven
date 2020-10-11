@@ -6,13 +6,13 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
-  internal class MethodsGenerator : ICodeGenerator
+  internal class MethodGenerators : ICodeGenerator
   {
     private readonly MethodInfo[] methodInfos;
     private readonly IEnumerable<MethodDefinition> definitions;
     private readonly Dictionary<MethodInfo, int?> methodIndexes;
 
-    public MethodsGenerator(MemberInfo[] membersInfos, IEnumerable<IDefinition> definitions)
+    public MethodGenerators(MemberInfo[] membersInfos, IEnumerable<IDefinition> definitions)
     {
       methodInfos = membersInfos
                     .OfType<MethodInfo>()

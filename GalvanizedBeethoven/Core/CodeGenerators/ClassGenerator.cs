@@ -20,8 +20,8 @@ namespace GalvanizedSoftware.Beethoven
     private readonly ConstructorGenerator constructorGenerator;
     private readonly FieldsGenerator fieldsGenerator;
     private readonly PropertiesGenerator propertiesGenerator;
-    private readonly MethodsGenerator methodsGenerator;
-    private readonly EventsGenerator eventsGenerator;
+    private readonly MethodGenerators methodGenerators;
+    private readonly EventGenerators eventGenerators;
     private readonly GeneratorContext generatorContext;
     private readonly Type interfaceType;
     private readonly string className;
@@ -39,8 +39,8 @@ namespace GalvanizedSoftware.Beethoven
       constructorGenerator = new ConstructorGenerator(className, definitions);
       fieldsGenerator = new FieldsGenerator(definitions);
       propertiesGenerator = new PropertiesGenerator(membersInfos, definitions);
-      methodsGenerator = new MethodsGenerator(membersInfos, definitions);
-      eventsGenerator = new EventsGenerator(membersInfos, definitions);
+      methodGenerators = new MethodGenerators(membersInfos, definitions);
+      eventGenerators = new EventGenerators(membersInfos, definitions);
       generatorContext = new GeneratorContext(className, interfaceType);
     }
 
@@ -53,8 +53,8 @@ namespace GalvanizedSoftware.Beethoven
       yield return Generate(fieldsGenerator);
       yield return Generate(constructorGenerator);
       yield return Generate(propertiesGenerator);
-      yield return Generate(methodsGenerator);
-      yield return Generate(eventsGenerator);
+      yield return Generate(methodGenerators);
+      yield return Generate(eventGenerators);
       yield return "	}";
       yield return "}";
     }
@@ -64,6 +64,13 @@ namespace GalvanizedSoftware.Beethoven
         .Generate(generatorContext)
         .SkipNull()
         .Format(2) + Environment.NewLine;
+
+    private string Generate(ICodeGenerators codeGenerators) =>
+      new CodeGeneratorsWrapper(codeGenerators)
+        .Generate(generatorContext)
+        .SkipNull()
+        .Format(2) + Environment.NewLine;
+
 
     private static bool FilterMemberInfo(MemberInfo memberInfo) => memberInfo switch
     {
