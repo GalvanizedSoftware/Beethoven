@@ -6,11 +6,11 @@ using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
-  internal class FieldsGenerator : ICodeGenerator
+  internal class FieldGenerators : ICodeGenerator
   {
     private readonly IEnumerable<IDefinition> definitions;
 
-    public FieldsGenerator(IEnumerable<IDefinition> definitions)
+    public FieldGenerators(IEnumerable<IDefinition> definitions)
     {
       this.definitions = definitions;
     }

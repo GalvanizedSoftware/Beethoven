@@ -18,7 +18,7 @@ namespace GalvanizedSoftware.Beethoven
     internal static readonly string GeneratedClassName = typeof(IGeneratedClass).FullName;
     private readonly string classNamespace;
     private readonly ConstructorGenerator constructorGenerator;
-    private readonly FieldsGenerator fieldsGenerator;
+    private readonly FieldGenerators fieldsGenerator;
     private readonly PropertyGenerators propertiesGenerator;
     private readonly MethodGenerators methodGenerators;
     private readonly EventGenerators eventGenerators;
@@ -37,7 +37,7 @@ namespace GalvanizedSoftware.Beethoven
         .Where(FilterMemberInfo)
         .ToArray();
       constructorGenerator = new ConstructorGenerator(className, definitions);
-      fieldsGenerator = new FieldsGenerator(definitions);
+      fieldsGenerator = new FieldGenerators(definitions);
       propertiesGenerator = new PropertyGenerators(membersInfos, definitions);
       methodGenerators = new MethodGenerators(membersInfos, definitions);
       eventGenerators = new EventGenerators(membersInfos, definitions);
