@@ -1,4 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
-  internal class MethodGenerators : ICodeGenerator
+  internal class MethodGenerators : ICodeGenerators
   {
     private readonly MethodInfo[] methodInfos;
     private readonly IEnumerable<MethodDefinition> definitions;
@@ -32,6 +33,16 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
         .SelectMany(methodInfo => new MethodGeneratorFactory(methodInfo, definitions)
           .Create()
           .Generate(generatorContext.CreateLocal(methodInfo, methodIndexes[methodInfo])));
+
+    public IEnumerable<ICodeGenerator> GetGenerators(GeneratorContext generatorContext)
+    {
+      return methodInfos
+        .Select(
+          methodInfo => 
+            new MethodGeneratorFactory(methodInfo, definitions)
+            .Create()
+            .WrapLocal(methodInfo, methodIndexes[methodInfo]));
+    }
 
     private int? FindIndex(MethodInfo methodInfo)
     {
