@@ -9,16 +9,14 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 {
   internal class PropertyGeneratorFactory
   {
-    private readonly MemberInfo memberInfo;
+    private readonly PropertyInfo propertyInfo;
     private readonly IDefinition[] definitions;
-    private readonly GeneratorContext generatorContext;
 
-    public PropertyGeneratorFactory(GeneratorContext generatorContext, IEnumerable<IDefinition> definitions)
+    public PropertyGeneratorFactory(PropertyInfo propertyInfo, IEnumerable<IDefinition> definitions)
     {
-      this.generatorContext = generatorContext;
-      memberInfo = generatorContext.MemberInfo;
+      this.propertyInfo = propertyInfo;
       this.definitions = definitions
-        .Where(definition => definition.CanGenerate(memberInfo))
+        .Where(definition => definition.CanGenerate(propertyInfo))
         .ToArray();
     }
 
@@ -33,8 +31,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       definition switch
       {
         PropertyDefinition propertyDefinition => new PropertyGenerator(propertyDefinition),
-        DefaultProperty defaultProperty => defaultProperty.GetGenerator(generatorContext),
-        IDefinition otherDefinition => otherDefinition.GetGenerator(generatorContext),
+        DefaultProperty defaultProperty => defaultProperty.GetGenerator(propertyInfo),
+        IDefinition otherDefinition => otherDefinition.GetGenerator(null),
         _ => throw new MissingMethodException()
       };
 
@@ -45,7 +43,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
         .ToArray();
       if (specificPropertyDefinitions.Length == 1)
         return GetSingleGenerator(specificPropertyDefinitions.Single());
-      throw new MissingMethodException($"Multiple implementation of {memberInfo.Name} found");
+      throw new MissingMethodException($"Multiple implementation of {propertyInfo.Name} found");
     }
   }
 }

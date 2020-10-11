@@ -19,7 +19,7 @@ namespace GalvanizedSoftware.Beethoven
     private readonly string classNamespace;
     private readonly ConstructorGenerator constructorGenerator;
     private readonly FieldsGenerator fieldsGenerator;
-    private readonly PropertiesGenerator propertiesGenerator;
+    private readonly PropertyGenerators propertiesGenerator;
     private readonly MethodGenerators methodGenerators;
     private readonly EventGenerators eventGenerators;
     private readonly GeneratorContext generatorContext;
@@ -38,7 +38,7 @@ namespace GalvanizedSoftware.Beethoven
         .ToArray();
       constructorGenerator = new ConstructorGenerator(className, definitions);
       fieldsGenerator = new FieldsGenerator(definitions);
-      propertiesGenerator = new PropertiesGenerator(membersInfos, definitions);
+      propertiesGenerator = new PropertyGenerators(membersInfos, definitions);
       methodGenerators = new MethodGenerators(membersInfos, definitions);
       eventGenerators = new EventGenerators(membersInfos, definitions);
       generatorContext = new GeneratorContext(className, interfaceType);
