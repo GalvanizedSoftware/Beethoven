@@ -60,7 +60,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         _ => Enumerable.Empty<IDefinition>()
       };
 
-    internal static string[] GenerateCode(this IEnumerable<IDefinition> definitions, GeneratorContext generatorContext) =>
+    internal static (CodeType, string)[] GenerateCode(this IEnumerable<IDefinition> definitions, GeneratorContext generatorContext) =>
       definitions
         .GetGenerators(generatorContext)
         .SelectMany(generator => generator.Generate(generatorContext))
@@ -81,6 +81,14 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       foreach (T item in enumerable)
         if (item != null)
           yield return item;
+    }
+
+    public static IEnumerable<T> SkipNull<T>(this IEnumerable<T?> enumerable) where T : struct
+    {
+      if (enumerable == null)
+        yield break;
+      foreach (T? item in enumerable.Where(item => item.HasValue))
+        yield return item.Value;
     }
   }
 }

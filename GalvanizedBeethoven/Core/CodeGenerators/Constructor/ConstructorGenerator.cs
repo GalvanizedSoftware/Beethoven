@@ -17,17 +17,21 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
       this.definitions = definitions.ToArray();
     }
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
     {
-      string[] parameters = definitions.GenerateCode(
-        generatorContext.CreateLocal(ConstructorSignature));
-      string[] initializers = definitions.GenerateCode(
-        generatorContext.CreateLocal(ConstructorCode));
-      yield return $"public {className}({string.Join(", ", parameters)})";
-      yield return "{";
-      foreach (string line in initializers)
+      string[] parameters = definitions
+        .GenerateCode(generatorContext.CreateLocal(ConstructorSignature))
+        .Filter(ConstructorSignature)
+        .ToCode()
+        .ToArray();
+      IEnumerable<(CodeType, string)> initializers = definitions
+        .GenerateCode(generatorContext.CreateLocal(ConstructorCode))
+         .Filter(ConstructorCode);
+      yield return (ConstructorSignature, $"public {className}({string.Join(", ", parameters)})");
+      yield return (ConstructorSignature, "{");
+      foreach ((CodeType, string) line in initializers)
         yield return line.Format(1);
-      yield return "}";
+      yield return (ConstructorSignature, "}");
     }
   }
 }

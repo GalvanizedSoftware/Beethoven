@@ -10,9 +10,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
   {
     Dictionary<Type, CodeType> typeCodeTypeMapping = new Dictionary<Type, CodeType>
     {
-      { typeof(MethodInfo), CodeType.Methods},
-      { typeof(PropertyInfo), CodeType.Properties},
-      { typeof(EventInfo), CodeType.Events}
+      { typeof(MethodInfo), CodeType.MethodsCode},
+      { typeof(PropertyInfo), CodeType.PropertiesCode},
+      { typeof(EventInfo), CodeType.EventsCode}
     };
 
     internal GeneratorContext(string generatedClassName, Type interfaceType)

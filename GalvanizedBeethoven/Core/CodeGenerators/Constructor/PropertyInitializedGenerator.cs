@@ -20,13 +20,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.ConstructorParameters
       parameterName = $"{char.ToUpper(name[0], CultureInfo.InvariantCulture)}{name.Substring(1)}";
     }
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
     {
       yield return
         generatorContext.CodeType switch
         {
-          ConstructorSignature => $"{type.GetFullName()} {parameterName}",
-          ConstructorCode => $"this.{name} = {parameterName};",
+          ConstructorSignature => (ConstructorSignature, $"{type.GetFullName()} {parameterName}"),
+          ConstructorCode => (ConstructorCode, $"this.{name} = {parameterName};"),
           _ => null
         };
     }

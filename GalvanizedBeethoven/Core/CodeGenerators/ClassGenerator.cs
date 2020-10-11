@@ -61,9 +61,9 @@ namespace GalvanizedSoftware.Beethoven
 
     private string Generate(ICodeGenerator codeGenerator) =>
       codeGenerator
-      .Generate(generatorContext)
-      .Where(code => !string.IsNullOrEmpty(code))
-      .Format(2) + Environment.NewLine;
+        .Generate(generatorContext)
+        .SkipNull()
+        .Format(2) + Environment.NewLine;
 
     private static bool FilterMemberInfo(MemberInfo memberInfo) => memberInfo switch
     {

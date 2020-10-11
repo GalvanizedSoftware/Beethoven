@@ -48,7 +48,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       using MemoryStream assemblyStream = new MemoryStream();
       using MemoryStream pbdStream = new MemoryStream();
       EmitResult result = compilation.Emit(assemblyStream, pbdStream);
-      string[] erros = result
+      string[] errors = result
         .Diagnostics
         .Select(error => error.ToString())
         .ToArray();

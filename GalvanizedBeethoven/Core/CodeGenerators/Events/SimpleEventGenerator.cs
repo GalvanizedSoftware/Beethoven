@@ -1,5 +1,6 @@
 ﻿using GalvanizedSoftware.Beethoven.Extensions;
 using System.Collections.Generic;
+using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
 {
@@ -12,10 +13,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
       this.name = name;
     }
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
     {
-      if (generatorContext.CodeType == CodeType.Events)
-        yield return $@"public event {typeof(T).GetFullName()} {name};";
+      if (generatorContext.CodeType == EventsCode)
+        yield return (EventsCode, $@"public event {typeof(T).GetFullName()} {name};");
     }
   }
 }

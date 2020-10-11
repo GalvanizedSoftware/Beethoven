@@ -1,13 +1,13 @@
 ﻿namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 {
-  internal enum CodeType
+  public enum CodeType
   {
-    Class,
-    Fields,
+    ClassCode,
+    FieldsCode,
     ConstructorSignature,
     ConstructorCode,
-    Methods,
-    Properties,
-    Events,
+    MethodsCode,
+    PropertiesCode,
+    EventsCode,
   }
 }

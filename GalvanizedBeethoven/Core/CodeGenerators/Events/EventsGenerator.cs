@@ -4,6 +4,7 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
 {
@@ -20,20 +21,24 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
       this.definitions = definitions.ToArray();
     }
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
     {
-      foreach (string line in GenerateDeclaration(generatorContext))
-        yield return line;
-      yield return "";
-      yield return $"object {ClassGenerator.GeneratedClassName}.NotifyEvent(string eventName, object[] values)";
-      yield return "{";
-      yield return "	switch (eventName)";
-      yield return "	{";
-      foreach (string line in GenerateNotifyCode())
-        yield return $"		{line}";
-      yield return "		default: return null;";
-      yield return "	}";
-      yield return "}";
+      return Generate().Select(code => ((CodeType, string)?)(EventsCode, code));
+      IEnumerable<string> Generate()
+      {
+        foreach (string line in GenerateDeclaration(generatorContext))
+          yield return line;
+        yield return "";
+        yield return $"object {ClassGenerator.GeneratedClassName}.NotifyEvent(string eventName, object[] values)";
+        yield return "{";
+        yield return "	switch (eventName)";
+        yield return "	{";
+        foreach (string line in GenerateNotifyCode())
+          yield return $"		{line}";
+        yield return "		default: return null;";
+        yield return "	}";
+        yield return "}";
+      }
     }
 
     private IEnumerable<string> GenerateDeclaration(GeneratorContext generatorContext) =>
@@ -48,7 +53,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
         .Append(new DefaultEvent())
         .GetGenerators(localContext)
         .FirstOrDefault()?
-        .Generate(localContext);
+        .Generate(localContext)
+        .SkipNull()
+        .Filter(EventsCode)
+        .Select(tuple => tuple.Item2);
     }
 
     internal IEnumerable<string> GenerateNotifyCode() =>

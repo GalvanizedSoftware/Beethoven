@@ -1,6 +1,8 @@
 ﻿using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
+using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
@@ -13,8 +15,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
       this.definitions = definitions;
     }
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext) =>
+    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext) =>
       definitions
-        .GenerateCode(generatorContext.CreateLocal(CodeType.Fields));
+        .GenerateCode(generatorContext.CreateLocal(FieldsCode))
+        .Filter(FieldsCode)
+        .Cast<(CodeType, string)?>();
   }
 }

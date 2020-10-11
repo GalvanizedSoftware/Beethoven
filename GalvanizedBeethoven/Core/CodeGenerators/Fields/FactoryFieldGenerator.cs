@@ -3,6 +3,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Collections.Generic;
 using static GalvanizedSoftware.Beethoven.Core.GeneratorHelper;
+using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
@@ -21,12 +22,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
       typeName = type.GetFullName();
     }
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
     {
       yield return generatorContext.CodeType switch
       {
-        CodeType.Fields => $@"{typeName} {fieldName};",
-        CodeType.ConstructorCode => GenerateConstructorCode(generatorContext),
+        FieldsCode => (FieldsCode, $@"{typeName} {fieldName};"),
+        ConstructorCode => (ConstructorCode, GenerateConstructorCode(generatorContext)),
         _ => null
       };
     }

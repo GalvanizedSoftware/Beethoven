@@ -1,6 +1,7 @@
 ﻿using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Collections.Generic;
+using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
@@ -15,10 +16,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
       this.fieldName = fieldName;
     }
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
     {
-      if (generatorContext.CodeType == CodeType.Fields)
-        yield return $"{type.GetFullName()} {fieldName};";
+      if (generatorContext.CodeType == FieldsCode)
+        yield return (FieldsCode, $"{type.GetFullName()} {fieldName};");
     }
   }
 }

@@ -2,7 +2,7 @@
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 {
-  public interface ICodeGenerator
+  internal interface ICodeGenerators : IEnumerable<ICodeGenerator>
   {
     IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext);
   }

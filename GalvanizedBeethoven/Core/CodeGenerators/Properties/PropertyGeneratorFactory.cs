@@ -33,7 +33,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       definition switch
       {
         PropertyDefinition propertyDefinition => new PropertyGenerator(propertyDefinition),
-        DefaultProperty defaultProperty => defaultProperty,
+        DefaultProperty defaultProperty => defaultProperty.GetGenerator(generatorContext),
         IDefinition otherDefinition => otherDefinition.GetGenerator(generatorContext),
         _ => throw new MissingMethodException()
       };

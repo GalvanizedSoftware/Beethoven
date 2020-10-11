@@ -27,7 +27,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
           methodInfo => FindIndex(methodInfo));
     }
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext) =>
+    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext) =>
       methodInfos
         .SelectMany(methodInfo => new MethodGeneratorFactory(methodInfo, definitions)
           .Create()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using static System.Environment;
+using static System.StringSplitOptions;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
@@ -13,10 +14,10 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       string.Join("", Enumerable.Repeat(OneIndent, indentCount)) + text;
 
     internal static string Format(this string text, int indentCount) =>
-      Format(text.Split(new[] { NewLine }, StringSplitOptions.RemoveEmptyEntries), indentCount);
+      Format(text.Split(new[] { NewLine }, RemoveEmptyEntries), indentCount);
 
     internal static IEnumerable<string> SplitToLines(this string text) =>
-      text.Split(new[] { NewLine }, StringSplitOptions.None);
+      text.Split(new[] { NewLine }, None);
 
     internal static string Format(this IEnumerable<string> lines, int indentCount)
     {

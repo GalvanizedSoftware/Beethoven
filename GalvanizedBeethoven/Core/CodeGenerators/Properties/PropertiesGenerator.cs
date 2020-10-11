@@ -1,4 +1,5 @@
-﻿using GalvanizedSoftware.Beethoven.Interfaces;
+﻿using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -18,11 +19,15 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       this.definitions = definitions;
     }
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext) =>
+    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext) =>
       propertyInfos
         .Select(propertyInfo => generatorContext.CreateLocal(propertyInfo))
         .SelectMany(localContext => new PropertyGeneratorFactory(localContext, definitions)
           .Create()
-          .Generate(localContext));
+          .Generate(localContext)
+          .SkipNull()
+          .Filter(CodeType.PropertiesCode)
+          .Cast<(CodeType, string)?>()
+        );
   }
 }
