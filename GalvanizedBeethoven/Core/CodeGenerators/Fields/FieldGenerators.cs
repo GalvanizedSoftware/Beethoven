@@ -17,7 +17,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 
     public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext) =>
       definitions
-        .GenerateCode(generatorContext.CreateLocal(FieldsCode))
+        .GenerateCode(generatorContext)
         .Filter(FieldsCode)
         .Cast<(CodeType, string)?>();
   }

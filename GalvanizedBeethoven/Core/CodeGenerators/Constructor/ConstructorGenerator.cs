@@ -19,13 +19,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
 
     public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
     {
-      string[] parameters = definitions
-        .GenerateCode(generatorContext.CreateLocal(ConstructorSignature))
+      (CodeType, string)[] code = definitions.GenerateCode(generatorContext);
+      string[] parameters = code
         .Filter(ConstructorSignature)
         .ToCode()
         .ToArray();
-      IEnumerable<(CodeType, string)> initializers = definitions
-        .GenerateCode(generatorContext.CreateLocal(ConstructorCode))
+      IEnumerable<(CodeType, string)> initializers = code
          .Filter(ConstructorCode);
       yield return (ConstructorSignature, $"public {className}({string.Join(", ", parameters)})");
       yield return (ConstructorSignature, "{");

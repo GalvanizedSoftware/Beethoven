@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using static System.Environment;
 
 namespace GalvanizedSoftware.Beethoven
 {
@@ -23,12 +24,10 @@ namespace GalvanizedSoftware.Beethoven
     private readonly MethodGenerators methodGenerators;
     private readonly EventGenerators eventGenerators;
     private readonly GeneratorContext generatorContext;
-    private readonly Type interfaceType;
     private readonly string className;
 
     public ClassGenerator(Type interfaceType, string className, string classNamespace, IDefinition[] definitions)
     {
-      this.interfaceType = interfaceType;
       this.className = className;
       this.classNamespace = classNamespace;
       MemberInfo[] membersInfos = interfaceType
@@ -63,13 +62,13 @@ namespace GalvanizedSoftware.Beethoven
       codeGenerator
         .Generate(generatorContext)
         .SkipNull()
-        .Format(2) + Environment.NewLine;
+        .Format(2) + NewLine;
 
     private string Generate(ICodeGenerators codeGenerators) =>
       new CodeGeneratorsWrapper(codeGenerators)
         .Generate(generatorContext)
         .SkipNull()
-        .Format(2) + Environment.NewLine;
+        .Format(2) + NewLine;
 
 
     private static bool FilterMemberInfo(MemberInfo memberInfo) => memberInfo switch

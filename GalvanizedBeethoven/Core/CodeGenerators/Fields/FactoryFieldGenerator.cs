@@ -24,12 +24,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 
     public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
     {
-      yield return generatorContext.CodeType switch
-      {
-        FieldsCode => (FieldsCode, $@"{typeName} {fieldName};"),
-        ConstructorCode => (ConstructorCode, GenerateConstructorCode(generatorContext)),
-        _ => null
-      };
+      yield return (FieldsCode, $@"{typeName} {fieldName};");
+      yield return (ConstructorCode, GenerateConstructorCode(generatorContext));
     }
 
     private string GenerateConstructorCode(GeneratorContext generatorContext)

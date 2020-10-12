@@ -22,13 +22,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.ConstructorParameters
 
     public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
     {
-      yield return
-        generatorContext.CodeType switch
-        {
-          ConstructorSignature => (ConstructorSignature, $"{type.GetFullName()} {parameterName}"),
-          ConstructorCode => (ConstructorCode, $"this.{name} = {parameterName};"),
-          _ => null
-        };
+      yield return (ConstructorSignature, $"{type.GetFullName()} {parameterName}");
+      yield return (ConstructorCode, $"this.{name} = {parameterName};");
     }
   }
 }
