@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
 using GalvanizedSoftware.Beethoven.Core.Invokers;
 using GalvanizedSoftware.Beethoven.Core.Invokers.Factories;
 using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
@@ -25,19 +26,24 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      return Generate().Select(code => ((CodeType, string)?)(MethodsCode, code));
+      MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;
+      string methodName = $"{methodInfo.Name}{generatorContext.MethodIndex}";
+      string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{methodName}_{new TagGenerator(generatorContext)}";
+      InvokerGenerator invorkerGenerator = new InvokerGenerator(
+        uniqueInvokerName,
+        InvokerFactory.CreateMethodInvoker(methodInfo, methodDefinition),
+        $"invoker{methodName}",
+        typeof(MethodInvoker));
+
+      return invorkerGenerator.Generate()
+        .Concat(
+          Generate()
+            .Select(code => ((CodeType, string)?)(MethodsCode, code)));
       IEnumerable<string> Generate()
       {
-        MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;
-        string methodName = $"{methodInfo.Name}{generatorContext.MethodIndex}";
-        string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{methodName}_{new TagGenerator(generatorContext)}";
-        InvokerList.SetInvoker(uniqueInvokerName,
-          InvokerFactory.CreateMethodInvoker(methodInfo, methodDefinition));
-        string invokerName = $"invoker{methodName}";
-        string invokerTypeName = typeof(MethodInvoker).GetFullName();
+        string invokerName = invorkerGenerator.InvokerName;
         ParameterInfo[] parameters = methodInfo.GetParametersSafe().ToArray();
         Type returnType = methodInfo.ReturnType;
-        yield return $@"private {invokerTypeName} {invokerName} = new {invokerTypeName}(""{uniqueInvokerName}"");";
         MethodSignatureGenerator methodSignatureGenerator = new MethodSignatureGenerator(methodInfo);
         foreach (string line in methodSignatureGenerator.GenerateDeclaration())
           yield return line;
