@@ -9,7 +9,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
   internal class FactoryFieldGenerator : ICodeGenerator
   {
-    private readonly Type type;
     private readonly string fieldName;
     private readonly Func<object> factoryFunc;
     private readonly string typeName;
@@ -17,7 +16,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 
     public FactoryFieldGenerator(Type type, string fieldName, GeneratorContext generatorContext, Func<object> factoryFunc)
     {
-      this.type = type ?? throw new NullReferenceException();
       this.fieldName = fieldName;
       this.factoryFunc = factoryFunc;
       generatedClassName = generatorContext?.GeneratedClassName;
@@ -27,14 +25,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
     public IEnumerable<(CodeType, string)?> Generate()
     {
       yield return (FieldsCode, $@"{typeName} {fieldName};");
-      yield return (ConstructorCode, GenerateConstructorCode());
-    }
-
-    private string GenerateConstructorCode()
-    {
       string uniqueBackingId = $"{generatedClassName}{fieldName}Factory";
       InvokerList.SetInvoker(uniqueBackingId, factoryFunc);
-      return $@"{fieldName} = new {InvokerTypeName}(""{ uniqueBackingId}"").Create <{ typeName}> (); ";
+      yield return (ConstructorCode, 
+        $@"{fieldName} = new {InvokerTypeName}(""{ uniqueBackingId}"").Create <{ typeName}> (); ");
     }
   }
 }
