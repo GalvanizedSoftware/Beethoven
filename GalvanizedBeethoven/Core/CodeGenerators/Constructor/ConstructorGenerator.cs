@@ -1,34 +1,28 @@
 ﻿using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
 {
-  internal class ConstructorGenerator : ICodeGenerator
+  internal class ConstructorGenerator
   {
     private readonly string className;
-    private readonly IDefinition[] definitions;
 
-    public ConstructorGenerator(string className, IEnumerable<IDefinition> definitions)
+    public ConstructorGenerator(string className)
     {
       this.className = className;
-      this.definitions = definitions.ToArray();
     }
 
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
+    internal IEnumerable<(CodeType, string)> Generate((CodeType, string)[] code)
     {
-      (CodeType, string)[] code = definitions.GenerateCode(generatorContext);
       string[] parameters = code
         .Filter(ConstructorSignature)
         .ToCode()
         .ToArray();
-      IEnumerable<(CodeType, string)> initializers = code
-         .Filter(ConstructorCode);
       yield return (ConstructorSignature, $"public {className}({string.Join(", ", parameters)})");
       yield return (ConstructorSignature, "{");
-      foreach ((CodeType, string) line in initializers)
+      foreach ((CodeType, string) line in code.Filter(ConstructorCode))
         yield return line.Format(1);
       yield return (ConstructorSignature, "}");
     }

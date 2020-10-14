@@ -4,6 +4,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 {
   public interface ICodeGenerator
   {
-    IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext);
+    IEnumerable<(CodeType, string)?> Generate();
   }
 }

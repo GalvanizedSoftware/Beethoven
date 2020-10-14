@@ -8,10 +8,15 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
   public sealed class MethodNotImplementedGenerator : ICodeGenerator
   {
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
+    private readonly GeneratorContext generatorContext;
+
+    public MethodNotImplementedGenerator(GeneratorContext generatorContext)
     {
-      if (generatorContext?.CodeType != MethodsCode)
-        return Enumerable.Empty<(CodeType, string)?>();
+      this.generatorContext = generatorContext;
+    }
+
+    public IEnumerable<(CodeType, string)?> Generate()
+    {
       return Generate().Select(code => ((CodeType, string)?)(MethodsCode, code));
       IEnumerable<string> Generate()
       {

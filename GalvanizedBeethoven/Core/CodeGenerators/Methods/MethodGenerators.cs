@@ -28,21 +28,17 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
           methodInfo => FindIndex(methodInfo));
     }
 
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext) =>
-      methodInfos
-        .SelectMany(methodInfo => new MethodGeneratorFactory(methodInfo, definitions)
-          .Create()
-          .Generate(generatorContext.CreateLocal(methodInfo, methodIndexes[methodInfo])));
-
     public IEnumerable<ICodeGenerator> GetGenerators(GeneratorContext generatorContext)
     {
       return methodInfos
         .Select(
-          methodInfo => 
-            new MethodGeneratorFactory(methodInfo, definitions)
-            .Create()
-            .WrapLocal(methodInfo, methodIndexes[methodInfo]));
+          methodInfo =>
+            CreateFactory(generatorContext, methodInfo));
     }
+
+    private ICodeGenerator CreateFactory(GeneratorContext generatorContext, MethodInfo methodInfo) =>
+      new MethodGeneratorFactory(generatorContext, methodInfo, methodIndexes[methodInfo], definitions)
+        .Create();
 
     private int? FindIndex(MethodInfo methodInfo)
     {
@@ -51,7 +47,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
         .Where(methodInfo => methodInfo.Name == name)
         .ToArray();
       return methodInfoArray.Length == 1 ?
-        null :
+        0 :
         methodInfoArray
         .Select((methodInfo, i) => (methodInfo, i))
         .Where(tuple => tuple.methodInfo == methodInfo)

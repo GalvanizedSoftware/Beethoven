@@ -1,19 +1,20 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Interfaces;
+using System;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.Fields
 {
   internal class ContructorFieldsWrapperDefinition : IDefinition
   {
-    private readonly ICodeGenerator generator;
+    private readonly Func<GeneratorContext, ICodeGenerator> generatorFunc;
 
-    public static IDefinition Create(ICodeGenerator generator) =>
-      new ContructorFieldsWrapperDefinition(generator);
+    public static IDefinition Create(Func<GeneratorContext, ICodeGenerator> generatorFunc) =>
+      new ContructorFieldsWrapperDefinition(generatorFunc);
 
-    private ContructorFieldsWrapperDefinition(ICodeGenerator generator)
+    private ContructorFieldsWrapperDefinition(Func<GeneratorContext, ICodeGenerator> generatorFunc)
     {
-      this.generator = generator;
+      this.generatorFunc = generatorFunc;
     }
 
     public int SortOrder => 1;
@@ -21,6 +22,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Fields
     public bool CanGenerate(MemberInfo memberInfo) =>
       memberInfo is null;
 
-    public ICodeGenerator GetGenerator(GeneratorContext _) => generator;
+    public ICodeGenerator GetGenerator(GeneratorContext generatorContext) => 
+      generatorFunc(generatorContext);
   }
 }

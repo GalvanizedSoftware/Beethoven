@@ -63,7 +63,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     internal static (CodeType, string)[] GenerateCode(this IEnumerable<IDefinition> definitions, GeneratorContext generatorContext) =>
       definitions
         .GetGenerators(generatorContext)
-        .SelectMany(generator => generator.Generate(generatorContext))
+        .SelectMany(generator => generator.Generate())
         .SkipNull()
         .ToArray();
 

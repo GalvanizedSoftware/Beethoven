@@ -14,23 +14,25 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
   {
     private readonly object[] definitions;
     private readonly string invokerTypeName;
+    private readonly PropertyInfo propertyInfo;
+    private readonly GeneratorContext generatorContext;
 
-    internal PropertyGenerator(PropertyDefinition propertyDefinition)
+    internal PropertyGenerator(
+      GeneratorContext generatorContext, PropertyInfo propertyInfo, PropertyDefinition propertyDefinition)
     {
       definitions = propertyDefinition.Definitions;
       invokerTypeName = typeof(PropertyInvoker<>)
         .MakeGenericType(propertyDefinition.PropertyType)
         .GetFullName();
+      this.generatorContext = generatorContext;
+      this.propertyInfo = propertyInfo;
     }
 
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate()
     {
-      if (generatorContext.CodeType != PropertiesCode)
-        return Enumerable.Empty<(CodeType, string)?>();
       return Generate().Select(code => ((CodeType, string)?)(PropertiesCode, code));
       IEnumerable<string> Generate()
       {
-        PropertyInfo propertyInfo = generatorContext.MemberInfo as PropertyInfo;
         Type propertyType = propertyInfo.PropertyType;
         string typeName = propertyType.GetFullName();
         string propertyName = propertyInfo.Name;

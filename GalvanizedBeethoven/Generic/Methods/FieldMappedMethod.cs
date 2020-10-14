@@ -26,7 +26,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       _ => false,
     };
 
-    public ICodeGenerator GetGenerator(GeneratorContext _) =>
-      new FieldMappedMethodGenerator(fieldName);
+    public ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
+      new FieldMappedMethodGenerator(fieldName, generatorContext);
   }
 }

@@ -9,20 +9,19 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
   internal class FieldMappedMethodGenerator : ICodeGenerator
   {
     private readonly string fieldName;
+    private readonly MethodInfo methodInfo;
 
-    public FieldMappedMethodGenerator(string fieldName)
+    public FieldMappedMethodGenerator(string fieldName, GeneratorContext generatorContext)
     {
       this.fieldName = fieldName;
+      methodInfo = generatorContext?.MemberInfo as MethodInfo;
     }
 
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate()
     {
-      if (generatorContext.CodeType != MethodsCode)
-        return Enumerable.Empty<(CodeType, string)?>();
       return Generate().Select(code => ((CodeType, string)?)(MethodsCode, code));
       IEnumerable<string> Generate()
       {
-        MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;
         foreach (string line in new MethodSignatureGenerator(methodInfo).GenerateDeclaration())
           yield return line;
         yield return "=>".Format(1);

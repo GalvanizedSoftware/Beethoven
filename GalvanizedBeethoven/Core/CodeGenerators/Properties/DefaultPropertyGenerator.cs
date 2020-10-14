@@ -22,20 +22,15 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
     private PropertyDefinition Create(Type type, string name) =>
       (PropertyDefinition)createMethodInfo.Invoke(this, new object[] { name }, new[] { type });
 
+    private PropertyDefinition Create(PropertyInfo propertyInfo) =>
+  (PropertyDefinition)createMethodInfo.Invoke(this, new object[] { propertyInfo.Name }, new[] { propertyInfo.PropertyType });
+
     private PropertyDefinition<T> CreateGeneric<T>(string name) =>
       creators.Aggregate(new PropertyDefinition<T>(name),
         (property, creator) => new PropertyDefinition<T>(property, (IPropertyDefinition<T>)creator(typeof(T), name)));
 
     internal ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
-      generatorContext?.MemberInfo is PropertyInfo propertyInfo ?
-        Create(propertyInfo.PropertyType, propertyInfo.Name)
-          .GetGenerator() :
-        null;
-
-    internal ICodeGenerator GetGenerator(PropertyInfo propertyInfo) =>
-      propertyInfo != null ?
-        Create(propertyInfo.PropertyType, propertyInfo.Name)
-          .GetGenerator() :
-        null;
+      Create(generatorContext?.MemberInfo as PropertyInfo)
+        .GetGenerator(generatorContext);
   }
 }

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using static System.Environment;
+using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven
 {
@@ -18,8 +19,8 @@ namespace GalvanizedSoftware.Beethoven
   {
     internal static readonly string GeneratedClassName = typeof(IGeneratedClass).FullName;
     private readonly string classNamespace;
+    private readonly IDefinition[] definitions;
     private readonly ConstructorGenerator constructorGenerator;
-    private readonly FieldGenerators fieldsGenerator;
     private readonly PropertyGenerators propertiesGenerator;
     private readonly MethodGenerators methodGenerators;
     private readonly EventGenerators eventGenerators;
@@ -30,45 +31,55 @@ namespace GalvanizedSoftware.Beethoven
     {
       this.className = className;
       this.classNamespace = classNamespace;
+      this.definitions = definitions;
       MemberInfo[] membersInfos = interfaceType
         .GetAllTypes()
         .SelectMany(type => type.GetMembers())
         .Where(FilterMemberInfo)
         .ToArray();
-      constructorGenerator = new ConstructorGenerator(className, definitions);
-      fieldsGenerator = new FieldGenerators(definitions);
+      constructorGenerator = new ConstructorGenerator(className);
       propertiesGenerator = new PropertyGenerators(membersInfos, definitions);
       methodGenerators = new MethodGenerators(membersInfos, definitions);
       eventGenerators = new EventGenerators(membersInfos, definitions);
+
       generatorContext = new GeneratorContext(className, interfaceType);
     }
 
     public IEnumerable<string> Generate()
     {
+      (CodeType, string)[] code = definitions.GenerateCode(generatorContext)
+        .Concat(Generate(propertiesGenerator))
+        .Concat(Generate(methodGenerators))
+        .Concat(Generate(eventGenerators))
+        .ToArray();
       yield return $"namespace {classNamespace}";
       yield return "{";
       yield return $"	public class {className} : {generatorContext.InterfaceType.GetFullName()}, {GeneratedClassName}";
       yield return "	{";
-      yield return Generate(fieldsGenerator);
-      yield return Generate(constructorGenerator);
-      yield return Generate(propertiesGenerator);
-      yield return Generate(methodGenerators);
-      yield return Generate(eventGenerators);
+      yield return Generate(code, FieldsCode);
+      yield return GenerateConstructorCode(code);
+      yield return Generate(code, PropertiesCode);
+      yield return Generate(code, MethodsCode);
+      yield return Generate(code, EventsCode);
       yield return "	}";
       yield return "}";
     }
 
-    private string Generate(ICodeGenerator codeGenerator) =>
-      codeGenerator
-        .Generate(generatorContext)
-        .SkipNull()
+    private static string Generate((CodeType, string)[] code, CodeType filter) =>
+      code
+        .Filter(filter)
         .Format(2) + NewLine;
 
-    private string Generate(ICodeGenerators codeGenerators) =>
-      new CodeGeneratorsWrapper(codeGenerators)
-        .Generate(generatorContext)
-        .SkipNull()
+    private string GenerateConstructorCode((CodeType, string)[] code) =>
+      constructorGenerator
+        .Generate(code)
         .Format(2) + NewLine;
+
+    private IEnumerable<(CodeType, string)> Generate(ICodeGenerators codeGenerators) =>
+      codeGenerators
+        .GetGenerators(generatorContext)
+        .SelectMany(codeGenerator => codeGenerator.Generate())
+        .SkipNull();
 
 
     private static bool FilterMemberInfo(MemberInfo memberInfo) => memberInfo switch

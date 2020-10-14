@@ -8,14 +8,18 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 {
   internal sealed class PropertyNotImplementedGenerator : ICodeGenerator
   {
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
+    readonly PropertyInfo propertyInfo;
+
+    public PropertyNotImplementedGenerator(PropertyInfo propertyInfo)
     {
-      if (generatorContext.CodeType != PropertiesCode)
-        return Enumerable.Empty<(CodeType, string)?>();
+      this.propertyInfo = propertyInfo;
+    }
+
+    public IEnumerable<(CodeType, string)?> Generate()
+    {
       return Generate().Select(code => ((CodeType, string)?)(PropertiesCode, code));
       IEnumerable<string> Generate()
       {
-        PropertyInfo propertyInfo = generatorContext?.MemberInfo as PropertyInfo;
         yield return $@"public {propertyInfo.PropertyType.GetFullName()} {propertyInfo.Name}";
         yield return "{";
         yield return $"get => throw new System.MissingMethodException();".Format(1);

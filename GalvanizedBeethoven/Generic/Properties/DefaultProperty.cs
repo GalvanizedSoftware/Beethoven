@@ -75,10 +75,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       };
 
     public ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
-      null;
-      //new DefaultPropertyGenerator(creators).GetGenerator(generatorContext);
-
-    internal ICodeGenerator GetGenerator(PropertyInfo propertyInfo) =>
-      new DefaultPropertyGenerator(creators).GetGenerator(propertyInfo);
+      new DefaultPropertyGenerator(creators).GetGenerator(generatorContext);
   }
 }

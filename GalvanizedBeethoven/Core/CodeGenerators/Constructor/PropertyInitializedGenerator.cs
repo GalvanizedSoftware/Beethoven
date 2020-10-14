@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.ConstructorParameters
       parameterName = $"{char.ToUpper(name[0], CultureInfo.InvariantCulture)}{name.Substring(1)}";
     }
 
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate()
     {
       yield return (ConstructorSignature, $"{type.GetFullName()} {parameterName}");
       yield return (ConstructorCode, $"this.{name} = {parameterName};");

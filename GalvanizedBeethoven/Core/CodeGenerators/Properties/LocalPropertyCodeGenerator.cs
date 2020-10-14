@@ -5,16 +5,18 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
   internal class LocalPropertyCodeGenerator : ICodeGenerator
   {
+    private readonly GeneratorContext generatorContext;
     private readonly ICodeGenerator innerCodeGenerator;
     private readonly PropertyInfo propertyInfo;
 
-    public LocalPropertyCodeGenerator(ICodeGenerator innerCodeGenerator, PropertyInfo propertyInfo)
+    public LocalPropertyCodeGenerator(GeneratorContext generatorContext, ICodeGenerator innerCodeGenerator, PropertyInfo propertyInfo)
     {
+      this.generatorContext = generatorContext.CreateLocal(propertyInfo);
       this.innerCodeGenerator = innerCodeGenerator;
       this.propertyInfo = propertyInfo;
     }
 
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext) =>
-      innerCodeGenerator.Generate(generatorContext.CreateLocal(propertyInfo));
+    public IEnumerable<(CodeType, string)?> Generate() =>
+      innerCodeGenerator.Generate();
   }
 }

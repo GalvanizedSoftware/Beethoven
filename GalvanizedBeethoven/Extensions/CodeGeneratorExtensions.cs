@@ -6,13 +6,11 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 {
   public static class CodeGeneratorExtensions
   {
-    internal static ICodeGenerator WrapLocal(this ICodeGenerator codeGenerator, MethodInfo methodInfo, int? index) =>
-      new LocalMethodCodeGenerator(codeGenerator, methodInfo, index);
+    internal static ICodeGenerator WrapLocal(this ICodeGenerator codeGenerator,
+      GeneratorContext generatorContext, MethodInfo methodInfo, int? index) =>
+      new LocalMethodCodeGenerator(generatorContext, codeGenerator, methodInfo, index);
 
-    internal static ICodeGenerator WrapLocal(this ICodeGenerator codeGenerator, PropertyInfo propertyInfo) =>
-     new LocalPropertyCodeGenerator(codeGenerator, propertyInfo);
-
-    internal static ICodeGenerator WrapLocal(this ICodeGenerator codeGenerator, EventInfo evnetInfo) =>
-       new LocalEventCodeGenerator(codeGenerator, evnetInfo);
+    internal static ICodeGenerator WrapLocal(this ICodeGenerator codeGenerator, GeneratorContext generatorContext, PropertyInfo propertyInfo) =>
+      new LocalPropertyCodeGenerator(generatorContext, codeGenerator, propertyInfo);
   }
 }

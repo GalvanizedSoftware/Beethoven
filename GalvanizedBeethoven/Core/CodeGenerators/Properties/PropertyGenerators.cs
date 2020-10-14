@@ -19,11 +19,11 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       this.definitions = definitions;
     }
 
-    public IEnumerable<ICodeGenerator> GetGenerators(GeneratorContext _) =>
+    public IEnumerable<ICodeGenerator> GetGenerators(GeneratorContext generatorContext) =>
       propertyInfos
         .Select(
-          propertyInfo => new PropertyGeneratorFactory(propertyInfo, definitions)
+          propertyInfo => new PropertyGeneratorFactory(generatorContext, propertyInfo, definitions)
             .Create()
-            .WrapLocal(propertyInfo));
+            .WrapLocal(generatorContext, propertyInfo));
   }
 }

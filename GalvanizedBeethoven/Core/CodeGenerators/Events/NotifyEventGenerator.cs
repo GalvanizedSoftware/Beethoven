@@ -14,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
       this.eventInfos = eventInfos;
     }
 
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate()
     {
       return Generate().Select(code => ((CodeType, string)?)(EventsCode, code));
       IEnumerable<string> Generate()

@@ -73,11 +73,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
         _ => false,
       };
 
-    public ICodeGenerator GetGenerator(GeneratorContext _) =>
-      new PropertyGenerator(this);
-
-    public ICodeGenerator GetGenerator() =>
-      new PropertyGenerator(this);
+    public ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
+      new PropertyGenerator(generatorContext, generatorContext?.MemberInfo as PropertyInfo, this);
 
     public IEnumerable<IDefinition> GetDefinitions()
     {

@@ -16,17 +16,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
       this.fieldName = fieldName;
     }
 
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate()
     {
       yield return (ConstructorSignature, $"{type.GetFullName()} {fieldName}");
       yield return (ConstructorCode, $"this.{fieldName} = {fieldName};");
-      //yield return
-      //  generatorContext.CodeType switch
-      //  {
-      //    ConstructorSignature => (ConstructorSignature, $"{type.GetFullName()} {fieldName}"),
-      //    ConstructorCode => (ConstructorCode, $"this.{fieldName} = {fieldName};"),
-      //    _ => null
-      //  };
     }
   }
 }

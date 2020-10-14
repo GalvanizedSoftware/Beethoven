@@ -16,7 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
       this.fieldName = fieldName;
     }
 
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate()
     {
       yield return (FieldsCode, $"{type.GetFullName()} {fieldName};");
     }

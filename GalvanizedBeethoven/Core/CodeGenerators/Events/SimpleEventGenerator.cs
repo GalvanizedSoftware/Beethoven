@@ -13,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
       this.name = name;
     }
 
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate()
     {
       yield return (EventsCode, $@"public event {typeof(T).GetFullName()} {name};");
     }

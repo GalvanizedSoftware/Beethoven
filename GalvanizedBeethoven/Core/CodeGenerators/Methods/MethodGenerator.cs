@@ -13,18 +13,19 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
   internal class MethodGenerator : ICodeGenerator
   {
-    public MethodGenerator(MethodDefinition methodDefinition)
+    private readonly GeneratorContext generatorContext;
+
+    public MethodGenerator(GeneratorContext generatorContext, MethodDefinition methodDefinition)
     {
       this.methodDefinition = methodDefinition;
+      this.generatorContext = generatorContext;
     }
 
     private readonly MethodDefinition methodDefinition;
 
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate()
     {
-      if (generatorContext.CodeType != MethodsCode)
-        return Enumerable.Empty<(CodeType, string)?>();
-      return Generate().Select(code => ((CodeType, string)?)(PropertiesCode, code));
+      return Generate().Select(code => ((CodeType, string)?)(MethodsCode, code));
       IEnumerable<string> Generate()
       {
         MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;

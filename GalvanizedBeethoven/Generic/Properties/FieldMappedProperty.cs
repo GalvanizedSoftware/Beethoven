@@ -28,6 +28,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       };
 
     public ICodeGenerator GetGenerator(GeneratorContext _) =>
-      new FieldMappedPropertyGenerator(fieldName);
+      new FieldMappedPropertyGenerator( propertyInfo, fieldName);
   }
 }

@@ -10,20 +10,19 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
   internal class FieldMappedPropertyGenerator : ICodeGenerator
   {
     private readonly string fieldName;
+    private readonly PropertyInfo propertyInfo;
 
-    public FieldMappedPropertyGenerator(string fieldName)
+    public FieldMappedPropertyGenerator(PropertyInfo propertyInfo, string fieldName)
     {
       this.fieldName = fieldName;
+      this.propertyInfo = propertyInfo;
     }
 
-    public IEnumerable<(CodeType, string)?> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate()
     {
-      if (generatorContext.CodeType != PropertiesCode)
-        return Enumerable.Empty<(CodeType, string)?>();
       return Generate().Select(code => ((CodeType, string)?)(PropertiesCode, code));
       IEnumerable<string> Generate()
       {
-        PropertyInfo propertyInfo = generatorContext?.MemberInfo as PropertyInfo;
         Type propertyType = propertyInfo.PropertyType;
         string typeName = propertyType.GetFullName();
         string propertyName = propertyInfo.Name;
