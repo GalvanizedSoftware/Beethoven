@@ -16,15 +16,20 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
 
     internal IEnumerable<(CodeType, string)> Generate((CodeType, string)[] code)
     {
-      string[] parameters = code
-        .Filter(ConstructorSignature)
-        .ToCode()
-        .ToArray();
-      yield return (ConstructorSignature, $"public {className}({string.Join(", ", parameters)})");
+      yield return (ConstructorSignature, $"public {className}({GetParameters(code)})");
       yield return (ConstructorSignature, "{");
+      foreach ((CodeType, string) line in code.Filter(ConstructorFields))
+        yield return line.Format(1);
       foreach ((CodeType, string) line in code.Filter(ConstructorCode))
         yield return line.Format(1);
       yield return (ConstructorSignature, "}");
     }
+
+    internal static string GetParameters(IEnumerable<(CodeType, string)> lines) =>
+      string.Join(", ",
+        lines
+          .Filter(ConstructorSignature)
+          .Select(item => item.Item2));
+
   }
 }

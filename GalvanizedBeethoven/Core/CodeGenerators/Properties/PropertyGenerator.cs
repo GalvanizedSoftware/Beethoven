@@ -30,17 +30,19 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      return Generate().Select(code => ((CodeType, string)?)(PropertiesCode, code));
+      Type propertyType = propertyInfo.PropertyType;
+      string typeName = propertyType.GetFullName();
+      string propertyName = propertyInfo.Name;
+      string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{propertyName}{new TagGenerator(generatorContext)}";
+      InvokerList.SetInvoker(uniqueInvokerName,
+        InvokerFactory.CreatePropertyInvoker(propertyType, definitions));
+      string invokerName = $"invoker{propertyName}";
+      yield return (FieldsCode, $@"private {invokerTypeName} {invokerName};");
+      yield return (ConstructorFields, $@"{invokerName} = new {invokerTypeName}(""{uniqueInvokerName}"");");/**/
+      foreach ((CodeType, string)? line in Generate().TagCode(PropertiesCode))
+        yield return line;
       IEnumerable<string> Generate()
       {
-        Type propertyType = propertyInfo.PropertyType;
-        string typeName = propertyType.GetFullName();
-        string propertyName = propertyInfo.Name;
-        string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{propertyName}{new TagGenerator(generatorContext)}";
-        InvokerList.SetInvoker(uniqueInvokerName,
-          InvokerFactory.CreatePropertyInvoker(propertyType, definitions));
-        string invokerName = $"invoker{propertyName}";
-        yield return $@"private {invokerTypeName} {invokerName} = new {invokerTypeName}(""{uniqueInvokerName}"");";
         yield return $@"public {typeName} {propertyInfo.Name}";
         yield return "{";
         yield return $"get => {invokerName}.InvokeGet(this);".Format(1);

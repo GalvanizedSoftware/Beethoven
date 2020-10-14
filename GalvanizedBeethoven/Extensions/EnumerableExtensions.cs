@@ -74,6 +74,9 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         .Select(definition => definition.GetGenerator(generatorContext))
         .SkipNull();
 
+    internal static IEnumerable<(CodeType, string)?> TagCode(this IEnumerable<string> codeLines, CodeType tag) =>
+      codeLines.Select(code => ((CodeType, string)?)(tag, code));
+
     public static IEnumerable<T> SkipNull<T>(this IEnumerable<T> enumerable) where T : class
     {
       if (enumerable == null)

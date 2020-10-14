@@ -5,6 +5,7 @@
     ClassCode,
     FieldsCode,
     ConstructorSignature,
+    ConstructorFields,
     ConstructorCode,
     MethodsCode,
     PropertiesCode,

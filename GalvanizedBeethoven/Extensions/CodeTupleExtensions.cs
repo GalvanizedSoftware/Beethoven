@@ -16,8 +16,5 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 
     internal static IEnumerable<(CodeType, string)> Filter(this IEnumerable<(CodeType, string)> lines, CodeType filter) =>
       lines.Where(item => item.Item1 == filter);
-
-    internal static IEnumerable<string> ToCode(this IEnumerable<(CodeType, string)> lines) =>
-      lines.Select(item => item.Item2);
   }
 }

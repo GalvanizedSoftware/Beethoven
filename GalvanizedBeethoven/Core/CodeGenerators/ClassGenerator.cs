@@ -1,7 +1,6 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
@@ -54,8 +53,8 @@ namespace GalvanizedSoftware.Beethoven
         .ToArray();
       yield return $"namespace {classNamespace}";
       yield return "{";
-      yield return $"	public class {className} : {generatorContext.InterfaceType.GetFullName()}, {GeneratedClassName}";
-      yield return "	{";
+      yield return $"public class {className} : {generatorContext.InterfaceType.GetFullName()}, {GeneratedClassName}".Format(1);
+      yield return "{".Format(1);
       yield return Generate(code, FieldsCode);
       yield return GenerateConstructorCode(code);
       yield return Generate(code, PropertiesCode);

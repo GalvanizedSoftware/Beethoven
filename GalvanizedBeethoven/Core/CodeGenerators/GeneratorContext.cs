@@ -26,15 +26,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
       this(baseContext.GeneratedClassName, baseContext.InterfaceType)
     {
       MemberInfo = memberInfo;
-      CodeType = codeType;
       MethodIndex = methodIndex;
     }
 
     public string GeneratedClassName { get; }
     public Type InterfaceType { get; }
     public MemberInfo MemberInfo { get; }
-
-    internal CodeType CodeType { get; }
 
     public int? MethodIndex { get; }
 
