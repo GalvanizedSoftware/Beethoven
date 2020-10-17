@@ -22,6 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Core\CodeGenerators\Interfaces\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

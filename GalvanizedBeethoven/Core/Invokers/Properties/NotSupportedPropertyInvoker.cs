@@ -1,7 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
 using GalvanizedSoftware.Beethoven.Implementations.Properties;
-using GalvanizedSoftware.Beethoven.Interfaces;
-using System;
 
 namespace GalvanizedSoftware.Beethoven.Core.Invokers
 {

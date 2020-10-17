@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
+﻿namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
 {
   internal class NotImplementedMethodInvoker : IMethodInvoker
   {

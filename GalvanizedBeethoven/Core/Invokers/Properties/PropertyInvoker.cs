@@ -1,6 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Interfaces;
-
-namespace GalvanizedSoftware.Beethoven.Core.Invokers
+﻿namespace GalvanizedSoftware.Beethoven.Core.Invokers
 {
   public class PropertyInvoker<T> : IPropertyInvoker<T>
   {

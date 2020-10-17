@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
-using GalvanizedSoftware.Beethoven.Core.Invokers.Factories;
-using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
@@ -28,15 +25,15 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;
       string methodName = $"{methodInfo.Name}{generatorContext.MethodIndex}";
       string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{methodName}_{new TagGenerator(generatorContext)}";
-      InvokerGenerator invorkerGenerator = InvokerGenerator
-        .CreateMethodInvoker(uniqueInvokerName, methodInfo, methodName, methodDefinition);
+      string invokerName = $"invoker{methodName}";
+      ICodeGenerator invorkerGenerator = new MethodInvokerGenerator(
+        uniqueInvokerName, methodInfo, invokerName, methodDefinition);
       return invorkerGenerator.Generate()
         .Concat(
           Generate()
             .Select(code => ((CodeType, string)?)(MethodsCode, code)));
       IEnumerable<string> Generate()
       {
-        string invokerName = invorkerGenerator.InvokerName;
         ParameterInfo[] parameters = methodInfo.GetParametersSafe().ToArray();
         Type returnType = methodInfo.ReturnType;
         MethodSignatureGenerator methodSignatureGenerator = new MethodSignatureGenerator(methodInfo);

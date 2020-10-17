@@ -1,5 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
-using GalvanizedSoftware.Beethoven.Extensions;
+﻿using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System;
 using System.Collections.Generic;
@@ -14,8 +13,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
     private readonly object[] definitions;
     private readonly PropertyInfo propertyInfo;
     private readonly Type propertyType;
+    private readonly string invokerName;
+    private readonly string propertyInfoName;
     private readonly GeneratorContext generatorContext;
-    private readonly InvokerGenerator invorkerGenerator;
+    private readonly PropertyInvokerGenerator invorkerGenerator;
 
     internal PropertyGenerator(
       GeneratorContext generatorContext, PropertyInfo propertyInfo, PropertyDefinition propertyDefinition)
@@ -24,7 +25,13 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       this.generatorContext = generatorContext;
       this.propertyInfo = propertyInfo;
       propertyType = propertyInfo.PropertyType;
-      invorkerGenerator = CreateInvokerGenerator();
+      propertyInfoName = propertyInfo.Name;
+      invokerName = $"invoker{propertyInfoName}";
+      invorkerGenerator = new PropertyInvokerGenerator(
+        $"{generatorContext.GeneratedClassName}{propertyInfoName}{new TagGenerator(generatorContext)}",
+        invokerName,
+        propertyType,
+        definitions);
     }
 
     public IEnumerable<(CodeType, string)?> Generate() =>
@@ -34,18 +41,11 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 
     private IEnumerable<string> GeneratePropertyCode()
     {
-      yield return $@"public {propertyType.GetFullName()} {propertyInfo.Name}";
+      yield return $@"public {propertyType.GetFullName()} {propertyInfoName}";
       yield return "{";
-      yield return $"get => {invorkerGenerator.InvokerName}.InvokeGetter();".Format(1);
-      yield return $"set => {invorkerGenerator.InvokerName}.InvokeSetter(value);".Format(1);
+      yield return $"get => {invokerName}.InvokeGetter();".Format(1);
+      yield return $"set => {invokerName}.InvokeSetter(value);".Format(1);
       yield return "}";
     }
-
-    private InvokerGenerator CreateInvokerGenerator() =>
-      InvokerGenerator.CreatePropertyInvoker(
-        $"{generatorContext.GeneratedClassName}{propertyInfo.Name}{new TagGenerator(generatorContext)}",
-        propertyType, 
-        propertyInfo.Name, 
-        definitions);
   }
 }
