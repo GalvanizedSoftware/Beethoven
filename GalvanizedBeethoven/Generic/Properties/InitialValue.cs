@@ -1,4 +1,5 @@
-﻿using GalvanizedSoftware.Beethoven.Interfaces;
+﻿using GalvanizedSoftware.Beethoven.Implementations.Properties;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
@@ -12,18 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.value = value;
     }
 
-    public bool InvokeGetter(object _, ref T returnValue)
-    {
-      if (valueSet)
-        return true;
-      returnValue = value;
-      return false;
-    }
-
-    public bool InvokeSetter(object _, T newValue)
-    {
-      valueSet = true;
-      return true;
-    }
+    public IPropertyInstance<T> CreateInstance(object master) => 
+      new InitialValueInstance<T>(value);
   }
 }

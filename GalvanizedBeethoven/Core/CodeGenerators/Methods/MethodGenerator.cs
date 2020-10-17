@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
-using GalvanizedSoftware.Beethoven.Core.Invokers;
 using GalvanizedSoftware.Beethoven.Core.Invokers.Factories;
 using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
 using GalvanizedSoftware.Beethoven.Core.Methods;
@@ -29,12 +28,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;
       string methodName = $"{methodInfo.Name}{generatorContext.MethodIndex}";
       string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{methodName}_{new TagGenerator(generatorContext)}";
-      InvokerGenerator invorkerGenerator = new InvokerGenerator(
-        uniqueInvokerName,
-        InvokerFactory.CreateMethodInvoker(methodInfo, methodDefinition),
-        $"invoker{methodName}",
-        typeof(MethodInvoker));
-
+      InvokerGenerator invorkerGenerator = InvokerGenerator
+        .CreateMethodInvoker(uniqueInvokerName, methodInfo, methodName, methodDefinition);
       return invorkerGenerator.Generate()
         .Concat(
           Generate()
@@ -52,7 +47,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
         ParametersGenerator parametersGenerator = new ParametersGenerator(parameters, parametersName);
         yield return parametersGenerator.GeneratePreInvoke().Format(1);
         string returnValueName = $"{invokerName}Result";
-        yield return $"object {returnValueName} = {invokerName}.Invoke(this, {GetGenericTypes(methodInfo)}, {parametersName});".Format(1);
+        yield return $"object {returnValueName} = {invokerName}.Invoke({GetGenericTypes(methodInfo)}, {parametersName});".Format(1);
         foreach (string line in parametersGenerator.GeneratePostInvoke())
           yield return line.Format(1);
         if (returnType != typeof(void))

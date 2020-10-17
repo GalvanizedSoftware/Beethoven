@@ -1,5 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods

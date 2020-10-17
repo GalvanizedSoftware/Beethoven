@@ -1,6 +1,4 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
-using GalvanizedSoftware.Beethoven.Core.Invokers;
-using GalvanizedSoftware.Beethoven.Core.Invokers.Factories;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System;
@@ -38,22 +36,16 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
     {
       yield return $@"public {propertyType.GetFullName()} {propertyInfo.Name}";
       yield return "{";
-      yield return $"get => {invorkerGenerator.InvokerName}.InvokeGet(this);".Format(1);
-      yield return $"set => {invorkerGenerator.InvokerName}.InvokeSet(this, value);".Format(1);
+      yield return $"get => {invorkerGenerator.InvokerName}.InvokeGetter();".Format(1);
+      yield return $"set => {invorkerGenerator.InvokerName}.InvokeSetter(value);".Format(1);
       yield return "}";
     }
 
-    private InvokerGenerator CreateInvokerGenerator()
-    {
-      string propertyName = propertyInfo.Name;
-      string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{propertyName}{new TagGenerator(generatorContext)}";
-      object invokerInstance = InvokerFactory.CreatePropertyInvoker(propertyType, definitions);
-      InvokerGenerator invorkerGenerator = new InvokerGenerator(
-        uniqueInvokerName,
-        invokerInstance,
-        $"invoker{propertyName}",
-        typeof(PropertyInvoker<>).MakeGenericType(propertyType));
-      return invorkerGenerator;
-    }
+    private InvokerGenerator CreateInvokerGenerator() =>
+      InvokerGenerator.CreatePropertyInvoker(
+        $"{generatorContext.GeneratedClassName}{propertyInfo.Name}{new TagGenerator(generatorContext)}",
+        propertyType, 
+        propertyInfo.Name, 
+        definitions);
   }
 }

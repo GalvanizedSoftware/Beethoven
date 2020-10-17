@@ -1,4 +1,5 @@
 ﻿using System;
+using GalvanizedSoftware.Beethoven.Implementations.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
@@ -12,16 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.delegateFunc = delegateFunc;
     }
 
-    // ReSharper disable once RedundantAssignment
-    public bool InvokeGetter(object _, ref T returnValue)
-    {
-      returnValue = delegateFunc();
-      return true;
-    }
-
-    public bool InvokeSetter(object _, T newValue)
-    {
-      return true;
-    }
+    public IPropertyInstance<T> CreateInstance(object master) =>
+      new DelegatedGetterInstance<T>(delegateFunc);
   }
 }

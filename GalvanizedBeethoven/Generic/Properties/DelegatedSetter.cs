@@ -1,4 +1,5 @@
 ﻿using System;
+using GalvanizedSoftware.Beethoven.Implementations.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
@@ -12,15 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.delegateAction = delegateAction;
     }
 
-    public bool InvokeGetter(object _, ref T returnValue)
-    {
-      return true;
-    }
-
-    public bool InvokeSetter(object _, T newValue)
-    {
-      delegateAction(newValue);
-      return true;
-    }
+    public IPropertyInstance<T> CreateInstance(object master) =>
+      new DelegatedSetterInstance<T>(delegateAction);
   }
 }

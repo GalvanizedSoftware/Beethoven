@@ -1,4 +1,5 @@
 ﻿using System;
+using GalvanizedSoftware.Beethoven.Implementations.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
@@ -16,24 +17,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public Constant(T value, Action<T> errorHandler)
     {
       this.value = value;
-      this.errorHandler = errorHandler ??
-                          (invalidValue =>
-                            throw new ArgumentOutOfRangeException($"Value cannot be changed to {invalidValue}"));
+      this.errorHandler = errorHandler;
     }
 
-    // ReSharper disable once RedundantAssignment
-    public bool InvokeGetter(object _, ref T returnValue)
-    {
-      returnValue = value;
-      return true;
-    }
-
-    public bool InvokeSetter(object _, T newValue)
-    {
-      if (value.Equals(newValue))
-        return true;
-      errorHandler(newValue);
-      return false;
-    }
+    public IPropertyInstance<T> CreateInstance(object master) => 
+      new ConstantInstance<T>(value, errorHandler);
   }
 }

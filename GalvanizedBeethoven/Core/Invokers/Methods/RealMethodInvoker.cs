@@ -1,6 +1,4 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
-using GalvanizedSoftware.Beethoven.Extensions;
-using System;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
@@ -16,11 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
       this.methodDefinition = methodDefinition;
     }
 
-    public object Invoke(object master, Type[] genericTypes, object[] parameters)
-    {
-      object returnValue = methodInfo.ReturnType.GetDefaultValue();
-      methodDefinition.Invoke(master, ref returnValue, parameters, genericTypes, methodInfo);
-      return returnValue;
-    }
+    public IMethodInvokerInstance CreateInstance(object master) =>
+      new MethodInvokerInstance(master, methodInfo, methodDefinition);
   }
 }

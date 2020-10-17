@@ -23,7 +23,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       (PropertyDefinition)createMethodInfo.Invoke(this, new object[] { name }, new[] { type });
 
     private PropertyDefinition Create(PropertyInfo propertyInfo) =>
-  (PropertyDefinition)createMethodInfo.Invoke(this, new object[] { propertyInfo.Name }, new[] { propertyInfo.PropertyType });
+      (PropertyDefinition)createMethodInfo.Invoke(this, new object[] { propertyInfo.Name }, new[] { propertyInfo.PropertyType });
 
     private PropertyDefinition<T> CreateGeneric<T>(string name) =>
       creators.Aggregate(new PropertyDefinition<T>(name),

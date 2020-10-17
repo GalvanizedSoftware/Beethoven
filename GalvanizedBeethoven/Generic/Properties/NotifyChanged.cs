@@ -1,24 +1,19 @@
 ﻿using System.ComponentModel;
+using GalvanizedSoftware.Beethoven.Implementations.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   internal class NotifyChanged<T> : IPropertyDefinition<T>
   {
-    private const string PropertyChangedName = nameof(INotifyPropertyChanged.PropertyChanged);
-    private readonly PropertyChangedEventArgs eventArgs;
+    private readonly string name;
 
     public NotifyChanged(string name)
     {
-      eventArgs = new PropertyChangedEventArgs(name);
+      this.name = name;
     }
 
-    public bool InvokeGetter(object _, ref T __) => true;
-
-    public bool InvokeSetter(object master, T newValue)
-    {
-      (master as IGeneratedClass)?.NotifyEvent(PropertyChangedName, new object[] { master, eventArgs });
-      return true;
-    }
+    public IPropertyInstance<T> CreateInstance(object master) => 
+      new NotifyChangedInstance<T>(master, name);
   }
 }

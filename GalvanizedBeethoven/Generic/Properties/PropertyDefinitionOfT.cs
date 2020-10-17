@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
+using GalvanizedSoftware.Beethoven.Implementations.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
@@ -44,20 +46,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     internal override object[] Definitions => definitions.OfType<object>().ToArray();
 
-    public bool InvokeGetter(object master, ref T returnValue)
-    {
-      foreach (IPropertyDefinition<T> definition in definitions)
-        if (!definition.InvokeGetter(master, ref returnValue))
-          return false;
-      return true;
-    }
-
-    public bool InvokeSetter(object master, T newValue)
-    {
-      foreach (IPropertyDefinition<T> definition in definitions)
-        if (!definition.InvokeSetter(master, newValue))
-          return false;
-      return true;
-    }
+    public IPropertyInstance<T> CreateInstance(object master) =>
+      new MultiplePropertyInstance<T>(
+        definitions.Select(definition => definition.CreateInstance(master)));
   }
 }

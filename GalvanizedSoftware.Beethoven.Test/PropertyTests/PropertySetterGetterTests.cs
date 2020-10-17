@@ -57,5 +57,18 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
           .SetterGetter());
       Assert.AreEqual(null, test.Property2);
     }
+
+    [TestMethod]
+    public void TestMethodProperty5()
+    {
+      TypeDefinition<ITestProperties> definition = new TypeDefinition<ITestProperties>()
+        .Add(new PropertyDefinition<int>(nameof(ITestProperties.Property1))
+        .SetterGetter());
+      CompiledTypeDefinition<ITestProperties> compiledTypeDefinition = definition.Compile();
+      ITestProperties test1 = compiledTypeDefinition.Create();
+      ITestProperties test2 = compiledTypeDefinition.Create();
+      test1.Property1 = 42;
+      Assert.AreEqual(0, test2.Property1);
+    }
   }
 }

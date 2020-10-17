@@ -1,4 +1,5 @@
-﻿using GalvanizedSoftware.Beethoven.Interfaces;
+﻿using GalvanizedSoftware.Beethoven.Implementations.Properties;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
@@ -6,8 +7,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
   {
     private bool valueSet;
 
-    public bool InvokeGetter(object master, ref T returnValue) => valueSet;
-
-    public bool InvokeSetter(object master, T newValue) => valueSet = true;
+    public IPropertyInstance<T> CreateInstance(object master) =>
+      new InitialParameterValueInstance<T>();
   }
 }

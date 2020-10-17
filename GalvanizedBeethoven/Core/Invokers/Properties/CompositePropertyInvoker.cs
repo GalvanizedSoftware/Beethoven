@@ -1,4 +1,6 @@
-﻿using GalvanizedSoftware.Beethoven.Interfaces;
+﻿using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
+using GalvanizedSoftware.Beethoven.Interfaces;
+using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Core.Invokers
 {
@@ -11,20 +13,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers
       this.definitions = definitions;
     }
 
-    public T InvokeGet(object master)
-    {
-      T returnValue = default;
-      foreach (IPropertyDefinition<T> definition in definitions)
-        if (!definition.InvokeGetter(master, ref returnValue))
-          break;
-      return returnValue;
-    }
-
-    public void InvokeSet(object master, T newValue)
-    {
-      foreach (IPropertyDefinition<T> definition in definitions)
-        if (!definition.InvokeSetter(master, newValue))
-          return;
-    }
+    public IPropertyInvokerInstance<T> CreateInstance(object master) =>
+      new CompositePropertyInvokerInstance<T>(
+        definitions.Select(definition => definition.CreateInstance(master)));
   }
 }

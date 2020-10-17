@@ -26,8 +26,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
     {
       yield return (FieldsCode, $@"{typeName} {fieldName};");
       string uniqueBackingId = $"{generatedClassName}{fieldName}Factory";
-      InvokerList.SetInvoker(uniqueBackingId, factoryFunc);
-      yield return (ConstructorCode, 
+      InvokerList.SetFactory(uniqueBackingId, () => factoryFunc);
+      yield return (ConstructorCode,
         $@"{fieldName} = new {InvokerTypeName}(""{ uniqueBackingId}"").Create <{ typeName}> (); ");
     }
   }

@@ -1,4 +1,6 @@
-﻿namespace GalvanizedSoftware.Beethoven.Core.Invokers
+﻿using GalvanizedSoftware.Beethoven.Interfaces;
+
+namespace GalvanizedSoftware.Beethoven.Core.Invokers
 {
   public class PropertyInvoker<T> : IPropertyInvoker<T>
   {
@@ -6,12 +8,11 @@
 
     public PropertyInvoker(string uniqueName)
     {
-      masterInvoker = InvokerList.GetInvoker(uniqueName) as IPropertyInvoker<T> ??
-        new NotImplementedPropertyInvoker<T>();
+      masterInvoker = InvokerList.CreateInvoker(uniqueName) as IPropertyInvoker<T> ??
+        new NotSupportedPropertyInvoker<T>();
     }
 
-    public T InvokeGet(object master) => masterInvoker.InvokeGet(master);
-
-    public void InvokeSet(object master, T newValue) => masterInvoker.InvokeSet(master, newValue);
+    public IPropertyInvokerInstance<T> CreateInstance(object master) => 
+      masterInvoker.CreateInstance(master);
   }
 }
