@@ -10,7 +10,7 @@ using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
-  public class InvokerGenerator : ICodeGenerator
+  internal class InvokerGenerator : ICodeGenerator
   {
     private readonly string uniqueName;
     private readonly Func<object> invokerFacory;
@@ -35,18 +35,18 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
         typeof(MethodInvoker),
         typeof(IMethodInvokerInstance));
 
-    public InvokerGenerator(
-      string uniqueInvokerName,
+    private InvokerGenerator(
+      string uniqueName,
       Func<object> invokerFacory,
       string name,
       Type invokerType,
       Type instanceType)
     {
-      this.uniqueName = uniqueInvokerName;
+      this.uniqueName = uniqueName;
       this.invokerFacory = invokerFacory;
-      this.InvokerName = $"invoker{name}";
-      this.invokerTypeName = invokerType.GetFullName();
-      this.instanceTypeName = instanceType?.GetFullName();
+      InvokerName = $"invoker{name}";
+      invokerTypeName = invokerType.GetFullName();
+      instanceTypeName = instanceType?.GetFullName();
     }
 
     public string InvokerName { get; }
@@ -54,16 +54,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
     public IEnumerable<(CodeType, string)?> Generate()
     {
       InvokerList.SetFactory(uniqueName, invokerFacory);
-      if (instanceTypeName == null)
-      {
-        yield return (FieldsCode, $@"private {invokerTypeName} {InvokerName};");
-        yield return (ConstructorFields, $@"{InvokerName} = new {invokerTypeName}(""{uniqueName}"");");
-      }
-      else
-      {
-        yield return (FieldsCode, $@"private {instanceTypeName} {InvokerName};");
-        yield return (ConstructorFields, $@"{InvokerName} = new {invokerTypeName}(""{uniqueName}"").CreateInstance(this);");
-      }
+      yield return (FieldsCode, $@"private {instanceTypeName} {InvokerName};");
+      yield return (ConstructorFields, $@"{InvokerName} = new {invokerTypeName}(""{uniqueName}"").CreateInstance(this);");
     }
   }
 }

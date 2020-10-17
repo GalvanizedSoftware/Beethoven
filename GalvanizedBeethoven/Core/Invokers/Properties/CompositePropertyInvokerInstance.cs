@@ -10,7 +10,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 
     public CompositePropertyInvokerInstance(IEnumerable<IPropertyInstance<T>> instances)
     {
-      this.implementation = instances.ToArray();
+      implementation = instances.ToArray();
     }
 
     public T InvokeGetter()

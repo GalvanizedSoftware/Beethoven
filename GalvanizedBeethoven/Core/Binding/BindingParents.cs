@@ -10,7 +10,7 @@ namespace GalvanizedSoftware.Beethoven
 
     public BindingParents(IEnumerable<object> allPartDefinitions)
     {
-      this.bindingParents = allPartDefinitions
+      bindingParents = allPartDefinitions
         .OfType<IBindingParent>()
         .ToArray();
     }
