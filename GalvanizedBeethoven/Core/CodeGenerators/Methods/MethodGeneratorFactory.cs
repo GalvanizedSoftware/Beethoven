@@ -1,4 +1,5 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Methods;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
+using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 using System.Collections.Generic;

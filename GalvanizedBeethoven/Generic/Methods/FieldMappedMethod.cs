@@ -4,6 +4,7 @@ using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods;
 using GalvanizedSoftware.Beethoven.Interfaces;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {

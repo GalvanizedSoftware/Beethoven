@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using static GalvanizedSoftware.Beethoven.Core.GeneratorHelper;
 using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {

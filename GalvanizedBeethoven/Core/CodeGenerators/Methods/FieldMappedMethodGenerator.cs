@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System.Linq;
 using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
