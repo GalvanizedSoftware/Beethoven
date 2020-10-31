@@ -1,5 +1,4 @@
-﻿1. Use int, string, etc. to shorten code and avoid boxing.
-1. Serialize definitions instead of static construction
+﻿1. Serialize definitions instead of static construction
    A. Static classes are initialized with serialization
    B. Runtime classes must be parsed in constructor 
 2. Generate code checksum 
