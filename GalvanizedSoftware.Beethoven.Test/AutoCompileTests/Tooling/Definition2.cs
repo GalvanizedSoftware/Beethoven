@@ -1,7 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
-using GalvanizedSoftware.Beethoven.Interfaces;
-using System.Collections.Generic;
 
 namespace GalvanizedSoftware.Beethoven.Test.AutoCompileTests.Tooling
 {

@@ -1,6 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Test.PropertyTests.Interfaces;
-
-namespace GalvanizedSoftware.Beethoven.Test.PropertyTests.Implementations
+﻿namespace GalvanizedSoftware.Beethoven.Test.PropertyTests.Implementations
 {
   public class MappedTestClass3
   {
