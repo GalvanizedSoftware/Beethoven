@@ -3,6 +3,7 @@ using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Interfaces;
 using static System.Reflection.Assembly;
 
 namespace GalvanizedSoftware.Beethoven
@@ -13,6 +14,13 @@ namespace GalvanizedSoftware.Beethoven
     private readonly string className;
     private readonly string classNamespace;
     private static readonly Assembly mainAssembly = typeof(T).Assembly;
+
+    internal static TypeDefinition<T> Create(IFactoryDefinition<T> factoryDefinition) => 
+      factoryDefinition == null ? null :
+        new TypeDefinition<T>(new PartDefinitions(
+          factoryDefinition.PartDefinitions),
+          factoryDefinition.Namespace,
+          factoryDefinition.ClassName);
 
     internal TypeDefinition(PartDefinitions partDefinitions, string classNamespace, string className)
     {
@@ -26,8 +34,8 @@ namespace GalvanizedSoftware.Beethoven
     {
     }
 
-    public TypeDefinition(string name, params object[] newPartDefinitions) :
-      this(new PartDefinitions(newPartDefinitions), null, name)
+    public TypeDefinition(string className, params object[] newPartDefinitions) :
+      this(new PartDefinitions(newPartDefinitions), null, className)
     {
     }
 
