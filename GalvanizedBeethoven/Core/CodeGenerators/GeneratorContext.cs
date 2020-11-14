@@ -8,7 +8,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 {
   public class GeneratorContext
   {
-    Dictionary<Type, CodeType> typeCodeTypeMapping = new Dictionary<Type, CodeType>
+    readonly Dictionary<Type, CodeType> typeCodeTypeMapping = new Dictionary<Type, CodeType>
     {
       { typeof(MethodInfo), CodeType.MethodsCode},
       { typeof(PropertyInfo), CodeType.PropertiesCode},

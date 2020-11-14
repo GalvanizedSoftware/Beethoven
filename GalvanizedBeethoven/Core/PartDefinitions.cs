@@ -8,7 +8,7 @@ namespace GalvanizedSoftware.Beethoven.Core
 {
   class PartDefinitions
   {
-    private object[] partDefinitions;
+    private readonly object[] partDefinitions;
 
     public PartDefinitions(IEnumerable<object> newPartDefinitions)
     {

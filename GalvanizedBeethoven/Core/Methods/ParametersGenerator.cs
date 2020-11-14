@@ -7,7 +7,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
   internal class ParametersGenerator
   {
-    private ParameterInfo[] parameters;
+    private readonly ParameterInfo[] parameters;
     private readonly string parametersName;
 
     public ParametersGenerator(ParameterInfo[] parameters, string parametersName)

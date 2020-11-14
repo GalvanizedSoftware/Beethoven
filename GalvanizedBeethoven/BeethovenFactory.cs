@@ -13,8 +13,8 @@ namespace GalvanizedSoftware.Beethoven
       .GetMethods(ReflectionConstants.ResolveFlags)
       .Where(info => info.Name == nameof(GenerateInternal))
       .First(info => info.IsGenericMethod);
-    private Assembly callingAssembly = GetCallingAssembly();
-    private object[] generalPartDefinitions;
+    private readonly Assembly callingAssembly = GetCallingAssembly();
+    private readonly object[] generalPartDefinitions;
 
     public BeethovenFactory(params object[] generalPartDefinitions)
     {

@@ -8,8 +8,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   internal class FieldMappedProperty : IDefinition
   {
-    private PropertyInfo propertyInfo;
-    private string fieldName;
+    private readonly PropertyInfo propertyInfo;
+    private readonly string fieldName;
 
     public FieldMappedProperty(PropertyInfo propertyInfo, string fieldName)
     {

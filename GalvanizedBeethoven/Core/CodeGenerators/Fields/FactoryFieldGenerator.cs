@@ -13,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
     private readonly string fieldName;
     private readonly Func<object> factoryFunc;
     private readonly string typeName;
-    private string generatedClassName;
+    private readonly string generatedClassName;
 
     public FactoryFieldGenerator(Type type, string fieldName, GeneratorContext generatorContext, Func<object> factoryFunc)
     {

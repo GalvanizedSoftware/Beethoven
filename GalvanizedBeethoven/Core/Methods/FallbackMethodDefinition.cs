@@ -5,7 +5,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
   internal class FallbackMethodDefinition : MethodDefinition
   {
-    private MethodDefinition master;
+    private readonly MethodDefinition master;
 
     public FallbackMethodDefinition(MethodDefinition master) :
       base(master.Name, master.MethodMatcher)

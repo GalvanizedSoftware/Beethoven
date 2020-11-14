@@ -1,4 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Test.AutoCompileTests.Tooling;
+﻿  using GalvanizedSoftware.Beethoven.Test.AutoCompileTests.Tooling;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GalvanizedSoftware.Beethoven.Test.AutoCompileTests

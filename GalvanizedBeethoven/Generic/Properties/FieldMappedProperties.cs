@@ -9,7 +9,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
   public class FieldMappedProperties : IDefinitions
   {
     private readonly string fieldName;
-    private Type mainType;
+    private readonly Type mainType;
 
     public FieldMappedProperties(string fieldName, Type mainType)
     {

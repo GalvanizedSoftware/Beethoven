@@ -9,7 +9,7 @@ namespace GalvanizedSoftware.Beethoven.Implementations.Properties
   public class FieldMappedInstances : IDefinitions
   {
     private readonly string fieldName;
-    private Type mainType;
+    private readonly Type mainType;
 
     public FieldMappedInstances(string fieldName, Type mainType)
     {

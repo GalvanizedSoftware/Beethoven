@@ -9,7 +9,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
   public class FieldMappedMethods : IDefinitions
   {
     private readonly string fieldName;
-    private Type mainType;
+    private readonly Type mainType;
 
     public FieldMappedMethods(string fieldName, Type mainType)
     {
