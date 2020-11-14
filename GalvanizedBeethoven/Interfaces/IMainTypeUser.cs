@@ -1,5 +1,5 @@
 ﻿using System;
-namespace GalvanizedSoftware.Beethoven.Core
+namespace GalvanizedSoftware.Beethoven.Interfaces
 {
   public interface IMainTypeUser
   {
