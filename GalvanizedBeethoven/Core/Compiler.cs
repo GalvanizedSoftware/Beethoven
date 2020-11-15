@@ -55,7 +55,7 @@ namespace GalvanizedSoftware.Beethoven.Core
         .ToArray();
       return result.Success ?
         Load(assemblyStream.ToArray(), pbdStream.ToArray()) :
-        throw new Exception("Internal compilation error"); ;
+        throw new Exception("Internal compilation error");
     }
   }
 }

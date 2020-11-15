@@ -1,4 +1,10 @@
 # Beethoven
+![All MSBuild (Windows)](https://github.com/GalvanizedSoftware/Beethoven/workflows/All%20MSBuild%20(Windows)/badge.svg)
+
+![Continuous Integration (ubuntu)](https://github.com/GalvanizedSoftware/Beethoven/workflows/Continuous%20Integration%20(ubuntu)/badge.svg)
+
+![Continuous Integration (macOS)](https://github.com/GalvanizedSoftware/Beethoven/workflows/Continuous%20Integration%20(macOS)/badge.svg)
+## Introduction
 Composing classes in fluet-style programming.
 Frequently used implementations can be reused without inheritance.
 Not using inheritance enables inclusion of the code actually needed.
@@ -195,7 +201,7 @@ New is more robust to localization differences using a ```DateTime```:
     DateTime BirthDate{ get;set; }
   }
 ```
-So the chalange is, if the server part has new new version,
+So the challenge is, if the server part has new new version,
 but some clients are using the new version, some the old,
 how can we convert from new version to old version.
 

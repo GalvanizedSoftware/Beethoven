@@ -1,5 +1,6 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
@@ -11,7 +12,6 @@ using System.Linq;
 using System.Reflection;
 using static System.Environment;
 using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven
 {

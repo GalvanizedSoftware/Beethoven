@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalvanizedSoftware.Beethoven", "GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj", "{49F5B760-8F8D-4A0B-978E-142266A03389}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalvanizedSoftware.Beethoven.Test", "GalvanizedSoftware.Beethoven.Test\GalvanizedSoftware.Beethoven.Test.csproj", "{427D067D-91CF-43C3-BD58-111311C2234F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49F5B760-8F8D-4A0B-978E-142266A03389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49F5B760-8F8D-4A0B-978E-142266A03389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49F5B760-8F8D-4A0B-978E-142266A03389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49F5B760-8F8D-4A0B-978E-142266A03389}.Release|Any CPU.Build.0 = Release|Any CPU
+		{427D067D-91CF-43C3-BD58-111311C2234F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{427D067D-91CF-43C3-BD58-111311C2234F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{427D067D-91CF-43C3-BD58-111311C2234F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{427D067D-91CF-43C3-BD58-111311C2234F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B0AF10D-D0F8-484F-ABBD-993A7497CB9D}
+	EndGlobalSection
+EndGlobal

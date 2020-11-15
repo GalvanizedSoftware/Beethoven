@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
     <Authors>Galvanized Software</Authors>
     <Company>Galvanized Software</Company>
     <Version>0.4.3.0</Version>
@@ -10,10 +10,7 @@
     <Copyright>Copyright 2018 Galvanized Software</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <Features>replace</Features>
+    <GenerateResourceMSBuildArchitecture>CurrentArchitecture</GenerateResourceMSBuildArchitecture>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -21,15 +18,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj">
-      <Project>{49f5b760-8f8d-4a0b-978e-142266a03389}</Project>
-      <Name>GalvanizedSoftware.Beethoven</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="6.2.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
     <PackageReference Include="Unity" Version="5.11.7" />
