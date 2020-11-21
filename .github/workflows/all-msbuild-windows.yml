@@ -2,7 +2,7 @@ name: All MSBuild (Windows)
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master,CodeGeneration ]
   pull_request:
     branches: [ master ]
 
