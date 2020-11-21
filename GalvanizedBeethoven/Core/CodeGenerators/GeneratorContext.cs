@@ -8,21 +8,13 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 {
   public class GeneratorContext
   {
-    readonly Dictionary<Type, CodeType> typeCodeTypeMapping = new Dictionary<Type, CodeType>
-    {
-      { typeof(MethodInfo), CodeType.MethodsCode},
-      { typeof(PropertyInfo), CodeType.PropertiesCode},
-      { typeof(EventInfo), CodeType.EventsCode}
-    };
-
     internal GeneratorContext(string generatedClassName, Type interfaceType)
     {
       GeneratedClassName = generatedClassName;
       InterfaceType = interfaceType;
     }
 
-    private GeneratorContext(GeneratorContext baseContext, CodeType codeType,
-      MemberInfo memberInfo = null, int? methodIndex = null) :
+    private GeneratorContext(GeneratorContext baseContext, MemberInfo memberInfo = null, int? methodIndex = null) :
       this(baseContext.GeneratedClassName, baseContext.InterfaceType)
     {
       MemberInfo = memberInfo;
@@ -35,13 +27,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 
     public int? MethodIndex { get; }
 
-    internal GeneratorContext CreateLocal(CodeType codeType) =>
-      new GeneratorContext(this, codeType);
+    internal GeneratorContext CreateLocal() =>
+      new GeneratorContext(this);
 
     internal GeneratorContext CreateLocal<T>(T memberInfo, int? methodIndex = null) where T : MemberInfo =>
       new GeneratorContext(
         this,
-        typeCodeTypeMapping[typeof(T)],
         memberInfo,
         methodIndex);
 

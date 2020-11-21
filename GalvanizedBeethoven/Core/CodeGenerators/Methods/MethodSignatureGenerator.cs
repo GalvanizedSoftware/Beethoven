@@ -41,15 +41,11 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
         yield return line.Format(1);
     }
 
-    private IEnumerable<string> GenerateConstraints()
-    {
-      if (!methodInfo.IsGenericMethod)
-        Enumerable.Empty<string>();
-      return methodInfo
+    private IEnumerable<string> GenerateConstraints() =>
+      methodInfo
         .GetGenericArguments()
         .Where(type => type.BaseType != typeof(object))
         .Select(type => $" where {type.Name} : {type.GetBaseName()}");
-    }
 
     private static string GetParameter(ParameterInfo info) =>
       string.Join(" ", GetParameterParts(info));

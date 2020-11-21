@@ -75,7 +75,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         .ToArray();
     }
 
-    private object[] GetInputParameters(object localInstance, object[] parameters, int length)
+    private static object[] GetInputParameters(object localInstance, object[] parameters, int length)
     {
       if (parameters == null || length == 0)
         return Array.Empty<object>();
