@@ -29,5 +29,5 @@ jobs:
       id: publish_nuget
       uses: rohith/publish-nuget@v2
       with:
-        PROJECT_FILE_PATH: GalvanizedSoftware.Beethoven.csproj
+        PROJECT_FILE_PATH: GalvanizedBeethoven/GalvanizedSoftware.Beethoven.csproj
 
