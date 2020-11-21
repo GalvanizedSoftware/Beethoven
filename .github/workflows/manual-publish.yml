@@ -1,0 +1,32 @@
+name: .NET Core
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Install dependencies
+      run: dotnet restore BeethovenCi.sln
+      
+    - name: Build
+      run: dotnet build --configuration Release --no-restore BeethovenCi.sln
+      
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal BeethovenCi.sln
+
+    - name: publish on version change
+      id: publish_nuget
+      uses: rohith/publish-nuget@v2
+      with:
+        PROJECT_FILE_PATH: GalvanizedSoftware.Beethoven.csproj
+
