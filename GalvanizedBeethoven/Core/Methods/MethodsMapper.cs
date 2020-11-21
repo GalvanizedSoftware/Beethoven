@@ -1,36 +1,28 @@
 ﻿using System;
-using GalvanizedSoftware.Beethoven.Generic.Methods;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Generic;
-using GalvanizedSoftware.Beethoven.Generic.Parameters;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-  internal class MethodsMapper<T> : IEnumerable<Method>
+  internal class MethodsMapper<T> : IEnumerable<MethodDefinition>, IDefinitions
   {
-    private static readonly MethodInfo[] interfaceMethods =
-      typeof(T).GetAllMethodsAndInherited().ToArray();
-    private readonly Method[] methods;
+
+    private static readonly MethodsMapperEngine methodsMapperEngine = new MethodsMapperEngine(typeof(T));
+    private readonly MethodDefinition[] methods;
 
     public MethodsMapper(object baseObject)
     {
-      IParameter parameter = (baseObject as DefinitionImport)?.Parameter;
-      Type baseType = parameter?.Type ?? baseObject?.GetType();
-      Func<MethodInfo, Method> methodCreator = parameter != null ? (Func<MethodInfo, Method>)
-        (methodInfo => new ParameterMappedMethod(methodInfo, parameter)) :
-        methodInfo => new MappedMethod(methodInfo, baseObject);
-      methods = baseType
-        .GetAllTypes()
-        .SelectMany(type => type.GetNotSpecialMethods())
-        .Intersect(interfaceMethods, new ExactMethodComparer())
-        .Select(methodCreator).ToArray();
+      Type baseType = baseObject?.GetType();
+      methods = methodsMapperEngine
+        .GenerateMappings(baseObject , baseType)
+        .ToArray();
     }
 
-    public IEnumerator<Method> GetEnumerator() => methods.AsEnumerable().GetEnumerator();
+    public IEnumerable<IDefinition> GetDefinitions() => methods.OfType<IDefinition>();
+
+    public IEnumerator<MethodDefinition> GetEnumerator() => methods.AsEnumerable().GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
   }

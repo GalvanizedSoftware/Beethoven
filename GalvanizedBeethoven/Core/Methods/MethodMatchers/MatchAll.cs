@@ -5,7 +5,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
 {
-  public class MatchAll: IMethodMatcher
+  internal class MatchAll: IMethodMatcher
   {
     private readonly IEnumerable<IMethodMatcher> matchers;
 

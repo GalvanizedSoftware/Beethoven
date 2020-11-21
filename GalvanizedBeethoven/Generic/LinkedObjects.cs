@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core.Binding;
 using GalvanizedSoftware.Beethoven.Core.Methods;
-using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
-using GalvanizedSoftware.Beethoven.Generic.Parameters;
+using GalvanizedSoftware.Beethoven.Generic.Properties;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic
 {
-  public class LinkedObjects : IBindingParent
+  public class LinkedObjects : IDefinitions, IMainTypeUser, IBindingParent
   {
     private readonly Dictionary<object, MethodInfo[]> implementationMethods;
     private readonly ExactMethodComparer methodComparer = new ExactMethodComparer();
     private readonly object[] partDefinitions;
+    private Type mainType;
 
     public LinkedObjects(params object[] partDefinitions)
     {
@@ -26,21 +25,10 @@ namespace GalvanizedSoftware.Beethoven.Generic
         .ToDictionary(obj => obj, FindMethodInfos);
     }
 
-    public IEnumerable GetWrappers<T>() where T : class
-    {
-      foreach (PropertyDefinition property in GetProperties())
-        yield return property;
-      foreach (Method method in GetMethods<T>())
-        yield return method;
-    }
-
-    private IEnumerable<Method> GetMethods<T>() where T : class
-    {
-      return typeof(T)
+    private IEnumerable<MethodDefinition> GetMethods() => mainType
         .GetAllMethodsAndInherited()
         .Where(methodInfo => !methodInfo.IsSpecialName)
         .Select(CreateMethod);
-    }
 
     public IEnumerable<PropertyDefinition> GetProperties()
     {
@@ -64,38 +52,38 @@ namespace GalvanizedSoftware.Beethoven.Generic
       }
     }
 
-    private Method CreateMethod(MethodInfo methodInfo)
+    private MethodDefinition CreateMethod(MethodInfo methodInfo)
     {
-      Method[] localMethods = (implementationMethods
+      if (methodInfo.Name == "Add")
+      {
+      }
+      MethodDefinition[] localMethods = (implementationMethods
         .SelectMany(pair => CreateMethod(pair.Key, pair.Value, methodInfo)))
         .ToArray();
       return methodInfo.HasReturnType() ?
-        (Method)localMethods.Aggregate(
-          new LinkedMethodsReturnValue(methodInfo.Name),
+        (MethodDefinition)localMethods.Aggregate(
+          new LinkedMethodsReturnValue(methodInfo),
           (value, method) => value.Add(method)) :
         localMethods.Aggregate(
           new LinkedMethods(methodInfo.Name),
           (value, method) => value.Add(method));
     }
 
-    private static IEnumerable<PropertyDefinition> CreateProperties(object definition)
+    private IEnumerable<PropertyDefinition> CreateProperties(object definition)
     {
-      switch (definition)
+      return definition switch
       {
-        case Method _:
-          return Array.Empty<PropertyDefinition>();
-        case PropertyDefinition property:
-          return new[] { property };
-        default:
-          return new PropertiesMapper(definition);
-      }
+        MethodDefinition _ => Array.Empty<PropertyDefinition>(),
+        PropertyDefinition property => new[] { property },
+        _ => new PropertiesMapper(mainType, definition),
+      };
     }
 
-    private IEnumerable<Method> CreateMethod(object definition, MethodInfo[] methodInfos, MethodInfo methodInfo)
+    private IEnumerable<MethodDefinition> CreateMethod(object definition, MethodInfo[] methodInfos, MethodInfo methodInfo)
     {
       switch (definition)
       {
-        case Method method:
+        case MethodDefinition method:
           if (method.MethodMatcher.IsNonGenericMatch(methodInfo))
             yield return method;
           break;
@@ -112,9 +100,7 @@ namespace GalvanizedSoftware.Beethoven.Generic
     {
       switch (obj)
       {
-        case Method _:
-        case PropertyDefinition _:
-        case IParameter _:
+        case IDefinition _:
           return null;
       }
       return obj?
@@ -124,10 +110,20 @@ namespace GalvanizedSoftware.Beethoven.Generic
         .ToArray();
     }
 
-    public void Bind(object target)
+    public IEnumerable<IDefinition> GetDefinitions()
     {
-      foreach (IBindingParent bindingParent in partDefinitions.OfType<IBindingParent>())
-        bindingParent.Bind(target);
+      foreach (PropertyDefinition property in GetProperties())
+        yield return property;
+      foreach (MethodDefinition method in GetMethods())
+        yield return method;
     }
+
+    public void Set(Type mainType) =>
+      this.mainType = mainType;
+
+    public void Bind(object target) => 
+      partDefinitions
+        .OfType<IBindingParent>()
+        .ForEach(bindingParent => bindingParent.Bind(target));
   }
 }

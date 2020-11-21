@@ -6,7 +6,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
 {
-  public class MatchActionPartially : IMethodMatcher
+  internal class MatchActionPartially : IMethodMatcher
   {
     private readonly (Type, string)[] localParameters;
 

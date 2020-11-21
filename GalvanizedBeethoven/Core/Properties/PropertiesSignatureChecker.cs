@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GalvanizedSoftware.Beethoven.Generic.Properties;
+using GalvanizedSoftware.Beethoven.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,19 +12,16 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
 
     private PropertiesSignatureChecker()
     {
-      Type type = typeof(T);
-      properties = type.GetProperties(Constants.ResolveFlags).ToDictionary(info => info.Name, info => info.PropertyType);
+      properties = typeof(T)
+        .GetProperties(ReflectionConstants.ResolveFlags)
+        .ToDictionary(info => info.Name, info => info.PropertyType);
     }
 
-    public static void CheckSignatures(IEnumerable<object> wrappers)
-    {
+    public static void CheckSignatures(IDefinitions wrappers) => 
       new PropertiesSignatureChecker<T>().CheckSignaturesInternal(wrappers);
-    }
 
-    private void CheckSignaturesInternal(IEnumerable<object> wrappers)
-    {
-      CheckProperty(wrappers.OfType<PropertyDefinition>().ToArray());
-    }
+    private void CheckSignaturesInternal(IDefinitions wrappers) => 
+      CheckProperty(wrappers.GetDefinitions().OfType<PropertyDefinition>().ToArray());
 
     private void CheckProperty(PropertyDefinition[] propertyWrappers)
     {
@@ -41,7 +40,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
         case 1:
           return;
         default:
-          throw new NotImplementedException($"Multiple implementation found for property: {actualType} {name}");
+          throw new MissingMethodException($"Multiple implementation found for property: {actualType} {name}");
       }
     }
   }

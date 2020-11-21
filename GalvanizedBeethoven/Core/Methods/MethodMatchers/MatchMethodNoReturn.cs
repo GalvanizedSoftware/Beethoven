@@ -5,7 +5,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers
 {
-  public class MatchMethodNoReturn: IMethodMatcher
+  internal class MatchMethodNoReturn: IMethodMatcher
   {
     private readonly MethodInfo methodInfo;
     private readonly (Type, string)[] localParameters;

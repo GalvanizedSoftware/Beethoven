@@ -6,7 +6,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class FlowControlMethod : Method
+  public class FlowControlMethod : MethodDefinition
   {
     private readonly Delegate func;
     private readonly (Type, string)[] localParameters;

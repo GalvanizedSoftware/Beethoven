@@ -7,9 +7,9 @@
     <Authors>Galvanized Software</Authors>
     <Company>Galvanized Software</Company>
     <Description>Fluent-style class implementation / composition. Automapping, duck-typing, auto-implementation and more ...</Description>
-    <PackageTags>composition;dynamic creation;duck typing;castle.core;auto interface implementation</PackageTags>
+    <PackageTags>composition;dynamic creation;duck typing;auto interface implementation</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.5.0.0</Version>
+    <Version>0.6.0.0</Version>
     <Copyright>Copyright 2019-2019 Galvanized Software</Copyright>
     <PackageProjectUrl>https://github.com/GalvanizedSoftware/Beethoven</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GalvanizedSoftware/Beethoven</RepositoryUrl>
@@ -26,8 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.1.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.3" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
   </ItemGroup>
-
 </Project>

@@ -28,7 +28,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Extending
     {
       return beethovenFactory.Generate<IApproverChain>(approvers
         .Select(WrapApprover)
-        .Aggregate(new LinkedMethodsReturnValue(nameof(IApproverChain.Approve)),
+        .Aggregate(LinkedMethodsReturnValue.Create<IApproverChain>(nameof(IApproverChain.Approve)),
           (value, approver) => value.AutoMappedMethod(approver)));
     }
 
@@ -38,7 +38,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Extending
       ApprovalAccount approvalAccount = new ApprovalAccount(approver.GetType().Name);
       addAccountAction(approvalAccount);
       IApprover postApprover = beethovenFactory.Generate<IApprover>(
-        new LinkedMethodsReturnValue(nameof(IApprover.Approve))
+        LinkedMethodsReturnValue.Create<IApprover>(nameof(IApprover.Approve))
           .PartialMatchMethod(approvalAccount)
           .PartialMatchMethod(companyAccount)
       );
@@ -49,7 +49,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Extending
           postApprover.NotifyApprove(amount);
       };
       return beethovenFactory.Generate<IApprover>(
-        new LinkedMethodsReturnValue(nameof(IApprover.Approve))
+        LinkedMethodsReturnValue.Create<IApprover>(nameof(IApprover.Approve))
           .AutoMappedMethod(approver)
           .InvertResult()
           .SkipIfResultCondition<bool>(value => value)

@@ -1,6 +1,6 @@
 ﻿using System;
-using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic.Properties;
 using GalvanizedSoftware.Beethoven.Test.PropertyTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -48,7 +48,7 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(NotImplementedException))]
+    [ExpectedException(typeof(MissingMethodException))]
     public void TestMethodProperty4()
     {
       BeethovenFactory factory = new BeethovenFactory();

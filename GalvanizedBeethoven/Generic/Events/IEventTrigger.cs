@@ -2,6 +2,6 @@
 {
   public interface IEventTrigger
   {
-    object Notify(params object[] args);
+    object Notify(params object[] arguments);
   }
 }

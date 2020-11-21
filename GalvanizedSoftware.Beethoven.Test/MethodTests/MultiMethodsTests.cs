@@ -1,4 +1,5 @@
 ﻿using System;
+using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -50,13 +51,29 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       TypeDefinition<IMultiMethods1> typeDefinition =
         new TypeDefinition<IMultiMethods1>(
           ActionMethod.Create("Foo", (int a) => callCount++),
-          ActionMethod.Create("Foo", () => {}));
+          ActionMethod.Create("Foo", () => {}).CreateFallback());
       IMultiMethods1 instance = typeDefinition.Create();
       instance.Foo();
       instance.Foo(5);
       instance.Foo("5");
       instance.Foo(out string _);
       Assert.AreEqual(1, callCount);
+    }
+
+    [TestMethod]
+    public void MultiMethodsTest5()
+    {
+      int callCount = 0;
+      TypeDefinition<IMultiMethods1> typeDefinition =
+        new TypeDefinition<IMultiMethods1>(
+          ActionMethod.Create("Foo", (int a) => { }),
+          ActionMethod.Create("Foo", () => callCount++).CreateFallback());
+      IMultiMethods1 instance = typeDefinition.Create();
+      instance.Foo();
+      instance.Foo(5);
+      instance.Foo("5");
+      instance.Foo(out string _);
+      Assert.AreEqual(3, callCount);
     }
 
     [TestMethod]

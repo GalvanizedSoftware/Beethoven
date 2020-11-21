@@ -1,17 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class DefaultMethod
+  public class DefaultMethod : IDefinitions, IMainTypeUser
   {
     private readonly Func<MethodInfo, object[], object> mainFunc;
+    private Type mainType;
 
     public DefaultMethod(Func<MethodInfo, object[], object> mainFunc)
     {
-      this.mainFunc = mainFunc ?? ((unused1, unused2) => null);
+      this.mainFunc = mainFunc ?? ((_, __) => null);
     }
 
     public DefaultMethod(Action<MethodInfo, object[]> mainAction)
@@ -23,7 +28,17 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       };
     }
 
-    public Method CreateMapped(MethodInfo methodInfo) => 
+    public MethodDefinition CreateMapped(MethodInfo methodInfo) =>
       new MappedDefaultMethod(methodInfo, mainFunc);
+
+    public IMethodMatcher MethodMatcher { get; } = new MatchAnything();
+
+    public void Set(Type mainType) =>
+      this.mainType = mainType;
+
+    public IEnumerable<IDefinition> GetDefinitions() => 
+      mainType
+        .GetAllMethodsAndInherited()
+        .Select(methodInfo => new MappedDefaultMethod(methodInfo, mainFunc));
   }
 }

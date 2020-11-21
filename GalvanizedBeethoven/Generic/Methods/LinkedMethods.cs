@@ -1,37 +1,33 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class LinkedMethods : Method, IObjectProvider
+  public class LinkedMethods : MethodDefinition
   {
-    private readonly Method[] methodList;
-    private readonly ObjectProviderHandler objectProviderHandler;
+    private readonly MethodDefinition[] methodList;
 
     public LinkedMethods(string name) :
-      this(name, Array.Empty<Method>())
+      this(name, Array.Empty<MethodDefinition>())
     {
     }
 
-    private LinkedMethods(LinkedMethods previous, Method newMethod) :
+    private LinkedMethods(LinkedMethods previous, MethodDefinition newMethod) :
       this(previous.Name, previous.methodList.Append(newMethod).ToArray())
     {
     }
 
-    private LinkedMethods(string name, Method[] methodList) :
+    private LinkedMethods(string name, MethodDefinition[] methodList) :
       base(name, new MatchAll(methodList.Select(method => method.MethodMatcher)))
     {
       this.methodList = methodList;
-      objectProviderHandler = new ObjectProviderHandler(methodList);
     }
 
-    public LinkedMethods Add(Method method) =>
+    public LinkedMethods Add(MethodDefinition method) =>
       new LinkedMethods(this, method);
 
     public LinkedMethods Action(Action action) =>
@@ -78,37 +74,34 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       return this;
     }
 
-    public override void InvokeFindInstance(IInstanceMap instanceMap, ref object returnAction, object[] parameterValues,
+    public override void Invoke(object localInstance, ref object returnAction, object[] parameterValues,
       Type[] genericArguments,
       MethodInfo methodInfo)
     {
       (Type, string)[] parameterTypeAndNames = methodInfo.GetParameterTypeAndNames();
-      foreach (Method method in methodList)
+      foreach (MethodDefinition method in methodList)
       {
-        if (!InvokeFirstMatch(instanceMap, method, parameterValues, parameterTypeAndNames, genericArguments, methodInfo))
+        if (!InvokeFirstMatch(localInstance, method, parameterValues, parameterTypeAndNames, genericArguments, methodInfo))
           break;
       }
     }
 
-    private bool InvokeFirstMatch(IInstanceMap instanceMap,
-      Method method, object[] parameters, (Type, string)[] parameterTypes,
+    private static bool InvokeFirstMatch(object localInstance,
+      MethodDefinition method, object[] parameters, (Type, string)[] parameterTypes,
       Type[] genericArguments, MethodInfo methodInfo)
     {
       Type returnType = methodInfo?.ReturnType;
       if (method.MethodMatcher.IsMatchCheck(parameterTypes, genericArguments, returnType))
       {
         object returnValue = null;
-        method.InvokeFindInstance(instanceMap, ref returnValue, parameters, genericArguments, methodInfo);
+        method.Invoke(localInstance, ref returnValue, parameters, genericArguments, methodInfo);
         return true;
       }
       if (!method.MethodMatcher.IsMatchCheck(parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
         throw new MissingMethodException();
       object result = true;
-      method.InvokeFindInstance(instanceMap, ref result, parameters, genericArguments, methodInfo);
+      method.Invoke(localInstance, ref result, parameters, genericArguments, methodInfo);
       return (bool)result;
     }
-
-    public IEnumerable<TChild> Get<TChild>() =>
-      objectProviderHandler.Get<TChild>();
   }
 }

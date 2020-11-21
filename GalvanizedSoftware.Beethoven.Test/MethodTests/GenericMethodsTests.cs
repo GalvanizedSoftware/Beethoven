@@ -30,7 +30,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       IGenericMethods instance = beethovenFactory.Generate<IGenericMethods>(
         FuncMethod.Create("Simple", () => "abcd"),
         FuncMethod.Create("Simple", () => 5),
-        FuncMethod.Create("Simple", () => 0)
+        FuncMethod.Create("Simple", () => (short)0)
         );
       Assert.AreEqual(5, instance.Simple<int>());
       Assert.AreEqual(0, instance.Simple<short>());

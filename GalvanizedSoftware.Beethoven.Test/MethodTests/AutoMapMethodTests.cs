@@ -1,6 +1,4 @@
 ﻿using FakeItEasy;
-using GalvanizedSoftware.Beethoven.Generic;
-using GalvanizedSoftware.Beethoven.Generic.Parameters;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations;
 using GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -53,22 +51,6 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       BeethovenFactory factory = new BeethovenFactory();
       ITestMethods test = factory.Generate<ITestMethods>(fake);
       A.CallTo(() => fake.WithParameters("123", "abc", 5)).Returns(42);
-      Assert.AreEqual(42, test.WithParameters("123", "abc", 5));
-    }
-
-    [TestMethod]
-    public void MethodWithParameters3()
-    {
-      IParameter parameter = AutoParameter.Create(() =>
-      {
-        ITestMethods fake = A.Fake<ITestMethods>();
-        A.CallTo(() => fake.WithParameters("123", "abc", 5)).Returns(42);
-        return fake;
-      });
-      TypeDefinition<ITestMethods> typeDefinition =
-        new TypeDefinition<ITestMethods>(
-          new DefinitionImport(parameter));
-      ITestMethods test = typeDefinition.Create();
       Assert.AreEqual(42, test.WithParameters("123", "abc", 5));
     }
 

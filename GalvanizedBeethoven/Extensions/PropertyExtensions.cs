@@ -1,8 +1,5 @@
 ﻿using System;
-using GalvanizedSoftware.Beethoven.Core.Properties;
-using GalvanizedSoftware.Beethoven.Generic.Parameters;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
-using GalvanizedSoftware.Beethoven.MVVM.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
@@ -39,7 +36,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       new PropertyDefinition<T>(propertyDefinition, new InitialValue<T>(value));
 
     public static PropertyDefinition<T> ConstructorParameter<T>(this PropertyDefinition<T> propertyDefinition) => 
-      new PropertyDefinition<T>(propertyDefinition, new ConstructorParameter(propertyDefinition?.Name, typeof(T)));
+      new PropertyDefinition<T>(propertyDefinition, new ConstructorInitializedProperty(propertyDefinition?.Name, typeof(T)));
 
     public static PropertyDefinition<T> DelegatedSetter<T>(this PropertyDefinition<T> propertyDefinition, Action<T> action) => 
       new PropertyDefinition<T>(propertyDefinition, new DelegatedSetter<T>(action));

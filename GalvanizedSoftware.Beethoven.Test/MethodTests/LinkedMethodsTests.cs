@@ -49,7 +49,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     {
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
-        new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
+        LinkedMethodsReturnValue.Create<ITestMethods>(nameof(ITestMethods.WithParameters))
           .SkipIf<string, string>((text1, text2) => string.IsNullOrEmpty(text1))
           .SkipIf<string, string>((text1, text2) => string.IsNullOrEmpty(text2))
           .Func((string text1, string text2) => text1.Length + text2.Length));
@@ -65,7 +65,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       bool skip = true;
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
-        new LinkedMethodsReturnValue(nameof(ITestMethods.ReturnValue))
+        LinkedMethodsReturnValue.Create<ITestMethods>(nameof(ITestMethods.ReturnValue))
           .SkipIf(() => skip)
           .Func(() => 477));
       Assert.AreEqual(0, instance.ReturnValue());
@@ -115,7 +115,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       int calledCount = 0;
       ValueCheck valueCheck = new ValueCheck();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
-        new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
+        LinkedMethodsReturnValue.Create<ITestMethods>(nameof(ITestMethods.WithParameters))
           .SkipIf(valueCheck, nameof(valueCheck.HasNoValue2))
           .Func((string text1, string text2) => calledCount++));
       instance.WithParameters("", "");
@@ -132,7 +132,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       int calledCount = 0;
       WithParametersImplementation implentation = new WithParametersImplementation();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
-        new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
+        LinkedMethodsReturnValue.Create<ITestMethods>(nameof(ITestMethods.WithParameters), 1)
           .Func((int count) => count)
           .SkipIfResultCondition((int count) => count == 0)
           .AutoMappedMethod(implentation)
@@ -183,7 +183,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       WithParametersImplementation implentation = new WithParametersImplementation();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
-        new LinkedMethodsReturnValue(nameof(ITestMethods.WithParameters))
+        LinkedMethodsReturnValue.Create<ITestMethods>(nameof(ITestMethods.WithParameters), 1)
           .AutoMappedMethod(implentation)
           .Func(() => 5));
       int result = instance.WithParameters("fdgdf", "afasf", 3);
@@ -195,7 +195,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     {
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       IGenericMethods instance = beethovenFactory.Generate<IGenericMethods>(
-        new LinkedMethodsReturnValue(nameof(IGenericMethods.Simple))
+        LinkedMethodsReturnValue.Create<IGenericMethods>(nameof(IGenericMethods.Simple))
           .Func(() => true)
           .FlowControl(() => false)
           .Func(() => false));

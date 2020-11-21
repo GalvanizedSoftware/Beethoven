@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
-  public class GeneralSignatureChecker
+  internal class GeneralSignatureChecker
   {
     private readonly MethodInfo[] interfaceMethods;
     private readonly MethodInfo[] classMethods;
@@ -18,9 +18,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       classMethods = classType.GetAllMethodsAndInherited().ToArray();
     }
 
-    public IEnumerable<MethodInfo> FindMissing()
-    {
-      return interfaceMethods.Except(classMethods, new ExactMethodComparer());
-    }
+    public IEnumerable<MethodInfo> FindMissing() =>
+      interfaceMethods.Except(classMethods, new ExactMethodComparer());
   }
 }

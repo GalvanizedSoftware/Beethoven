@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Extensions;
-using static GalvanizedSoftware.Beethoven.Core.Constants;
+using static GalvanizedSoftware.Beethoven.Core.ReflectionConstants;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {

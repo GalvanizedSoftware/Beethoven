@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
-using GalvanizedSoftware.Beethoven.Core.Binding;
+using GalvanizedSoftware.Beethoven.Interfaces;
 // ReSharper disable UnusedMember.Global
 
 namespace GalvanizedSoftware.Beethoven.Test.CompositeTests.Implementations

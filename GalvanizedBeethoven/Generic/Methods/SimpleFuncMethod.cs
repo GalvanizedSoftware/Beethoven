@@ -5,7 +5,7 @@ using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class SimpleFuncMethod<TReturnType> : Method
+  public class SimpleFuncMethod<TReturnType> : MethodDefinition
   {
     private readonly Func<TReturnType> func;
 

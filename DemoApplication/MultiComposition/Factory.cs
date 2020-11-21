@@ -26,11 +26,8 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
             new MappedMethod("Remove", collectionChanged, nameof(collectionChanged.PreRemove)),
             persons,
             collectionChanged));
-      IEventTrigger trigger = null;
-      typeDefinition.RegisterEvent(
-        nameof(IPersonCollection.CollectionChanged),
-        eventTrigger => trigger = eventTrigger);
       IPersonCollection personCollection = typeDefinition.Create();
+      IEventTrigger trigger = new EventTrigger(personCollection, nameof(IPersonCollection.CollectionChanged));
       collectionChanged.CollectionChanged += (sender, args) => trigger.Notify(sender, args);
       return personCollection;
     }

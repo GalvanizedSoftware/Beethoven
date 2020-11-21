@@ -1,19 +1,11 @@
-﻿using System;
-using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.Properties;
+﻿using GalvanizedSoftware.Beethoven.Implementations.Properties;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   public class NotSupported<T> : IPropertyDefinition<T>
   {
-    public bool InvokeGetter(InstanceMap instanceMap, ref T returnValue)
-    {
-      throw new NotSupportedException("Property is not supported.");
-    }
-
-    public bool InvokeSetter(InstanceMap instanceMap, T newValue)
-    {
-      throw new NotSupportedException("Property is not supported.");
-    }
+    public IPropertyInstance<T> CreateInstance(object master) =>
+      new NotSupportedInstance<T>();
   }
 }

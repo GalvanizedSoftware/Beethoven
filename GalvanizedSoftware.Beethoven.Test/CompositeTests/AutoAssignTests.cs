@@ -2,7 +2,6 @@
 using GalvanizedSoftware.Beethoven.Generic.ValueLookup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Test.CompositeTests.Implementations;
 using GalvanizedSoftware.Beethoven.Test.CompositeTests.Interfaces;
@@ -21,16 +20,14 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
         { "Name", "The evil company"},
         { "Address","2460 Sunshine road"}
       };
-      BeethovenFactory factory = new BeethovenFactory();
+      BeethovenFactory factory = null;
       IValueLookup lookup = new CompositeValueLookup(
         new DictionaryValueLookup(defaultValues),
         new InterfaceFactoryValueLookup((type, name) => factory.Generate(type)));
-      factory.GeneralPartDefinitions = new object[]
-      {
+      factory = new BeethovenFactory(
         new DefaultProperty()
         .ValueLookup(lookup)
-        .SetterGetter()
-      };
+        .SetterGetter());
       ICompany company = factory.Generate<ICompany>();
       Assert.AreEqual("The evil company", company.Information.Name);
       Assert.AreEqual("2460 Sunshine road", company.Information.Address);
@@ -44,16 +41,14 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
         Name = "The evil company",
         Address = "2460 Sunshine road"
       };
-      BeethovenFactory factory = new BeethovenFactory();
+      BeethovenFactory factory = null;
       IValueLookup lookup = new CompositeValueLookup(
         new AnonymousValueLookup(defaultValues),
         new InterfaceFactoryValueLookup((type, name) => factory.Generate(type)));
-      factory.GeneralPartDefinitions = new object[]
-      {
+      factory = new BeethovenFactory(
         new DefaultProperty()
           .ValueLookup(lookup)
-          .SetterGetter()
-      };
+          .SetterGetter());
       ICompany company = factory.Generate<ICompany>();
       Assert.AreEqual("The evil company", company.Information.Name);
       Assert.AreEqual("2460 Sunshine road", company.Information.Address);
@@ -63,23 +58,18 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
     public void AutoAssignTest3()
     {
       BeethovenFactory factory = new BeethovenFactory();
-      var defaultValues1 = new
-      {
-        Name = "The evil company",
-        Address = "2460 Sunshine road"
-      };
       DefaultProperty defaultProperty1 = new DefaultProperty()
-        .AnonymousValueLookup(defaultValues1)
+        .AnonymousValueLookup(new
+        {
+          Name = "The evil company",
+          Address = "2460 Sunshine road"
+        })
         .SetterGetter();
       ICompanyInformation companyInformation = factory.Generate<ICompanyInformation>(defaultProperty1);
       Assert.AreEqual("The evil company", companyInformation.Name);
       Assert.AreEqual("2460 Sunshine road", companyInformation.Address);
-      var defaultValues2 = new
-      {
-        Name = "",
-      };
       DefaultProperty defaultProperty2 = new DefaultProperty()
-        .AnonymousValueLookup(defaultValues2)
+        .AnonymousValueLookup(new { Name = "" })
         .SetterGetter();
       companyInformation = factory.Generate<ICompanyInformation>(defaultProperty2);
       Assert.AreEqual("", companyInformation.Name);
@@ -94,16 +84,14 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
         { "Name", "The evil company"},
         { "Address",2460}
       };
-      BeethovenFactory factory = new BeethovenFactory();
+      BeethovenFactory factory = null;
       IValueLookup lookup = new CompositeValueLookup(
         new DictionaryValueLookup(defaultValues),
         new InterfaceFactoryValueLookup((type, name) => factory.Generate(type)));
-      factory.GeneralPartDefinitions = new object[]
-      {
+      factory = new BeethovenFactory(
         new DefaultProperty()
           .ValueLookup(lookup)
-          .SetterGetter()
-      };
+          .SetterGetter());
       ICompany company = factory.Generate<ICompany>();
       Assert.AreEqual("The evil company", company.Information.Name);
       Assert.AreEqual(null, company.Information.Address);
@@ -120,7 +108,7 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
           .ConstructorParameter()
           .SetterGetter()
         );
-      ICompanyInformation companyInformation = 
+      ICompanyInformation companyInformation =
         typeDefinition.Create("The evil company", "2460 Sunshine road");
       Assert.AreEqual("The evil company", companyInformation.Name);
       Assert.AreEqual("2460 Sunshine road", companyInformation.Address);
@@ -132,7 +120,7 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
       TypeDefinition<ICompanyInformation> typeDefinition = new TypeDefinition<ICompanyInformation>(
         new PropertyDefinition<string>("Name")
           .ConstructorParameter()
-          .SetterGetter()      );
+          .SetterGetter());
       ICompanyInformation companyInformation =
         typeDefinition.Create("The evil company");
       companyInformation.Name = "Generic Company B";
