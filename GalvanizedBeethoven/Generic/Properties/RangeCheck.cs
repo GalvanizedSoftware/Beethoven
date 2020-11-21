@@ -1,5 +1,5 @@
 ﻿using System;
-using GalvanizedSoftware.Beethoven.Implementations.Properties;
+using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties

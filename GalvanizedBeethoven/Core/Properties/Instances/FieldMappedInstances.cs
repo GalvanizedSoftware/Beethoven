@@ -4,7 +4,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 using System.Linq;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Implementations.Properties
+namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
 {
   public class FieldMappedInstances : IDefinitions
   {

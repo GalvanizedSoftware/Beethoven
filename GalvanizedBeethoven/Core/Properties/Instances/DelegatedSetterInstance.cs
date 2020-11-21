@@ -1,7 +1,7 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Implementations.Properties
+namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
 {
   public class DelegatedSetterInstance<T> : IPropertyInstance<T>
   {

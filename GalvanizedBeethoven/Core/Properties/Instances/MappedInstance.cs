@@ -3,7 +3,7 @@ using System.Reflection;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using static GalvanizedSoftware.Beethoven.Core.ReflectionConstants;
 
-namespace GalvanizedSoftware.Beethoven.Implementations.Properties
+namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
 {
   public class MappedInstance<T> : IPropertyInstance<T>
   {

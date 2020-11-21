@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GalvanizedSoftware.Beethoven.Implementations.Properties
+namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
 {
   internal class MultiplePropertyInstance<T> : IPropertyInstance<T>
   {

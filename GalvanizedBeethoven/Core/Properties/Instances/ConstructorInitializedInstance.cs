@@ -5,7 +5,7 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 using System.Reflection;
 
-namespace GalvanizedSoftware.Beethoven.Implementations.Properties
+namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
 {
   public class ConstructorInitializedInstance : IDefinition
   {

@@ -4,7 +4,7 @@ using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Reflection;
 
-namespace GalvanizedSoftware.Beethoven.Implementations.Properties
+namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
 {
   internal class FieldMappedInstance : IDefinition
   {

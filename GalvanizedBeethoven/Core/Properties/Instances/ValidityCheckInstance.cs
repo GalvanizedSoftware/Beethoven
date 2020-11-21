@@ -1,7 +1,7 @@
 ﻿using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 
-namespace GalvanizedSoftware.Beethoven.Implementations.Properties
+namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
 {
   public class ValidityCheckInstance<T> : IPropertyInstance<T>
   {

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Implementations.Properties
+namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
 {
   internal class NotifyChangedInstance<T> : IPropertyInstance<T>
   {
