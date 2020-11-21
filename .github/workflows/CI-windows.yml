@@ -1,4 +1,4 @@
-name: All MSBuild (Windows)
+name: Continuous Integration (Windows)
 
 on:
   push:
