@@ -1,5 +1,4 @@
 ﻿using GalvanizedSoftware.Beethoven.Core;
-using Microsoft.CodeAnalysis;
 using System;
 using System.Linq;
 using System.Reflection;
