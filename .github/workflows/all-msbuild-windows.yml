@@ -23,6 +23,12 @@ jobs:
 
     - name: Install dependencies
       run: dotnet restore BeethovenAll.sln
+                   
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
+     
+    - name: Restore NuGet Packages
+      run: nuget restore BeethovenAll.sln
 
     - name: Build
       run: msbuild BeethovenAll.sln -p:Configuration=Release
