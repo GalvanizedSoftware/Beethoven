@@ -2,7 +2,7 @@ name: Continuous Integration (ubuntu)
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master,CodeGeneration ]
   pull_request:
     branches: [ master ]
 
