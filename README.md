@@ -1,9 +1,12 @@
 # Beethoven
-![All MSBuild (Windows)](https://github.com/GalvanizedSoftware/Beethoven/workflows/All%20MSBuild%20(Windows)/badge.svg)
+![Continuous Integration (Windows)](https://github.com/GalvanizedSoftware/Beethoven/workflows/Continuous%20Integration%20(Windows)/badge.svg)
 
 ![Continuous Integration (ubuntu)](https://github.com/GalvanizedSoftware/Beethoven/workflows/Continuous%20Integration%20(ubuntu)/badge.svg)
 
 ![Continuous Integration (macOS)](https://github.com/GalvanizedSoftware/Beethoven/workflows/Continuous%20Integration%20(macOS)/badge.svg)
+
+![nuget publish](https://github.com/GalvanizedSoftware/Beethoven/workflows/nuget%20publish/badge.svg)
+
 ## Introduction
 Composing classes in fluet-style programming.
 Frequently used implementations can be reused without inheritance.
