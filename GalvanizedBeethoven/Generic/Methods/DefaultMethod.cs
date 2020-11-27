@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -18,7 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     public DefaultMethod(Func<MethodInfo, object[], object> mainFunc)
     {
-      this.mainFunc = mainFunc ?? ((unused1, unused2) => null);
+      this.mainFunc = mainFunc ?? ((_, __) => null);
     }
 
     public DefaultMethod(Action<MethodInfo, object[]> mainAction)
@@ -34,16 +32,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       new MappedDefaultMethod(methodInfo, mainFunc);
 
     public IMethodMatcher MethodMatcher { get; } = new MatchAnything();
-
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
-    {
-      MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;
-      return methodInfo == null ?
-        Enumerable.Empty<string>() :
-        (new MappedDefaultMethod(methodInfo, mainFunc))
-          .GetGenerator(generatorContext)
-          .Generate(generatorContext);
-    }
 
     public void Set(Type mainType) =>
       this.mainType = mainType;

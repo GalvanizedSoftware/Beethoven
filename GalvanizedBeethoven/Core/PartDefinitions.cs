@@ -1,4 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ namespace GalvanizedSoftware.Beethoven.Core
 {
   class PartDefinitions
   {
-    private object[] partDefinitions;
+    private readonly object[] partDefinitions;
 
     public PartDefinitions(IEnumerable<object> newPartDefinitions)
     {

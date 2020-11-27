@@ -1,6 +1,6 @@
 ﻿using System;
-using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.Properties;
+using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
@@ -13,14 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.checkFunc = checkFunc;
     }
 
-    public bool InvokeGetter(object _, ref T __) => 
-      true;
-
-    public bool InvokeSetter(object _, T newValue)
-    {
-      if (!checkFunc(newValue))
-        throw new ArgumentOutOfRangeException($"Value {newValue} invalid");
-      return true;
-    }
+    public IPropertyInstance<T> CreateInstance(object master) =>
+      new ValidityCheckInstance<T>(checkFunc);
   }
 }

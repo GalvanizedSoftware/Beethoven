@@ -1,5 +1,6 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Methods;
-using GalvanizedSoftware.Beethoven.Generic.Methods;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
+using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,13 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
   internal class MethodGeneratorFactory
   {
+    private readonly GeneratorContext generatorContext;
     private readonly MethodInfo methodInfo;
     private readonly MethodDefinition[] definitions;
 
-    public MethodGeneratorFactory(MethodInfo methodInfo, IEnumerable<MethodDefinition> definitions)
+    public MethodGeneratorFactory(GeneratorContext generatorContext, MethodInfo methodInfo, int? index, IEnumerable<MethodDefinition> definitions)
     {
+      this.generatorContext = generatorContext.CreateLocal(methodInfo, index);
       this.methodInfo = methodInfo;
       this.definitions = definitions
           .Where(definition => definition.CanGenerate(methodInfo))
@@ -24,18 +27,17 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
     {
       return definitions.Length switch
       {
-        0 => new MethodNotImplementedGenerator(),
+        0 => new MethodNotImplementedGenerator(generatorContext),
         1 => GetSingleGenerator(definitions.Single()),
         _ => GetMultiGenerator()
       };
     }
 
-    private static ICodeGenerator GetSingleGenerator(IDefinition definition)
+    private ICodeGenerator GetSingleGenerator(IDefinition definition)
     {
       return definition switch
       {
-        MethodDefinition methodDefinition => new MethodGenerator(methodDefinition),
-        //DefaultMethod defaultMethod => defaultMethod,
+        MethodDefinition methodDefinition => new MethodGenerator(generatorContext, methodDefinition),
         _ => throw new MissingMethodException()
       };
     }
@@ -48,7 +50,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       if (specificDefinitions.Length == 1)
         return GetSingleGenerator(specificDefinitions.Single());
       if (methodInfo.IsGenericMethod)
-        return new MethodGenerator(new GenericMethodDefinition(methodInfo, definitions));
+        return new MethodGenerator(generatorContext, new GenericMethodDefinition(methodInfo, definitions));
       throw new MissingMethodException($"Multiple implementation of {methodInfo.Name} found");
     }
   }

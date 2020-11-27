@@ -1,41 +1,51 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Invokers;
-using GalvanizedSoftware.Beethoven.Core.Invokers.Factories;
-using GalvanizedSoftware.Beethoven.Core.Properties;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 {
   internal class PropertyGenerator : ICodeGenerator
   {
     private readonly object[] definitions;
-    private readonly string invokerTypeName;
+    private readonly PropertyInfo propertyInfo;
+    private readonly Type propertyType;
+    private readonly string invokerName;
+    private readonly string propertyInfoName;
+    private readonly GeneratorContext generatorContext;
+    private readonly PropertyInvokerGenerator invorkerGenerator;
 
-    internal PropertyGenerator(PropertyDefinition propertyDefinition)
+    internal PropertyGenerator(
+      GeneratorContext generatorContext, PropertyInfo propertyInfo, PropertyDefinition propertyDefinition)
     {
       definitions = propertyDefinition.Definitions;
-      invokerTypeName = typeof(PropertyInvoker<>)
-        .MakeGenericType(propertyDefinition.PropertyType)
-        .GetFullName();
+      this.generatorContext = generatorContext;
+      this.propertyInfo = propertyInfo;
+      propertyType = propertyInfo.PropertyType;
+      propertyInfoName = propertyInfo.Name;
+      invokerName = $"invoker{propertyInfoName}";
+      invorkerGenerator = new PropertyInvokerGenerator(
+        $"{generatorContext.GeneratedClassName}{propertyInfoName}{new TagGenerator(generatorContext)}",
+        invokerName,
+        propertyType,
+        definitions);
     }
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate() =>
+      invorkerGenerator.Generate()
+        .Concat(
+          GeneratePropertyCode().TagCode(PropertiesCode));
+
+    private IEnumerable<string> GeneratePropertyCode()
     {
-      PropertyInfo propertyInfo = generatorContext.MemberInfo as PropertyInfo;
-      Type propertyType = propertyInfo.PropertyType;
-      string typeName = propertyType.GetFullName();
-      string propertyName = propertyInfo.Name;
-      string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{propertyName}{new TagGenerator(generatorContext)}";
-      InvokerList.SetInvoker(uniqueInvokerName,
-        InvokerFactory.CreatePropertyInvoker(propertyType, definitions));
-      string invokerName = $"invoker{propertyName}";
-      yield return $@"private {invokerTypeName} {invokerName} = new {invokerTypeName}(""{uniqueInvokerName}"");";
-      yield return $@"public {typeName} {propertyInfo.Name}";
+      yield return $@"public {propertyType.GetFullName()} {propertyInfoName}";
       yield return "{";
-      yield return $"get => {invokerName}.InvokeGet(this);".Format(1);
-      yield return $"set => {invokerName}.InvokeSet(this, value);".Format(1);
+      yield return $"get => {invokerName}.InvokeGetter();".Format(1);
+      yield return $"set => {invokerName}.InvokeSetter(value);".Format(1);
       yield return "}";
     }
   }

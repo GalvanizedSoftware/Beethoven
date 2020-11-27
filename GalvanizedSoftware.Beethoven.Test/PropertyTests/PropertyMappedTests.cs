@@ -1,6 +1,6 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Properties;
-using GalvanizedSoftware.Beethoven.Extensions;
+﻿using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Fields;
+using GalvanizedSoftware.Beethoven.Generic.Properties;
 using GalvanizedSoftware.Beethoven.Test.PropertyTests.Implementations;
 using GalvanizedSoftware.Beethoven.Test.PropertyTests.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -174,6 +174,20 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
         new PropertyDefinition<string>(nameof(ITestProperties.Property2))
           .Constant("42"));
       Assert.AreEqual("42", test.Property2);
+    }
+
+    [TestMethod]
+    public void TestMethodPropertyPropertyMapped13()
+    {
+      TypeDefinition<ITestProperties> typeDefinition = new TypeDefinition<ITestProperties>
+      (
+        FieldDefinition
+          .CreateFromFactory(() => new MappedTestClass())
+          .ImportInMain()
+      );
+      ITestProperties test = typeDefinition.Create();
+      test.Property1 = 42;
+      Assert.AreEqual(42, test.Property1);
     }
   }
 }

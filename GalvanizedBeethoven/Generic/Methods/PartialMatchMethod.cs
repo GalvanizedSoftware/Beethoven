@@ -1,5 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.Methods;
+﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Linq;
@@ -71,12 +70,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       if (hasReturnType)
         returnValue = invokeResult;
       // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-      localParameterValues.Zip(indexes,
+      _ = localParameterValues.Zip(indexes,
         (value, index) => SetIfValid(parameters, index, value, masterParameters))
         .ToArray();
     }
 
-    private object[] GetInputParameters(object localInstance, object[] parameters, int length)
+    private static object[] GetInputParameters(object localInstance, object[] parameters, int length)
     {
       if (parameters == null || length == 0)
         return Array.Empty<object>();

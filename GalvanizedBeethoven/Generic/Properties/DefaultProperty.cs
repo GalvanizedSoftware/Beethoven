@@ -1,20 +1,18 @@
-﻿using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
-using GalvanizedSoftware.Beethoven.Core.Properties;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.ValueLookup;
+using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
-  public class DefaultProperty : ICodeGenerator, IDefinition
+  public class DefaultProperty : IDefinition
   {
     private readonly Func<Type, string, object>[] creators;
-    private static readonly MethodInfo createMethodInfo =
-      typeof(DefaultProperty).GetMethod(nameof(CreateGeneric), ReflectionConstants.ResolveFlags);
 
     public DefaultProperty()
     {
@@ -25,13 +23,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     {
       creators = previous?.creators.Concat(new[] { creator }).ToArray();
     }
-
-    public PropertyDefinition Create(Type type, string name) =>
-      (PropertyDefinition)createMethodInfo.Invoke(this, new object[] { name }, new[] { type });
-
-    private PropertyDefinition<T> CreateGeneric<T>(string name) =>
-      creators.Aggregate(new PropertyDefinition<T>(name),
-        (property, creator) => new PropertyDefinition<T>(property, (IPropertyDefinition<T>)creator(typeof(T), name)));
 
     public DefaultProperty ValidityCheck(object target, string methodName) =>
       new DefaultProperty(this,
@@ -84,17 +75,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
         _ => false,
       };
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
-    {
-      PropertyInfo propertyInfo = generatorContext?.MemberInfo as PropertyInfo;
-      return propertyInfo == null ?
-        Enumerable.Empty<string>() :
-        Create(propertyInfo.PropertyType, propertyInfo.Name)
-        .GetGenerator(generatorContext)
-        .Generate(generatorContext);
-    }
-
-    public ICodeGenerator GetGenerator(GeneratorContext _) =>
-      this;
+    public ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
+      new DefaultPropertyGenerator(creators).GetGenerator(generatorContext);
   }
 }

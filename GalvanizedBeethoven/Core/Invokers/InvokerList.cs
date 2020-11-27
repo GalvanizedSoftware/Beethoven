@@ -5,18 +5,18 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers
 {
   public static class InvokerList
   {
-    private static readonly Dictionary<string, object> invokers = new Dictionary<string, object>();
+    private static readonly Dictionary<string, Func<object>> invokers = new Dictionary<string, Func<object>>();
 
-    internal static void SetInvoker(string uniqueName, object instance)
+    internal static void SetFactory(string uniqueName, Func<object> factory)
     {
       if (!invokers.ContainsKey(uniqueName))
-        invokers.Add(uniqueName, instance);
+        invokers.Add(uniqueName, factory);
     }
 
-    internal static object GetInvoker(string uniqueName)
+    internal static object CreateInvoker(string uniqueName)
     {
-      invokers.TryGetValue(uniqueName, out object value);
-      return value;
+      invokers.TryGetValue(uniqueName, out Func<object> value);
+      return value();
     }
   }
 }

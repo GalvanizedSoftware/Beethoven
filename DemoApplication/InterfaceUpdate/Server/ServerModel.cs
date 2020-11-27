@@ -1,5 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Properties;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System.Globalization;
 using GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate.InterfacesV2;

@@ -1,5 +1,4 @@
 ﻿using GalvanizedSoftware.Beethoven.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -8,7 +7,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
   internal class ParametersGenerator
   {
-    private ParameterInfo[] parameters;
+    private readonly ParameterInfo[] parameters;
     private readonly string parametersName;
 
     public ParametersGenerator(ParameterInfo[] parameters, string parametersName)

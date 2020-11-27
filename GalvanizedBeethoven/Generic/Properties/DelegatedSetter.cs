@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.Properties;
-using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
@@ -17,15 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.delegateAction = delegateAction;
     }
 
-    public bool InvokeGetter(object _, ref T returnValue)
-    {
-      return true;
-    }
-
-    public bool InvokeSetter(object _, T newValue)
-    {
-      delegateAction(newValue);
-      return true;
-    }
+    public IPropertyInstance<T> CreateInstance(object master) =>
+      new DelegatedSetterInstance<T>(delegateAction);
   }
 }

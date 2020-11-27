@@ -1,44 +1,35 @@
 ﻿using GalvanizedSoftware.Beethoven.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
 {
-  internal class ConstructorGenerator : ICodeGenerator
+  internal class ConstructorGenerator
   {
-    private static readonly ConstructorInfo dummyConstructorInfo = typeof(object).GetConstructor(Array.Empty<Type>());
     private readonly string className;
-    private readonly IDefinition[] definitions;
 
-    public ConstructorGenerator(string className, IEnumerable<IDefinition> definitions)
+    public ConstructorGenerator(string className)
     {
       this.className = className;
-      this.definitions = definitions
-        .Where(definition => definition.CanGenerate(dummyConstructorInfo))
-        .ToArray();
     }
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
+    internal IEnumerable<(CodeType, string)> Generate((CodeType, string)[] code)
     {
-      GeneratorContext localGeneratorContext = generatorContext.CreateLocal(dummyConstructorInfo);
-      string[][] codeElements = definitions
-        .Select(generator => generator.GetGenerator(localGeneratorContext))
-        .Select(generator => generator.Generate(localGeneratorContext).ToArray())
-        .Where(element => element.Length == 2)
-        .ToArray();
-      string[] parameters = codeElements
-        .Select(element => element[0])
-        .ToArray();
-      string[] initializers = codeElements
-        .Select(element => element[1])
-        .ToArray();
-      yield return $"public {className}({string.Join(", ", parameters)})";
-      yield return "{";
-      foreach (string line in initializers)
+      yield return (ConstructorSignature, $"public {className}({GetParameters(code)})");
+      yield return (ConstructorSignature, "{");
+      foreach ((CodeType, string) line in code.Filter(ConstructorFields))
         yield return line.Format(1);
-      yield return "}";
+      foreach ((CodeType, string) line in code.Filter(ConstructorCode))
+        yield return line.Format(1);
+      yield return (ConstructorSignature, "}");
     }
+
+    internal static string GetParameters(IEnumerable<(CodeType, string)> lines) =>
+      string.Join(", ",
+        lines
+          .Filter(ConstructorSignature)
+          .Select(item => item.Item2));
+
   }
 }

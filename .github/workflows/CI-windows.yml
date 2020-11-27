@@ -1,0 +1,32 @@
+name: Continuous Integration (Windows)
+
+on:
+  push:
+    branches: [ master,CodeGeneration ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+
+    - name: Add msbuild
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Install dependencies
+      run: dotnet restore BeethovenAll.sln
+
+
+    - name: Build
+      run: msbuild BeethovenAll.sln -p:Configuration=Release
+
+    - name: Test
+      run: dotnet test BeethovenAll.sln --no-restore --verbosity normal

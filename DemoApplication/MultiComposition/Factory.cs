@@ -16,7 +16,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
           NotifyChanged());
 
     public IPersonCollection CreatePersonCollection()
-    {// Make into TestMethod
+    {
       List<IPerson> persons = new List<IPerson>();
       CollectionChangedImplementation<IPerson> collectionChanged =
         new CollectionChangedImplementation<IPerson>(person => persons.IndexOf(person));

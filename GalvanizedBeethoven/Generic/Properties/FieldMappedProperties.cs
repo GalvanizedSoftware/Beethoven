@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Core;
 using System.Linq;
-using System.Collections;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   public class FieldMappedProperties : IDefinitions
   {
     private readonly string fieldName;
-    private Type mainType;
+    private readonly Type mainType;
 
     public FieldMappedProperties(string fieldName, Type mainType)
     {

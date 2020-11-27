@@ -1,21 +1,32 @@
-﻿using GalvanizedSoftware.Beethoven.Extensions;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
+using GalvanizedSoftware.Beethoven.Extensions;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 {
   internal sealed class PropertyNotImplementedGenerator : ICodeGenerator
   {
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
+    readonly PropertyInfo propertyInfo;
+
+    public PropertyNotImplementedGenerator(PropertyInfo propertyInfo)
     {
-      PropertyInfo propertyInfo = generatorContext?.MemberInfo as PropertyInfo;
-      if (propertyInfo == null)
-        yield break;
-      yield return $@"public {propertyInfo.PropertyType.GetFullName()} {propertyInfo.Name}";
-      yield return "{";
-      yield return $"get => throw new System.MissingMethodException();".Format(1);
-      yield return $"set => throw new System.MissingMethodException();".Format(1);
-      yield return "}";
+      this.propertyInfo = propertyInfo;
+    }
+
+    public IEnumerable<(CodeType, string)?> Generate()
+    {
+      return Generate().Select(code => ((CodeType, string)?)(PropertiesCode, code));
+      IEnumerable<string> Generate()
+      {
+        yield return $@"public {propertyInfo.PropertyType.GetFullName()} {propertyInfo.Name}";
+        yield return "{";
+        yield return $"get => throw new System.MissingMethodException();".Format(1);
+        yield return $"set => throw new System.MissingMethodException();".Format(1);
+        yield return "}";
+      }
     }
   }
 }

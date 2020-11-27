@@ -1,4 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Core;
+﻿using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +10,7 @@ namespace GalvanizedSoftware.Beethoven
 
     public BindingParents(IEnumerable<object> allPartDefinitions)
     {
-      this.bindingParents = allPartDefinitions
+      bindingParents = allPartDefinitions
         .OfType<IBindingParent>()
         .ToArray();
     }

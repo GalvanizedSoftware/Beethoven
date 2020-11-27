@@ -114,7 +114,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
           break;
     }
 
-    private bool InvokeFirstMatch(object localInstance, MethodDefinition method, ref object returnValue, object[] parameterValues,
+    private static bool InvokeFirstMatch(object localInstance, MethodDefinition method, ref object returnValue, object[] parameterValues,
       (Type, string)[] parameterTypeAndNames,
       Type[] genericArguments, MethodInfo methodInfo)
     {

@@ -20,7 +20,13 @@ namespace GalvanizedSoftware.Beethoven.Core
       if (callingAssembly.GetName().Name == "GalvanizedSoftware.Beethoven")
         throw new InvalidOperationException("callingAssembly is GalvanizedSoftware.Beethoven");
       assemblies =
-        (new[] { typeof(object).Assembly, mainAssembly, callingAssembly })
+        (new[] 
+          {
+            typeof(object).Assembly, 
+            Assembly.Load(new AssemblyName("netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51")),
+            mainAssembly, 
+            callingAssembly 
+          })
           .Distinct()
           .ToArray();
       domainAssemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -30,10 +36,10 @@ namespace GalvanizedSoftware.Beethoven.Core
     }
     public IEnumerator<Assembly> GetEnumerator() =>
       assemblies
-              .SelectMany(GetAssemblies)
-              .Where(assembly => domainAssemblies.Contains(assembly))
-              .Distinct()
-      .GetEnumerator();
+        .SelectMany(GetAssemblies)
+        .Where(assembly => domainAssemblies.Contains(assembly))
+        .Distinct()
+        .GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

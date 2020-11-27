@@ -1,12 +1,12 @@
-﻿using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using static GalvanizedSoftware.Beethoven.Core.Fields.GeneratorWrapperDefinition;
+using static GalvanizedSoftware.Beethoven.Core.Fields.ContructorFieldsWrapperDefinition;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Fields
 {
@@ -43,13 +43,14 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
 
     public IEnumerable<IDefinition> GetConstructorParameterDefinitions<T>()
     {
-      yield return Create(new SimpleFieldGenerator(type, fieldName));
-      yield return Create(new ParameterFieldGenerator(type, fieldName));
+      yield return Create(generatorContext => new SimpleFieldGenerator(type, fieldName));
+      yield return Create(generatorContext => new ParameterFieldGenerator(type, fieldName));
     }
 
     public IEnumerable<IDefinition> GetFactoryDefinitions<T>(Func<T> factoryFunc)
     {
-      yield return Create(new FactoryFieldGenerator(type, fieldName, () => factoryFunc()));
+      yield return Create(generatorContext => 
+      new FactoryFieldGenerator(type, fieldName, generatorContext, () => factoryFunc()));
     }
 
     public IEnumerable<IDefinition> GetDefinitions() => definitions;

@@ -1,9 +1,7 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
 
@@ -88,7 +86,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       }
     }
 
-    private bool InvokeFirstMatch(object localInstance,
+    private static bool InvokeFirstMatch(object localInstance,
       MethodDefinition method, object[] parameters, (Type, string)[] parameterTypes,
       Type[] genericArguments, MethodInfo methodInfo)
     {

@@ -1,14 +1,15 @@
-﻿using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
+using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   internal class FieldMappedProperty : IDefinition
   {
-    private PropertyInfo propertyInfo;
-    private string fieldName;
+    private readonly PropertyInfo propertyInfo;
+    private readonly string fieldName;
 
     public FieldMappedProperty(PropertyInfo propertyInfo, string fieldName)
     {
@@ -28,6 +29,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       };
 
     public ICodeGenerator GetGenerator(GeneratorContext _) =>
-      new FieldMappedPropertyGenerator(fieldName);
+      new FieldMappedPropertyGenerator( propertyInfo, fieldName);
   }
 }

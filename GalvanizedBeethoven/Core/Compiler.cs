@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using static System.Environment;
 using static System.Reflection.Assembly;
 
 namespace GalvanizedSoftware.Beethoven.Core
@@ -20,10 +21,10 @@ namespace GalvanizedSoftware.Beethoven.Core
     public Compiler(Assembly mainAssembly, Assembly callingAssembly, string[] codeParts)
     {
       assemblyCache = new AssemblyCache(mainAssembly, callingAssembly);
-      code = string.Join(Environment.NewLine, codeParts);
+      code = string.Join(NewLine, codeParts);
       string data =
         string.Join(
-          Environment.NewLine,
+          NewLine,
           assemblyCache
             .Select(assembly => assembly.GetName().FullName)) +
         code;
@@ -48,13 +49,13 @@ namespace GalvanizedSoftware.Beethoven.Core
       using MemoryStream assemblyStream = new MemoryStream();
       using MemoryStream pbdStream = new MemoryStream();
       EmitResult result = compilation.Emit(assemblyStream, pbdStream);
-      string[] erros = result
+      string[] errors = result
         .Diagnostics
         .Select(error => error.ToString())
         .ToArray();
       return result.Success ?
         Load(assemblyStream.ToArray(), pbdStream.ToArray()) :
-        throw new Exception("Internal compilation error"); ;
+        throw new Exception("Internal compilation error");
     }
   }
 }

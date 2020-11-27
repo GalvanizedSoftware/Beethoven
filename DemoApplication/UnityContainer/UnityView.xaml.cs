@@ -6,7 +6,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.UnityContainer
   {
     private readonly IUnityContainer container = new Unity.UnityContainer();
     // ReSharper disable once NotAccessedField.Local
-    private Factory factory;
+    private readonly Factory factory;
 
     public UnityView()
     {

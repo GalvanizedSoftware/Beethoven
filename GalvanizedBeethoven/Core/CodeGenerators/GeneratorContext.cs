@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using static System.Environment;
@@ -13,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
       InterfaceType = interfaceType;
     }
 
-    private GeneratorContext(GeneratorContext baseContext, MemberInfo memberInfo, int? methodIndex = null) :
+    private GeneratorContext(GeneratorContext baseContext, MemberInfo memberInfo = null, int? methodIndex = null) :
       this(baseContext.GeneratedClassName, baseContext.InterfaceType)
     {
       MemberInfo = memberInfo;
@@ -23,10 +24,17 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
     public string GeneratedClassName { get; }
     public Type InterfaceType { get; }
     public MemberInfo MemberInfo { get; }
+
     public int? MethodIndex { get; }
 
-    internal GeneratorContext CreateLocal(MemberInfo memberInfo, int? methodIndex = null) =>
-      new GeneratorContext(this, memberInfo, methodIndex);
+    internal GeneratorContext CreateLocal() =>
+      new GeneratorContext(this);
+
+    internal GeneratorContext CreateLocal<T>(T memberInfo, int? methodIndex = null) where T : MemberInfo =>
+      new GeneratorContext(
+        this,
+        memberInfo,
+        methodIndex);
 
     public override int GetHashCode() =>
       ($"{GeneratedClassName}" + NewLine +

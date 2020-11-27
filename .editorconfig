@@ -2,3 +2,6 @@
 
 # CA1040: Avoid empty interfaces
 dotnet_diagnostic.CA1040.severity = none
+
+# IDE0022: Use block body for methods
+csharp_style_expression_bodied_methods = false:silent

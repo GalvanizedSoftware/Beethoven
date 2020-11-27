@@ -43,8 +43,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 
     private IEnumerable<string> GenerateConstraints()
     {
-      if (!methodInfo.IsGenericMethod)
-        Enumerable.Empty<string>();
       return methodInfo
         .GetGenericArguments()
         .Where(type => type.BaseType != typeof(object))

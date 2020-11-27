@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Core;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
   public class FieldMappedMethods : IDefinitions
   {
     private readonly string fieldName;
-    private Type mainType;
+    private readonly Type mainType;
 
     public FieldMappedMethods(string fieldName, Type mainType)
     {

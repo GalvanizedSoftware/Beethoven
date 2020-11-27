@@ -1,22 +1,11 @@
-﻿using GalvanizedSoftware.Beethoven.Core;
-using GalvanizedSoftware.Beethoven.Core.Properties;
+﻿using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   public class SetterGetter<T> : IPropertyDefinition<T>
   {
-    private T value;
-
-    public bool InvokeGetter(object _, ref T returnValue)
-    {
-      returnValue = value;
-      return true;
-    }
-
-    public bool InvokeSetter(object _, T newValue)
-    {
-      value = newValue;
-      return true;
-    }
+    public IPropertyInstance<T> CreateInstance(object master) =>
+      new SetterGetterInstance<T>();
   }
 }

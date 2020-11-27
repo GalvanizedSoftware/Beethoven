@@ -2,8 +2,9 @@
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods;
+using GalvanizedSoftware.Beethoven.Interfaces;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -26,7 +27,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       _ => false,
     };
 
-    public ICodeGenerator GetGenerator(GeneratorContext _) =>
-      new FieldMappedMethodGenerator(fieldName);
+    public ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
+      new FieldMappedMethodGenerator(fieldName, generatorContext);
   }
 }

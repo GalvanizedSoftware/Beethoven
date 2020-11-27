@@ -1,5 +1,5 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Properties;
-using GalvanizedSoftware.Beethoven.Extensions;
+﻿using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic.Properties;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.Mapped
 {

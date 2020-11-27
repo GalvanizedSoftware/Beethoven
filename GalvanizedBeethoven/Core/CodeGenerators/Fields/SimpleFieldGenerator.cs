@@ -1,11 +1,12 @@
-﻿using GalvanizedSoftware.Beethoven.Extensions;
+﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
+using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
-  internal class SimpleFieldGenerator : ICodeGenerator<FieldInfo>
+  internal class SimpleFieldGenerator : ICodeGenerator
   {
     private readonly Type type;
     private readonly string fieldName;
@@ -16,9 +17,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
       this.fieldName = fieldName;
     }
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate()
     {
-      yield return $"{type.GetFullName()} {fieldName};";
+      yield return (FieldsCode, $"{type.GetFullName()} {fieldName};");
     }
   }
 }

@@ -1,33 +1,35 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Invokers;
-using GalvanizedSoftware.Beethoven.Core.Invokers.Factories;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+using static GalvanizedSoftware.Beethoven.Core.GeneratorHelper;
+using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
-  internal class FactoryFieldGenerator : ICodeGenerator<ConstructorInfo>
+  internal class FactoryFieldGenerator : ICodeGenerator
   {
-    private readonly Type type;
     private readonly string fieldName;
     private readonly Func<object> factoryFunc;
-    private static readonly string invokerTypeName = typeof(RuntimeInvokerFactory).GetFullName();
+    private readonly string typeName;
+    private readonly string generatedClassName;
 
-    public FactoryFieldGenerator(Type type, string fieldName, Func<object> factoryFunc)
+    public FactoryFieldGenerator(Type type, string fieldName, GeneratorContext generatorContext, Func<object> factoryFunc)
     {
-      this.type = type ?? throw new NullReferenceException();
       this.fieldName = fieldName;
       this.factoryFunc = factoryFunc;
+      generatedClassName = generatorContext?.GeneratedClassName;
+      typeName = type.GetFullName();
     }
 
-    public IEnumerable<string> Generate(GeneratorContext generatorContext)
+    public IEnumerable<(CodeType, string)?> Generate()
     {
-      string uniqueBackingId = $"{generatorContext?.GeneratedClassName}{fieldName}Factory";
-      InvokerList.SetInvoker(uniqueBackingId, factoryFunc);
-      string typeName = type.GetFullName();
-      yield return $"{typeName} {fieldName} = " +
-        $@"new {invokerTypeName}(""{uniqueBackingId}"").Create<{typeName}>();";
+      yield return (FieldsCode, $@"{typeName} {fieldName};");
+      string uniqueBackingId = $"{generatedClassName}{fieldName}Factory";
+      InvokerList.SetFactory(uniqueBackingId, () => factoryFunc);
+      yield return (ConstructorCode,
+        $@"{fieldName} = new {InvokerTypeName}(""{ uniqueBackingId}"").Create <{ typeName}> (); ");
     }
   }
 }
