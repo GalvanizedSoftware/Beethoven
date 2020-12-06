@@ -39,7 +39,7 @@ namespace GalvanizedSoftware.Beethoven
       CompileInternal<T>(partDefinitions).Create(parameters);
 
     private CompiledTypeDefinition<T> CompileInternal<T>(object[] partDefinitions) where T : class =>
-      new TypeDefinition<T>(partDefinitions.Concat(generalPartDefinitions).ToArray())
+      TypeDefinition<T>.Create(partDefinitions.Concat(generalPartDefinitions).ToArray())
         .CompileInternal(callingAssembly);
 
     public static bool Implements<TInterface, TClass>() =>

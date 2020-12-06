@@ -93,13 +93,10 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     [TestMethod]
     public void TestMethodPropertyPropertyMapped7()
     {
-      TypeDefinition<ITestProperties> typeDefinition = new TypeDefinition<ITestProperties>
-      (
-        FieldDefinition
-          .CreateFromConstructorParameter<MappedTestClass>()
-          .ImportInMain()
-      );
-      ITestProperties test = typeDefinition.Create(new MappedTestClass());
+      TypeDefinition<ITestProperties> typeDefinition = TypeDefinition<ITestProperties>.Create(FieldDefinition
+        .CreateFromConstructorParameter<MappedTestClass>()
+        .ImportInMain());
+      ITestProperties test = typeDefinition.CreateNew(new MappedTestClass());
       test.Property1 = 42;
       Assert.AreEqual(42, test.Property1);
     }
@@ -107,14 +104,11 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     [TestMethod]
     public void TestMethodPropertyPropertyMapped8()
     {
-      TypeDefinition<ITestProperties> typeDefinition = new TypeDefinition<ITestProperties>
-      (
-        FieldDefinition
-          .CreateFromConstructorParameter<MappedTestClass>()
-          .ImportInMain()
-      );
+      TypeDefinition<ITestProperties> typeDefinition = TypeDefinition<ITestProperties>.Create(FieldDefinition
+        .CreateFromConstructorParameter<MappedTestClass>()
+        .ImportInMain());
       MappedTestClass mappedTestClass = new MappedTestClass();
-      ITestProperties test = typeDefinition.Create(mappedTestClass);
+      ITestProperties test = typeDefinition.CreateNew(mappedTestClass);
       test.Property1 = 42;
       Assert.AreEqual(42, mappedTestClass.Property1);
     }
@@ -122,16 +116,13 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     [TestMethod]
     public void TestMethodPropertyPropertyMapped9()
     {
-      TypeDefinition<ITestProperties> typeDefinition = new TypeDefinition<ITestProperties>
-      (
-        FieldDefinition
-          .CreateFromConstructorParameter<MappedTestClass>()
-          .ImportInMain()
-      );
+      TypeDefinition<ITestProperties> typeDefinition = TypeDefinition<ITestProperties>.Create(FieldDefinition
+        .CreateFromConstructorParameter<MappedTestClass>()
+        .ImportInMain());
       MappedTestClass mappedTestClass1 = new MappedTestClass();
-      ITestProperties test1 = typeDefinition.Create(mappedTestClass1);
+      ITestProperties test1 = typeDefinition.CreateNew(mappedTestClass1);
       MappedTestClass mappedTestClass2 = new MappedTestClass();
-      ITestProperties test2 = typeDefinition.Create(mappedTestClass2);
+      ITestProperties test2 = typeDefinition.CreateNew(mappedTestClass2);
       test1.Property1 = 42;
       Assert.AreEqual(0, test2.Property1);
       test2.Property1 = 2;
@@ -141,13 +132,10 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     [TestMethod]
     public void TestMethodPropertyPropertyMapped10()
     {
-      TypeDefinition<ITestProperties> typeDefinition = new TypeDefinition<ITestProperties>
-      (
-        FieldDefinition
-          .CreateFromConstructorParameter<MappedTestClass2>()
-          .ImportInMain()
-      );
-      ITestProperties test = typeDefinition.Create(new MappedTestClass2());
+      TypeDefinition<ITestProperties> typeDefinition = TypeDefinition<ITestProperties>.Create(FieldDefinition
+        .CreateFromConstructorParameter<MappedTestClass2>()
+        .ImportInMain());
+      ITestProperties test = typeDefinition.CreateNew(new MappedTestClass2());
       test.Property1 = 42;
       Assert.AreEqual(42, test.Property1);
     }
@@ -155,11 +143,8 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     [TestMethod]
     public void TestMethodPropertyPropertyMapped11()
     {
-      TypeDefinition<ITestProperties> typeDefinition = new TypeDefinition<ITestProperties>
-      (
-        new MappedTestClass2()
-      );
-      ITestProperties test = typeDefinition.Create();
+      TypeDefinition<ITestProperties> typeDefinition = TypeDefinition<ITestProperties>.Create(new MappedTestClass2());
+      ITestProperties test = typeDefinition.CreateNew();
       test.Property1 = 42;
       Assert.AreEqual(42, test.Property1);
     }
@@ -179,13 +164,10 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     [TestMethod]
     public void TestMethodPropertyPropertyMapped13()
     {
-      TypeDefinition<ITestProperties> typeDefinition = new TypeDefinition<ITestProperties>
-      (
-        FieldDefinition
-          .CreateFromFactory(() => new MappedTestClass())
-          .ImportInMain()
-      );
-      ITestProperties test = typeDefinition.Create();
+      TypeDefinition<ITestProperties> typeDefinition = TypeDefinition<ITestProperties>.Create(FieldDefinition
+        .CreateFromFactory(() => new MappedTestClass())
+        .ImportInMain());
+      ITestProperties test = typeDefinition.CreateNew();
       test.Property1 = 42;
       Assert.AreEqual(42, test.Property1);
     }

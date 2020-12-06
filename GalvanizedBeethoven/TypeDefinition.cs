@@ -10,35 +10,31 @@ namespace GalvanizedSoftware.Beethoven
 {
   public class TypeDefinition<T> : TypeDefinition where T : class
   {
+    public static TypeDefinition<T> Create(params object[] newPartDefinitions) => 
+      new TypeDefinition<T>(new PartDefinitions(newPartDefinitions), null, null);
+
+    public static TypeDefinition<T> CreateNamed(string className, params object[] newPartDefinitions) =>
+      new TypeDefinition<T>(new PartDefinitions(newPartDefinitions), null, className);
+
     private readonly PartDefinitions partDefinitions;
     private readonly string className;
     private readonly string classNamespace;
     private static readonly Assembly mainAssembly = typeof(T).Assembly;
 
-    internal static TypeDefinition<T> Create(IFactoryDefinition<T> factoryDefinition) => 
+    internal static TypeDefinition<T> CreateFromFactoryDefinition(IFactoryDefinition<T> factoryDefinition) => 
       factoryDefinition == null ? null :
         new TypeDefinition<T>(new PartDefinitions(
           factoryDefinition.PartDefinitions),
           factoryDefinition.Namespace,
           factoryDefinition.ClassName);
 
-    internal TypeDefinition(PartDefinitions partDefinitions, string classNamespace, string className)
+    private TypeDefinition(PartDefinitions partDefinitions, string classNamespace, string className)
     {
       this.partDefinitions = partDefinitions;
       partDefinitions.SetMainTypeUser(typeof(T));
 
       this.className = className ?? $"{typeof(T).GetFormattedName()}Implementation";
       this.classNamespace = classNamespace ?? $"{typeof(T).Namespace}";
-    }
-
-    public TypeDefinition(params object[] newPartDefinitions) :
-      this(new PartDefinitions(newPartDefinitions), null, null)
-    {
-    }
-
-    public TypeDefinition(string className, params object[] newPartDefinitions) :
-      this(new PartDefinitions(newPartDefinitions), null, className)
-    {
     }
 
     private TypeDefinition(TypeDefinition<T> previousDefinition, object[] newPartDefinitions) :
@@ -57,7 +53,7 @@ namespace GalvanizedSoftware.Beethoven
     public CompiledTypeDefinition<T> Compile() =>
       CompileInternal(GetCallingAssembly());
 
-    public T Create(params object[] parameters) =>
+    public T CreateNew(params object[] parameters) =>
       CompileInternal(GetCallingAssembly()).Create(parameters);
 
     internal CompiledTypeDefinition<T> CompileInternal(Assembly callingAssembly)
@@ -78,7 +74,7 @@ namespace GalvanizedSoftware.Beethoven
 
   public abstract class TypeDefinition
   {
-    internal protected TypeDefinition()
+    protected internal TypeDefinition()
     {
     }
   }

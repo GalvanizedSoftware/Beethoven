@@ -61,9 +61,10 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     [TestMethod]
     public void TestMethodProperty5()
     {
-      TypeDefinition<ITestProperties> definition = new TypeDefinition<ITestProperties>()
-        .Add(new PropertyDefinition<int>(nameof(ITestProperties.Property1))
-        .SetterGetter());
+      TypeDefinition<ITestProperties> definition = 
+        TypeDefinition<ITestProperties>.Create()
+          .Add(new PropertyDefinition<int>(nameof(ITestProperties.Property1))
+          .SetterGetter());
       CompiledTypeDefinition<ITestProperties> compiledTypeDefinition = definition.Compile();
       ITestProperties test1 = compiledTypeDefinition.Create();
       ITestProperties test2 = compiledTypeDefinition.Create();

@@ -12,7 +12,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Basic
 
     public PersonFactory2()
     {
-      personTypeDefinition = new TypeDefinition<IPerson>()
+      personTypeDefinition = TypeDefinition<IPerson>.Create()
         .Add(new PropertyDefinition<string>("FirstName").
             ValidityCheck(name => !string.IsNullOrEmpty(name)).
             SkipIfEqual().
@@ -21,7 +21,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Basic
         .Add(CreateMvvmStringProperty("LastName"));
     }
 
-    public IPerson CreatePerson() => personTypeDefinition.Create();
+    public IPerson CreatePerson() => personTypeDefinition.CreateNew();
 
     private static PropertyDefinition CreateMvvmStringProperty(string propertyName)
     {

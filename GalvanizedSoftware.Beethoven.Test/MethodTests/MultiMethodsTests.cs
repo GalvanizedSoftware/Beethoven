@@ -14,8 +14,8 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     {
       MultiImplementationInt implentation = new MultiImplementationInt();
       TypeDefinition<IMultiMethods1> typeDefinition =
-        new TypeDefinition<IMultiMethods1>(implentation);
-      IMultiMethods1 instance = typeDefinition.Create();
+        TypeDefinition<IMultiMethods1>.Create(implentation);
+      IMultiMethods1 instance = typeDefinition.CreateNew();
       instance.Foo(5);
       CollectionAssert.AreEquivalent(new[] { 5 }, implentation.CallList);
     }
@@ -24,9 +24,8 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     public void MultiMethodsTest2()
     {
       TypeDefinition<IMultiMethods1> typeDefinition =
-        new TypeDefinition<IMultiMethods1>(
-          ActionMethod.Create("Foo", (int a) => { }));
-      IMultiMethods1 instance = typeDefinition.Create();
+        TypeDefinition<IMultiMethods1>.Create(ActionMethod.Create("Foo", (int a) => { }));
+      IMultiMethods1 instance = typeDefinition.CreateNew();
       instance.Foo(5);
     }
 
@@ -35,9 +34,8 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     {
       int callCount = 0;
       TypeDefinition<IMultiMethods1> typeDefinition =
-        new TypeDefinition<IMultiMethods1>(
-          ActionMethod.Create("Foo", () => callCount++));
-      IMultiMethods1 instance = typeDefinition.Create();
+        TypeDefinition<IMultiMethods1>.Create(ActionMethod.Create("Foo", () => callCount++));
+      IMultiMethods1 instance = typeDefinition.CreateNew();
       instance.Foo();
       instance.Foo(5);
       instance.Foo("5");
@@ -49,10 +47,9 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     {
       int callCount = 0;
       TypeDefinition<IMultiMethods1> typeDefinition =
-        new TypeDefinition<IMultiMethods1>(
-          ActionMethod.Create("Foo", (int a) => callCount++),
+        TypeDefinition<IMultiMethods1>.Create(ActionMethod.Create("Foo", (int a) => callCount++),
           ActionMethod.Create("Foo", () => {}).CreateFallback());
-      IMultiMethods1 instance = typeDefinition.Create();
+      IMultiMethods1 instance = typeDefinition.CreateNew();
       instance.Foo();
       instance.Foo(5);
       instance.Foo("5");
@@ -65,10 +62,9 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     {
       int callCount = 0;
       TypeDefinition<IMultiMethods1> typeDefinition =
-        new TypeDefinition<IMultiMethods1>(
-          ActionMethod.Create("Foo", (int a) => { }),
+        TypeDefinition<IMultiMethods1>.Create(ActionMethod.Create("Foo", (int a) => { }),
           ActionMethod.Create("Foo", () => callCount++).CreateFallback());
-      IMultiMethods1 instance = typeDefinition.Create();
+      IMultiMethods1 instance = typeDefinition.CreateNew();
       instance.Foo();
       instance.Foo(5);
       instance.Foo("5");
@@ -81,9 +77,8 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     public void MultiMethodsTestInvalid1()
     {
       TypeDefinition<IMultiMethods1> typeDefinition =
-        new TypeDefinition<IMultiMethods1>(
-          ActionMethod.Create("Foo", (string value) => { }));
-      IMultiMethods1 instance = typeDefinition.Create();
+        TypeDefinition<IMultiMethods1>.Create(ActionMethod.Create("Foo", (string value) => { }));
+      IMultiMethods1 instance = typeDefinition.CreateNew();
       instance.Foo(5);
     }
 
@@ -92,9 +87,8 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     public void MultiMethodsTestInvalid2()
     {
       TypeDefinition<IMultiMethods1> typeDefinition =
-        new TypeDefinition<IMultiMethods1>(
-          ActionMethod.Create("Foo", (short value) => { }));
-      IMultiMethods1 instance = typeDefinition.Create();
+        TypeDefinition<IMultiMethods1>.Create(ActionMethod.Create("Foo", (short value) => { }));
+      IMultiMethods1 instance = typeDefinition.CreateNew();
       instance.Foo(5);
     }
   }

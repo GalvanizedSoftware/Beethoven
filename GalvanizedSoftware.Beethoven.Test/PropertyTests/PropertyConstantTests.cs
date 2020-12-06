@@ -44,10 +44,11 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     [TestMethod]
     public void TestMethodProperty4()
     {
-      ITestProperties test = new TypeDefinition<ITestProperties>()
-        .Add(new PropertyDefinition<int>(nameof(ITestProperties.Property1))
-          .Constant(5))
-        .Create();
+      ITestProperties test = 
+        TypeDefinition<ITestProperties>.Create()
+          .Add(new PropertyDefinition<int>(nameof(ITestProperties.Property1))
+            .Constant(5))
+          .CreateNew();
       test.Property1 = 5;
     }
   }
