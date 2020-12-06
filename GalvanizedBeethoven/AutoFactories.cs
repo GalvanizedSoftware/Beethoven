@@ -3,25 +3,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using static System.StringComparison;
 
 namespace GalvanizedSoftware.Beethoven
 {
   public class AutoFactories
   {
-    private const string InterfaceName = "GalvanizedSoftware.Beethoven.Interfaces.IFactoryDefinition";
-    private readonly (Type, Func<object>)[] factories;
-
-    public AutoFactories(Assembly assembly)
+    public static AutoFactories CreateFactories(Assembly assembly)
     {
       Type[] types = assembly?.GetTypes() ?? Array.Empty<Type>();
-      factories =
+      (Type, Func<object>)[] factories =
         GetConstructorFactories(types)
-        .Concat(GetMethodFactories(types))
-        .ToArray();
+          .Concat(GetMethodFactories(types))
+          .ToArray();
+      return factories.Length == 0 ? null : new AutoFactories(factories);
     }
 
+    private const string InterfaceName = "GalvanizedSoftware.Beethoven.Interfaces.IFactoryDefinition";
+
+    private AutoFactories((Type, Func<object>)[] factories)
+    {
+      Factories = factories;
+    }
+
+    public (Type, Func<object>)[] Factories { get; }
+
     public TypeDefinition<T> CreateTypeDefinition<T>() where T : class =>
-      TypeDefinition<T>.CreateFromFactoryDefinition(factories
+      TypeDefinition<T>.CreateFromFactoryDefinition(Factories
         .FirstOrDefault(tuple => tuple.Item1 == typeof(T))
         .Item2?
         .Invoke() as IFactoryDefinition<T>);
@@ -29,7 +37,7 @@ namespace GalvanizedSoftware.Beethoven
     private static IEnumerable<(Type, Func<object>)> GetConstructorFactories(Type[] types) => types
               .Select(type => type.GetConstructor(Array.Empty<Type>()))
               .Where(IsFactory)
-              .Select(constructorInfo => 
+              .Select(constructorInfo =>
                 (FindInterface(constructorInfo.DeclaringType), CreateFactory(constructorInfo)));
 
     private static IEnumerable<(Type, Func<object>)> GetMethodFactories(Type[] types) => types
@@ -38,13 +46,13 @@ namespace GalvanizedSoftware.Beethoven
               .Where(methodInfo => methodInfo.GetParameters().Length == 0)
               .Select(methodInfo => (FindInterface(methodInfo.ReturnType), CreateFactory(methodInfo)));
 
-    internal static bool IsFactory(MemberInfo memberInfo) =>
+    private static bool IsFactory(MemberInfo memberInfo) =>
       memberInfo?.GetCustomAttribute<FactoryAttribute>() != null;
 
-    internal static Func<object> CreateFactory(ConstructorInfo constructorInfo) =>
+    private static Func<object> CreateFactory(ConstructorInfo constructorInfo) =>
       () => constructorInfo.Invoke(Array.Empty<object>());
 
-    internal static Func<object> CreateFactory(MethodInfo methodInfo) =>
+    private static Func<object> CreateFactory(MethodInfo methodInfo) =>
       () => methodInfo.Invoke(methodInfo.DeclaringType, Array.Empty<object>());
 
     private static Type FindInterface(Type type) =>
@@ -52,8 +60,10 @@ namespace GalvanizedSoftware.Beethoven
         .GetInterfaces()
         .Concat(new[] { type })
         .FirstOrDefault(
-          type => type.FullName.StartsWith(InterfaceName, StringComparison.InvariantCulture))?
-        .GetGenericArguments()?
+          itemType => itemType
+            .FullName?
+            .StartsWith(InterfaceName, InvariantCulture) == true)?
+        .GetGenericArguments()
         .FirstOrDefault();
   }
 }

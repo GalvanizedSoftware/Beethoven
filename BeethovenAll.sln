@@ -24,7 +24,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalvanizedSoftware.Beethove
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{0BD4BE8E-54E0-4B7D-BADA-CF66164F67C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefinitionLibrary", "Test\DefinitionLibrary\DefinitionLibrary.csproj", "{5931AC5B-95EF-4C9F-B933-D36ECA50DDEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefinitionLibrary", "Test\DefinitionLibrary\DefinitionLibrary.csproj", "{5931AC5B-95EF-4C9F-B933-D36ECA50DDEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplementationLibrary", "Test\ImplementationLibrary\ImplementationLibrary.csproj", "{722E8C41-0F12-4117-9D96-07EE7800B710}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,12 +54,17 @@ Global
 		{5931AC5B-95EF-4C9F-B933-D36ECA50DDEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5931AC5B-95EF-4C9F-B933-D36ECA50DDEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5931AC5B-95EF-4C9F-B933-D36ECA50DDEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722E8C41-0F12-4117-9D96-07EE7800B710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722E8C41-0F12-4117-9D96-07EE7800B710}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722E8C41-0F12-4117-9D96-07EE7800B710}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722E8C41-0F12-4117-9D96-07EE7800B710}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5931AC5B-95EF-4C9F-B933-D36ECA50DDEA} = {0BD4BE8E-54E0-4B7D-BADA-CF66164F67C3}
+		{722E8C41-0F12-4117-9D96-07EE7800B710} = {0BD4BE8E-54E0-4B7D-BADA-CF66164F67C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1B0AF10D-D0F8-484F-ABBD-993A7497CB9D}

@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "DefinitionLibrary": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+      "commandLineArgs": "$(ProjectPath) -t=rebuild -p:Configuration=debug"
+    }
+  }
+}

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GalvanizedSoftware.Beethoven;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
@@ -6,6 +7,11 @@ namespace DefinitionLibrary
 {
   public class FactoryDefinitions : IFactoryDefinition<IApproverChain>
   {
+    [Factory]
+    public FactoryDefinitions()
+    {
+    }
+
     public string Namespace => "GalvanizedSoftware.DefinitionLibrary";
 
     public string ClassName => "ApproverChain";

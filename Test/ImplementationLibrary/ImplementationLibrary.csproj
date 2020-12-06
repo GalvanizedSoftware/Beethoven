@@ -5,10 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DefinitionLibrary\DefinitionLibrary.csproj" />
     <ProjectReference Include="..\..\GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj" />
-    <!--<ProjectReference Include="..\..\GalvanizedSoftware.Beethoven.Build\GalvanizedSoftware.Beethoven.Build.csproj"
+    <ProjectReference Include="..\..\GalvanizedSoftware.Beethoven.Build\GalvanizedSoftware.Beethoven.Build.csproj"
                       OutputItemType="Analyzer"
-                      ReferenceOutputAssembly="false"/>-->
+                      ReferenceOutputAssembly="false"/>
   </ItemGroup>
-
 </Project>
