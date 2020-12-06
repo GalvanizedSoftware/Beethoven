@@ -25,6 +25,8 @@ namespace GalvanizedSoftware.Beethoven
     internal TypeDefinition(PartDefinitions partDefinitions, string classNamespace, string className)
     {
       this.partDefinitions = partDefinitions;
+      partDefinitions.SetMainTypeUser(typeof(T));
+
       this.className = className ?? $"{typeof(T).GetFormattedName()}Implementation";
       this.classNamespace = classNamespace ?? $"{typeof(T).Namespace}";
     }
@@ -61,7 +63,8 @@ namespace GalvanizedSoftware.Beethoven
     internal CompiledTypeDefinition<T> CompileInternal(Assembly callingAssembly)
     {
       BoundTypeDefinitionOfT<T> boundTypeDefinition = BindDefinition();
-      AssemblyDefinition assemblyDefinition = new AssemblyDefinition().Add(boundTypeDefinition);
+      AssemblyDefinition assemblyDefinition = new AssemblyDefinition()
+        .Add(boundTypeDefinition.DefinitionGenerator);
       Assembly assembly = assemblyDefinition.GenerateAssembly(mainAssembly, callingAssembly);
       return boundTypeDefinition.Link(assembly);
     }

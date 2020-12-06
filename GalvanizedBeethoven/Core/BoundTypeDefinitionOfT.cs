@@ -1,13 +1,10 @@
-﻿using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Interfaces;
-using System;
+﻿using System;
 using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
-  internal class BoundTypeDefinitionOfT<T> : BoundTypeDefinition where T : class
+  internal class BoundTypeDefinitionOfT<T> where T : class
   {
-    private readonly IDefinition[] definitions;
     private readonly string className;
     private readonly string classNamespace;
     private readonly Type type = typeof(T);
@@ -17,17 +14,13 @@ namespace GalvanizedSoftware.Beethoven.Core
     {
       this.className = className;
       this.classNamespace = classNamespace;
-      partDefinitions.SetMainTypeUser(type);
       object[] allPartDefinitions = partDefinitions.GetAll<T>();
-      definitions = allPartDefinitions.GetAllDefinitions();
+      DefinitionGenerator = 
+        new TypeDefinitionGeneratorOfT<T>(className, classNamespace, allPartDefinitions);
       bindingParents = new BindingParents(allPartDefinitions);
     }
 
-
-    internal override string Generate() =>
-      new ClassGenerator(type, className, classNamespace, definitions)
-        .Generate()
-        .Format(0);
+    internal TypeDefinitionGeneratorOfT<T> DefinitionGenerator { get; }
 
     internal CompiledTypeDefinition<T> Link(Assembly assembly) => 
       new CompiledTypeDefinition<T>(

@@ -1,6 +1,6 @@
 ﻿namespace GalvanizedSoftware.Beethoven.Core
 {
-  public abstract class BoundTypeDefinition
+  public abstract class TypeDefinitionGenerator
   {
     internal abstract string Generate();
   }
