@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility1
+namespace DefinitionLibrary
 {
   public class Factory : IFactoryDefinition<IApproverChain>
   {

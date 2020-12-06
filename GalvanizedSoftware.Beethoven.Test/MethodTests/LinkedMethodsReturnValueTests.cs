@@ -104,18 +104,15 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     public void LinkedMethodsReturnValueTest7()
     {
       CustomImplentation implementation = new CustomImplentation();
-      TypeDefinition<ITestMethods> typeDefinition = new TypeDefinition<ITestMethods>(
-        FieldDefinition
+      TypeDefinition<ITestMethods> typeDefinition = TypeDefinition<ITestMethods>.Create(FieldDefinition
           .CreateFromConstructorParameter<BoolContainer>()
           .ImportInMain(),
         LinkedMethodsReturnValue.Create<ITestMethods>(nameof(ITestMethods.OutAndRef))
-          .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
-          //.Action<BoolContainer>(container => container.Value = true)
-          );
+          .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef)));
       BoolContainer boolContainer = new BoolContainer();
-      ITestMethods instance = typeDefinition.Create(boolContainer);
+      ITestMethods instance = typeDefinition.CreateNew(boolContainer);
       BoolContainer boolContainer2 = new BoolContainer();
-      typeDefinition.Create(boolContainer2);
+      typeDefinition.CreateNew(boolContainer2);
       string text2 = "wetwt";
       instance.OutAndRef(out string _, ref text2, 5);
       Assert.IsTrue(boolContainer.Value);

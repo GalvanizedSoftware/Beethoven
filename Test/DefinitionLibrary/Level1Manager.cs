@@ -1,4 +1,4 @@
-﻿namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility1
+﻿namespace DefinitionLibrary
 {
   internal class Level1Manager : IApprover
   {

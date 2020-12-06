@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility1
+namespace DefinitionLibrary
 {
-  public class FactoryDefinitions : IFactoryDefinitions
+  public class FactoryDefinitions : IFactoryDefinition<IApproverChain>
   {
     public string Namespace => "GalvanizedSoftware.DefinitionLibrary";
 
@@ -19,7 +18,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.ChainOfResponsibility1
           .AutoMappedMethod(new Myself()).InvertResult()
           .AutoMappedMethod(new LocalManager()).InvertResult()
           .AutoMappedMethod(new Level2Manager()).InvertResult()
-          .AutoMappedMethod(new Level1Manager()).InvertResult()
+          .AutoMappedMethod(new Level1Manager()).InvertResult();
       }
     }
   }

@@ -21,7 +21,7 @@ namespace GalvanizedSoftware.Beethoven
     }
 
     public TypeDefinition<T> CreateTypeDefinition<T>() where T : class =>
-      TypeDefinition<T>.Create(factories
+      TypeDefinition<T>.CreateFromFactoryDefinition(factories
         .FirstOrDefault(tuple => tuple.Item1 == typeof(T))
         .Item2?
         .Invoke() as IFactoryDefinition<T>);

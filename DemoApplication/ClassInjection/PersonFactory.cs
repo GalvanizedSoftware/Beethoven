@@ -9,10 +9,10 @@
         FirstName = firstName,
         LastName = lastName
       };
-      return new TypeDefinition<IPerson>()
+      return TypeDefinition<IPerson>.Create()
         .Add(fullName)
         .AddMethodMapper(main => new FullNameFormatter(main))
-        .Create();
+        .CreateNew();
     }
   }
 }

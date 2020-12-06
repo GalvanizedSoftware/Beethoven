@@ -8,13 +8,10 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
 
     public Factory()
     {
-      compiledTypeDefinition = new TypeDefinition<IPerformanceTest>
-      (
-        new DefaultProperty()
+      compiledTypeDefinition = TypeDefinition<IPerformanceTest>.Create(new DefaultProperty()
           .SkipIfEqual()
           .SetterGetter()
-          .NotifyChanged()
-      )
+          .NotifyChanged())
       .AddMethodMapper(main => new FormatClass(main))
       .Compile();
     }

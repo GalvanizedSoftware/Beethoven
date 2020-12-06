@@ -9,11 +9,10 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
   internal class Factory
   {
     private readonly TypeDefinition<IPerson> personTypeDefinition =
-      new TypeDefinition<IPerson>(
-        new DefaultProperty().
-          SkipIfEqual().
-          SetterGetter().
-          NotifyChanged());
+      TypeDefinition<IPerson>.Create(new DefaultProperty().
+        SkipIfEqual().
+        SetterGetter().
+        NotifyChanged());
 
     public IPersonCollection CreatePersonCollection()
     {
@@ -21,18 +20,17 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.MultiComposition
       CollectionChangedImplementation<IPerson> collectionChanged =
         new CollectionChangedImplementation<IPerson>(person => persons.IndexOf(person));
       TypeDefinition<IPersonCollection> typeDefinition =
-        new TypeDefinition<IPersonCollection>(
-          new LinkedObjects(
-            new MappedMethod("Remove", collectionChanged, nameof(collectionChanged.PreRemove)),
-            persons,
-            collectionChanged));
-      IPersonCollection personCollection = typeDefinition.Create();
+        TypeDefinition<IPersonCollection>.Create(new LinkedObjects(
+          new MappedMethod("Remove", collectionChanged, nameof(collectionChanged.PreRemove)),
+          persons,
+          collectionChanged));
+      IPersonCollection personCollection = typeDefinition.CreateNew();
       IEventTrigger trigger = new EventTrigger(personCollection, nameof(IPersonCollection.CollectionChanged));
       collectionChanged.CollectionChanged += (sender, args) => trigger.Notify(sender, args);
       return personCollection;
     }
 
     public IPerson CreatePerson() =>
-      personTypeDefinition.Create();
+      personTypeDefinition.CreateNew();
   }
 }

@@ -15,7 +15,8 @@ namespace GalvanizedSoftware.Beethoven.Test.FieldTests
     [TestMethod]
     public void ConstructorInitializedFieldInitialValueTest1()
     {
-      CompiledTypeDefinition<ITestProperties> definition = new TypeDefinition<ITestProperties>()
+      CompiledTypeDefinition<ITestProperties> definition = 
+        TypeDefinition<ITestProperties>.Create()
           .Add(new PropertyDefinition<int>(nameof(ITestProperties.Property1))
             .ConstructorParameter()
             .SetterGetter())
@@ -27,7 +28,8 @@ namespace GalvanizedSoftware.Beethoven.Test.FieldTests
     [TestMethod]
     public void ConstructorInitializedFieldInitialValueTest2()
     {
-      CompiledTypeDefinition<ITestProperties> definition = new TypeDefinition<ITestProperties>()
+      CompiledTypeDefinition<ITestProperties> definition = 
+        TypeDefinition<ITestProperties>.Create()
           .Add(new PropertyDefinition<int>(nameof(ITestProperties.Property1))
             .ConstructorParameter()
             .SetterGetter())
@@ -40,7 +42,8 @@ namespace GalvanizedSoftware.Beethoven.Test.FieldTests
     [TestMethod]
     public void ConstructorInitializedFieldInitialValueTest3()
     {
-      CompiledTypeDefinition<ITestProperties> compiledTypeDefinition = new TypeDefinition<ITestProperties>()
+      CompiledTypeDefinition<ITestProperties> compiledTypeDefinition = 
+        TypeDefinition<ITestProperties>.Create()
           .Add(new PropertyDefinition<int>(nameof(ITestProperties.Property1))
             .ConstructorParameter()
             .SetterGetter())
@@ -64,7 +67,8 @@ namespace GalvanizedSoftware.Beethoven.Test.FieldTests
     [TestMethod]
     public void ConstructorInitializedFieldEventWithReturnValue1()
     {
-      CompiledTypeDefinition<ITestEvents> compiledTypeDefinition = new TypeDefinition<ITestEvents>().Compile();
+      CompiledTypeDefinition<ITestEvents> compiledTypeDefinition = 
+        TypeDefinition<ITestEvents>.Create().Compile();
       ITestEvents test = compiledTypeDefinition.Create();
       Action<string> trigger =
         new EventTrigger(test, nameof(ITestEvents.WithReturnValue)).ToAction<string>();

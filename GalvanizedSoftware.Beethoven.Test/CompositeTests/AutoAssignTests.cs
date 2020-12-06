@@ -100,16 +100,14 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
     [TestMethod]
     public void AutoAssignTest5()
     {
-      TypeDefinition<ICompanyInformation> typeDefinition = new TypeDefinition<ICompanyInformation>(
-        new PropertyDefinition<string>("Name")
+      TypeDefinition<ICompanyInformation> typeDefinition = TypeDefinition<ICompanyInformation>.Create(new PropertyDefinition<string>("Name")
           .ConstructorParameter()
           .SetterGetter(),
         new PropertyDefinition<string>("Address")
           .ConstructorParameter()
-          .SetterGetter()
-        );
+          .SetterGetter());
       ICompanyInformation companyInformation =
-        typeDefinition.Create("The evil company", "2460 Sunshine road");
+        typeDefinition.CreateNew("The evil company", "2460 Sunshine road");
       Assert.AreEqual("The evil company", companyInformation.Name);
       Assert.AreEqual("2460 Sunshine road", companyInformation.Address);
     }
@@ -117,12 +115,11 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
     [TestMethod]
     public void AutoAssignTest6()
     {
-      TypeDefinition<ICompanyInformation> typeDefinition = new TypeDefinition<ICompanyInformation>(
-        new PropertyDefinition<string>("Name")
-          .ConstructorParameter()
-          .SetterGetter());
+      TypeDefinition<ICompanyInformation> typeDefinition = TypeDefinition<ICompanyInformation>.Create(new PropertyDefinition<string>("Name")
+        .ConstructorParameter()
+        .SetterGetter());
       ICompanyInformation companyInformation =
-        typeDefinition.Create("The evil company");
+        typeDefinition.CreateNew("The evil company");
       companyInformation.Name = "Generic Company B";
       Assert.AreEqual("Generic Company B", companyInformation.Name);
     }

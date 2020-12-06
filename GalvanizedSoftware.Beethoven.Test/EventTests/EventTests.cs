@@ -13,8 +13,8 @@ namespace GalvanizedSoftware.Beethoven.Test.EventTests
     [TestMethod]
     public void EventSimple2()
     {
-      TypeDefinition<ITestEvents> typeDefinition = new TypeDefinition<ITestEvents>();
-      ITestEvents test = typeDefinition.Create();
+      TypeDefinition<ITestEvents> typeDefinition = TypeDefinition<ITestEvents>.Create();
+      ITestEvents test = typeDefinition.CreateNew();
       Action trigger =
         new EventTrigger(test, nameof(ITestEvents.Simple)).ToAction();
       bool simpleEventCalled = false;
