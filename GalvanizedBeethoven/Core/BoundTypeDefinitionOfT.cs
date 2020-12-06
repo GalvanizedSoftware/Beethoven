@@ -1,30 +1,21 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
   internal class BoundTypeDefinitionOfT<T> where T : class
   {
-    private readonly string className;
-    private readonly string classNamespace;
-    private readonly Type type = typeof(T);
     private readonly BindingParents bindingParents;
+    private readonly NameDefinition nameDefinition;
 
-    internal BoundTypeDefinitionOfT(string className, string classNamespace, PartDefinitions partDefinitions)
+    public BoundTypeDefinitionOfT(NameDefinition nameDefinition, TypeDefinitionGeneratorOfT<T> generator)
     {
-      this.className = className;
-      this.classNamespace = classNamespace;
-      object[] allPartDefinitions = partDefinitions.GetAll<T>();
-      DefinitionGenerator = 
-        new TypeDefinitionGeneratorOfT<T>(className, classNamespace, allPartDefinitions);
-      bindingParents = new BindingParents(allPartDefinitions);
+      this.nameDefinition = nameDefinition;
+      bindingParents = new BindingParents(generator.AllDefinitions);
     }
-
-    internal TypeDefinitionGeneratorOfT<T> DefinitionGenerator { get; }
 
     internal CompiledTypeDefinition<T> Link(Assembly assembly) => 
       new CompiledTypeDefinition<T>(
-        assembly.GetType($"{classNamespace}.{className}"), 
+        assembly.GetType($"{nameDefinition.ClassNamespace}.{nameDefinition.ClassName}"), 
         bindingParents);
   }
 }

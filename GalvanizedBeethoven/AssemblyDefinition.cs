@@ -9,19 +9,19 @@ namespace GalvanizedSoftware.Beethoven
   {
     private static int assemblyNumber = 1;
     private readonly string assemblyName;
-    private readonly TypeDefinitionGenerator[] boundTypeDefinitions = Array.Empty<TypeDefinitionGenerator>();
+    private readonly TypeDefinitionGenerator[] typeDefinitionGenerators = Array.Empty<TypeDefinitionGenerator>();
 
     public AssemblyDefinition(string assemblyName = null)
     {
       this.assemblyName = assemblyName ?? $"TmpAssembly{assemblyNumber++}";
     }
 
-    private AssemblyDefinition(AssemblyDefinition previous, TypeDefinitionGenerator newBoundTypeDefinition)
+    private AssemblyDefinition(AssemblyDefinition previous, TypeDefinitionGenerator newGenerator)
     {
       assemblyName = previous.assemblyName;
-      boundTypeDefinitions = previous
-        .boundTypeDefinitions
-        .Append(newBoundTypeDefinition)
+      typeDefinitionGenerators = previous
+        .typeDefinitionGenerators
+        .Append(newGenerator)
         .ToArray();
     }
 
@@ -32,7 +32,7 @@ namespace GalvanizedSoftware.Beethoven
       new Compiler(
         mainAssembly, 
         callingAssembly, 
-        boundTypeDefinitions
+        typeDefinitionGenerators
           .Select(item => item.Generate())
           .ToArray())
       .GenerateAssembly(assemblyName);

@@ -1,26 +1,27 @@
 ﻿using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
   internal class TypeDefinitionGeneratorOfT<T> : TypeDefinitionGenerator where T : class
   {
     private readonly IDefinition[] definitions;
-    private readonly string className;
-    private readonly string classNamespace;
     private readonly Type type = typeof(T);
+    private readonly NameDefinition nameDefinition;
 
-    internal TypeDefinitionGeneratorOfT(string className, string classNamespace, object[] partDefinitions)
+    internal TypeDefinitionGeneratorOfT(NameDefinition nameDefinition, PartDefinitions partDefinitions)
     {
-      this.className = className;
-      this.classNamespace = classNamespace;
-      definitions = partDefinitions.GetAllDefinitions();
+      this.nameDefinition = nameDefinition;
+      AllDefinitions = partDefinitions.GetAll<T>();
+      definitions = AllDefinitions.GetAllDefinitions();
     }
 
+    internal object[] AllDefinitions { get; }
 
     internal override string Generate() =>
-      new ClassGenerator(type, className, classNamespace, definitions)
+      new ClassGenerator(type, nameDefinition, definitions)
         .Generate()
         .Format(0);
   }
