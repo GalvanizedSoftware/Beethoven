@@ -21,14 +21,12 @@ namespace GalvanizedSoftware.Beethoven.Build
 
     public void Execute(GeneratorExecutionContext context)
     {
-      context.AddSource("source", "namespace DefinitionLibrary { public class C1 {}}");
-      var assemblies1 = context
+      (string filename, Assembly)[] assemblies = context
         .Compilation
         .References
         .Select(assembly => assembly.Display)
         .Where(filename => filename?.Contains(@"\.nuget\packages\") != true)
-        .ToArray();
-      var assemblies = assemblies1
+        .ToArray()
         .Select(filename => (filename, AssemblyLoad(filename)))
         .ToArray();
       AutoFactories[] factoryTypes = assemblies
@@ -36,13 +34,18 @@ namespace GalvanizedSoftware.Beethoven.Build
         .Select(CreateFactories)
         .SkipNull()
         .ToArray();
-      foreach (AutoFactories autoFactories in factoryTypes)
+      (string filename, string code)[] codeFiles = factoryTypes
+        .SelectMany(factories => factories.Factories)
+        .Select(tuple => (tuple.Item1, tuple.Item2()))
+        .Select(tuple => CodeGenerator.Create(tuple.Item1, tuple.Item2))
+        .Select(generator => generator.GenerateCode())
+        .ToArray();
+      foreach ((string filename, string code) tuple in codeFiles)
       {
-        //autoFactories.CreateTypeDefinition<>()
-      }
-      //Debug.Assert(false);
-      if (Debugger.IsAttached)
-      {
+        (string filename, string code) = tuple;
+        context.AddSource(filename, code);
+        //using StreamWriter streamWriter = new StreamWriter(filename);
+        //streamWriter.Write(code);
       }
     }
 
@@ -63,13 +66,11 @@ namespace GalvanizedSoftware.Beethoven.Build
 
     private static byte[] ReadFile(string filename)
     {
-      using (FileStream stream = new FileStream(filename, FileMode.Open))
-      {
-        int length = (int)stream.Length;
-        byte[] data = new byte[length];
-        stream.Read(data, 0, length);
-        return data;
-      }
+      using FileStream stream = new FileStream(filename, FileMode.Open);
+      int length = (int)stream.Length;
+      byte[] data = new byte[length];
+      stream.Read(data, 0, length);
+      return data;
     }
   }
 }

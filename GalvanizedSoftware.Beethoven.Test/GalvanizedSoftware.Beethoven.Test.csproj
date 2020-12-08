@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj" />
     <ProjectReference Include="..\Test\DefinitionLibrary\DefinitionLibrary.csproj" />
+    <ProjectReference Include="..\Test\ImplementationLibrary\ImplementationLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>

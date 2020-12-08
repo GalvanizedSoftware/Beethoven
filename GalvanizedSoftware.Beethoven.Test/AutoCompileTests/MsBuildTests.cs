@@ -9,7 +9,7 @@ namespace GalvanizedSoftware.Beethoven.Test.AutoCompileTests
     [TestMethod]
     public void MsBuildTest1()
     {
-      IApprover f;
+      IApproverChain f = new ApproverChain();
       //C1 c1 = new C1();
     }
   }

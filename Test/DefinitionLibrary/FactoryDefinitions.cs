@@ -12,7 +12,7 @@ namespace DefinitionLibrary
     {
     }
 
-    public string Namespace => "GalvanizedSoftware.DefinitionLibrary";
+    public string Namespace => "DefinitionLibrary";
 
     public string ClassName => "ApproverChain";
 
