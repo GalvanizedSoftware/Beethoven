@@ -6,6 +6,8 @@ using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Test.CompositeTests.Implementations;
 using GalvanizedSoftware.Beethoven.Test.CompositeTests.Interfaces;
 using Unity;
+// ReSharper disable PossibleNullReferenceException
+// ReSharper disable AccessToModifiedClosure
 
 namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
 {

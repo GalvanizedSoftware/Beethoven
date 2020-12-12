@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable UnusedMember.Global
 
 namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces
 {
@@ -6,7 +7,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Interfaces
   {
     public List<int> CallList { get; } = new List<int>();
 
-    void Foo(int a) => 
+    public void Foo(int a) => 
       CallList.Add(a);
   }
 }

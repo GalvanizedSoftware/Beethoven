@@ -1,10 +1,10 @@
-﻿using GalvanizedSoftware.Beethoven.Test.Annotations;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using GalvanizedSoftware.Beethoven.Test.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Test.Performance
 {
-  internal class Classic : IPerformanceTest, INotifyPropertyChanged
+  internal sealed class Classic : IPerformanceTest
   {
     private string name;
 
@@ -27,7 +27,7 @@ namespace GalvanizedSoftware.Beethoven.Test.Performance
     public event PropertyChangedEventHandler PropertyChanged;
 
     [NotifyPropertyChangedInvocator]
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
       PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

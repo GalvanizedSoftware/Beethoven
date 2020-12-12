@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Binding;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {

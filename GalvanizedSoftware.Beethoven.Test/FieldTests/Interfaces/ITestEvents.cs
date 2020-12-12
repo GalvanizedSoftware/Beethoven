@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GalvanizedSoftware.Beethoven.Test.FieldTests
+namespace GalvanizedSoftware.Beethoven.Test.FieldTests.Interfaces
 {
   public interface ITestEvents
   {

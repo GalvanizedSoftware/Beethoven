@@ -22,9 +22,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public bool CanGenerate(MemberInfo memberInfo) =>
       memberInfo switch
       {
-        PropertyInfo propertyInfo =>
-             propertyInfo.Name == this.propertyInfo.Name &&
-             propertyInfo.PropertyType == this.propertyInfo.PropertyType,
+        PropertyInfo checkPropertyInfo =>
+             checkPropertyInfo.Name == this.propertyInfo.Name &&
+             checkPropertyInfo.PropertyType == this.propertyInfo.PropertyType,
         _ => false,
       };
 

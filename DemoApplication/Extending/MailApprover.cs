@@ -1,5 +1,6 @@
 ﻿using GalvanizedSoftware.Beethoven.DemoApp.Extending.Services;
 using System;
+using GalvanizedSoftware.Beethoven.DemoApp.Extending.Approvers;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.Extending
 {

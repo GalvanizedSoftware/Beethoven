@@ -6,7 +6,6 @@ using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
-using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
@@ -29,7 +28,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this(previous?.Name, previous?.PropertyType)
     {
       this.additionalDefinitions = previous?.additionalDefinitions?
-        .Concat(additionalDefinitions)?
+        .Concat(additionalDefinitions)
         .ToArray() ?? throw new NullReferenceException();
     }
 
@@ -37,8 +36,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     public Type PropertyType { get; }
     internal abstract object[] Definitions { get; }
-
-    public IDefinition Parameter { get; }
 
     public int SortOrder => 1;
 
@@ -55,15 +52,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       return propertyDefinitions.Length == 0 ?
         propertyDefinition :
         new PropertyDefinition<T>(propertyDefinition, propertyDefinitions.OfType<IPropertyDefinition<T>>().ToArray());
-    }
-
-    internal bool IsMatch(MethodInfo methodInfo)
-    {
-      string name = methodInfo.Name;
-      return methodInfo.IsSpecialName &&
-              (name == "get_" + Name ? methodInfo.ReturnType == PropertyType :
-               name == "set_" + Name &&
-               methodInfo.GetParametersSafe().SingleOrDefault()?.ParameterType == PropertyType);
     }
 
     public bool CanGenerate(MemberInfo memberInfo) =>

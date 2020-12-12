@@ -1,8 +1,7 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
+﻿using System.Linq;
 using GalvanizedSoftware.Beethoven.Interfaces;
-using System.Linq;
 
-namespace GalvanizedSoftware.Beethoven.Core.Invokers
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
   internal class CompositePropertyInvoker<T> : IPropertyInvoker<T>
   {

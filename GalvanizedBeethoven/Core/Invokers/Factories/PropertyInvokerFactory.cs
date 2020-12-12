@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Core.Invokers.Factories
 {
@@ -17,7 +18,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Factories
     public static object Create(Type type, IEnumerable<object> definitions) =>
       createMethod
         .MakeGenericMethod(type)
-        .Invoke(type, new[] { definitions });
+        .Invoke(type, new object[] { definitions });
 
     private static object Create<T>(IEnumerable<object> definitions) =>
       new CompositePropertyInvoker<T>(definitions

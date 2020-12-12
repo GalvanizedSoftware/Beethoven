@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using static System.StringComparison;
 
 namespace GalvanizedSoftware.Beethoven
 {
@@ -52,8 +53,10 @@ namespace GalvanizedSoftware.Beethoven
         .GetInterfaces()
         .Concat(new[] { type })
         .FirstOrDefault(
-          type => type.FullName.StartsWith(InterfaceName, StringComparison.InvariantCulture))?
-        .GetGenericArguments()?
+          itemType => itemType
+            .FullName?
+            .StartsWith(InterfaceName, InvariantCulture) == true)?
+        .GetGenericArguments()
         .FirstOrDefault();
   }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace GalvanizedSoftware.Beethoven.Core.Methods
+namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
   internal class ExactPropertyComparer : IEqualityComparer<PropertyInfo>
   {

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedParameter.Global
 
 namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
 {
@@ -15,7 +17,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
       return text1.Length;
     }
 
-    void Ref(ref int value)
+    public void Ref(ref int value)
     {
       value += 1;
     }

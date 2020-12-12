@@ -4,6 +4,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.InterfaceUpdate
 {
   class ClientViewModel
   {
+    // ReSharper disable once NotAccessedField.Local
     private readonly ServerModel serverModel;
 
     public ClientModel ClientModel { get; }

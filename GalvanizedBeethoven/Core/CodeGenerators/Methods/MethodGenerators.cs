@@ -44,13 +44,13 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
     {
       string name = methodInfo.Name;
       MethodInfo[] methodInfoArray = methodInfos
-        .Where(methodInfo => methodInfo.Name == name)
+        .Where(info => info.Name == name)
         .ToArray();
       return methodInfoArray.Length == 1 ?
         0 :
         methodInfoArray
-        .Select((methodInfo, i) => (methodInfo, i))
-        .Where(tuple => tuple.methodInfo == methodInfo)
+        .Select((info, i) => (info, i))
+        .Where(tuple => tuple.info == methodInfo)
         .Select(tuple => (int?)tuple.i)
         .First();
     }

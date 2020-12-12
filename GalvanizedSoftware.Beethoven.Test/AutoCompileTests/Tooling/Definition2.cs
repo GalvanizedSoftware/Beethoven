@@ -1,4 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Test.AutoCompileTests.Tooling

@@ -33,8 +33,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     public IMethodMatcher MethodMatcher { get; } = new MatchAnything();
 
-    public void Set(Type mainType) =>
-      this.mainType = mainType;
+    public void Set(Type setMainType) =>
+      mainType = setMainType;
 
     public IEnumerable<IDefinition> GetDefinitions() => 
       mainType

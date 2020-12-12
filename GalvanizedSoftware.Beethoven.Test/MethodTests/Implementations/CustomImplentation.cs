@@ -1,6 +1,7 @@
 ﻿// ReSharper disable UnusedMember.Global
 
 using System.Linq;
+// ReSharper disable UnusedParameter.Global
 
 namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
 {
@@ -17,12 +18,12 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
       return true;
     }
 
-    int WithParameters(string text1, string text2)
+    internal int WithParameters(string text1, string text2)
     {
       return 17;
     }
 
-    int WithParameters(string text1, string text2, int count)
+    internal int WithParameters(string text1, string text2, int count)
     {
       return 18;
     }
@@ -38,7 +39,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
       return true;
     }
 
-    // Note to get value from preveous call, text1 has to be ref not out (luckely both are valid)
+    // Note to get value from previous call, text1 has to be ref not out (luckily both are valid)
     public bool OutAndRef1(ref string text1, ref string text2, int count, ref int returnValue)
     {
       returnValue += 1;

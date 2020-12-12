@@ -18,8 +18,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      return Generate().Select(code => ((CodeType, string)?)(PropertiesCode, code));
-      IEnumerable<string> Generate()
+      return GenerateLocal().Select(code => ((CodeType, string)?)(PropertiesCode, code));
+      IEnumerable<string> GenerateLocal()
       {
         yield return $@"public {propertyInfo.PropertyType.GetFullName()} {propertyInfo.Name}";
         yield return "{";

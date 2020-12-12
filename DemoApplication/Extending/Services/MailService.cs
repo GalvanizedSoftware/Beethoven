@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using GalvanizedSoftware.Beethoven.DemoApp.Extending.Approvers;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.Extending.Services
 {

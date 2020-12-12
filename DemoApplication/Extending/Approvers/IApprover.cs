@@ -1,4 +1,4 @@
-﻿namespace GalvanizedSoftware.Beethoven.DemoApp.Extending
+﻿namespace GalvanizedSoftware.Beethoven.DemoApp.Extending.Approvers
 {
   public interface IApprover
   {

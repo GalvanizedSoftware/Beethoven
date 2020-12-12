@@ -9,12 +9,10 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
   internal class GenericMethodDefinition : MethodDefinition
   {
     private readonly MethodDefinition[] definitions;
-    private readonly MethodInfo methodInfo;
 
     public GenericMethodDefinition(MethodInfo methodInfo, MethodDefinition[] definitions) :
       base(methodInfo.Name, new MatchMethodInfoExact(methodInfo))
     {
-      this.methodInfo = methodInfo;
       this.definitions = definitions;
     }
 

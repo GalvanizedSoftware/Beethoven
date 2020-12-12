@@ -2,6 +2,7 @@
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
@@ -9,9 +10,9 @@ namespace GalvanizedSoftware.Beethoven.Extensions
   {
     internal static ICodeGenerator WrapLocal(this ICodeGenerator codeGenerator,
       GeneratorContext generatorContext, MethodInfo methodInfo, int? index) =>
-      new LocalMethodCodeGenerator(generatorContext, codeGenerator, methodInfo, index);
+      new LocalMethodCodeGenerator(codeGenerator);
 
     internal static ICodeGenerator WrapLocal(this ICodeGenerator codeGenerator, GeneratorContext generatorContext, PropertyInfo propertyInfo) =>
-      new LocalPropertyCodeGenerator(generatorContext, codeGenerator, propertyInfo);
+      new LocalPropertyCodeGenerator(codeGenerator);
   }
 }

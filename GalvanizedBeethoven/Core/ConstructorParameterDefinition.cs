@@ -1,10 +1,10 @@
-﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+﻿using System;
+using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Interfaces;
-using System;
-using System.Reflection;
 
-namespace GalvanizedSoftware.Beethoven.Core.Fields
+namespace GalvanizedSoftware.Beethoven.Core
 {
   internal class ContructorFieldsWrapperDefinition : IDefinition
   {

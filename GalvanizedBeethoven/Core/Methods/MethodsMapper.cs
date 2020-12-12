@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Generic.Methods;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
@@ -10,7 +11,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
   {
 
     private static readonly MethodsMapperEngine methodsMapperEngine = new MethodsMapperEngine(typeof(T));
-    private readonly MethodDefinition[] methods;
+    private readonly MappedMethod[] methods;
 
     public MethodsMapper(object baseObject)
     {
@@ -20,7 +21,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
         .ToArray();
     }
 
-    public IEnumerable<IDefinition> GetDefinitions() => methods.OfType<IDefinition>();
+    public IEnumerable<IDefinition> GetDefinitions() => methods;
 
     public IEnumerator<MethodDefinition> GetEnumerator() => methods.AsEnumerable().GetEnumerator();
 

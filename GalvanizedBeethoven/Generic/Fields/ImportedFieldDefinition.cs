@@ -19,8 +19,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
       this.fieldName = fieldName;
     }
 
-    public void Set(Type mainType) =>
-      this.mainType = mainType;
+    public void Set(Type setMainType) =>
+      mainType = setMainType;
 
     public IEnumerable<IDefinition> GetDefinitions() =>
        master

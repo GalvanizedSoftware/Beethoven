@@ -2,6 +2,7 @@
 
 namespace GalvanizedSoftware.Beethoven.Interfaces
 {
+  // ReSharper disable once UnusedTypeParameter
   interface IFactoryDefinition<T> where T : class
   {
     string Namespace { get; }
