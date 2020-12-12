@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       string uniqueName, MethodInfo methodInfo, string invokerName, MethodDefinition methodDefinition)
     {
       this.uniqueName = uniqueName;
-      this.invokerFacory = () => new RealMethodInvoker(methodInfo, methodDefinition);
+      invokerFacory = () => new RealMethodInvoker(methodInfo, methodDefinition);
       this.invokerName = invokerName;
     }
 

@@ -118,8 +118,8 @@ namespace GalvanizedSoftware.Beethoven.Generic
         yield return method;
     }
 
-    public void Set(Type mainType) =>
-      this.mainType = mainType;
+    public void Set(Type setMainType) =>
+      mainType = setMainType;
 
     public void Bind(object target) => 
       partDefinitions

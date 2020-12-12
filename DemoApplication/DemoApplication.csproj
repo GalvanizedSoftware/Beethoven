@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>False</Deterministic>
+    <RootNamespace>GalvanizedSoftware.Beethoven.DemoApp</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

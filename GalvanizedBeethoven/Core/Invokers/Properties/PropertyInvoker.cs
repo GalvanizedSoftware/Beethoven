@@ -1,4 +1,4 @@
-﻿namespace GalvanizedSoftware.Beethoven.Core.Invokers
+﻿namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
   public class PropertyInvoker<T> : IPropertyInvoker<T>
   {

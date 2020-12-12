@@ -1,9 +1,9 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
-using GalvanizedSoftware.Beethoven.Generic.ConstructorParameters;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
 {

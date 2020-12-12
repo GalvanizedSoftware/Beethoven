@@ -24,7 +24,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport
     {
       if (master is null)
         return ReferenceEquals(null, other);
-      return ReferenceEquals(master, other) || valuesGetterFunc(master).SequenceEqual(valuesGetterFunc((T)other));
+      return ReferenceEquals(master, other) || valuesGetterFunc(master).SequenceEqual(valuesGetterFunc(other));
     }
 
     public new int GetHashCode()

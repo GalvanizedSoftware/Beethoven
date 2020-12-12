@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using static System.Environment;
 using static System.Reflection.Assembly;
+// ReSharper disable UnusedVariable
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
@@ -36,7 +37,7 @@ namespace GalvanizedSoftware.Beethoven.Core
 
     internal Assembly GenerateAssembly(string assemblyName)
     {
-      MetadataReference[] references = assemblyCache
+      PortableExecutableReference[] references = assemblyCache
         .Select(assembly => MetadataReference.CreateFromFile(assembly.Location))
         .ToArray();
       SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);

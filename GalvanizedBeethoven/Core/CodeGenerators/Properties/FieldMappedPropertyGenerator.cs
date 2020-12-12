@@ -21,8 +21,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      return Generate().Select(code => ((CodeType, string)?)(PropertiesCode, code));
-      IEnumerable<string> Generate()
+      return GenerateLocal().Select(code => ((CodeType, string)?)(PropertiesCode, code));
+      IEnumerable<string> GenerateLocal()
       {
         Type propertyType = propertyInfo.PropertyType;
         string typeName = propertyType.GetFullName();

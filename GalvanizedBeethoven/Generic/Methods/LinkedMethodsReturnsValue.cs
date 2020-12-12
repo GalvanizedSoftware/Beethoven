@@ -48,8 +48,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethodsReturnValue MappedMethod(object instance, string targetName) =>
       Add(new MappedMethod(Name, instance, targetName));
 
-    public LinkedMethodsReturnValue MappedMethod(object instance, MethodInfo methodInfo) =>
-      Add(new MappedMethod(methodInfo, instance));
+    public LinkedMethodsReturnValue MappedMethod(object instance, MethodInfo mappedMethodInfo) =>
+      Add(new MappedMethod(mappedMethodInfo, instance));
 
     public LinkedMethodsReturnValue AutoMappedMethod(object instance) =>
       Add(new MappedMethod(Name, instance, Name));
@@ -65,10 +65,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Add(new InvertResultMethod(FlowControlMethod.Create(Name, condition)));
 
     public LinkedMethodsReturnValue SkipIf<T1>(Func<T1, bool> condition) =>
-      Add(new InvertResultMethod(FlowControlMethod.Create<T1>(Name, condition)));
+      Add(new InvertResultMethod(FlowControlMethod.Create(Name, condition)));
 
     public LinkedMethodsReturnValue SkipIf<T1, T2>(Func<T1, T2, bool> condition) =>
-      Add(new InvertResultMethod(FlowControlMethod.Create<T1, T2>(Name, condition)));
+      Add(new InvertResultMethod(FlowControlMethod.Create(Name, condition)));
 
     public LinkedMethodsReturnValue SkipIfResultCondition<T>(Func<T, bool> condition) =>
       Add(new ReturnValueCheck<T>(Name, condition))
@@ -103,14 +103,14 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Add(new FuncMethod(Name, func));
 
     public override void Invoke(object localInstance, ref object returnValue,
-      object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
+      object[] parameters, Type[] genericArguments, MethodInfo invokeMethodInfo)
     {
-      if (parameters == null || methodInfo == null)
+      if (parameters == null || invokeMethodInfo == null)
         throw new NullReferenceException();
-      returnValue = methodInfo.GetDefaultReturnValue();
-      (Type, string)[] parameterTypeAndNames = methodInfo.GetParameterTypeAndNames();
+      returnValue = invokeMethodInfo.GetDefaultReturnValue();
+      (Type, string)[] parameterTypeAndNames = invokeMethodInfo.GetParameterTypeAndNames();
       foreach (MethodDefinition method in methodList)
-        if (!InvokeFirstMatch(localInstance, method, ref returnValue, parameters, parameterTypeAndNames, genericArguments, methodInfo))
+        if (!InvokeFirstMatch(localInstance, method, ref returnValue, parameters, parameterTypeAndNames, genericArguments, invokeMethodInfo))
           break;
     }
 

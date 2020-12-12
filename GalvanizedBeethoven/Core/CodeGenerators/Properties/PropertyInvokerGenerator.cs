@@ -4,6 +4,7 @@ using GalvanizedSoftware.Beethoven.Core.Invokers.Factories;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Collections.Generic;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
 using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties

@@ -10,7 +10,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     public FallbackMethodDefinition(MethodDefinition master) :
       base(master.Name, master.MethodMatcher)
     {
-      this.master = master ?? throw new NullReferenceException();
+      this.master = master;
     }
 
     public override int SortOrder => 2;

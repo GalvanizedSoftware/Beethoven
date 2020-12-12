@@ -1,8 +1,8 @@
-﻿using GalvanizedSoftware.Beethoven.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven
+namespace GalvanizedSoftware.Beethoven.Core.Binding
 {
   internal class BindingParents : IBindingParent
   {

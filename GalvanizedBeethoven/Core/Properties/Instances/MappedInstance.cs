@@ -8,13 +8,11 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
   public class MappedInstance<T> : IPropertyInstance<T>
   {
     private readonly object main;
-    private readonly string name;
     private readonly MethodInfo getMethod;
     private readonly MethodInfo setMethod;
 
     public MappedInstance(object target, string name)
     {
-      this.name = name;
       main = target;
       PropertyInfo propertyInfo = target?.GetType().GetProperty(name, ResolveFlags);
       if (propertyInfo == null)

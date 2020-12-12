@@ -3,6 +3,6 @@ namespace GalvanizedSoftware.Beethoven.Interfaces
 {
   public interface IMainTypeUser
   {
-    void Set(Type mainType);
+    void Set(Type setMainType);
   }
 }

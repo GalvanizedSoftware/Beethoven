@@ -1,7 +1,7 @@
-﻿using GalvanizedSoftware.Beethoven.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Test.AutoCompileTests.Tooling
+namespace GalvanizedSoftware.Beethoven.Generic
 {
   public class SimpleDefinition<T> : IFactoryDefinition<T> where T : class
   {

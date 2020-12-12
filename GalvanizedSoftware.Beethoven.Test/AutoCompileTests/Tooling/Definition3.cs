@@ -1,4 +1,5 @@
 ﻿using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
-using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using static GalvanizedSoftware.Beethoven.Core.ReflectionConstants;
@@ -45,6 +44,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
       new Mapped<T>(baseObject, name).CreateMasterProperty();
 
     IEnumerator<ICodeGenerator> IEnumerable<ICodeGenerator>.GetEnumerator() =>
-       propertyDefinitions.OfType<ICodeGenerator>().GetEnumerator();
+      // ReSharper disable once SuspiciousTypeConversion.Global
+      propertyDefinitions.OfType<ICodeGenerator>().GetEnumerator();
   }
 }

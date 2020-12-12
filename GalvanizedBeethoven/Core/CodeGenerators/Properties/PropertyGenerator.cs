@@ -11,20 +11,15 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 {
   internal class PropertyGenerator : ICodeGenerator
   {
-    private readonly object[] definitions;
-    private readonly PropertyInfo propertyInfo;
     private readonly Type propertyType;
     private readonly string invokerName;
     private readonly string propertyInfoName;
-    private readonly GeneratorContext generatorContext;
     private readonly PropertyInvokerGenerator invorkerGenerator;
 
     internal PropertyGenerator(
       GeneratorContext generatorContext, PropertyInfo propertyInfo, PropertyDefinition propertyDefinition)
     {
-      definitions = propertyDefinition.Definitions;
-      this.generatorContext = generatorContext;
-      this.propertyInfo = propertyInfo;
+      object[] definitions = propertyDefinition.Definitions;
       propertyType = propertyInfo.PropertyType;
       propertyInfoName = propertyInfo.Name;
       invokerName = $"invoker{propertyInfoName}";

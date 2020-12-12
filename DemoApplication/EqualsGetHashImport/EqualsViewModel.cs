@@ -24,8 +24,6 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport
     private void Add()
     {
       IValueHolder value = factory.Create(Name, Value, Data?.Select(c => unchecked((byte)c)).ToArray());
-      int hash1 = value.GetHashCode();
-      int hash2 = valueHolders.LastOrDefault()?.GetHashCode() ?? 0;
       if (valueHolders.Contains(value))
         MessageBox.Show("Element already exists");
       valueHolders.Add(value);

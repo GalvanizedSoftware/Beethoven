@@ -20,8 +20,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      return Generate().Select(code => ((CodeType, string)?)(MethodsCode, code));
-      IEnumerable<string> Generate()
+      return GenerateLocal().Select(code => ((CodeType, string)?)(MethodsCode, code));
+      IEnumerable<string> GenerateLocal()
       {
         foreach (string line in new MethodSignatureGenerator(methodInfo).GenerateDeclaration())
           yield return line;

@@ -5,7 +5,7 @@ using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using static GalvanizedSoftware.Beethoven.Core.Fields.ContructorFieldsWrapperDefinition;
+using static GalvanizedSoftware.Beethoven.Core.ContructorFieldsWrapperDefinition;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Fields
@@ -17,7 +17,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
     private readonly IEnumerable<IDefinition> definitions;
 
     public static FieldDefinition CreateFromConstructorParameter<T>() =>
-      InternalCreate<T>(fieldDefinition => fieldDefinition.GetConstructorParameterDefinitions<T>());
+      InternalCreate<T>(fieldDefinition => fieldDefinition.GetConstructorParameterDefinitions());
 
     public static FieldDefinition CreateFromFactory<T>(Func<T> factoryFunc) =>
       InternalCreate<T>(fieldDefinition => fieldDefinition.GetFactoryDefinitions(factoryFunc));
@@ -41,7 +41,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
     public IDefinitions ImportInMain() =>
       new ImportedFieldDefinition(this, fieldName);
 
-    public IEnumerable<IDefinition> GetConstructorParameterDefinitions<T>()
+    public IEnumerable<IDefinition> GetConstructorParameterDefinitions()
     {
       yield return Create(generatorContext => new SimpleFieldGenerator(type, fieldName));
       yield return Create(generatorContext => new ParameterFieldGenerator(type, fieldName));

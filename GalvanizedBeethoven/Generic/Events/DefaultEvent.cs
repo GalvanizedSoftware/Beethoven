@@ -1,13 +1,13 @@
-﻿using GalvanizedSoftware.Beethoven.Core;
+﻿using System;
+using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
-using System;
-using System.Reflection;
 
-namespace GalvanizedSoftware.Beethoven.Generic.Properties
+namespace GalvanizedSoftware.Beethoven.Generic.Events
 {
   public class DefaultEvent : IDefinition
   {

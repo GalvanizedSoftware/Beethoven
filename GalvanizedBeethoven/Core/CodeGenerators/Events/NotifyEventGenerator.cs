@@ -17,8 +17,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      return Generate().Select(code => ((CodeType, string)?)(EventsCode, code));
-      IEnumerable<string> Generate()
+      return GenerateLocal().Select(code => ((CodeType, string)?)(EventsCode, code));
+      IEnumerable<string> GenerateLocal()
       {
         yield return "";
         yield return $"object {ClassGenerator.GeneratedClassName}.NotifyEvent(string eventName, object[] values)";

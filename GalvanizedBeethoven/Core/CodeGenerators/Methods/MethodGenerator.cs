@@ -24,19 +24,19 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
     public IEnumerable<(CodeType, string)?> Generate()
     {
       MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;
-      string methodName = $"{methodInfo.Name}{generatorContext.MethodIndex}";
-      string uniqueInvokerName = $"{generatorContext.GeneratedClassName}{methodName}_{new TagGenerator(generatorContext)}";
+      string methodName = $"{methodInfo?.Name}{generatorContext?.MethodIndex}";
+      string uniqueInvokerName = $"{generatorContext?.GeneratedClassName}{methodName}_{new TagGenerator(generatorContext)}";
       string invokerName = $"invoker{methodName}";
       ICodeGenerator invorkerGenerator = new MethodInvokerGenerator(
         uniqueInvokerName, methodInfo, invokerName, methodDefinition);
       return invorkerGenerator.Generate()
         .Concat(
-          Generate()
+          GenerateLocal()
             .Select(code => ((CodeType, string)?)(MethodsCode, code)));
-      IEnumerable<string> Generate()
+      IEnumerable<string> GenerateLocal()
       {
         ParameterInfo[] parameters = methodInfo.GetParametersSafe().ToArray();
-        Type returnType = methodInfo.ReturnType;
+        Type returnType = methodInfo?.ReturnType;
         MethodSignatureGenerator methodSignatureGenerator = new MethodSignatureGenerator(methodInfo);
         foreach (string line in methodSignatureGenerator.GenerateDeclaration())
           yield return line;

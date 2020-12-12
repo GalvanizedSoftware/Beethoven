@@ -1,12 +1,11 @@
-﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
-using GalvanizedSoftware.Beethoven.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
+using GalvanizedSoftware.Beethoven.Extensions;
 using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
-namespace GalvanizedSoftware.Beethoven.Generic.ConstructorParameters
+namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
 {
   internal class PropertyInitializedGenerator : ICodeGenerator
   {

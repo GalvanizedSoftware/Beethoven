@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Generic.Properties;
 using GalvanizedSoftware.Beethoven.Generic.Events;
 
 namespace GalvanizedSoftware.Beethoven.Test.EventTests

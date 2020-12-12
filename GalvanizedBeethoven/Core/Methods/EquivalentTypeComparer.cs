@@ -12,9 +12,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
       return x?.FullName == y?.FullName;
     }
 
-    public int GetHashCode(Type obj)
-    {
-      return obj?.FullName?.GetHashCode() ?? 0.GetHashCode();
-    }
+    public int GetHashCode(Type obj) => 
+      obj.FullName?.GetHashCode() ?? 0.GetHashCode();
   }
 }

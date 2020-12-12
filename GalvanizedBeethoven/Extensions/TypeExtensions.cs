@@ -38,17 +38,6 @@ namespace GalvanizedSoftware.Beethoven.Extensions
           .GetProperties(ResolveFlags))
         .DistinctProperties();
 
-    internal static EventInfo GetEventInfo(this Type type, string name) =>
-      type
-        .GetAllTypes()
-        .SelectMany(childType => childType.GetEvents(ResolveFlags))
-        .SingleOrDefault(eventInfo => eventInfo.Name == name);
-
-    internal static IEnumerable<EventInfo> GetEventInfos(this Type type) =>
-      type
-        .GetAllTypes()
-        .SelectMany(childType => childType.GetEvents(ResolveFlags));
-
     internal static IEnumerable<MethodInfo> GetNotSpecialMethods(this Type type) =>
       type.GetMethods(ResolveFlags)
         .Where(methodInfo => !methodInfo.IsSpecialName);
@@ -57,11 +46,6 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       type.GetAllTypes()
         .SelectMany(childType => childType
           .GetMethods(ResolveFlags));
-
-    internal static IEnumerable<MethodInfo> GetMethodsAndInherited(this Type type) =>
-      type.GetAllTypes()
-        .SelectMany(childType => childType.GetMethods(ResolveFlags))
-        .Where(info => !info.IsSpecialName);
 
     internal static object Create1(this Type type, Type genericType1, params object[] constructorParameters)
     {
@@ -75,10 +59,6 @@ namespace GalvanizedSoftware.Beethoven.Extensions
             .ToArray())?
           .Invoke(constructorParameters);
     }
-
-    internal static object InvokeStatic(this Type type, string methodName, params object[] parameters) =>
-      type.GetMethod(methodName, StaticResolveFlags)?
-        .Invoke(type, parameters);
 
     internal static object GetDefaultValue(this Type type) =>
       type == typeof(void) || !type.IsValueType ? null : Activator.CreateInstance(type);
@@ -115,23 +95,6 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 
     internal static bool IsByRefence(this Type type) =>
       type?.IsByRef == true;
-
-    internal static MemberInfo FindMember(this Type type, string name, int index)
-    {
-      return
-        type.FindMember(type => type.GetProperty(name)) ?? (MemberInfo)
-        type.FindMember(type => type.GetEventInfo(name)) ??
-        type.FindMember(type => type
-            .GetMethods()
-            .Where(method => method.Name == name)
-            .Where((_, i) => i == index)
-            .FirstOrDefault());
-    }
-
-    internal static T FindMember<T>(this Type type, Func<Type, T> predicate) where T : class => type
-        .GetAllTypes()
-        .Select(type => predicate(type))
-        .FirstOrDefault(value => value != null);
 
     internal static string GetFullName(this Type type) =>
       Type.GetTypeCode(type) switch
@@ -174,7 +137,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     internal static string GetFormattedName(this Type type) => $"{type.Name.Replace("`", "_")}";
 
     private static string GetGenericTypes(this Type type) =>
-      string.Join(",", type.GetGenericArguments().Select(type => type.GetFullName()));
+      string.Join(",", type.GetGenericArguments().Select(itemType => itemType.GetFullName()));
 
     private static bool IsGeneric(this Type type) =>
       type == typeof(AnyGenericType) || type.FullName == null;

@@ -16,7 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers
     internal static object CreateInvoker(string uniqueName)
     {
       invokers.TryGetValue(uniqueName, out Func<object> value);
-      return value();
+      return value?.Invoke();
     }
   }
 }

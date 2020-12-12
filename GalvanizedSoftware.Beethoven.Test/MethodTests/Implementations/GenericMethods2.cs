@@ -1,4 +1,7 @@
 ﻿using System;
+// ReSharper disable EventNeverSubscribedTo.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedParameter.Global
 
 namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
 {
@@ -27,6 +30,8 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
     {
     }
 
+#pragma warning disable 67
     public event Action<string> MethodCalled = delegate { };
+#pragma warning restore 67
   }
 }

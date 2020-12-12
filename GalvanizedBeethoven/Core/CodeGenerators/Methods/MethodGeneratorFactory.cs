@@ -44,7 +44,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 
     private ICodeGenerator GetMultiGenerator()
     {
-      IDefinition[] specificDefinitions = definitions
+      MethodDefinition[] specificDefinitions = definitions
         .Where(definition => definition.SortOrder <= 1)
         .ToArray();
       if (specificDefinitions.Length == 1)

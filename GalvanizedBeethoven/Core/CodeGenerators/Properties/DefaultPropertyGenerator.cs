@@ -20,9 +20,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
     private static readonly MethodInfo createMethodInfo =
       typeof(DefaultPropertyGenerator).GetMethod(nameof(CreateGeneric), ReflectionConstants.ResolveFlags);
 
-    private PropertyDefinition Create(Type type, string name) =>
-      (PropertyDefinition)createMethodInfo.Invoke(this, new object[] { name }, new[] { type });
-
     private PropertyDefinition Create(PropertyInfo propertyInfo) =>
       (PropertyDefinition)createMethodInfo.Invoke(this, new object[] { propertyInfo.Name }, new[] { propertyInfo.PropertyType });
 

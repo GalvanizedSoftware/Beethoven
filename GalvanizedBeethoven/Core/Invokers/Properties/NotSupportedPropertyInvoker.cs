@@ -1,7 +1,6 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
-using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
+﻿using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
 
-namespace GalvanizedSoftware.Beethoven.Core.Invokers
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
   internal class NotSupportedPropertyInvoker<T> : IPropertyInvoker<T>
   {

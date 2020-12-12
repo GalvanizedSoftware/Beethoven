@@ -1,8 +1,8 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Generic.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Generic.Events;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
 {

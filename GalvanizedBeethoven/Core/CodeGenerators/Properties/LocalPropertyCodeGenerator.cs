@@ -1,20 +1,15 @@
-﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Collections.Generic;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
+namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 {
   internal class LocalPropertyCodeGenerator : ICodeGenerator
   {
-    private readonly GeneratorContext generatorContext;
     private readonly ICodeGenerator innerCodeGenerator;
-    private readonly PropertyInfo propertyInfo;
 
-    public LocalPropertyCodeGenerator(GeneratorContext generatorContext, ICodeGenerator innerCodeGenerator, PropertyInfo propertyInfo)
+    public LocalPropertyCodeGenerator(ICodeGenerator innerCodeGenerator)
     {
-      this.generatorContext = generatorContext.CreateLocal(propertyInfo);
       this.innerCodeGenerator = innerCodeGenerator;
-      this.propertyInfo = propertyInfo;
     }
 
     public IEnumerable<(CodeType, string)?> Generate() =>
