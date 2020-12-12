@@ -50,8 +50,8 @@ namespace GalvanizedSoftware.Beethoven.Test.FieldTests
         .Compile();
       ITestProperties test1 = compiledTypeDefinition.Create(5);
       ITestProperties test2 = compiledTypeDefinition.Create(4);
-      //Assert.AreEqual(5, test1.Property1);
-      //Assert.AreEqual(4, test2.Property1);
+      Assert.AreEqual(5, test1.Property1);
+      Assert.AreEqual(4, test2.Property1);
     }
 
     [TestMethod]
