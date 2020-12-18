@@ -2,7 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="obj\GeneratedFiles\**\*.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DefinitionLibrary\DefinitionLibrary.csproj" />

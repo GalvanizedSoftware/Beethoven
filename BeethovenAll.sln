@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{0BD4BE8E-5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefinitionLibrary", "Test\DefinitionLibrary\DefinitionLibrary.csproj", "{5931AC5B-95EF-4C9F-B933-D36ECA50DDEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplementationLibrary", "Test\ImplementationLibrary\ImplementationLibrary.csproj", "{722E8C41-0F12-4117-9D96-07EE7800B710}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImplementationLibrary", "Test\ImplementationLibrary\ImplementationLibrary.csproj", "{722E8C41-0F12-4117-9D96-07EE7800B710}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +63,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{427D067D-91CF-43C3-BD58-111311C2234F} = {0BD4BE8E-54E0-4B7D-BADA-CF66164F67C3}
 		{5931AC5B-95EF-4C9F-B933-D36ECA50DDEA} = {0BD4BE8E-54E0-4B7D-BADA-CF66164F67C3}
 		{722E8C41-0F12-4117-9D96-07EE7800B710} = {0BD4BE8E-54E0-4B7D-BADA-CF66164F67C3}
 	EndGlobalSection
