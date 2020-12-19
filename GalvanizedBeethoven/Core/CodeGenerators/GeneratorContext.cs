@@ -26,14 +26,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 
     public int? MethodIndex { get; }
 
-    internal GeneratorContext CreateLocal() =>
-      new GeneratorContext(this);
-
     internal GeneratorContext CreateLocal<T>(T memberInfo, int? methodIndex = null) where T : MemberInfo =>
-      new GeneratorContext(
-        this,
-        memberInfo,
-        methodIndex);
+      new(this, memberInfo, methodIndex);
 
     public override int GetHashCode() =>
       ($"{GeneratedClassName}" + NewLine +
