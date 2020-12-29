@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
@@ -29,15 +28,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
     {
       this.nameDefinition = nameDefinition;
       this.definitions = definitions;
-      MemberInfo[] membersInfos = interfaceType
-        .GetAllTypes()
-        .SelectMany(type => type.GetMembers())
-        .Where(FilterMemberInfo)
-        .ToArray();
+      MemberInfoList memberInfoList = new(interfaceType);
       constructorGenerator = new ConstructorGenerator(nameDefinition.ClassName);
-      propertiesGenerator = new PropertyGenerators(membersInfos, definitions);
-      methodGenerators = new MethodGenerators(membersInfos, definitions);
-      eventGenerators = new EventGenerators(membersInfos, definitions);
+      propertiesGenerator = new PropertyGenerators(memberInfoList.PropertyInfos, definitions);
+      methodGenerators = new MethodGenerators(
+        memberInfoList.MethodInfos, memberInfoList.MethodIndexes, definitions);
+      eventGenerators = new EventGenerators(memberInfoList.EventInfos, definitions);
       generatorContext = new GeneratorContext(nameDefinition.ClassName, interfaceType);
     }
 
@@ -76,12 +72,5 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
         .GetGenerators(generatorContext)
         .SelectMany(codeGenerator => codeGenerator.Generate())
         .SkipNull();
-
-
-    private static bool FilterMemberInfo(MemberInfo memberInfo) => memberInfo switch
-    {
-      MethodInfo methodInfo => !methodInfo.IsSpecialName,
-      _ => true,
-    };
   }
 }
