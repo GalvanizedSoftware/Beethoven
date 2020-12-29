@@ -11,10 +11,10 @@ namespace GalvanizedSoftware.Beethoven
   public class TypeDefinition<T> where T : class
   {
     public static TypeDefinition<T> Create(params object[] newPartDefinitions) =>
-      new TypeDefinition<T>(new PartDefinitions(newPartDefinitions), null, null);
+      new(new PartDefinitions(newPartDefinitions), null, null);
 
     public static TypeDefinition<T> CreateNamed(string className, params object[] newPartDefinitions) =>
-      new TypeDefinition<T>(new PartDefinitions(newPartDefinitions), null, className);
+      new(new PartDefinitions(newPartDefinitions), null, className);
 
     private readonly NameDefinition nameDefinition;
     private readonly PartDefinitions partDefinitions;
@@ -32,8 +32,10 @@ namespace GalvanizedSoftware.Beethoven
     {
     }
 
+    internal static MemberInfoList MemberInfoList { get; } = new(typeof(T));
+
     private static NameDefinition GetNameDefinition(string classNamespace, string className) =>
-      new NameDefinition(
+      new(
         className ?? $"{typeof(T).GetFormattedName()}Implementation",
         classNamespace ?? $"{typeof(T).Namespace}"
       );
@@ -52,10 +54,10 @@ namespace GalvanizedSoftware.Beethoven
     }
 
     public TypeDefinition<T> Add(params object[] newImplementationObjects) =>
-       new TypeDefinition<T>(this, newImplementationObjects);
+       new(this, newImplementationObjects);
 
     public TypeDefinition<T> AddMethodMapper<TChild>(Func<T, TChild> creatorFunc) =>
-      new TypeDefinition<T>(this, new object[] { new MethodMapperCreator<T, TChild>(creatorFunc) });
+      new(this, new object[] { new MethodMapperCreator<T, TChild>(creatorFunc) });
 
     public CompiledTypeDefinition<T> Compile() =>
       CompileInternal(GetCallingAssembly());
@@ -63,8 +65,8 @@ namespace GalvanizedSoftware.Beethoven
     public T CreateNew(params object[] parameters) =>
       CompileInternal(GetCallingAssembly()).Create(parameters);
 
-    internal TypeDefinitionGeneratorOfT<T> CreateGenerator() => 
-      new TypeDefinitionGeneratorOfT<T>(nameDefinition, partDefinitions);
+    internal TypeDefinitionGeneratorOfT<T> CreateGenerator() =>
+      new(MemberInfoList, nameDefinition, partDefinitions);
 
     internal CompiledTypeDefinition<T> CompileInternal(Assembly callingAssembly)
     {
