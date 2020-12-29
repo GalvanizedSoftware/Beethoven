@@ -12,11 +12,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
     private readonly PropertyInfo[] propertyInfos;
     private readonly IEnumerable<IDefinition> definitions;
 
-    public PropertyGenerators(MemberInfo[] membersInfos, IEnumerable<IDefinition> definitions)
+    public PropertyGenerators(PropertyInfo[] propertyInfos, IEnumerable<IDefinition> definitions)
     {
-      propertyInfos = membersInfos
-        .OfType<PropertyInfo>()
-        .ToArray();
+      this.propertyInfos = propertyInfos;
       this.definitions = definitions;
     }
 

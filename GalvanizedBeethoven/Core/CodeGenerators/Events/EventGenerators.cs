@@ -11,11 +11,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
     private readonly EventInfo[] eventInfos;
     private readonly IDefinition[] definitions;
 
-    public EventGenerators(MemberInfo[] membersInfos, IEnumerable<IDefinition> definitions)
+    public EventGenerators(EventInfo[] eventInfos, IEnumerable<IDefinition> definitions)
     {
-      eventInfos = membersInfos
-        .OfType<EventInfo>()
-        .ToArray();
+      this.eventInfos = eventInfos;
       this.definitions = definitions.ToArray();
     }
 
