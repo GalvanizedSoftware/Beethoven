@@ -24,11 +24,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
     private readonly EventGenerators eventGenerators;
     private readonly GeneratorContext generatorContext;
 
-    public ClassGenerator(Type interfaceType, NameDefinition nameDefinition, IDefinition[] definitions)
+    public ClassGenerator(MemberInfoList memberInfoList, Type interfaceType, NameDefinition nameDefinition, IDefinition[] definitions)
     {
       this.nameDefinition = nameDefinition;
       this.definitions = definitions;
-      MemberInfoList memberInfoList = new(interfaceType);
       constructorGenerator = new ConstructorGenerator(nameDefinition.ClassName);
       propertiesGenerator = new PropertyGenerators(memberInfoList.PropertyInfos, definitions);
       methodGenerators = new MethodGenerators(
