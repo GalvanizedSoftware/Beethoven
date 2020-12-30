@@ -46,6 +46,14 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         action(item);
     }
 
+    internal static void ForEach<T1, T2>(this IEnumerable<(T1, T2)> collection, Action<T1, T2> action)
+    {
+      if (collection == null)
+        return;
+      foreach ((T1, T2) item in collection)
+        action(item.Item1, item.Item2);
+    }
+
     internal static IDefinition[] GetAllDefinitions(this IEnumerable<object> collection) =>
       collection
         .SelectMany(GetAllDefinitions)
