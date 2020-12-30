@@ -21,7 +21,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     {
       if (source == null)
         return false;
-      predicate = predicate ?? (item => item.Equals(true));
+      predicate ??= (item => item.Equals(true));
       bool result = false;
       foreach (TSource element in source)
       {
@@ -33,10 +33,10 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     }
 
     public static IEnumerable<T> ExceptIndex<T>(this IEnumerable<T> enumerable, int skipIndex) =>
-      enumerable.Where((item, i) => i != skipIndex);
+      enumerable.Where((_, i) => i != skipIndex);
 
     internal static string ToString(this IEnumerable<char> chars) =>
-      new string(chars.ToArray());
+      new(chars.ToArray());
 
     internal static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
     {
