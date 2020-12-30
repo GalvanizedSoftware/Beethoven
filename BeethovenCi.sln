@@ -7,6 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalvanizedSoftware.Beethove
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GalvanizedSoftware.Beethoven.Test", "GalvanizedSoftware.Beethoven.Test\GalvanizedSoftware.Beethoven.Test.csproj", "{427D067D-91CF-43C3-BD58-111311C2234F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{5D78820F-11BF-42EE-A182-02AA57C08DEA}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\CI-macos.yml = .github\workflows\CI-macos.yml
+		.github\workflows\CI-ubuntu.yml = .github\workflows\CI-ubuntu.yml
+		.github\workflows\CI-windows.yml = .github\workflows\CI-windows.yml
+		.github\workflows\manual-publish.yml = .github\workflows\manual-publish.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
