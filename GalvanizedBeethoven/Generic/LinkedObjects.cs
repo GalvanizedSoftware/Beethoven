@@ -51,11 +51,9 @@ namespace GalvanizedSoftware.Beethoven.Generic
 
     private MethodDefinition CreateMethod(MethodInfo methodInfo)
     {
-      if (methodInfo.Name == "Add")
-      {
-      }
       MethodDefinition[] localMethods = implementationMethods
-        .SelectMany(pair => CreateMethod(pair.Key, pair.Value, methodInfo))
+        .Select(pair => CreateMethod(pair.Key, pair.Value, methodInfo))
+        .SkipNull()
         .ToArray();
       return methodInfo.HasReturnType() ?
         (MethodDefinition)localMethods.Aggregate(
@@ -74,22 +72,16 @@ namespace GalvanizedSoftware.Beethoven.Generic
         _ => new PropertiesMapper(mainType, definition),
       };
 
-    private IEnumerable<MethodDefinition> CreateMethod(object definition, MethodInfo[] methodInfos, MethodInfo methodInfo)
-    {
-      switch (definition)
+    private MethodDefinition CreateMethod(object definition, MethodInfo[] methodInfos, MethodInfo methodInfo) =>
+      definition switch
       {
-        case MethodDefinition method:
-          if (method.MethodMatcher.IsNonGenericMatch(methodInfo))
-            yield return method;
-          break;
-        default:
-          MethodInfo actualMethodInfo = methodInfos
-            .FirstOrDefault(item => methodComparer.Equals(methodInfo, item));
-          if (actualMethodInfo != null)
-            yield return new MappedMethod(actualMethodInfo, definition);
-          break;
-      }
-    }
+        MethodDefinition method => 
+          method.MethodMatcher.IsNonGenericMatch(methodInfo) ? method : null,
+        _ => 
+          MappedMethod.Create(
+            methodInfos.FirstOrDefault(item => methodComparer.Equals(methodInfo, item)), 
+            definition)
+      };
 
     private static MethodInfo[] FindMethodInfos(object obj) =>
       obj is IDefinition ? null :
