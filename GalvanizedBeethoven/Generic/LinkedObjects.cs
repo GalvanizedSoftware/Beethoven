@@ -43,13 +43,10 @@ namespace GalvanizedSoftware.Beethoven.Generic
         }
         existingProperties.Add(property);
       }
-
-      foreach (KeyValuePair<string, List<PropertyDefinition>> pair in propertiesMap)
-      {
-        PropertyDefinition propertyDefinition = PropertyDefinition.Create(pair.Value.First().PropertyType, pair.Key, pair.Value);
-        if (propertyDefinition != null)
-          yield return propertyDefinition;
-      }
+      return  propertiesMap
+        .Select(pair => 
+          PropertyDefinition.Create(pair.Value.First().PropertyType, pair.Key, pair.Value))
+        .Where(propertyDefinition => propertyDefinition != null);
     }
 
     private MethodDefinition CreateMethod(MethodInfo methodInfo)
@@ -69,15 +66,13 @@ namespace GalvanizedSoftware.Beethoven.Generic
           (value, method) => value.Add(method));
     }
 
-    private IEnumerable<PropertyDefinition> CreateProperties(object definition)
-    {
-      return definition switch
+    private IEnumerable<PropertyDefinition> CreateProperties(object definition) =>
+      definition switch
       {
-        MethodDefinition _ => Array.Empty<PropertyDefinition>(),
+        MethodDefinition => Array.Empty<PropertyDefinition>(),
         PropertyDefinition property => new[] { property },
         _ => new PropertiesMapper(mainType, definition),
       };
-    }
 
     private IEnumerable<MethodDefinition> CreateMethod(object definition, MethodInfo[] methodInfos, MethodInfo methodInfo)
     {
@@ -96,19 +91,9 @@ namespace GalvanizedSoftware.Beethoven.Generic
       }
     }
 
-    private static MethodInfo[] FindMethodInfos(object obj)
-    {
-      switch (obj)
-      {
-        case IDefinition _:
-          return null;
-      }
-      return obj?
-        .GetType()
-        .GetAllTypes()
-        .SelectMany(type => type.GetNotSpecialMethods())
-        .ToArray();
-    }
+    private static MethodInfo[] FindMethodInfos(object obj) =>
+      obj is IDefinition ? null :
+      obj?.GetType().GetAllTypes().SelectMany(type => type.GetNotSpecialMethods()).ToArray();
 
     public IEnumerable<IDefinition> GetDefinitions()
     {
