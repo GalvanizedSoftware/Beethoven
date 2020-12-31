@@ -57,8 +57,8 @@ namespace GalvanizedSoftware.Beethoven.Generic
       if (methodInfo.Name == "Add")
       {
       }
-      MethodDefinition[] localMethods = (implementationMethods
-        .SelectMany(pair => CreateMethod(pair.Key, pair.Value, methodInfo)))
+      MethodDefinition[] localMethods = implementationMethods
+        .SelectMany(pair => CreateMethod(pair.Key, pair.Value, methodInfo))
         .ToArray();
       return methodInfo.HasReturnType() ?
         (MethodDefinition)localMethods.Aggregate(

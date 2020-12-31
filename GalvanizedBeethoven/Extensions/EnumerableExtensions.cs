@@ -21,7 +21,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     {
       if (source == null)
         return false;
-      predicate ??= (item => item.Equals(true));
+      predicate ??= item => item.Equals(true);
       bool result = false;
       foreach (TSource element in source)
       {

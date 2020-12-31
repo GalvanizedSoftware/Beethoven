@@ -20,13 +20,13 @@ namespace GalvanizedSoftware.Beethoven.Core
       if (callingAssembly.GetName().Name == "GalvanizedSoftware.Beethoven")
         throw new InvalidOperationException("callingAssembly is GalvanizedSoftware.Beethoven");
       assemblies =
-        (new[] 
+        new[] 
           {
             typeof(object).Assembly, 
             Assembly.Load(new AssemblyName("netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51")),
             mainAssembly, 
             callingAssembly 
-          })
+          }
           .Distinct()
           .ToArray();
       domainAssemblies = AppDomain.CurrentDomain.GetAssemblies();
