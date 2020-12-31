@@ -23,7 +23,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         null, methodInfo?.ReturnType.RemoveGeneric());
 
     public static bool IsMatchIgnoreGeneric(this IMethodMatcher methodMatcher, MethodInfo methodInfo, string name) =>
-      name == methodInfo.Name && methodMatcher.IsMatchIgnoreGeneric(methodInfo);
+      name == methodInfo?.Name && methodMatcher.IsMatchIgnoreGeneric(methodInfo);
 
     public static bool IsMatchEitherType(this IMethodMatcher methodMatcher,
       (Type, string)[] parameters, Type[] genericArguments, Type returnType) =>

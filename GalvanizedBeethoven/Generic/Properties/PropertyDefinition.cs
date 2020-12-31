@@ -55,12 +55,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     }
 
     public bool CanGenerate(MemberInfo memberInfo) =>
-      memberInfo switch
-      {
-        PropertyInfo propertyInfo =>
-            propertyInfo.Name == Name && propertyInfo.PropertyType == PropertyType,
-        _ => false,
-      };
+      memberInfo.Name == Name && (memberInfo as PropertyInfo)?.PropertyType == PropertyType;
 
     public ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
       new PropertyGenerator(generatorContext, generatorContext?.MemberInfo as PropertyInfo, this);

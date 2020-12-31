@@ -69,11 +69,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public int SortOrder => 2;
 
     public bool CanGenerate(MemberInfo memberInfo) =>
-      memberInfo switch
-      {
-        PropertyInfo _ => true,
-        _ => false,
-      };
+      memberInfo is PropertyInfo;
 
     public ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
       new DefaultPropertyGenerator(creators).GetGenerator(generatorContext);
