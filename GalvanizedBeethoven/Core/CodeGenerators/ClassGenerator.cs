@@ -6,6 +6,7 @@ using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
+using GalvanizedSoftware.Beethoven.Core.Definitions;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using static System.Environment;

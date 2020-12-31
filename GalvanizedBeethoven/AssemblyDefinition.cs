@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 
 namespace GalvanizedSoftware.Beethoven
 {
@@ -26,7 +27,7 @@ namespace GalvanizedSoftware.Beethoven
     }
 
     internal AssemblyDefinition Add<T>(TypeDefinitionGeneratorOfT<T> boundTypeDefinition) where T : class =>
-      new AssemblyDefinition(this, boundTypeDefinition);
+      new(this, boundTypeDefinition);
 
     internal Assembly GenerateAssembly(Assembly mainAssembly, Assembly callingAssembly) =>
       new Compiler(
