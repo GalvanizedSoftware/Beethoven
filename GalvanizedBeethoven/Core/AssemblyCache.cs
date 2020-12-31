@@ -9,9 +9,9 @@ namespace GalvanizedSoftware.Beethoven.Core
 {
   internal class AssemblyCache : IEnumerable<Assembly>
   {
-    private readonly List<Assembly> analyzingAssemblies = new List<Assembly>();
-    private readonly Dictionary<Assembly, Assembly[]> assemblyCache = new Dictionary<Assembly, Assembly[]>();
-    private readonly Dictionary<string, Assembly> loadedAssemblyNames = new Dictionary<string, Assembly>();
+    private readonly List<Assembly> analyzingAssemblies = new();
+    private readonly Dictionary<Assembly, Assembly[]> assemblyCache = new();
+    private readonly Dictionary<string, Assembly> loadedAssemblyNames = new();
     private readonly Assembly[] assemblies;
     private readonly Assembly[] domainAssemblies;
 
@@ -20,13 +20,13 @@ namespace GalvanizedSoftware.Beethoven.Core
       if (callingAssembly.GetName().Name == "GalvanizedSoftware.Beethoven")
         throw new InvalidOperationException("callingAssembly is GalvanizedSoftware.Beethoven");
       assemblies =
-        (new[] 
+        new[] 
           {
             typeof(object).Assembly, 
             Assembly.Load(new AssemblyName("netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51")),
             mainAssembly, 
             callingAssembly 
-          })
+          }
           .Distinct()
           .ToArray();
       domainAssemblies = AppDomain.CurrentDomain.GetAssemblies();

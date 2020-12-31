@@ -3,6 +3,7 @@ using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
@@ -20,15 +21,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public int SortOrder => 2;
 
     public bool CanGenerate(MemberInfo memberInfo) =>
-      memberInfo switch
-      {
-        PropertyInfo checkPropertyInfo =>
-             checkPropertyInfo.Name == this.propertyInfo.Name &&
-             checkPropertyInfo.PropertyType == this.propertyInfo.PropertyType,
-        _ => false,
-      };
+      memberInfo.IsMatch(propertyInfo);
 
     public ICodeGenerator GetGenerator(GeneratorContext _) =>
-      new FieldMappedPropertyGenerator( propertyInfo, fieldName);
+      new FieldMappedPropertyGenerator(propertyInfo, fieldName);
   }
 }

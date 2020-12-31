@@ -1,10 +1,10 @@
-﻿using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core
+namespace GalvanizedSoftware.Beethoven.Core.Definitions
 {
   class PartDefinitions
   {
@@ -16,7 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     }
 
     internal PartDefinitions Concat(object[] concatPartDefinitions) =>
-      new PartDefinitions(partDefinitions.Concat(concatPartDefinitions));
+      new(partDefinitions.Concat(concatPartDefinitions));
 
     internal void SetMainTypeUser(Type mainType) =>
       partDefinitions.OfType<IMainTypeUser>().SetAll(mainType);
@@ -27,8 +27,5 @@ namespace GalvanizedSoftware.Beethoven.Core
           new WrapperGenerator<T>(partDefinitions)
           .GetDefinitions())
           .ToArray();
-
-    public IEnumerable<IDefinition> GetDefinitions() =>
-      partDefinitions.OfType<IDefinition>();
   }
 }

@@ -28,7 +28,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     public LinkedMethods Add(MethodDefinition method) =>
-      new LinkedMethods(this, method);
+      new(this, method);
 
     public LinkedMethods Action(Action action) =>
       Add(new ActionMethod(Name, action));

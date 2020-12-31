@@ -7,7 +7,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
   internal class EquivalentMethodComparer : IEqualityComparer<MethodInfo>
   {
-    private readonly EquivalentTypeComparer equivalentTypeComparer = new EquivalentTypeComparer();
+    private readonly EquivalentTypeComparer equivalentTypeComparer = new();
 
     public bool Equals(MethodInfo x, MethodInfo y)
     {

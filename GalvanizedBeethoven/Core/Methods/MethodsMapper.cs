@@ -10,7 +10,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
   internal class MethodsMapper<T> : IEnumerable<MethodDefinition>, IDefinitions
   {
 
-    private static readonly MethodsMapperEngine methodsMapperEngine = new MethodsMapperEngine(typeof(T));
+    private static readonly MethodsMapperEngine methodsMapperEngine = new(typeof(T));
     private readonly MappedMethod[] methods;
 
     public MethodsMapper(object baseObject)

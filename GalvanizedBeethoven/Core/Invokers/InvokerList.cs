@@ -5,7 +5,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers
 {
   public static class InvokerList
   {
-    private static readonly Dictionary<string, Func<object>> invokers = new Dictionary<string, Func<object>>();
+    private static readonly Dictionary<string, Func<object>> invokers = new();
 
     internal static void SetFactory(string uniqueName, Func<object> factory)
     {

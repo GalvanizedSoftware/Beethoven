@@ -4,7 +4,7 @@ using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core
+namespace GalvanizedSoftware.Beethoven.Core.Definitions
 {
   internal class ContructorFieldsWrapperDefinition : IDefinition
   {

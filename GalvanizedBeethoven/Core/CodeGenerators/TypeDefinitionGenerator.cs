@@ -1,4 +1,4 @@
-﻿namespace GalvanizedSoftware.Beethoven.Core
+﻿namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 {
   public abstract class TypeDefinitionGenerator
   {

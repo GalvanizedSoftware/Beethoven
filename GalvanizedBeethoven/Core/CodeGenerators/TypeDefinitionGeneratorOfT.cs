@@ -1,9 +1,9 @@
-﻿using GalvanizedSoftware.Beethoven.Extensions;
+﻿using System;
+using GalvanizedSoftware.Beethoven.Core.Definitions;
+using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
-using System;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 
-namespace GalvanizedSoftware.Beethoven.Core
+namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 {
   internal class TypeDefinitionGeneratorOfT<T> : TypeDefinitionGenerator where T : class
   {

@@ -17,17 +17,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Events
     public int SortOrder => 2;
 
     public bool CanGenerate(MemberInfo memberInfo) =>
-      memberInfo switch
-      {
-        EventInfo _ => true,
-        _ => false,
-      };
-
+      memberInfo is EventInfo;
 
     public ICodeGenerator GetGenerator(GeneratorContext generatorContext)
     {
       EventInfo eventInfo = generatorContext?.MemberInfo as EventInfo;
-      return eventInfo == null ? null : 
+      return eventInfo == null ? null :
         Create(eventInfo.EventHandlerType, eventInfo.Name);
     }
 

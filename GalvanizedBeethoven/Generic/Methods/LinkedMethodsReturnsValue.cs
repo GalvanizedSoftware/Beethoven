@@ -30,14 +30,14 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     }
 
     public static LinkedMethodsReturnValue Create<T>(string name, int index = 0) =>
-      new LinkedMethodsReturnValue(typeof(T)
+      new(typeof(T)
         .GetAllMethods(name)
         .Where((_, i) => i == index)
         .FirstOrDefault());
 
 
     public LinkedMethodsReturnValue Add(MethodDefinition method) =>
-      new LinkedMethodsReturnValue(this, method);
+      new(this, method);
 
     public LinkedMethodsReturnValue SimpleFunc<TReturnType>(Func<TReturnType> func) =>
       Add(new SimpleFuncMethod<TReturnType>(Name, func));

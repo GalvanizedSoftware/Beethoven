@@ -1,11 +1,11 @@
 ﻿using System;
-using GalvanizedSoftware.Beethoven.Core.Methods;
-using GalvanizedSoftware.Beethoven.Core.Properties;
 using System.Collections.Generic;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Core.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core
+namespace GalvanizedSoftware.Beethoven.Core.Definitions
 {
   internal class WrapperGenerator<T> : IDefinitions where T : class
   {
@@ -22,13 +22,13 @@ namespace GalvanizedSoftware.Beethoven.Core
 
     public IEnumerable<IDefinition> GetDefinitions() => wrappers;
 
-    internal static IEnumerable<object> FilterNonDefinitions(object instance)
+    private static IEnumerable<object> FilterNonDefinitions(object instance)
     {
       switch (instance)
       {
         case null:
-        case IDefinition _:
-        case IEnumerable<IDefinition> __:
+        case IDefinition:
+        case IEnumerable<IDefinition>:
           break;
         default:
           yield return instance;
@@ -36,7 +36,7 @@ namespace GalvanizedSoftware.Beethoven.Core
       }
     }
 
-    internal static IEnumerable<IDefinition> GetDefinitionWrappers(object definition) =>
+    private static IEnumerable<IDefinition> GetDefinitionWrappers(object definition) =>
       Array.Empty<IDefinition>()
         .Concat(new PropertiesMapper(typeof(T), definition))
         .Concat(new MethodsMapper<T>(definition));

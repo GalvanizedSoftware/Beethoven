@@ -29,16 +29,16 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly (Type, string)[] localParameters;
 
     public static ActionMethod Create(string mainName, Action action) =>
-      new ActionMethod(mainName, GetValues(action));
+      new(mainName, GetValues(action));
 
     public static ActionMethod Create<T>(string mainName, Action<T> action) =>
-      new ActionMethod(mainName, GetValues(action));
+      new(mainName, GetValues(action));
 
     public static ActionMethod Create<T1, T2>(string mainName, Action<T1, T2> action) =>
-      new ActionMethod(mainName, GetValues(action));
+      new(mainName, GetValues(action));
 
     public static ActionMethod Create<T1, T2, T3>(string mainName, Action<T1, T2, T3> action) =>
-      new ActionMethod(mainName, GetValues(action));
+      new(mainName, GetValues(action));
 
     public ActionMethod(string mainName, Delegate action) :
       this(mainName, GetValues(action))

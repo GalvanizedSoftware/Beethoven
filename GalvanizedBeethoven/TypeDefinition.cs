@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+using GalvanizedSoftware.Beethoven.Core.Definitions;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
@@ -32,7 +34,7 @@ namespace GalvanizedSoftware.Beethoven
     {
     }
 
-    internal static MemberInfoList MemberInfoList { get; } = new(typeof(T));
+    private static MemberInfoList MemberInfoList { get; } = new(typeof(T));
 
     private static NameDefinition GetNameDefinition(string classNamespace, string className) =>
       new(
@@ -65,7 +67,7 @@ namespace GalvanizedSoftware.Beethoven
     public T CreateNew(params object[] parameters) =>
       CompileInternal(GetCallingAssembly()).Create(parameters);
 
-    internal TypeDefinitionGeneratorOfT<T> CreateGenerator() =>
+    private TypeDefinitionGeneratorOfT<T> CreateGenerator() =>
       new(MemberInfoList, nameDefinition, partDefinitions);
 
     internal CompiledTypeDefinition<T> CompileInternal(Assembly callingAssembly)

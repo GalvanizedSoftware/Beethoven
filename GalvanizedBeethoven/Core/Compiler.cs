@@ -41,14 +41,14 @@ namespace GalvanizedSoftware.Beethoven.Core
         .Select(assembly => MetadataReference.CreateFromFile(assembly.Location))
         .ToArray();
       SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);
-      CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+      CSharpCompilationOptions options = new(OutputKind.DynamicallyLinkedLibrary);
       CSharpCompilation compilation = CSharpCompilation.Create(
         assemblyName,
         new[] { syntaxTree },
         references,
         options);
-      using MemoryStream assemblyStream = new MemoryStream();
-      using MemoryStream pbdStream = new MemoryStream();
+      using MemoryStream assemblyStream = new();
+      using MemoryStream pbdStream = new();
       EmitResult result = compilation.Emit(assemblyStream, pbdStream);
       string[] errors = result
         .Diagnostics

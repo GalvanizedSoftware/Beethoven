@@ -16,6 +16,6 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Factories
     private Func<T> GetFunc<T>() => 
       masterInvoker is Func<T> func ? func : 
       masterInvoker is Func<object> funcObject ? (Func<T>)(() => (T)funcObject()) :
-        (() => default);
+        () => default;
   }
 }

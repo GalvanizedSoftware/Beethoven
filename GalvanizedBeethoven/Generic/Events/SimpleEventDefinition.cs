@@ -18,11 +18,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Events
     public int SortOrder => 1;
 
     public bool CanGenerate(MemberInfo memberInfo) =>
-      memberInfo switch
-      {
-        EventInfo eventInfo => eventInfo.Name == name,
-        _ => false,
-      };
+      (memberInfo as EventInfo)?.Name == name;
 
     public ICodeGenerator GetGenerator(GeneratorContext _) => new SimpleEventGenerator<T>(name);
   }

@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Binding;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+using GalvanizedSoftware.Beethoven.Core.Definitions;
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
@@ -15,8 +17,6 @@ namespace GalvanizedSoftware.Beethoven.Core
     }
 
     internal CompiledTypeDefinition<T> Link(Assembly assembly) => 
-      new CompiledTypeDefinition<T>(
-        assembly.GetType($"{nameDefinition.ClassNamespace}.{nameDefinition.ClassName}"), 
-        bindingParents);
+      new(assembly.GetType($"{nameDefinition.ClassNamespace}.{nameDefinition.ClassName}"), bindingParents);
   }
 }

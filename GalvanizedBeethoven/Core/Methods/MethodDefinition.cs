@@ -26,11 +26,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 
     public virtual int SortOrder => 1;
 
-    public bool CanGenerate(MemberInfo memberInfo) => memberInfo switch
-    {
-      MethodInfo methodInfo => MethodMatcher.IsMatchIgnoreGeneric(methodInfo, Name),
-      _ => false,
-    };
+    public bool CanGenerate(MemberInfo memberInfo) =>
+      MethodMatcher.IsMatchIgnoreGeneric(memberInfo as MethodInfo, Name);
 
     public ICodeGenerator GetGenerator(GeneratorContext _) => null;
   }

@@ -11,6 +11,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly object instance;
     private readonly MethodInfo methodInfo;
 
+    public static MappedMethod Create(MethodInfo methodInfo, object instance) => 
+      methodInfo is null ? 
+        null : 
+        new(methodInfo.Name, instance, methodInfo);
+
     public MappedMethod(string name, object instance) :
       this(name, instance, name)
     {

@@ -33,6 +33,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
       ($"{GeneratedClassName}" + NewLine +
       $"{InterfaceType.FullName}" + NewLine +
       $"{MemberInfo.Name}" + NewLine +
-      $"{(MethodIndex?.ToString(CultureInfo.InvariantCulture) ?? "")}").GetHashCode();
+      $"{MethodIndex?.ToString(CultureInfo.InvariantCulture) ?? ""}").GetHashCode();
   }
 }

@@ -37,12 +37,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       {
         ParameterInfo[] parameters = methodInfo.GetParametersSafe().ToArray();
         Type returnType = methodInfo?.ReturnType;
-        MethodSignatureGenerator methodSignatureGenerator = new MethodSignatureGenerator(methodInfo);
+        MethodSignatureGenerator methodSignatureGenerator = new(methodInfo);
         foreach (string line in methodSignatureGenerator.GenerateDeclaration())
           yield return line;
         yield return "{";
         string parametersName = $"{invokerName}Parameters";
-        ParametersGenerator parametersGenerator = new ParametersGenerator(parameters, parametersName);
+        ParametersGenerator parametersGenerator = new(parameters, parametersName);
         yield return parametersGenerator.GeneratePreInvoke().Format(1);
         string returnValueName = $"{invokerName}Result";
         yield return $"object {returnValueName} = {invokerName}.Invoke({GetGenericTypes(methodInfo)}, {parametersName});".Format(1);

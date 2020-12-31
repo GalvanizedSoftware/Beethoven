@@ -48,19 +48,14 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     private static PropertyDefinition CreateGeneric<T>(string name, PropertyDefinition[] propertyDefinitions)
     {
-      PropertyDefinition<T> propertyDefinition = new PropertyDefinition<T>(name);
+      PropertyDefinition<T> propertyDefinition = new(name);
       return propertyDefinitions.Length == 0 ?
         propertyDefinition :
         new PropertyDefinition<T>(propertyDefinition, propertyDefinitions.OfType<IPropertyDefinition<T>>().ToArray());
     }
 
     public bool CanGenerate(MemberInfo memberInfo) =>
-      memberInfo switch
-      {
-        PropertyInfo propertyInfo =>
-            propertyInfo.Name == Name && propertyInfo.PropertyType == PropertyType,
-        _ => false,
-      };
+      memberInfo?.Name == Name && (memberInfo as PropertyInfo)?.PropertyType == PropertyType;
 
     public ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
       new PropertyGenerator(generatorContext, generatorContext?.MemberInfo as PropertyInfo, this);

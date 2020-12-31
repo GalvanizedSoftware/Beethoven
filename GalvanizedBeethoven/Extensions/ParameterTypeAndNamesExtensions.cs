@@ -6,13 +6,9 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 {
   internal static class ParameterTypeAndNamesExtensions
   {
-    internal static IEnumerable<(Type, string)> AppendReturnValue(this IEnumerable<(Type, string)> parameterTypeAndNames, Type returnType)
-    {
-      if (returnType == null)
-        throw new NullReferenceException();
-      return (returnType == typeof(void) ?
+    internal static IEnumerable<(Type, string)> AppendReturnValue(this IEnumerable<(Type, string)> parameterTypeAndNames, Type returnType) =>
+      returnType == null || returnType == typeof(void) ?
         parameterTypeAndNames :
-        parameterTypeAndNames.Append((returnType.MakeByRefType(), "returnValue")));
-    }
+        parameterTypeAndNames.Append((returnType.MakeByRefType(), "returnValue"));
   }
 }
