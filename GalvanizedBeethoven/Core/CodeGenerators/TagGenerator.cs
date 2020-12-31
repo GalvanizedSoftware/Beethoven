@@ -5,7 +5,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 {
   internal class TagGenerator
   {
-    private static readonly HashSet<int> generated = new HashSet<int>();
+    private static readonly HashSet<int> generated = new();
     private readonly string hashCodeText;
 
     public TagGenerator(object master)

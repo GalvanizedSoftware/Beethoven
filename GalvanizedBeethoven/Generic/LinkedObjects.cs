@@ -14,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Generic
   public class LinkedObjects : IDefinitions, IMainTypeUser, IBindingParent
   {
     private readonly Dictionary<object, MethodInfo[]> implementationMethods;
-    private readonly ExactMethodComparer methodComparer = new ExactMethodComparer();
+    private readonly ExactMethodComparer methodComparer = new();
     private readonly object[] partDefinitions;
     private Type mainType;
 
@@ -32,7 +32,7 @@ namespace GalvanizedSoftware.Beethoven.Generic
 
     public IEnumerable<PropertyDefinition> GetProperties()
     {
-      Dictionary<string, List<PropertyDefinition>> propertiesMap = new Dictionary<string, List<PropertyDefinition>>();
+      Dictionary<string, List<PropertyDefinition>> propertiesMap = new();
       foreach (PropertyDefinition property in partDefinitions.SelectMany(CreateProperties))
       {
         string propertyName = property.Name;

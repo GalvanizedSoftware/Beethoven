@@ -14,13 +14,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly (Type, string)[] localParameters;
 
     public static FuncMethod Create<TReturn>(string mainName, Func<TReturn> func) =>
-      new FuncMethod(mainName, func);
+      new(mainName, func);
 
     public static FuncMethod Create<T1, TReturn>(string mainName, Func<T1, TReturn> func) =>
-      new FuncMethod(mainName, func);
+      new(mainName, func);
 
     public static FuncMethod Create<T1, T2, TReturn>(string mainName, Func<T1, T2, TReturn> func) =>
-      new FuncMethod(mainName, func);
+      new(mainName, func);
 
     public FuncMethod(string mainName, Delegate func) :
       this(mainName, func?.Target, func?.Method)

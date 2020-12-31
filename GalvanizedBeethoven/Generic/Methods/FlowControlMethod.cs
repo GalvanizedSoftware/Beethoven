@@ -12,13 +12,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     private readonly (Type, string)[] localParameters;
 
     public static FlowControlMethod Create(string name, Func<bool> func) =>
-      new FlowControlMethod(name, func);
+      new(name, func);
 
     public static FlowControlMethod Create<T1>(string name, Func<T1, bool> func) =>
-      new FlowControlMethod(name, func);
+      new(name, func);
 
     public static FlowControlMethod Create<T1, T2>(string name, Func<T1, T2, bool> func) =>
-      new FlowControlMethod(name, func);
+      new(name, func);
 
     internal FlowControlMethod(string name, Delegate func) :
       base(name, new MatchFlowControl())

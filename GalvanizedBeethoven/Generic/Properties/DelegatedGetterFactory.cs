@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     private static DelegatedGetter<T> CreateWithReflection<T>(object target, string methodName, string propertyName)
     {
-      return new DelegatedGetter<T>(CreateFunc<T>(target, target?
+      return new(CreateFunc<T>(target, target?
         .GetType()
         .GetMethod(methodName, ResolveFlags)
         .MakeGeneric<T>(), propertyName));

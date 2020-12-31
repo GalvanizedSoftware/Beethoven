@@ -48,7 +48,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     private static PropertyDefinition CreateGeneric<T>(string name, PropertyDefinition[] propertyDefinitions)
     {
-      PropertyDefinition<T> propertyDefinition = new PropertyDefinition<T>(name);
+      PropertyDefinition<T> propertyDefinition = new(name);
       return propertyDefinitions.Length == 0 ?
         propertyDefinition :
         new PropertyDefinition<T>(propertyDefinition, propertyDefinitions.OfType<IPropertyDefinition<T>>().ToArray());

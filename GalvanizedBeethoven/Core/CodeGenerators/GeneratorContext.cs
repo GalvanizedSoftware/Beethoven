@@ -27,10 +27,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
     public int? MethodIndex { get; }
 
     internal GeneratorContext CreateLocal() =>
-      new GeneratorContext(this);
+      new(this);
 
     internal GeneratorContext CreateLocal<T>(T memberInfo, int? methodIndex = null) where T : MemberInfo =>
-      new GeneratorContext(
+      new(
         this,
         memberInfo,
         methodIndex);
