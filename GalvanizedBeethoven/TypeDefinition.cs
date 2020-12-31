@@ -67,7 +67,7 @@ namespace GalvanizedSoftware.Beethoven
     public T CreateNew(params object[] parameters) =>
       CompileInternal(GetCallingAssembly()).Create(parameters);
 
-    private TypeDefinitionGeneratorOfT<T> CreateGenerator() =>
+    internal TypeDefinitionGeneratorOfT<T> CreateGenerator() =>
       new(MemberInfoList, nameDefinition, partDefinitions);
 
     internal CompiledTypeDefinition<T> CompileInternal(Assembly callingAssembly)
