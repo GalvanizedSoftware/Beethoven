@@ -7,21 +7,25 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Definitions;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   public class DefaultProperty : IDefinition
   {
     private readonly Func<Type, string, object>[] creators;
+    private readonly DefaultPropertyDefinitions propertyDefinitions;
 
     public DefaultProperty()
     {
       creators = Array.Empty<Func<Type, string, object>>();
+      propertyDefinitions = new DefaultPropertyDefinitions(creators);
     }
 
     public DefaultProperty(DefaultProperty previous, Func<Type, string, object> creator)
     {
       creators = previous?.creators.Concat(new[] { creator }).ToArray();
+      propertyDefinitions = new DefaultPropertyDefinitions(creators);
     }
 
     public DefaultProperty ValidityCheck(object target, string methodName) =>
@@ -72,6 +76,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       memberInfo is PropertyInfo;
 
     public ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
-      new DefaultPropertyGenerator(creators).GetGenerator(generatorContext);
+      new DefaultPropertyGenerator(propertyDefinitions).GetGenerator(generatorContext);
   }
 }
