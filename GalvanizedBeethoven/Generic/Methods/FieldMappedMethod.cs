@@ -22,7 +22,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public int SortOrder => 2;
 
     public bool CanGenerate(MemberInfo memberInfo) =>
-      methodMatcher.IsMatchIgnoreGeneric((memberInfo as MethodInfo), memberInfo.Name);
+      methodMatcher.IsMatchIgnoreGeneric(memberInfo as MethodInfo, memberInfo?.Name);
 
     public ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
       new FieldMappedMethodGenerator(fieldName, generatorContext);
