@@ -23,7 +23,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Definitions
       typeof(DefaultPropertyDefinitions).GetMethod(nameof(CreateGeneric), ReflectionConstants.ResolveFlags);
 
     private PropertyDefinition<T> CreateGeneric<T>(string name) =>
-      creators.Aggregate(new PropertyDefinition<T>(name),
-        (property, creator) => new PropertyDefinition<T>(property, (IPropertyDefinition<T>)creator(typeof(T), name)));
+      creators.Aggregate(SingleDefaultProperty<T>.CreateInstance(name),
+        (property, creator) => new(property, (IPropertyDefinition<T>)creator(typeof(T), name)));
   }
 }

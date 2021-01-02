@@ -22,10 +22,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
     public void Set(Type setMainType) =>
       mainType = setMainType;
 
-    public IEnumerable<IDefinition> GetDefinitions() =>
+    public IEnumerable<IDefinition> GetDefinitions<TInterface>() where TInterface : class =>
        master
-        .GetDefinitions()
-        .Concat(new FieldMappedMethods(fieldName, mainType).GetDefinitions())
-        .Concat(new FieldMappedProperties(fieldName, mainType).GetDefinitions());
+        .GetDefinitions<TInterface>()
+        .Concat(new FieldMappedMethods(fieldName, mainType).GetDefinitions<TInterface>())
+        .Concat(new FieldMappedProperties(fieldName, mainType).GetDefinitions<TInterface>());
   }
 }

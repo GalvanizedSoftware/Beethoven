@@ -22,8 +22,13 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
         propertyDefinitions = GetAllMembers(type, baseObject).ToArray();
     }
 
-    public IEnumerator<PropertyDefinition> GetEnumerator() =>
-      propertyDefinitions.AsEnumerable().GetEnumerator();
+    public IEnumerator<PropertyDefinition> GetEnumerator()
+    {
+      if (propertyDefinitions == null)
+        yield break;
+      foreach (PropertyDefinition propertyDefinition in propertyDefinitions)
+        yield return propertyDefinition;
+    }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

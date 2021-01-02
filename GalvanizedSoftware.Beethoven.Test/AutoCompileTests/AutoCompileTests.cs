@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GalvanizedSoftware.Beethoven.Test.AutoCompileTests
 {
-  [TestClass]
+  //[TestClass]
   public class AutoCompileTests
   {
 

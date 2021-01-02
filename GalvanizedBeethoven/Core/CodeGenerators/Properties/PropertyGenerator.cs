@@ -14,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
     private readonly Type propertyType;
     private readonly string invokerName;
     private readonly string propertyInfoName;
-    private readonly PropertyInvokerGenerator invorkerGenerator;
+    private readonly PropertyInvokerGenerator invokerGenerator;
 
     internal PropertyGenerator(
       GeneratorContext generatorContext, PropertyInfo propertyInfo, PropertyDefinition propertyDefinition)
@@ -23,15 +23,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       propertyType = propertyInfo.PropertyType;
       propertyInfoName = propertyInfo.Name;
       invokerName = $"invoker{propertyInfoName}";
-      invorkerGenerator = new PropertyInvokerGenerator(
-        $"{generatorContext.GeneratedClassName}{propertyInfoName}{new TagGenerator(generatorContext)}",
-        invokerName,
-        propertyType,
-        definitions);
+      invokerGenerator = new PropertyInvokerGenerator(invokerName,
+        propertyType);
     }
 
     public IEnumerable<(CodeType, string)?> Generate() =>
-      invorkerGenerator.Generate()
+      invokerGenerator.Generate()
         .Concat(
           GeneratePropertyCode().TagCode(PropertiesCode));
 

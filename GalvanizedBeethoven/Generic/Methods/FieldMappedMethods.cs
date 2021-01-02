@@ -17,7 +17,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       this.mainType = mainType;
     }
 
-    public IEnumerable<IDefinition> GetDefinitions() =>
+    public IEnumerable<IDefinition> GetDefinitions<TInterface>() where TInterface : class =>
       mainType
         .GetAllMethodsAndInherited()
         .Select(methodInfo => new FieldMappedMethod(methodInfo, fieldName));

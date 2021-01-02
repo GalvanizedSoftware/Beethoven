@@ -7,11 +7,11 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.Definitions
 {
-  internal class WrapperGenerator<T> : IDefinitions where T : class
+  internal class MappedDefinitions<T> : IDefinitions where T : class
   {
     private readonly IEnumerable<IDefinition> wrappers;
 
-    internal WrapperGenerator(object[] partDefinitions)
+    internal MappedDefinitions(object[] partDefinitions)
     {
       wrappers = partDefinitions
         .SelectMany(FilterNonDefinitions)
@@ -20,7 +20,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Definitions
       PropertiesSignatureChecker<T>.CheckSignatures(this);
     }
 
-    public IEnumerable<IDefinition> GetDefinitions() => wrappers;
+    public IEnumerable<IDefinition> GetDefinitions<TInterface>() where TInterface : class => 
+      wrappers;
 
     private static IEnumerable<object> FilterNonDefinitions(object instance)
     {

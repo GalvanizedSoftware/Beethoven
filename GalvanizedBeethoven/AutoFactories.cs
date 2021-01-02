@@ -12,48 +12,61 @@ namespace GalvanizedSoftware.Beethoven
     public static AutoFactories CreateFactories(Assembly assembly)
     {
       Type[] types = assembly?.GetTypes() ?? Array.Empty<Type>();
-      (Type, Func<object>)[] factories =
+      MemberInfo[] factoryMethods =
         GetConstructorFactories(types)
           .Concat(GetMethodFactories(types))
           .ToArray();
+      (Type, object, MemberInfo)[] factories = factoryMethods
+        .Select(CreateFactory)
+        .ToArray();
       return factories.Length == 0 ? null : new AutoFactories(factories);
     }
 
     private const string InterfaceName = "GalvanizedSoftware.Beethoven.Interfaces.IFactoryDefinition";
 
-    private AutoFactories((Type, Func<object>)[] factories)
+    private AutoFactories((Type, object, MemberInfo)[] factories)
     {
       Factories = factories;
     }
 
-    public (Type, Func<object>)[] Factories { get; }
+    public (Type, object, MemberInfo)[] Factories { get; }
 
-    public TypeDefinition<T> CreateTypeDefinition<T>() where T : class =>
-      TypeDefinition<T>.CreateFromFactoryDefinition(Factories
-        .FirstOrDefault(tuple => tuple.Item1 == typeof(T))
-        .Item2?
-        .Invoke() as IFactoryDefinition<T>);
+    public TypeDefinition<T> CreateTypeDefinition<T>() where T : class
+    {
+      (_, object factoryDefinition, MemberInfo memberInfo) = Factories
+        .FirstOrDefault(tuple => tuple.Item1 == typeof(T));
+      return TypeDefinition<T>.CreateFromFactoryDefinition(
+        factoryDefinition as IFactoryDefinition<T>,
+        memberInfo);
+    }
 
-    private static IEnumerable<(Type, Func<object>)> GetConstructorFactories(Type[] types) => types
+    private static (Type, object, MemberInfo) CreateFactory(MemberInfo memberInfo) =>
+      memberInfo switch
+      {
+        ConstructorInfo constructorInfo =>
+          (FindInterface(constructorInfo.DeclaringType), CreateFactory(constructorInfo), memberInfo),
+        MethodInfo methodInfo =>
+          (FindInterface(methodInfo.ReturnType), CreateFactory(methodInfo), memberInfo),
+        _ => default
+      };
+
+    private static IEnumerable<MemberInfo> GetConstructorFactories(Type[] types) => types
               .Select(type => type.GetConstructor(Array.Empty<Type>()))
-              .Where(IsFactory)
-              .Select(constructorInfo =>
-                (FindInterface(constructorInfo.DeclaringType), CreateFactory(constructorInfo)));
+              .Where(IsFactory);
 
-    private static IEnumerable<(Type, Func<object>)> GetMethodFactories(Type[] types) => types
+    private static IEnumerable<MemberInfo> GetMethodFactories(Type[] types) => types
               .SelectMany(type => type.GetMethods())
               .Where(IsFactory)
-              .Where(methodInfo => methodInfo.GetParameters().Length == 0)
-              .Select(methodInfo => (FindInterface(methodInfo.ReturnType), CreateFactory(methodInfo)));
+              .Where(methodInfo => methodInfo.GetParameters().Length == 0);
 
     private static bool IsFactory(MemberInfo memberInfo) =>
       memberInfo?.GetCustomAttribute<FactoryAttribute>() != null;
 
-    private static Func<object> CreateFactory(ConstructorInfo constructorInfo) =>
-      () => constructorInfo.Invoke(Array.Empty<object>());
+    private static object CreateFactory(ConstructorInfo constructorInfo) =>
+      constructorInfo.Invoke(Array.Empty<object>());
 
-    private static Func<object> CreateFactory(MethodInfo methodInfo) =>
-      () => methodInfo.Invoke(methodInfo.DeclaringType, Array.Empty<object>());
+    private static object CreateFactory(MethodInfo methodInfo) =>
+      methodInfo.Invoke(methodInfo.DeclaringType, Array.Empty<object>());
 
     private static Type FindInterface(Type type) =>
       type

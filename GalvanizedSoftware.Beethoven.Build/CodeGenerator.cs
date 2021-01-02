@@ -1,38 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Interfaces;
+using static GalvanizedSoftware.Beethoven.Core.ReflectionConstants;
 
 namespace GalvanizedSoftware.Beethoven.Build
 {
   internal class CodeGenerator
   {
-    private static readonly MethodInfo generateCodeInternalMethod;
-      //= typeof(BeethovenFactory)
-      //.GetMethods(ReflectionConstants.ResolveFlags)
-      //.Where(info => info.Name == nameof(GenerateCode))
-      //.First(info => info.IsGenericMethod);
-    private readonly object factory;
+    private static readonly MethodInfo generateCodeInternalMethod = typeof(CodeGenerator)
+      .GetMethods(ResolveFlags)
+      .Where(info => info.Name == nameof(GenerateCode))
+      .FirstOrDefault(info => info.IsGenericMethod);
+   private readonly object factory;
     private readonly MethodInfo generateMethod;
+    private readonly MemberInfo factoryMemberInfo;
 
-    static CodeGenerator()
-    {
-      MethodInfo[] methodInfos = typeof(CodeGenerator)
-        .GetMethods(ReflectionConstants.ResolveFlags);
-      IEnumerable<MethodInfo> enumerable = methodInfos
-        .Where(info => info.Name == nameof(GenerateCode));
-      generateCodeInternalMethod = enumerable
-        .FirstOrDefault(info => info.IsGenericMethod);
-    }
-
-    internal static CodeGenerator Create(Type type, object factory) => 
-      new CodeGenerator(factory, generateCodeInternalMethod.MakeGenericMethod(type));
-    private CodeGenerator(object factory, MethodInfo generateMethod)
+    internal static CodeGenerator Create(Type type, object factory, MemberInfo factoryMemberInfo) =>
+      new CodeGenerator(factory, generateCodeInternalMethod.MakeGenericMethod(type), factoryMemberInfo);
+    private CodeGenerator(object factory, MethodInfo generateMethod, MemberInfo factoryMemberInfo)
     {
       this.factory = factory;
       this.generateMethod = generateMethod;
+      this.factoryMemberInfo = factoryMemberInfo;
     }
 
     public (string filename, string code) GenerateCode() =>
@@ -42,12 +32,12 @@ namespace GalvanizedSoftware.Beethoven.Build
     {
       IFactoryDefinition<T> factoryDefinition = factory as IFactoryDefinition<T>;
       TypeDefinition<T> typeDefinition = TypeDefinition<T>
-        .CreateFromFactoryDefinition(factoryDefinition);
+        .CreateFromFactoryDefinition(factoryDefinition, factoryMemberInfo);
       if (factoryDefinition == null)
         return (null, null);
       return
       (
-        factoryDefinition.ClassName, 
+        factoryDefinition.ClassName,
         typeDefinition.CreateGenerator().Generate()
       );
     }

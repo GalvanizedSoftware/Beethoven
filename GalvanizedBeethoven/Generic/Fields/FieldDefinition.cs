@@ -5,8 +5,8 @@ using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using static GalvanizedSoftware.Beethoven.Core.Definitions.ContructorFieldsWrapperDefinition;
 using GalvanizedSoftware.Beethoven.Interfaces;
+using static GalvanizedSoftware.Beethoven.Core.Definitions.ConstructorFieldsWrapperDefinition;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Fields
 {
@@ -20,22 +20,31 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
       InternalCreate<T>(fieldDefinition => fieldDefinition.GetConstructorParameterDefinitions());
 
     public static FieldDefinition CreateFromFactory<T>(Func<T> factoryFunc) =>
-      InternalCreate<T>(fieldDefinition => fieldDefinition.GetFactoryDefinitions(factoryFunc));
+      InternalCreate(fieldDefinition => fieldDefinition.GetFactoryDefinitions(), factoryFunc);
 
-    private static FieldDefinition InternalCreate<T>(Func<FieldDefinition, IEnumerable<IDefinition>> definitionFactoryFunc)
+    private static FieldDefinition InternalCreate<T>(Func<FieldDefinition,
+      IEnumerable<IDefinition>> definitionFactoryFunc, Func<T> factoryFunc = null)
     {
       Type type = typeof(T);
       string formattedName = type.GetFormattedName();
       string fieldName = $"field{formattedName}{new TagGenerator(formattedName)}";
-      return new FieldDefinition(type, fieldName, definitionFactoryFunc);
+      string invokerName = $"invoker{formattedName}";
+
+      Func<object> factoryFuncLocal = factoryFunc == null ?
+        () => null :
+        () => factoryFunc();
+      return new(type, fieldName, definitionFactoryFunc, invokerName, factoryFuncLocal);
     }
 
     private FieldDefinition(Type type, string fieldName,
-        Func<FieldDefinition, IEnumerable<IDefinition>> definitionFactoryFunc)
+        Func<FieldDefinition, IEnumerable<IDefinition>> definitionFactoryFunc,
+        string invokerName, Func<object> factoryFunc)
     {
       this.type = type;
       this.fieldName = fieldName;
-      definitions = definitionFactoryFunc(this).ToArray();
+      definitions = definitionFactoryFunc(this)
+        .Append(new FieldInstanceFactory(fieldName, factoryFunc))
+        .ToArray();
     }
 
     public IDefinitions ImportInMain() =>
@@ -47,12 +56,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
       yield return Create(_ => new ParameterFieldGenerator(type, fieldName));
     }
 
-    public IEnumerable<IDefinition> GetFactoryDefinitions<T>(Func<T> factoryFunc)
+    public IEnumerable<IDefinition> GetFactoryDefinitions()
     {
-      yield return Create(generatorContext => 
-      new FactoryFieldGenerator(type, fieldName, generatorContext, () => factoryFunc()));
+      yield return Create(_ => new FactoryFieldGenerator(type, fieldName));
     }
 
-    public IEnumerable<IDefinition> GetDefinitions() => definitions;
+    public IEnumerable<IDefinition> GetDefinitions<TInterface>() where TInterface : class => definitions;
   }
 }

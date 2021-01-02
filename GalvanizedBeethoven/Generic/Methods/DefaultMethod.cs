@@ -36,7 +36,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public void Set(Type setMainType) =>
       mainType = setMainType;
 
-    public IEnumerable<IDefinition> GetDefinitions() => 
+    public IEnumerable<IDefinition> GetDefinitions<TInterface>() where TInterface : class => 
       mainType
         .GetAllMethodsAndInherited()
         .Select(methodInfo => new MappedDefaultMethod(methodInfo, mainFunc));

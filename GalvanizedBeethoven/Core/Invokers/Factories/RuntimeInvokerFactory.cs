@@ -8,7 +8,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Factories
 
     public RuntimeInvokerFactory(string uniqueName)
     {
-      masterInvoker = InvokerList.CreateInvoker(uniqueName);
+      //masterInvoker = InstanceList.GetInstance(uniqueName);
     }
 
     public T Create<T>() => GetFunc<T>()();

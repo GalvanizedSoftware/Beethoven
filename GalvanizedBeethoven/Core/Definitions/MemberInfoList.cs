@@ -4,11 +4,11 @@ using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Extensions;
 
-namespace GalvanizedSoftware.Beethoven.Core
+namespace GalvanizedSoftware.Beethoven.Core.Definitions
 {
   internal class MemberInfoList
   {
-    public MemberInfoList(Type interfaceType)
+    internal MemberInfoList(Type interfaceType)
     {
       MemberInfo[] membersInfos = interfaceType
         .GetAllTypes()
@@ -51,5 +51,8 @@ namespace GalvanizedSoftware.Beethoven.Core
           .Select(tuple => tuple.index)
           .FirstOrDefault();
     }
+
+    public string GetMethodInvokerName(MethodInfo methodInfo) => 
+      $"invoker{methodInfo?.Name}{MethodIndexes.TryGetValue(methodInfo)}";
   }
 }

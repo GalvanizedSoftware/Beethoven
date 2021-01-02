@@ -6,8 +6,8 @@
 
     public MethodInvoker(string uniqueName)
     {
-      masterInvoker = InvokerList.CreateInvoker(uniqueName) as IMethodInvoker ??
-        new NotImplementedMethodInvoker();
+      //masterInvoker = InstanceList.GetInstance(uniqueName) as IMethodInvoker ??
+      //  new NotImplementedMethodInvoker();
     }
 
     public IMethodInvokerInstance CreateInstance(object master) =>

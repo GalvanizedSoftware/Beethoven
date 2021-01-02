@@ -17,7 +17,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.mainType = mainType;
     }
 
-    public IEnumerable<IDefinition> GetDefinitions() =>
+    public IEnumerable<IDefinition> GetDefinitions<TInterface>() where TInterface : class =>
       mainType
         .GetAllTypes()
         .SelectMany(type => type.GetProperties())

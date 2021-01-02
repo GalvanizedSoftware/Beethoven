@@ -37,9 +37,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       IDefinition[] specificPropertyDefinitions = definitions
         .Where(definition => definition.SortOrder <= 1)
         .ToArray();
-      return specificPropertyDefinitions.Length == 1 ? 
-        GetSingleGenerator(specificPropertyDefinitions.Single()) : 
-        throw new MissingMethodException($"Multiple implementation of {propertyInfo.Name} found");
+      if (specificPropertyDefinitions.Length == 1)
+        return GetSingleGenerator(specificPropertyDefinitions.Single());
+      throw new MissingMethodException($"Multiple implementation of {propertyInfo.Name} found");
     }
   }
 }

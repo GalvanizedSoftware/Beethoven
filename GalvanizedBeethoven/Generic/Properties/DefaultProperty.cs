@@ -1,17 +1,14 @@
-﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
-using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
-using GalvanizedSoftware.Beethoven.Extensions;
+﻿using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic.ValueLookup;
-using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Definitions;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
-  public class DefaultProperty : IDefinition
+  public class DefaultProperty : IDefinitions
   {
     private readonly Func<Type, string, object>[] creators;
     private readonly DefaultPropertyDefinitions propertyDefinitions;
@@ -19,13 +16,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public DefaultProperty()
     {
       creators = Array.Empty<Func<Type, string, object>>();
-      propertyDefinitions = new DefaultPropertyDefinitions(creators);
+      propertyDefinitions = new(creators);
     }
 
     public DefaultProperty(DefaultProperty previous, Func<Type, string, object> creator)
     {
       creators = previous?.creators.Concat(new[] { creator }).ToArray();
-      propertyDefinitions = new DefaultPropertyDefinitions(creators);
+      propertyDefinitions = new(creators);
     }
 
     public DefaultProperty ValidityCheck(object target, string methodName) =>
@@ -70,12 +67,15 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public DefaultProperty LazyCreator<T>(Func<object> creatorFunc) =>
       new(this, (type, name) => LazyCreatorFactory.CreateIfMatch<T>(type, creatorFunc));
 
-    public int SortOrder => 2;
+    //public override ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
+    //  new DefaultPropertyGenerator(new(creators)).GetGenerator(generatorContext);
 
-    public bool CanGenerate(MemberInfo memberInfo) => 
-      memberInfo is PropertyInfo;
-
-    public ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
-      new DefaultPropertyGenerator(propertyDefinitions).GetGenerator(generatorContext);
+    public IEnumerable<IDefinition> GetDefinitions<TInterface>() where TInterface : class
+    {
+      MemberInfoList memberInfoList = MemberInfoListCache.Get<TInterface>();
+      return memberInfoList
+        .PropertyInfos
+        .Select(propertyInfo => propertyDefinitions.Create(propertyInfo));
+    }
   }
 }

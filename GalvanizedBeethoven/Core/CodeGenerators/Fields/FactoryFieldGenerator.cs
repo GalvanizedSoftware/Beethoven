@@ -1,5 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Invokers;
-using GalvanizedSoftware.Beethoven.Extensions;
+﻿using GalvanizedSoftware.Beethoven.Extensions;
 using System;
 using System.Collections.Generic;
 using static GalvanizedSoftware.Beethoven.Core.GeneratorHelper;
@@ -11,25 +10,20 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
   internal class FactoryFieldGenerator : ICodeGenerator
   {
     private readonly string fieldName;
-    private readonly Func<object> factoryFunc;
     private readonly string typeName;
-    private readonly string generatedClassName;
 
-    public FactoryFieldGenerator(Type type, string fieldName, GeneratorContext generatorContext, Func<object> factoryFunc)
+    public FactoryFieldGenerator(Type type, string fieldName)
     {
       this.fieldName = fieldName;
-      this.factoryFunc = factoryFunc;
-      generatedClassName = generatorContext?.GeneratedClassName;
       typeName = type.GetFullName();
     }
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      yield return (FieldsCode, $@"{typeName} {fieldName};");
-      string uniqueBackingId = $"{generatedClassName}{fieldName}Factory";
-      InvokerList.SetFactory(uniqueBackingId, () => factoryFunc);
+      yield return (FieldsCode, 
+        $@"{typeName} {fieldName};");
       yield return (ConstructorCode,
-        $@"{fieldName} = new {InvokerTypeName}(""{ uniqueBackingId}"").Create <{ typeName}> (); ");
+        $@"{fieldName} = {InstanceListName}.GetInstance<{typeName}>(""{fieldName}""); ");
     }
   }
 }

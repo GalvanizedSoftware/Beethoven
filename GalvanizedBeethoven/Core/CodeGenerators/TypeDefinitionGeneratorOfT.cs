@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GalvanizedSoftware.Beethoven.Core.Definitions;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
@@ -16,8 +17,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
     {
       this.nameDefinition = nameDefinition;
       this.memberInfoList = memberInfoList;
-      AllDefinitions = partDefinitions.GetAll<T>();
-      definitions = AllDefinitions.GetAllDefinitions();
+      AllDefinitions = partDefinitions.ToArray();
+      definitions = AllDefinitions.GetAllDefinitions<T>();
     }
 
     internal object[] AllDefinitions { get; }

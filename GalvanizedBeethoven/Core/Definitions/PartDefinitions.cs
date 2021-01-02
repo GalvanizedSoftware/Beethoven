@@ -1,12 +1,13 @@
-﻿using System;
+﻿using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Interfaces;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.Definitions
 {
-  class PartDefinitions
+  internal class PartDefinitions : IEnumerable<object>
   {
     private readonly object[] partDefinitions;
 
@@ -15,17 +16,39 @@ namespace GalvanizedSoftware.Beethoven.Core.Definitions
       partDefinitions = newPartDefinitions.ToArray();
     }
 
-    internal PartDefinitions Concat(object[] concatPartDefinitions) =>
+    internal PartDefinitions Concat(params object[] concatPartDefinitions) =>
       new(partDefinitions.Concat(concatPartDefinitions));
+
+    public PartDefinitions Set<T>(T definition) where T : class =>
+      new(partDefinitions
+        .Where(o => o is not T)
+        .Append(definition));
 
     internal void SetMainTypeUser(Type mainType) =>
       partDefinitions.OfType<IMainTypeUser>().SetAll(mainType);
 
-    internal object[] GetAll<T>() where T : class =>
-      partDefinitions
+    //internal PartDefinitions GetAll<T>() where T : class
+    //{
+    //  object[] definitions = partDefinitions
+    //    .Concat(
+    //      new MappedDefinitions<T>(partDefinitions)
+    //        .GetDefinitions<T>())
+    //    .GetAllDefinitions<T>()
+    //    .ToArray();
+    //  SetMainTypeUser(typeof(T));
+    //  return new(definitions);
+    //}
+
+    internal PartDefinitions GetAll<T>() where T : class =>
+      new(partDefinitions
         .Concat(
-          new WrapperGenerator<T>(partDefinitions)
-          .GetDefinitions())
-          .ToArray();
+          new MappedDefinitions<T>(partDefinitions)
+          .GetDefinitions<T>()));
+
+    public IEnumerator<object> GetEnumerator() =>
+      partDefinitions.AsEnumerable().GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator() =>
+      GetEnumerator();
   }
 }

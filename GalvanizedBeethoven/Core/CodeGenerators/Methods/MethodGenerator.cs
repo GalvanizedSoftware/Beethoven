@@ -25,10 +25,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
     {
       MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;
       string methodName = $"{methodInfo?.Name}{generatorContext?.MethodIndex}";
-      string uniqueInvokerName = $"{generatorContext?.GeneratedClassName}{methodName}_{new TagGenerator(generatorContext)}";
       string invokerName = $"invoker{methodName}";
-      ICodeGenerator invorkerGenerator = new MethodInvokerGenerator(
-        uniqueInvokerName, methodInfo, invokerName, methodDefinition);
+      ICodeGenerator invorkerGenerator = new MethodInvokerGenerator(invokerName);
       return invorkerGenerator.Generate()
         .Concat(
           GenerateLocal()

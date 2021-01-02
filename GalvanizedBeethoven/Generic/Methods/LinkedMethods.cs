@@ -1,5 +1,6 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
@@ -85,6 +86,25 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
           break;
       }
     }
+
+    //private static IEnumerable<Func<>> FindFirstMatches(object localInstance,
+    //  MethodDefinition method, object[] parameters, (Type, string)[] parameterTypes,
+    //  Type[] genericArguments, MethodInfo methodInfo)
+    //{
+    //  Type returnType = methodInfo?.ReturnType;
+    //  if (method.MethodMatcher.IsMatchCheck(parameterTypes, genericArguments, returnType))
+    //  {
+    //    object returnValue = null;
+    //    method.Invoke(localInstance, ref returnValue, parameters, genericArguments, methodInfo);
+    //    return true;
+    //  }
+
+    //  if (!method.MethodMatcher.IsMatchCheck(parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
+    //    throw new MissingMethodException();
+    //  object result = true;
+    //  method.Invoke(localInstance, ref result, parameters, genericArguments, methodInfo);
+    //  return (bool) result;
+    //}
 
     private static bool InvokeFirstMatch(object localInstance,
       MethodDefinition method, object[] parameters, (Type, string)[] parameterTypes,

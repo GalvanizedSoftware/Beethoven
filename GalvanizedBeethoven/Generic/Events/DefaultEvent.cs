@@ -5,21 +5,20 @@ using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Events
 {
-  public class DefaultEvent : IDefinition
+  public class DefaultEvent : DefaultDefinition
   {
     private static readonly MethodInfo createMethodInfo =
       typeof(DefaultEvent).GetMethod(nameof(CreateGeneric), ReflectionConstants.ResolveFlags);
 
-    public int SortOrder => 2;
+    public override int SortOrder => 2;
 
-    public bool CanGenerate(MemberInfo memberInfo) =>
+    public override bool CanGenerate(MemberInfo memberInfo) =>
       memberInfo is EventInfo;
 
-    public ICodeGenerator GetGenerator(GeneratorContext generatorContext)
+    public override ICodeGenerator GetGenerator(GeneratorContext generatorContext)
     {
       EventInfo eventInfo = generatorContext?.MemberInfo as EventInfo;
       return eventInfo == null ? null :

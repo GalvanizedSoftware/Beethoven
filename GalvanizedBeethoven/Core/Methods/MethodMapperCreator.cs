@@ -18,6 +18,6 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
           .Select(methodInfo => new MappedMethodDelayed(methodInfo, (target) => creatorFunc(target as TMain))));
     }
 
-    public IEnumerable<IDefinition> GetDefinitions() => methods;
+    public IEnumerable<IDefinition> GetDefinitions<TInterface>() where TInterface : class => methods;
   }
 }

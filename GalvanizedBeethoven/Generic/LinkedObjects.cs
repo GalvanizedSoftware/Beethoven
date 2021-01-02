@@ -87,7 +87,7 @@ namespace GalvanizedSoftware.Beethoven.Generic
       obj is IDefinition ? null :
       obj?.GetType().GetAllTypes().SelectMany(type => type.GetNotSpecialMethods()).ToArray();
 
-    public IEnumerable<IDefinition> GetDefinitions()
+    public IEnumerable<IDefinition> GetDefinitions<TInterface>() where TInterface : class
     {
       foreach (PropertyDefinition property in GetProperties())
         yield return property;

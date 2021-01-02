@@ -49,9 +49,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
         .ToArray();
       if (specificDefinitions.Length == 1)
         return GetSingleGenerator(specificDefinitions.Single());
-      if (methodInfo.IsGenericMethod)
-        return new MethodGenerator(generatorContext, new GenericMethodDefinition(methodInfo, definitions));
-      throw new MissingMethodException($"Multiple implementation of {methodInfo.Name} found");
+      return methodInfo.IsGenericMethod ?
+        new MethodGenerator(generatorContext, new GenericMethodDefinition(methodInfo, definitions)) :
+        throw new MissingMethodException($"Multiple implementation of {methodInfo.Name} found");
     }
   }
 }

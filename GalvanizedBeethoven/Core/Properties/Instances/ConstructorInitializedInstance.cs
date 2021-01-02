@@ -1,13 +1,12 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
-using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
-using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor;
+using GalvanizedSoftware.Beethoven.Generic;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
 {
-  public class ConstructorInitializedInstance : IDefinition
+  public class ConstructorInitializedInstance : DefaultDefinition
   {
     private readonly ICodeGenerator generator;
 
@@ -16,11 +15,6 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
       generator = new PropertyInitializedGenerator(name, type);
     }
 
-    public int SortOrder => 1;
-
-    public bool CanGenerate(MemberInfo memberInfo) => 
-      memberInfo is null;
-
-    public ICodeGenerator GetGenerator(GeneratorContext _) => generator;
+    public override ICodeGenerator GetGenerator(GeneratorContext _) => generator;
   }
 }

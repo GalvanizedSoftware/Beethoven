@@ -54,17 +54,17 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         action(item.Item1, item.Item2);
     }
 
-    internal static IDefinition[] GetAllDefinitions(this IEnumerable<object> collection) =>
+    internal static IDefinition[] GetAllDefinitions<T>(this IEnumerable<object> collection) where T : class =>
       collection
-        .SelectMany(GetAllDefinitions)
+        .SelectMany(GetAllDefinitions<T>)
         .Distinct()
         .OrderBy(definition => definition.SortOrder)
         .ToArray();
 
-    private static IEnumerable<IDefinition> GetAllDefinitions(object part) =>
+    private static IEnumerable<IDefinition> GetAllDefinitions<T>(object part) where T : class =>
       part switch
       {
-        IDefinitions definitions => definitions.GetDefinitions(),
+        IDefinitions definitions => definitions.GetDefinitions<T>(),
         IDefinition definition => new[] { definition },
         _ => Enumerable.Empty<IDefinition>()
       };

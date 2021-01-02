@@ -36,8 +36,7 @@ namespace GalvanizedSoftware.Beethoven.Build
         .ToArray();
       (string filename, string code)[] codeFiles = factoryTypes
         .SelectMany(factories => factories.Factories)
-        .Select(tuple => (tuple.Item1, tuple.Item2()))
-        .Select(tuple => CodeGenerator.Create(tuple.Item1, tuple.Item2))
+        .Select(tuple => CodeGenerator.Create(tuple.Item1, tuple.Item2, tuple.Item3))
         .Select(generator => generator.GenerateCode())
         .ToArray();
       foreach ((string filename, string code) tuple in codeFiles)
