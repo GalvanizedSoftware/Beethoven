@@ -1,20 +1,16 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 using static System.Environment;
 using static System.Reflection.Assembly;
-// ReSharper disable UnusedVariable
 
 namespace GalvanizedSoftware.Beethoven.Core
 {
-  class Compiler
+  internal sealed class Compiler
   {
     private readonly string code;
     private readonly IEnumerable<Assembly> assemblyCache;
@@ -23,17 +19,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     {
       assemblyCache = new AssemblyCache(mainAssembly, callingAssembly);
       code = string.Join(NewLine, codeParts);
-      string data =
-        string.Join(
-          NewLine,
-          assemblyCache
-            .Select(assembly => assembly.GetName().FullName)) +
-        code;
-      using SHA256 sha = SHA256.Create();
-      Hash = sha.ComputeHash(Encoding.UTF8.GetBytes(data));
     }
-
-    public byte[] Hash { get; }
 
     internal Assembly GenerateAssembly(string assemblyName)
     {
@@ -56,7 +42,7 @@ namespace GalvanizedSoftware.Beethoven.Core
         .ToArray();
       return result.Success ?
         Load(assemblyStream.ToArray(), pbdStream.ToArray()) :
-        throw new Exception("Internal compilation error");
+        throw new($"Internal compilation error: {NewLine}{string.Join(NewLine, errors)}");
     }
   }
 }
