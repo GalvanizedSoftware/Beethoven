@@ -70,9 +70,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     //public override ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
     //  new DefaultPropertyGenerator(new(creators)).GetGenerator(generatorContext);
 
-    public IEnumerable<IDefinition> GetDefinitions<TInterface>() where TInterface : class
+    public IEnumerable<IDefinition> GetDefinitions<T>() where T : class
     {
-      MemberInfoList memberInfoList = MemberInfoListCache.Get<TInterface>();
+      MemberInfoList memberInfoList = MemberInfoListCache.Get<T>();
       return memberInfoList
         .PropertyInfos
         .Select(propertyInfo => propertyDefinitions.Create(propertyInfo));

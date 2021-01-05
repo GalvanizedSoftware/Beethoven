@@ -4,6 +4,6 @@ namespace GalvanizedSoftware.Beethoven.Interfaces
 {
   public interface IDefinitions
   {
-    IEnumerable<IDefinition> GetDefinitions<TInterface>() where TInterface : class;
+    IEnumerable<IDefinition> GetDefinitions<T>() where T : class;
   }
 }
