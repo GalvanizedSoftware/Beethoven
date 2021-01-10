@@ -23,8 +23,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       {
         yield return $@"public {propertyInfo.PropertyType.GetFullName()} {propertyInfo.Name}";
         yield return "{";
-        yield return $"get => throw new System.MissingMethodException();".Format(1);
-        yield return $"set => throw new System.MissingMethodException();".Format(1);
+        yield return "get => throw new System.MissingMethodException();".Format(1);
+        yield return "set => throw new System.MissingMethodException();".Format(1);
         yield return "}";
       }
     }
