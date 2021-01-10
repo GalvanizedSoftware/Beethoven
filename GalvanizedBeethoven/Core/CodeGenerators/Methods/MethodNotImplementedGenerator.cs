@@ -9,11 +9,11 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
   public sealed class MethodNotImplementedGenerator : ICodeGenerator
   {
-    private readonly GeneratorContext generatorContext;
+    private readonly MethodInfo methodInfo;
 
-    public MethodNotImplementedGenerator(GeneratorContext generatorContext)
+    public MethodNotImplementedGenerator(MethodInfo methodInfo)
     {
-      this.generatorContext = generatorContext;
+      this.methodInfo = methodInfo;
     }
 
     public IEnumerable<(CodeType, string)?> Generate()
@@ -21,7 +21,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       return GenerateLocal().Select(code => ((CodeType, string)?)(MethodsCode, code));
       IEnumerable<string> GenerateLocal()
       {
-        MethodInfo methodInfo = generatorContext.MemberInfo as MethodInfo;
         foreach (string line in new MethodSignatureGenerator(methodInfo).GenerateDeclaration())
           yield return line;
         yield return "=>".Format(1);

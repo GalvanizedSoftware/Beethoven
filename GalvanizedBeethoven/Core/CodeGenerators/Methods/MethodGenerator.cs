@@ -13,17 +13,25 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
   internal class MethodGenerator : ICodeGenerator
   {
-    private readonly GeneratorContext generatorContext;
+    private readonly MethodInfo methodInfo;
+    private readonly int methodIndex;
 
-    public MethodGenerator(GeneratorContext generatorContext)
+    public MethodGenerator(GeneratorContext generatorContext) :
+      this(
+        generatorContext?.MemberInfo as MethodInfo, 
+        generatorContext?.MethodIndex ?? 0)
     {
-      this.generatorContext = generatorContext;
+    }
+
+    public MethodGenerator(MethodInfo methodInfo, int methodIndex)
+    {
+      this.methodInfo = methodInfo;
+      this.methodIndex = methodIndex;
     }
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;
-      string methodName = $"{methodInfo?.Name}{generatorContext?.MethodIndex}";
+      string methodName = $"{methodInfo?.Name}{methodIndex}";
       string invokerName = $"invoker{methodName}";
       CodeGeneratorList invokerGenerators = new
         (
