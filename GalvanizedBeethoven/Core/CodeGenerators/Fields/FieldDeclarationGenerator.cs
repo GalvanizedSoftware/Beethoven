@@ -6,15 +6,15 @@ using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
-  internal class SimpleFieldGenerator : ICodeGenerator
+  internal class FieldDeclarationGenerator : ICodeGenerator
   {
     private readonly Type type;
     private readonly string fieldName;
 
-    public SimpleFieldGenerator(Type type, string fieldName)
+    public FieldDeclarationGenerator(Type type, string fieldName)
     {
       this.type = type ?? throw new NullReferenceException();
-      this.fieldName = fieldName;
+      this.fieldName = fieldName ?? throw new NullReferenceException();
     }
 
     public IEnumerable<(CodeType, string)?> Generate()

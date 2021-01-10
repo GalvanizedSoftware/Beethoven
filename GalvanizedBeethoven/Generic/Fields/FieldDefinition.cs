@@ -52,12 +52,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
 
     public IEnumerable<IDefinition> GetConstructorParameterDefinitions()
     {
-      yield return Create(_ => new SimpleFieldGenerator(type, fieldName));
+      yield return Create(_ => new FieldDeclarationGenerator(type, fieldName));
       yield return Create(_ => new ParameterFieldGenerator(type, fieldName));
     }
 
     public IEnumerable<IDefinition> GetFactoryDefinitions()
     {
+      yield return Create(_ => new FieldDeclarationGenerator(type, fieldName));
       yield return Create(_ => new FactoryFieldGenerator(type, fieldName));
     }
 
