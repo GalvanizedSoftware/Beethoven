@@ -22,7 +22,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       propertyInfos
         .Select(
           propertyInfo => new PropertyGeneratorFactory(generatorContext, propertyInfo, definitions)
-            .Create()
-            .WrapLocal(generatorContext, propertyInfo));
+            .Create());
   }
 }

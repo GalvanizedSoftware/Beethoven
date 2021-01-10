@@ -37,7 +37,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
     {
       return definition switch
       {
-        MethodDefinition methodDefinition => new MethodGenerator(generatorContext, methodDefinition),
+        MethodDefinition methodDefinition => new MethodGenerator(generatorContext),
         _ => throw new MissingMethodException()
       };
     }
@@ -50,7 +50,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       if (specificDefinitions.Length == 1)
         return GetSingleGenerator(specificDefinitions.Single());
       return methodInfo.IsGenericMethod ?
-        new MethodGenerator(generatorContext, new GenericMethodDefinition(methodInfo, definitions)) :
+        new MethodGenerator(generatorContext) :
         throw new MissingMethodException($"Multiple implementation of {methodInfo.Name} found");
     }
   }

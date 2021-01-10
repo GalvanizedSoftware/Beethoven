@@ -21,7 +21,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
     public IEnumerable<(CodeType, string)?> Generate()
     {
       yield return (ConstructorCode,
-        $@"{invokerName} = {InstanceListName}.GetInstance<{invokerType}>(""{invokerName}"").CreateInstance(this); ");
+        $@"{invokerName} = {InstanceListName}.GetInstance<{invokerType}>(""{invokerName}"").CreateInstance(this);");
     }
   }
 }

@@ -15,13 +15,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
   {
     private readonly GeneratorContext generatorContext;
 
-    public MethodGenerator(GeneratorContext generatorContext, MethodDefinition methodDefinition)
+    public MethodGenerator(GeneratorContext generatorContext)
     {
-      this.methodDefinition = methodDefinition;
       this.generatorContext = generatorContext;
     }
-
-    private readonly MethodDefinition methodDefinition;
 
     public IEnumerable<(CodeType, string)?> Generate()
     {

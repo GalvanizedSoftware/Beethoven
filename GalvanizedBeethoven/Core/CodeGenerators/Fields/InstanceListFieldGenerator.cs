@@ -30,15 +30,13 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
         $@"private {instanceListType} instanceList = {instanceListType}.Create({factoryCode});");
     }
 
-    private static string GetFactory(MemberInfo factoryMemberInfo)
-    {
-      return factoryMemberInfo switch
+    private static string GetFactory(MemberInfo factoryMemberInfo) =>
+      factoryMemberInfo switch
       {
         ConstructorInfo constructorInfo => GetFromConstructor(constructorInfo),
         MethodInfo memberInfo => GetFromMethod(memberInfo),
         _ => ""
       };
-    }
 
     private static string GetFromMethod(MethodInfo memberInfo) =>
       $"{memberInfo.DeclaringType.GetFullName()}.{memberInfo.Name}()";
