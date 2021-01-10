@@ -1,10 +1,12 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Generic.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
 using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
@@ -14,23 +16,27 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
     private readonly Type propertyType;
     private readonly string invokerName;
     private readonly string propertyInfoName;
-    private readonly PropertyInvokerGenerator invokerGenerator;
+    private readonly Type invokerInstanceType;
 
-    internal PropertyGenerator(
-      GeneratorContext generatorContext, PropertyInfo propertyInfo, PropertyDefinition propertyDefinition)
+    internal PropertyGenerator(PropertyInfo propertyInfo)
     {
-      object[] definitions = propertyDefinition.Definitions;
       propertyType = propertyInfo.PropertyType;
       propertyInfoName = propertyInfo.Name;
       invokerName = $"invoker{propertyInfoName}";
-      invokerGenerator = new PropertyInvokerGenerator(invokerName,
-        propertyType);
+      invokerInstanceType = typeof(IPropertyInvokerInstance<>).MakeGenericType(propertyType);
     }
 
-    public IEnumerable<(CodeType, string)?> Generate() =>
-      invokerGenerator.Generate()
+    public IEnumerable<(CodeType, string)?> Generate()
+    {
+      CodeGeneratorList invokerGenerators = new
+      (
+        new FieldDeclarationGenerator(invokerInstanceType, invokerName),
+        new PropertyInvokerGenerator(invokerName, propertyType)
+      );
+      return invokerGenerators.Generate()
         .Concat(
           GeneratePropertyCode().TagCode(PropertiesCode));
+    }
 
     private IEnumerable<string> GeneratePropertyCode()
     {

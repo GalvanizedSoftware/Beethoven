@@ -19,7 +19,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      yield return (FieldsCode, $"{type.GetFullName()} {fieldName};");
+      yield return (FieldsCode, $"private {type.GetFullName()} {fieldName};");
     }
   }
 }

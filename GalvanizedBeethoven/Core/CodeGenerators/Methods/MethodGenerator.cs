@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
@@ -26,8 +28,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       MethodInfo methodInfo = generatorContext?.MemberInfo as MethodInfo;
       string methodName = $"{methodInfo?.Name}{generatorContext?.MethodIndex}";
       string invokerName = $"invoker{methodName}";
-      ICodeGenerator invorkerGenerator = new MethodInvokerGenerator(invokerName);
-      return invorkerGenerator.Generate()
+      CodeGeneratorList invokerGenerators = new
+        (
+        new FieldDeclarationGenerator(typeof(IMethodInvokerInstance), invokerName),
+        new MethodInvokerGenerator(invokerName)
+        );
+      return invokerGenerators.Generate()
         .Concat(
           GenerateLocal()
             .Select(code => ((CodeType, string)?)(MethodsCode, code)));

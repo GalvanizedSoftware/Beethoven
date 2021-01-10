@@ -65,7 +65,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     }
 
     public override ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
-      new PropertyGenerator(generatorContext, generatorContext?.MemberInfo as PropertyInfo, this);
+      new PropertyGenerator(generatorContext?.MemberInfo as PropertyInfo);
 
     public IEnumerable<IDefinition> GetDefinitions<T>() where T : class
     {

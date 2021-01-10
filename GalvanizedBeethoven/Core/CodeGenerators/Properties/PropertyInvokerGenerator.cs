@@ -12,18 +12,15 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
   {
     private readonly string invokerName;
     private readonly string invokerType;
-    private readonly string invokerInstanceType;
 
     public PropertyInvokerGenerator(string invokerName, Type propertyType)
     {
       this.invokerName = invokerName;
       invokerType = typeof(IPropertyInvoker<>).MakeGenericType(propertyType).GetFullName();
-      invokerInstanceType = typeof(IPropertyInvokerInstance<>).MakeGenericType(propertyType).GetFullName();
     }
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      yield return (FieldsCode, $@"private {invokerInstanceType} {invokerName};");
       yield return (ConstructorFields,
         $@"{invokerName} = {InstanceListName}.GetInstance<{invokerType}>(""{invokerName}"").CreateInstance(this); ");
     }

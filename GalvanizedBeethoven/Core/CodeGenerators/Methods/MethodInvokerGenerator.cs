@@ -11,7 +11,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
   {
     private readonly string invokerName;
     private static readonly string invokerType = typeof(IMethodInvoker).GetFullName();
-    private static readonly string invokerInstanceType = typeof(IMethodInvokerInstance).GetFullName();
 
     internal MethodInvokerGenerator(string invokerName)
     {
@@ -21,7 +20,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      yield return (FieldsCode, $@"private {invokerInstanceType} {invokerName};");
       yield return (ConstructorCode,
         $@"{invokerName} = {InstanceListName}.GetInstance<{invokerType}>(""{invokerName}"").CreateInstance(this); ");
     }
