@@ -11,7 +11,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     public ConstructorInitializedProperty(string name, Type type)
     {
-      generator = new PropertyInitializedGenerator(name, type);
+      generator = new ParameterFieldGenerator(type, name, $"parameter{name}");
     }
 
     public override ICodeGenerator GetGenerator(GeneratorContext _) => generator;
