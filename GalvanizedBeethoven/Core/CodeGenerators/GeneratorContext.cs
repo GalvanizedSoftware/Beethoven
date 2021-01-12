@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.Reflection;
-using static System.Environment;
+﻿using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 {

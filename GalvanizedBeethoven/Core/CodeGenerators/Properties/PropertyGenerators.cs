@@ -1,5 +1,4 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
-using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Collections.Generic;
 using System.Linq;

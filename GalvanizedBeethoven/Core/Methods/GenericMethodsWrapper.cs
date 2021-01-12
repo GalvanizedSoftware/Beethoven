@@ -7,7 +7,6 @@ using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods;
 using GalvanizedSoftware.Beethoven.Core.Definitions;
 using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
-using GalvanizedSoftware.Beethoven.Generic;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
