@@ -29,17 +29,16 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
       Type type = typeof(T);
       string formattedName = type.GetFormattedName();
       string fieldName = $"field{formattedName}{new TagGenerator(formattedName)}";
-      string invokerName = $"invoker{formattedName}";
 
       Func<object> factoryFuncLocal = factoryFunc == null ?
         () => null :
         () => factoryFunc();
-      return new(type, fieldName, definitionFactoryFunc, invokerName, factoryFuncLocal);
+      return new(type, fieldName, definitionFactoryFunc, factoryFuncLocal);
     }
 
     private FieldDefinition(Type type, string fieldName,
         Func<FieldDefinition, IEnumerable<IDefinition>> definitionFactoryFunc,
-        string invokerName, Func<object> factoryFunc)
+        Func<object> factoryFunc)
     {
       this.type = type;
       this.fieldName = fieldName;
@@ -51,13 +50,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
     public IDefinitions ImportInMain() =>
       new ImportedFieldDefinition(this, fieldName);
 
-    public IEnumerable<IDefinition> GetConstructorParameterDefinitions()
+    private IEnumerable<IDefinition> GetConstructorParameterDefinitions()
     {
       yield return Create(_ => new FieldDeclarationGenerator(type, fieldName));
       yield return Create(_ => new ParameterFieldGenerator(type, fieldName));
     }
 
-    public IEnumerable<IDefinition> GetFactoryDefinitions()
+    private IEnumerable<IDefinition> GetFactoryDefinitions()
     {
       yield return Create(_ => new FieldDeclarationGenerator(type, fieldName));
       yield return Create(_ => new FactoryFieldGenerator(type, fieldName));
