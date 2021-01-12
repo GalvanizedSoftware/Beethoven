@@ -9,27 +9,16 @@ namespace GalvanizedSoftware.Beethoven.Core.FieldInstances
   public class InstanceList<T> where T : class
   {
     public static InstanceList<T> Create(IFactoryDefinition<T> factoryDefinition) =>
-      new(new PartDefinitions(factoryDefinition.PartDefinitions).GetAll<T>());
+      new(new(factoryDefinition.PartDefinitions));
 
-    internal static InstanceList<T> Create(PartDefinitions partDefinitions) =>
-      new(new PartDefinitions(partDefinitions));
-
-    public static InstanceList<T> Create(string id)
-    {
-      TypeDefinition<T> typeDefinition = TypeDefinitionList.Get<T>(id);
-      return new(new PartDefinitions(typeDefinition.PartDefinitions));
-    }
+    public static InstanceList<T> Create(string id) =>
+      new(TypeDefinitionList.Get<T>(id).PartDefinitions);
 
     private readonly Dictionary<string, object> instances = new();
 
     private InstanceList(PartDefinitions partDefinitions)
     {
-      IDefinition[] allDefinitions = partDefinitions
-        .GetAllDefinitions<T>()
-        .ToArray();
-      allDefinitions
-        .OfType<IMainTypeUser>()
-        .ForEach(user => user.Set(typeof(T)));
+      IDefinition[] allDefinitions = new LinkedDefinitions<T>(partDefinitions).ToArray();
       allDefinitions
         .SelectMany(definition => definition.GetFields())
         .ForEach(SetInstance);

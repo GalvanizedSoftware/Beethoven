@@ -54,7 +54,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
         ParametersGenerator parametersGenerator = new(parameters, parametersName);
         yield return parametersGenerator.GeneratePreInvoke().Format(1);
         string returnValueName = $"{invokerName}Result";
-        yield return $"object {returnValueName} = {invokerName}.Invoke({GetGenericTypes(methodInfo)}, {parametersName});".Format(1);
+        yield return $"object {returnValueName} = {invokerName}.Invoke({GetGenericTypes()}, {parametersName});".Format(1);
         foreach (string line in parametersGenerator.GeneratePostInvoke())
           yield return line.Format(1);
         if (returnType != typeof(void))
@@ -64,7 +64,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       }
     }
 
-    private string GetGenericTypes(MethodInfo methodInfo) =>
+    private string GetGenericTypes() =>
       $"new System.Type[]{{{string.Join(", ", methodInfo.GetGenericArguments().Select(GetTypeof))}}}";
 
     private string GetTypeof(Type type) =>

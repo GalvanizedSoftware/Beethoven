@@ -9,7 +9,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 {
   internal sealed class PropertyNotImplementedGenerator : ICodeGenerator
   {
-    readonly PropertyInfo propertyInfo;
+    private readonly PropertyInfo propertyInfo;
 
     public PropertyNotImplementedGenerator(PropertyInfo propertyInfo)
     {

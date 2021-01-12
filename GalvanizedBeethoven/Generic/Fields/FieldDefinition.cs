@@ -62,6 +62,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
       yield return Create(_ => new FactoryFieldGenerator(type, fieldName));
     }
 
-    public IEnumerable<IDefinition> GetDefinitions<T>() where T : class => definitions;
+    public IEnumerable<IDefinition> GetDefinitions<T>() where T : class =>
+      definitions;
   }
 }

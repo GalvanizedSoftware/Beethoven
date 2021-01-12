@@ -9,14 +9,13 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class DefaultMethod : IDefinitions, IMainTypeUser
+  public class DefaultMethod : IDefinitions
   {
     private readonly Func<MethodInfo, object[], object> mainFunc;
-    private Type mainType;
 
     public DefaultMethod(Func<MethodInfo, object[], object> mainFunc)
     {
-      this.mainFunc = mainFunc ?? ((_, __) => null);
+      this.mainFunc = mainFunc ?? ((_, _) => null);
     }
 
     public DefaultMethod(Action<MethodInfo, object[]> mainAction)
@@ -33,11 +32,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     public IMethodMatcher MethodMatcher { get; } = new MatchAnything();
 
-    public void Set(Type setMainType) =>
-      mainType = setMainType;
-
     public IEnumerable<IDefinition> GetDefinitions<T>() where T : class => 
-      mainType
+      typeof(T)
         .GetAllMethodsAndInherited()
         .Select(methodInfo => new MappedDefaultMethod(methodInfo, mainFunc));
   }

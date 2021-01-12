@@ -8,7 +8,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 {
   internal class TypeDefinitionGeneratorOfT<T> : TypeDefinitionGenerator where T : class
   {
-    private readonly IDefinition[] definitions;
     private readonly Type type = typeof(T);
     private readonly NameDefinition nameDefinition;
     private readonly MemberInfoList memberInfoList;
@@ -17,14 +16,13 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
     {
       this.nameDefinition = nameDefinition;
       this.memberInfoList = memberInfoList;
-      AllDefinitions = partDefinitions.ToArray();
-      definitions = AllDefinitions.GetAllDefinitions<T>();
+      Definitions = new LinkedDefinitions<T>(partDefinitions).ToArray();
     }
 
-    internal object[] AllDefinitions { get; }
+    internal IDefinition[] Definitions { get; }
 
     internal override string Generate() =>
-      new ClassGenerator(memberInfoList, type, nameDefinition, definitions)
+      new ClassGenerator(memberInfoList, type, nameDefinition, Definitions)
         .Generate()
         .Format(0);
   }

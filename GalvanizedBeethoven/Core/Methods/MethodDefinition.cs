@@ -13,10 +13,11 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-  public abstract class MethodDefinition : DefaultDefinition, IMainTypeUser
+  public abstract class MethodDefinition : DefaultDefinition, IDefinitions, IMainTypeUser
   {
-    private string invokerName;
-    private Func<object> invokerFactory;
+    protected string invokerName;
+    protected Func<object> invokerFactory;
+    protected MethodInfo linkedMethodInfo;
 
     protected MethodDefinition(string name, IMethodMatcher methodMatcher)
     {
@@ -27,28 +28,24 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     public string Name { get; }
     public IMethodMatcher MethodMatcher { get; }
 
-    public void Set(Type setMainType)
+    public virtual void Set(Type setMainType)
     {
       MemberInfoList memberInfoList = MemberInfoListCache.Get(setMainType);
-      var methodInfos = memberInfoList
+      MethodInfo[] methodInfos = memberInfoList
         .MethodInfos
         .Where(CanGenerate)
         .ToArray();
-      switch (methodInfos.Length)
-      {
-        case 0:
-          return;
-      }
+      if (methodInfos.Length == 0)
+        return;
       if (methodInfos.Length != 1)
       {
 
       }
-      MethodInfo methodInfo = methodInfos.FirstOrDefault();
-      if (methodInfo != null)
-      {
-        invokerName = memberInfoList.GetMethodInvokerName(methodInfo);
-        invokerFactory = () => new RealMethodInvoker(methodInfo, this);
-      }
+      linkedMethodInfo = methodInfos.Single();
+      if (linkedMethodInfo?.IsGenericMethodDefinition == true)
+        return;
+      invokerName = memberInfoList.GetMethodInvokerName(linkedMethodInfo);
+      invokerFactory = () => new RealMethodInvoker(linkedMethodInfo, this);
     }
 
     public virtual void Invoke(object localInstance,
@@ -66,7 +63,23 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     {
       if (invokerName != null)
         yield return (invokerName, invokerFactory());
+      else
+      {
+
+      }
     }
 
+    public IEnumerable<IDefinition> GetDefinitions<T>() where T : class
+    {
+      Set(typeof(T));
+      if (linkedMethodInfo?.IsGenericMethodDefinition == true)
+      {
+        yield return new GenericMethodWrapper(linkedMethodInfo, this);
+      }
+      else
+      {
+        yield return this;
+      }
+    }
   }
 }

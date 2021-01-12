@@ -54,21 +54,6 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         action(item.Item1, item.Item2);
     }
 
-    internal static IDefinition[] GetAllDefinitions<T>(this IEnumerable<object> collection) where T : class =>
-      collection
-        .SelectMany(GetAllDefinitions<T>)
-        .Distinct()
-        .OrderBy(definition => definition.SortOrder)
-        .ToArray();
-
-    private static IEnumerable<IDefinition> GetAllDefinitions<T>(object part) where T : class =>
-      part switch
-      {
-        IDefinitions definitions => definitions.GetDefinitions<T>(),
-        IDefinition definition => new[] { definition },
-        _ => Enumerable.Empty<IDefinition>()
-      };
-
     internal static (CodeType, string)[] GenerateCode(this IEnumerable<IDefinition> definitions, GeneratorContext generatorContext) =>
       definitions
         .GetGenerators(generatorContext)

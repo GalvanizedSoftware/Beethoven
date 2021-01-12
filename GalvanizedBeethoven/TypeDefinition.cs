@@ -15,15 +15,14 @@ namespace GalvanizedSoftware.Beethoven
   public class TypeDefinition<T> where T : class
   {
     public static TypeDefinition<T> Create(params object[] newPartDefinitions) =>
-      new(new PartDefinitions(newPartDefinitions), null, null, null);
+      new(new(newPartDefinitions), null, null, null);
 
     private readonly NameDefinition nameDefinition;
     private static readonly Assembly mainAssembly = typeof(T).Assembly;
 
     internal static TypeDefinition<T> CreateFromFactoryDefinition(IFactoryDefinition<T> factoryDefinition, MemberInfo factoryMemberInfo) =>
       factoryDefinition == null ? null :
-        new TypeDefinition<T>(new PartDefinitions(
-          factoryDefinition.PartDefinitions),
+        new TypeDefinition<T>(new (factoryDefinition.PartDefinitions),
           factoryDefinition.Namespace,
           factoryDefinition.ClassName,
           factoryMemberInfo);
@@ -41,10 +40,9 @@ namespace GalvanizedSoftware.Beethoven
       MemberInfo factoryMemberInfo)
     {
       PartDefinitions = partDefinitions
-        .Set(InstanceListFieldDefinition<T>.Create(factoryMemberInfo, Id))
-        .GetAll<T>();
+        .Set(InstanceListFieldDefinition<T>.Create(factoryMemberInfo, Id));
       this.nameDefinition = nameDefinition;
-      PartDefinitions.SetMainTypeUser(typeof(T));
+      //PartDefinitions.SetMainTypeUser(typeof(T));
       TypeDefinitionList.Add(Id, this);
     }
 

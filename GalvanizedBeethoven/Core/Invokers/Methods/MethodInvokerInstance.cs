@@ -20,8 +20,11 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
 
     public object Invoke(Type[] genericTypes, object[] parameters)
     {
-      object returnValue = methodInfo.ReturnType.GetDefaultValue();
-      methodDefinition.Invoke(master, ref returnValue, parameters, genericTypes, methodInfo);
+      MethodInfo realMethodInfo = methodInfo.IsGenericMethod ?
+        methodInfo.MakeGenericMethod(genericTypes):
+        methodInfo;
+      object returnValue = realMethodInfo.ReturnType.GetDefaultValue();
+      methodDefinition.Invoke(master, ref returnValue, parameters, genericTypes, realMethodInfo);
       return returnValue;
     }
   }

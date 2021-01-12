@@ -7,11 +7,10 @@ using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Fields
 {
-  internal class ImportedFieldDefinition : IDefinitions, IMainTypeUser
+  internal class ImportedFieldDefinition : IDefinitions
   {
     private readonly string fieldName;
     private readonly IDefinitions master;
-    private Type mainType;
 
     internal ImportedFieldDefinition(FieldDefinition master, string fieldName)
     {
@@ -19,13 +18,10 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
       this.fieldName = fieldName;
     }
 
-    public void Set(Type setMainType) =>
-      mainType = setMainType;
-
     public IEnumerable<IDefinition> GetDefinitions<T>() where T : class =>
        master
         .GetDefinitions<T>()
-        .Concat(new FieldMappedMethods(fieldName, mainType).GetDefinitions<T>())
-        .Concat(new FieldMappedProperties(fieldName, mainType).GetDefinitions<T>());
+        .Concat(new FieldMappedMethods(fieldName, typeof(T)).GetDefinitions<T>())
+        .Concat(new FieldMappedProperties(fieldName, typeof(T)).GetDefinitions<T>());
   }
 }

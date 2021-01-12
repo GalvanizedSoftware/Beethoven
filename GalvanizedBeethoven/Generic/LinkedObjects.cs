@@ -11,12 +11,11 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic
 {
-  public class LinkedObjects : IDefinitions, IMainTypeUser, IBindingParent
+  public class LinkedObjects : IDefinitions, IBindingParent
   {
     private readonly Dictionary<object, MethodInfo[]> implementationMethods;
     private readonly ExactMethodComparer methodComparer = new();
     private readonly object[] partDefinitions;
-    private Type mainType;
 
     public LinkedObjects(params object[] partDefinitions)
     {
@@ -25,15 +24,15 @@ namespace GalvanizedSoftware.Beethoven.Generic
         .ToDictionary(obj => obj, FindMethodInfos);
     }
 
-    private IEnumerable<MethodDefinition> GetMethods() => mainType
+    private IEnumerable<MethodDefinition> GetMethods<T>() => typeof(T)
         .GetAllMethodsAndInherited()
         .Where(methodInfo => !methodInfo.IsSpecialName)
         .Select(CreateMethod);
 
-    public IEnumerable<PropertyDefinition> GetProperties()
+    public IEnumerable<PropertyDefinition> GetProperties<T>()
     {
       Dictionary<string, List<PropertyDefinition>> propertiesMap = new();
-      foreach (PropertyDefinition property in partDefinitions.SelectMany(CreateProperties))
+      foreach (PropertyDefinition property in partDefinitions.SelectMany(CreateProperties<T>))
       {
         string propertyName = property.Name;
         if (!propertiesMap.TryGetValue(propertyName, out List<PropertyDefinition> existingProperties))
@@ -64,12 +63,12 @@ namespace GalvanizedSoftware.Beethoven.Generic
           (value, method) => value.Add(method));
     }
 
-    private IEnumerable<PropertyDefinition> CreateProperties(object definition) =>
+    private static IEnumerable<PropertyDefinition> CreateProperties<T>(object definition) =>
       definition switch
       {
         MethodDefinition => Array.Empty<PropertyDefinition>(),
         PropertyDefinition property => new[] { property },
-        _ => new PropertiesMapper(mainType, definition),
+        _ => new PropertiesMapper(typeof(T), definition),
       };
 
     private MethodDefinition CreateMethod(object definition, MethodInfo[] methodInfos, MethodInfo methodInfo) =>
@@ -89,14 +88,11 @@ namespace GalvanizedSoftware.Beethoven.Generic
 
     public IEnumerable<IDefinition> GetDefinitions<T>() where T : class
     {
-      foreach (PropertyDefinition property in GetProperties())
+      foreach (PropertyDefinition property in GetProperties<T>())
         yield return property;
-      foreach (MethodDefinition method in GetMethods())
+      foreach (MethodDefinition method in GetMethods<T>())
         yield return method;
     }
-
-    public void Set(Type setMainType) =>
-      mainType = setMainType;
 
     public void Bind(object target) => 
       partDefinitions
