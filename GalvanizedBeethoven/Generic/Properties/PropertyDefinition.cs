@@ -38,7 +38,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public string Name { get; }
 
     public Type PropertyType { get; }
-    internal abstract object[] Definitions { get; }
 
     public override bool CanGenerate(MemberInfo memberInfo) =>
       memberInfo?.Name == Name && (memberInfo as PropertyInfo)?.PropertyType == PropertyType;

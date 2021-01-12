@@ -18,11 +18,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 
     public override int SortOrder { get; } = 1;
 
-    public PropertyDefinition(PropertyDefinition<T> previous) :
-      this(previous, Array.Empty<IPropertyDefinition<T>>())
-    {
-    }
-
     public PropertyDefinition(PropertyDefinition<T> previous,
       IPropertyDefinition<T> propertyDefinition) :
       this(previous, new[] { propertyDefinition })
@@ -47,8 +42,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
         .ToArray();
       invokerFactory = () => (object)PropertyInvokerFactory.Create<T>(definitions);
     }
-
-    internal override object[] Definitions => definitions.OfType<object>().ToArray();
 
     public IPropertyInstance<T> CreateInstance(object master) =>
       new MultiplePropertyInstance<T>(
