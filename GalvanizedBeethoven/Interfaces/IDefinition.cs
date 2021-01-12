@@ -10,6 +10,5 @@ namespace GalvanizedSoftware.Beethoven.Interfaces
     int SortOrder { get; }
     bool CanGenerate(MemberInfo memberInfo);
     ICodeGenerator GetGenerator(GeneratorContext generatorContext);
-    IEnumerable<(string,object)> GetFields();
   }
 }

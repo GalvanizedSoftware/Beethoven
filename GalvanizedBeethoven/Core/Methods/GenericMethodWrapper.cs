@@ -24,10 +24,5 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 
     public override ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
       null;
-
-    public override IEnumerable<(string, object)> GetFields()
-    {
-      yield break;
-    }
   }
 }

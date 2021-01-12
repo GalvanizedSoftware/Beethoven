@@ -10,7 +10,7 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
-  public abstract class PropertyDefinition : DefaultDefinition, IDefinitions
+  public abstract class PropertyDefinition : DefaultDefinition, IDefinitions, IFieldMaps
   {
     private static readonly Type type = typeof(PropertyDefinition);
     private static readonly MethodInfo createGenericMethodInfo = type
@@ -42,7 +42,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public override bool CanGenerate(MemberInfo memberInfo) =>
       memberInfo?.Name == Name && (memberInfo as PropertyInfo)?.PropertyType == PropertyType;
 
-    public override IEnumerable<(string, object)> GetFields()
+    public IEnumerable<(string, object)> GetFields()
     {
       yield return (invokerName, invokerFactory());
     }

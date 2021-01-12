@@ -20,8 +20,13 @@ namespace GalvanizedSoftware.Beethoven.Core.Definitions
         .GetDefinitions<T>()
         .ToArray();
       allInstances = allInstances.Concat(mapped).ToArray();
-      definitions = allInstances
+      IEnumerable<object> allObjects = allInstances
         .SelectMany(GetAll)
+        .ToArray();
+      FieldMaps = allObjects
+        .OfType<IFieldMaps>()
+        .ToArray();
+      definitions = allObjects
         .OfType<IDefinition>()
         .Distinct()
         .OrderBy(definition => definition.SortOrder)
@@ -43,6 +48,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Definitions
         .OfType<IMainTypeUser>()
         .SetAll(type);
     }
+
+    public IReadOnlyCollection<IFieldMaps> FieldMaps { get; }
 
     public IEnumerator<IDefinition> GetEnumerator() =>
       definitions.AsEnumerable().GetEnumerator();

@@ -14,9 +14,6 @@ namespace GalvanizedSoftware.Beethoven.Generic
     public virtual bool CanGenerate(MemberInfo memberInfo) =>
       memberInfo is null;
 
-    public virtual IEnumerable<(string, object)> GetFields() =>
-      Enumerable.Empty<(string, object)>();
-
     public abstract ICodeGenerator GetGenerator(GeneratorContext generatorContext);
   }
 }

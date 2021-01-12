@@ -18,9 +18,9 @@ namespace GalvanizedSoftware.Beethoven.Core.FieldInstances
 
     private InstanceList(PartDefinitions partDefinitions)
     {
-      IDefinition[] allDefinitions = new LinkedDefinitions<T>(partDefinitions).ToArray();
-      allDefinitions
-        .SelectMany(definition => definition.GetFields())
+      new LinkedDefinitions<T>(partDefinitions)
+        .FieldMaps
+        .SelectMany(fieldMaps => fieldMaps.GetFields())
         .ForEach(SetInstance);
     }
 

@@ -7,10 +7,11 @@ using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods;
 using GalvanizedSoftware.Beethoven.Core.Definitions;
 using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-  public sealed class GenericMethodsWrapper<T> : MethodDefinition
+  public sealed class GenericMethodsWrapper<T> : MethodDefinition, IFieldMaps
   {
     private readonly MethodInfo methodInfo;
     private readonly IEnumerable<GenericMethodWrapper> wrappers;

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Fields
 {
-  public class FieldInstanceFactory : DefaultDefinition
+  public class FieldInstanceFactory : IFieldMaps
   {
     private readonly string fieldName;
     private readonly Func<object> factoryFunc;
@@ -16,10 +17,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
       this.factoryFunc = factoryFunc;
     }
 
-    public override ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
-      null;
-
-    public override IEnumerable<(string, object)> GetFields()
+    public IEnumerable<(string, object)> GetFields()
     {
       yield return (fieldName, factoryFunc());
     }

@@ -13,7 +13,7 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-  public abstract class MethodDefinition : DefaultDefinition, IDefinitions, IMainTypeUser
+  public abstract class MethodDefinition : DefaultDefinition, IDefinitions, IMainTypeUser, IFieldMaps
   {
     protected string invokerName;
     protected Func<object> invokerFactory;
@@ -59,7 +59,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     public override ICodeGenerator GetGenerator(GeneratorContext _) => null;
 
 
-    public override IEnumerable<(string, object)> GetFields()
+    public virtual IEnumerable<(string, object)> GetFields()
     {
       if (invokerName != null)
         yield return (invokerName, invokerFactory());

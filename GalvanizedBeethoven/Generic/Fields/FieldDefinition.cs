@@ -10,11 +10,12 @@ using static GalvanizedSoftware.Beethoven.Core.Definitions.ConstructorFieldsWrap
 
 namespace GalvanizedSoftware.Beethoven.Generic.Fields
 {
-  public class FieldDefinition : IDefinitions
+  public class FieldDefinition : IDefinitions, IFieldMaps
   {
     private readonly Type type;
     private readonly string fieldName;
     private readonly IEnumerable<IDefinition> definitions;
+    private readonly FieldInstanceFactory fieldInstanceFactory;
 
     public static FieldDefinition CreateFromConstructorParameter<T>() =>
       InternalCreate<T>(fieldDefinition => fieldDefinition.GetConstructorParameterDefinitions());
@@ -42,8 +43,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
     {
       this.type = type;
       this.fieldName = fieldName;
+      fieldInstanceFactory = new FieldInstanceFactory(fieldName, factoryFunc);
       definitions = definitionFactoryFunc(this)
-        .Append(new FieldInstanceFactory(fieldName, factoryFunc))
         .ToArray();
     }
 
@@ -64,5 +65,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
 
     public IEnumerable<IDefinition> GetDefinitions<T>() where T : class =>
       definitions;
+
+    public IEnumerable<(string, object)> GetFields() => 
+      fieldInstanceFactory.GetFields();
   }
 }
