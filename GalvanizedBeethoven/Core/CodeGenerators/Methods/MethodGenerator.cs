@@ -65,9 +65,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
     }
 
     private string GetGenericTypes() =>
-      $"new System.Type[]{{{string.Join(", ", methodInfo.GetGenericArguments().Select(GetTypeof))}}}";
+      "new System.Type[]" +
+      $"{{{string.Join(", ", methodInfo.GetGenericArguments().Select(GetTypeof))}}}";
 
-    private string GetTypeof(Type type) =>
+    private static string GetTypeof(Type type) =>
       $"typeof({type.GetFullName()})";
   }
 }
