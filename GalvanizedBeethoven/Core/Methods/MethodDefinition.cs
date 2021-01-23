@@ -45,7 +45,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
       if (linkedMethodInfo?.IsGenericMethodDefinition == true)
         return;
       invokerName = memberInfoList.GetMethodInvokerName(linkedMethodInfo);
-      invokerFactory = () => new RealMethodInvoker(linkedMethodInfo, this);
+      invokerFactory = () => new RealMethodInvokerFactory(linkedMethodInfo, this);
     }
 
     public virtual void Invoke(object localInstance,

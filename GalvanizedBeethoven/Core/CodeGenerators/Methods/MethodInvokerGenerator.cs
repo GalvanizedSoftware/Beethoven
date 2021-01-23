@@ -10,7 +10,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
   internal class MethodInvokerGenerator : ICodeGenerator
   {
     private readonly string invokerName;
-    private static readonly string invokerType = typeof(IMethodInvoker).GetFullName();
+    private static readonly string invokerType = typeof(IMethodInvokerFactory).GetFullName();
 
     internal MethodInvokerGenerator(string invokerName)
     {

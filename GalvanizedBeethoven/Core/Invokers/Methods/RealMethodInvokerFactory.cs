@@ -3,12 +3,12 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
 {
-  internal class RealMethodInvoker : IMethodInvoker
+  internal class RealMethodInvokerFactory : IMethodInvokerFactory
   {
     private readonly MethodInfo methodInfo;
     private readonly MethodDefinition methodDefinition;
 
-    public RealMethodInvoker(MethodInfo methodInfo, MethodDefinition methodDefinition)
+    public RealMethodInvokerFactory(MethodInfo methodInfo, MethodDefinition methodDefinition)
     {
       this.methodInfo = methodInfo;
       this.methodDefinition = methodDefinition;

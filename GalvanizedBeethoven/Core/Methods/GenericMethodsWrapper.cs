@@ -41,7 +41,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
       base.Set(setMainType);
       MemberInfoList memberInfoList = MemberInfoListCache.Get(setMainType);
       invokerName = memberInfoList.GetMethodInvokerName(linkedMethodInfo);
-      invokerFactory = () => new RealMethodInvoker(linkedMethodInfo, this);
+      invokerFactory = () => new RealMethodInvokerFactory(linkedMethodInfo, this);
     }
   }
 }
