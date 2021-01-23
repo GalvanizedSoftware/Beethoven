@@ -29,7 +29,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
     {
       InvokerList.SetFactory(uniqueName, invokerFacory);
       string invokerTypeName = typeof(MethodInvoker).GetFullName();
-      string instanceTypeName = typeof(IMethodInvokerInstance).GetFullName();
+      string instanceTypeName = typeof(MethodInvokerInstance).GetFullName();
       yield return (FieldsCode, $@"private {instanceTypeName} {invokerName};");
       yield return (ConstructorFields, $@"{invokerName} = new {invokerTypeName}(""{uniqueName}"").CreateInstance(this);");
     }

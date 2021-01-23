@@ -6,11 +6,10 @@
 
     public MethodInvoker(string uniqueName)
     {
-      masterInvoker = InvokerList.CreateInvoker(uniqueName) as IMethodInvoker ??
-        new NotImplementedMethodInvoker();
+      masterInvoker = InvokerList.CreateInvoker(uniqueName) as IMethodInvoker;
     }
 
-    public IMethodInvokerInstance CreateInstance(object master) =>
+    public MethodInvokerInstance CreateInstance(object master) =>
       masterInvoker.CreateInstance(master);
   }
 }

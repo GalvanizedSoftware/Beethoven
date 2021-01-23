@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
 
 namespace GalvanizedSoftware.Beethoven.Core.Invokers
 {
@@ -13,10 +14,9 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers
         invokers.Add(uniqueName, factory);
     }
 
-    internal static object CreateInvoker(string uniqueName)
-    {
-      invokers.TryGetValue(uniqueName, out Func<object> value);
-      return value?.Invoke();
-    }
+    internal static object CreateInvoker(string uniqueName) => 
+      invokers.TryGetValue(uniqueName, out Func<object> value) ? 
+        value?.Invoke() : 
+        new RealMethodInvoker(null, null);
   }
 }

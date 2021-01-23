@@ -14,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
       this.methodDefinition = methodDefinition;
     }
 
-    public IMethodInvokerInstance CreateInstance(object master) =>
-      new MethodInvokerInstance(master, methodInfo, methodDefinition);
+    public MethodInvokerInstance CreateInstance(object master) =>
+      new(master, methodInfo, methodDefinition);
   }
 }

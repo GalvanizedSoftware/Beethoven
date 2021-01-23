@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
 {
-  internal class MethodInvokerInstance : IMethodInvokerInstance
+  public class MethodInvokerInstance
   {
     private readonly object master;
     private readonly MethodInfo methodInfo;

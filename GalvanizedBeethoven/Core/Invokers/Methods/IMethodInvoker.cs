@@ -2,6 +2,6 @@
 {
   public interface IMethodInvoker
   {
-    IMethodInvokerInstance CreateInstance(object master);
+    MethodInvokerInstance CreateInstance(object master);
   }
 }
