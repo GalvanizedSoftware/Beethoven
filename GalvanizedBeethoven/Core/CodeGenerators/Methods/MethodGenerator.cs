@@ -35,7 +35,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       string invokerName = $"invoker{methodName}";
       CodeGeneratorList invokerGenerators = new
         (
-        new FieldDeclarationGenerator(typeof(IMethodInvokerInstance), invokerName),
+        new FieldDeclarationGenerator(typeof(MethodInvokerInstance), invokerName),
         new MethodInvokerGenerator(invokerName)
         );
       return invokerGenerators.Generate()

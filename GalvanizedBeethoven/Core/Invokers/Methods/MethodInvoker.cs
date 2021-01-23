@@ -10,7 +10,7 @@
       //  new NotImplementedMethodInvoker();
     }
 
-    public IMethodInvokerInstance CreateInstance(object master) =>
+    public MethodInvokerInstance CreateInstance(object master) =>
       masterInvoker.CreateInstance(master);
   }
 }
