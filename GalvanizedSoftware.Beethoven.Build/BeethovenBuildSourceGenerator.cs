@@ -10,7 +10,7 @@ using static GalvanizedSoftware.Beethoven.AutoFactories;
 namespace GalvanizedSoftware.Beethoven.Build
 {
   [Generator]
-  public class BeethovenBuildSoureGenerator : ISourceGenerator
+  public class BeethovenBuildSourceGenerator : ISourceGenerator
   {
     public string FactoryFile { get; set; }
     public string OutputFile { get; set; }
@@ -48,7 +48,7 @@ namespace GalvanizedSoftware.Beethoven.Build
       }
     }
 
-    private Assembly AssemblyLoad(string filename)
+    private static Assembly AssemblyLoad(string filename)
     {
       byte[] data = null;
       try
@@ -56,7 +56,7 @@ namespace GalvanizedSoftware.Beethoven.Build
         data = ReadFile(filename);
         return Assembly.Load(data);
       }
-      catch (Exception e)
+      catch (Exception)
       {
         Debug.WriteLine($"Assembly load failed: {filename}, {data?.Length}");
         return null;

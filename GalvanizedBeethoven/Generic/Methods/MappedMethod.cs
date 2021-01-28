@@ -1,8 +1,10 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
-using System;
+using System.Collections.Generic;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -37,7 +39,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     {
       this.instance = instance;
       this.methodInfo = methodInfo;
-      methodInfo.HasReturnType();
     }
 
     private static MethodInfo GetMethod(object instance, string targetName)
@@ -47,8 +48,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
         .FindSingleMethod(targetName);
     }
 
-    public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
-      MethodInfo _) =>
-      returnValue = methodInfo.Invoke(instance, parameters, genericArguments);
+    public override IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo)
+    {
+	    yield return new MappedInvoker(instance, methodInfo, memberInfo as MethodInfo);
+    }
   }
 }

@@ -8,19 +8,19 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class SimpleFuncMethod<TReturnType> : MethodDefinition
+  public class ReturnValueCheckInverted<T> : MethodDefinition
   {
-    private readonly Func<TReturnType> func;
+    private readonly Func<T, bool> condition;
 
-    public SimpleFuncMethod(string name, Func<TReturnType> func) :
-      base(name, new MatchNoParametersAndReturnType<TReturnType>())
+    public ReturnValueCheckInverted(string name, Func<T, bool> condition) :
+      base(name, new MatchFlowControl())
     {
-      this.func = func;
+      this.condition = value => !condition(value);
     }
 
     public override IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo)
     {
-	    yield return new FuncInvoker(func);
+      yield return new ReturnValueCheckInvoker<T>(condition);
     }
   }
 }

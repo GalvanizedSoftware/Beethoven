@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Definitions
       PropertiesSignatureChecker<T>.CheckSignatures(this);
     }
 
-    public IEnumerable<IDefinition> GetDefinitions<T>() where T : class => 
+    public IEnumerable<IDefinition> GetDefinitions<T1>() where T1 : class => 
       wrappers;
 
     private static IEnumerable<object> FilterNonDefinitions(object instance)

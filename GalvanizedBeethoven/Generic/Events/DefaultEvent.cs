@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Events
 {
@@ -23,6 +25,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Events
       EventInfo eventInfo = generatorContext?.MemberInfo as EventInfo;
       return eventInfo == null ? null :
         Create(eventInfo.EventHandlerType, eventInfo.Name);
+    }
+
+    public override IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo)
+    {
+      yield break;
     }
 
     private ICodeGenerator Create(Type type, string name) =>

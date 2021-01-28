@@ -56,8 +56,8 @@ namespace GalvanizedSoftware.Beethoven.Extensions
              returnType.IsMatchReturnTypeIgnoreGeneric(actualMethod);
     }
 
-    public static object Invoke(this MethodInfo methodInfo, object instance, object[] parameters, Type[] genericArguments) =>
-      methodInfo.GetActualMethod(genericArguments)?.Invoke(instance, parameters);
+    public static object Invoke(this MethodInfo methodInfo, object instance, object[] parameters, Type[] genericArguments) => 
+	    methodInfo.GetActualMethod(genericArguments)?.Invoke(instance, parameters);
 
     internal static MethodInfo GetActualMethod(this MethodInfo methodInfo, Type[] genericArguments) =>
       methodInfo == null ? null :

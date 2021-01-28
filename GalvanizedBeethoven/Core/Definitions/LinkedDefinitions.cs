@@ -22,6 +22,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Definitions
       allInstances = allInstances.Concat(mapped).ToArray();
       IEnumerable<object> allObjects = allInstances
         .SelectMany(GetAll)
+        .Distinct()
         .ToArray();
       FieldMaps = allObjects
         .OfType<IFieldMaps>()
@@ -59,7 +60,9 @@ namespace GalvanizedSoftware.Beethoven.Core.Definitions
 
     private static IEnumerable<object> GetAll(object part)
     {
-      switch (part)
+	    if (part is IFieldMaps)
+		    yield return part;
+	    switch (part)
       {
         case IDefinitions definitions:
           foreach (IDefinition definition in definitions.GetDefinitions<T>())

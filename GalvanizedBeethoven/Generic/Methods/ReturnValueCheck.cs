@@ -1,8 +1,10 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -16,8 +18,9 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       this.condition = condition;
     }
 
-    public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
-      MethodInfo _) => 
-      returnValue = condition((T)parameters.LastOrDefault());
+    public override IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo)
+    {
+      yield return new ReturnValueCheckInvoker<T>(condition);
+    }
   }
 }

@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
@@ -15,8 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 
     public override int SortOrder => 2;
 
-    public override void Invoke(object localInstance, ref object returnValue, object[] parameters,
-      Type[] genericArguments, MethodInfo methodInfo) =>
-      master.Invoke(localInstance, ref returnValue, parameters, genericArguments, methodInfo);
+    public override IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo) => 
+      master.GetInvokers(memberInfo);
   }
 }

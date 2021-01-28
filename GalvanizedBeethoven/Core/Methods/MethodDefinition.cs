@@ -28,6 +28,12 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
     public string Name { get; }
     public IMethodMatcher MethodMatcher { get; }
 
+    public MethodDefinition ToFlowControl() => 
+      new FlowControlMethodDefinition(this, false);
+
+    public MethodDefinition ToInvertedFlowControl() => 
+      new FlowControlMethodDefinition(this, true);
+
     public virtual void Set(Type setMainType)
     {
       MemberInfoList memberInfoList = MemberInfoListCache.Get(setMainType);
@@ -37,10 +43,6 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
         .ToArray();
       if (methodInfos.Length == 0)
         return;
-      if (methodInfos.Length != 1)
-      {
-
-      }
       linkedMethodInfo = methodInfos.Single();
       if (linkedMethodInfo?.IsGenericMethodDefinition == true)
         return;
@@ -48,25 +50,18 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
       invokerFactory = () => new RealMethodInvokerFactory(linkedMethodInfo, this);
     }
 
-    public virtual void Invoke(object localInstance,
-      ref object returnValue, object[] parameters, Type[] genericArguments,
-      MethodInfo methodInfo) =>
-      throw new MissingMemberException(methodInfo?.DeclaringType?.FullName, methodInfo?.Name);
-
     public override bool CanGenerate(MemberInfo memberInfo) =>
       MethodMatcher.IsMatchIgnoreGeneric(memberInfo as MethodInfo, Name);
 
     public override ICodeGenerator GetGenerator(GeneratorContext _) => null;
 
+    public override IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo) => 
+	    Enumerable.Empty<IInvoker>();
 
     public virtual IEnumerable<(string, object)> GetFields()
     {
       if (invokerName != null)
         yield return (invokerName, invokerFactory());
-      else
-      {
-
-      }
     }
 
     public IEnumerable<IDefinition> GetDefinitions<T>() where T : class

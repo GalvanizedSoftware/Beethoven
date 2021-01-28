@@ -1,32 +1,17 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
   public class ActionMethod : MethodDefinition
   {
-    private class ConstructorValues
-    {
-      public (Type, string)[] LocalParameters { get; }
-      public IMethodMatcher MethodMatcher { get; }
-      public Delegate Action { get; }
-
-      public ConstructorValues(
-        (Type, string)[] localParameters,
-        IMethodMatcher methodMatcher,
-        Delegate action)
-      {
-        LocalParameters = localParameters;
-        MethodMatcher = methodMatcher;
-        Action = action;
-      }
-    }
-
     private readonly Delegate action;
-    private readonly (Type, string)[] localParameters;
 
     public static ActionMethod Create(string mainName, Action action) =>
       new(mainName, GetValues(action));
@@ -43,24 +28,25 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public ActionMethod(string mainName, Delegate action) :
       this(mainName, GetValues(action))
     {
+      this.action = action;
     }
 
-    private ActionMethod(string mainName, ConstructorValues values) :
+    private ActionMethod(string mainName, (IMethodMatcher MethodMatcher, Delegate Action) values) :
       base(mainName, values.MethodMatcher)
     {
       action = values.Action;
-      localParameters = values.LocalParameters;
     }
 
-    private static ConstructorValues GetValues(Delegate action)
+    private static (MatchActionPartially, Delegate) GetValues(Delegate action)
     {
       (Type, string)[] localParameters = action?.Method.GetParameterTypeAndNames() ??
         throw new NullReferenceException();
-      return new ConstructorValues(localParameters, new MatchActionPartially(localParameters), action);
+      return (new(localParameters), action);
     }
 
-    public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
-      MethodInfo masterMethodInfo) => 
-      action.DynamicInvoke(masterMethodInfo.GetLocalParameters(parameters, localParameters));
+    public override IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo)
+    {
+      yield return ActionInvoker.Create(action);
+    }
   }
 }

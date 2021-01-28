@@ -16,13 +16,15 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
       this.definitions = definitions;
     }
 
-    public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments, MethodInfo methodInfo)
-    {
-      MethodInfo actualMethodInfo = methodInfo.MakeGenericMethod(genericArguments);
-      MethodDefinition match = definitions
-        .FirstOrDefault(definition => definition.MethodMatcher.IsNonGenericMatch(actualMethodInfo)) ??
-        throw new MissingMethodException();
-      match.Invoke(localInstance, ref returnValue, parameters, Array.Empty<Type>(), actualMethodInfo);
-    }
+    //public bool Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
+    //  MethodInfo methodInfo)
+    //{
+    //  MethodInfo actualMethodInfo = methodInfo.MakeGenericMethod(genericArguments);
+    //  MethodDefinition match = definitions
+    //    .FirstOrDefault(definition => definition.MethodMatcher.IsNonGenericMatch(actualMethodInfo)) ??
+    //    throw new MissingMethodException();
+    //  match.Invoke(localInstance, ref returnValue, parameters, Array.Empty<Type>(), actualMethodInfo);
+    //  return false;
+    //}
   }
 }

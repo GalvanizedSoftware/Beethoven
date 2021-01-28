@@ -5,7 +5,6 @@ namespace GalvanizedSoftware.Beethoven.Core
 {
   public static class GeneratorHelper
   {
-    internal static readonly string InvokerTypeName = typeof(RuntimeInvokerFactory).GetFullName();
     internal const string InstanceListName = "instanceList";
   }
 }

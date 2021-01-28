@@ -21,7 +21,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
         .ToArray();
     }
 
-    public IEnumerable<IDefinition> GetDefinitions<T>() where T : class => methods;
+    public IEnumerable<IDefinition> GetDefinitions<TMaster>() where TMaster : class => 
+	    methods;
 
     public IEnumerator<MethodDefinition> GetEnumerator() => methods.AsEnumerable().GetEnumerator();
 

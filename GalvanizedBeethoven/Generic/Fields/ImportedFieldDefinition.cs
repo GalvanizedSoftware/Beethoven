@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Fields
 {
-  internal class ImportedFieldDefinition : IDefinitions
+  internal class ImportedFieldDefinition : IDefinitions, IFieldMaps
   {
     private readonly string fieldName;
-    private readonly IDefinitions master;
+    private readonly FieldDefinition master;
 
     internal ImportedFieldDefinition(FieldDefinition master, string fieldName)
     {
@@ -22,5 +22,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
         .GetDefinitions<T>()
         .Concat(new FieldMappedMethods(fieldName, typeof(T)).GetDefinitions<T>())
         .Concat(new FieldMappedProperties(fieldName, typeof(T)).GetDefinitions<T>());
+
+    public IEnumerable<(string, object)> GetFields() => 
+	    master.GetFields();
   }
 }
