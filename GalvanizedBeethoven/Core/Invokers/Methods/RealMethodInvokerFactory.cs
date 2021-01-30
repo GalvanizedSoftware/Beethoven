@@ -1,20 +1,19 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Methods;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
 {
   internal class RealMethodInvokerFactory : IMethodInvokerFactory
   {
     private readonly MethodInfo methodInfo;
-    private readonly MethodDefinition methodDefinition;
+    private readonly MethodFieldInvoker methodFieldInvoker;
 
-    public RealMethodInvokerFactory(MethodInfo methodInfo, MethodDefinition methodDefinition)
+    public RealMethodInvokerFactory(MethodInfo methodInfo, MethodFieldInvoker methodFieldInvoker)
     {
       this.methodInfo = methodInfo;
-      this.methodDefinition = methodDefinition;
+      this.methodFieldInvoker = methodFieldInvoker;
     }
 
-    public MethodInvokerInstance CreateInstance(object master) =>
-      new(master, methodInfo, methodDefinition.GetInvokers(methodInfo));
+    public MethodInvokerInstance CreateInstance(object master) => 
+	    new(master, methodInfo, methodFieldInvoker);
   }
 }

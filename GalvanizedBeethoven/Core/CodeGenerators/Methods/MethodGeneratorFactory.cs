@@ -19,7 +19,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
     {
       IDefinition[] matchingDefinitions = definitions
         .Where(definition => definition.CanGenerate(methodInfo))
-        .ToArray(); return matchingDefinitions.Length switch
+        .ToArray();
+      return matchingDefinitions.Length switch
       {
         0 => new MethodNotImplementedGenerator(methodInfo),
         _ => new MethodGenerator(methodInfo, index),
