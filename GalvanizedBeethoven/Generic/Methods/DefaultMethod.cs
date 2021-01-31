@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods;
-using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
@@ -29,8 +28,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
     public MethodDefinition CreateMapped(MethodInfo methodInfo) =>
       new MappedDefaultMethod(methodInfo, mainFunc);
-
-    public IMethodMatcher MethodMatcher { get; } = new MatchAnything();
 
     public IEnumerable<IDefinition> GetDefinitions<T>() where T : class => 
       typeof(T)

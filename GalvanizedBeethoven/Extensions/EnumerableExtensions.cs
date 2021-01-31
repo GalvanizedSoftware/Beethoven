@@ -9,15 +9,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 {
   public static class EnumerableExtensions
   {
-    public static IEnumerable<T> SkipLast<T>(this IEnumerable<T> enumerable)
-    {
-      T[] array = enumerable.ToArray();
-      int length = array.Length;
-      for (int i = 0; i < length - 1; i++)
-        yield return array[i];
-    }
-
-    public static bool AllAndNonEmpty<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate = null)
+	  public static bool AllAndNonEmpty<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate = null)
     {
       if (source == null)
         return false;
@@ -32,13 +24,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       return result;
     }
 
-    public static IEnumerable<T> ExceptIndex<T>(this IEnumerable<T> enumerable, int skipIndex) =>
-      enumerable.Where((_, i) => i != skipIndex);
-
-    internal static string ToString(this IEnumerable<char> chars) =>
-      new(chars.ToArray());
-
-    internal static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
+	  internal static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
     {
       if (collection == null)
         return;

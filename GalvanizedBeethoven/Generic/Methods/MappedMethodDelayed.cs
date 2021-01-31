@@ -26,9 +26,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       this.creatorFunc = creatorFunc;
     }
 
-    public object GetInstance(object value) =>
-      instance ??= creatorFunc(value);
-
     public override IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo)
     {
 	    yield return new MappedInvokerDelayed(methodInfo, creatorFunc);
