@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
@@ -7,6 +6,7 @@ using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic;
+using GalvanizedSoftware.Beethoven.Generic.Methods;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
@@ -27,6 +27,9 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 
 		public MethodDefinition ToInvertedFlowControl() =>
 			new FlowControlMethodDefinition(this, true);
+
+		public MethodDefinition BreakFlowControl() =>
+			new BreakFlowControlDefinition(this);
 
 		public override bool CanGenerate(MemberInfo memberInfo) =>
 			MethodMatcher.IsMatchIgnoreGeneric(memberInfo as MethodInfo, Name);
