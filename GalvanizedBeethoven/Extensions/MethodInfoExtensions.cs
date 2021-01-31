@@ -47,21 +47,12 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     public static IEnumerable<ParameterInfo> GetParametersSafe(this MethodInfo methodInfo) =>
       methodInfo?.GetParameters() ?? Enumerable.Empty<ParameterInfo>();
 
-    public static bool TypeIgnoreGeneric(this MethodInfo methodInfo, IEnumerable<Type> parameters, Type[] genericArguments, Type returnType)
-    {
-      MethodInfo actualMethod = methodInfo.GetActualMethod(genericArguments);
-      return actualMethod
-               .GetParameterTypes()
-               .SequenceEqual(parameters) &&
-             returnType.IsMatchReturnTypeIgnoreGeneric(actualMethod);
-    }
-
     public static object Invoke(this MethodInfo methodInfo, object instance, object[] parameters, Type[] genericArguments) => 
 	    methodInfo.GetActualMethod(genericArguments)?.Invoke(instance, parameters);
 
     internal static MethodInfo GetActualMethod(this MethodInfo methodInfo, Type[] genericArguments) =>
       methodInfo == null ? null :
-      !methodInfo.IsGenericMethod ? methodInfo :
+      !methodInfo.IsGenericMethodDefinition ? methodInfo :
       genericArguments == null ? methodInfo :
       methodInfo.MakeGenericMethod(genericArguments);
 

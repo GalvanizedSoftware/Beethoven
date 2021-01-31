@@ -43,8 +43,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       invokerFactory = () => (object)PropertyInvokerFactory.Create<T>(definitions);
     }
 
-    public IPropertyInstance<T> CreateInstance(object master) =>
+    public IPropertyInstance<T> Create(object master) =>
       new MultiplePropertyInstance<T>(
-        definitions.Select(definition => definition.CreateInstance(master)));
+        definitions.Select(definition => definition.Create(master)));
   }
 }

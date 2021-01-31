@@ -2,8 +2,7 @@
 {
   public enum CodeType
   {
-    ClassCode,
-    FieldsCode,
+	  FieldsCode,
     ConstructorSignature,
     ConstructorFields,
     ConstructorCode,

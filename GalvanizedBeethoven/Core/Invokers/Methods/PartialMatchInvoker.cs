@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
@@ -68,12 +67,6 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
       if (index >= 0 && index < parameters.Length && masterParameters[index].Item1.IsByRefence())
         parameters[index] = value;
       return null;
-    }
-
-    private static IMethodMatcher GetMethodMatcher(object instance, string targetName, string mainParameterName)
-    {
-      Type type = instance?.GetType();
-      return new MatchMethodNoReturn(type, targetName, mainParameterName);
     }
   }
 }

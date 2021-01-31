@@ -13,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.valueCreator = valueCreator;
     }
 
-    public IPropertyInstance<T> CreateInstance(object master) =>
+    public IPropertyInstance<T> Create(object master) =>
       new LazyCreatorInstance<T>(valueCreator);
   }
 }

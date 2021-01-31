@@ -20,6 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
       this.methodInvokers = methodInvokers.ToArray();
     }
 
+    // ReSharper disable once UnusedMember.Global
     public object Invoke(Type[] genericTypes, object[] parameters)
     {
       MethodInfo realMethodInfo = methodInfo.IsGenericMethod ?

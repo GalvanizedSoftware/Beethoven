@@ -12,7 +12,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.name = name;
     }
 
-    public IPropertyInstance<T> CreateInstance(object master) => 
+    public IPropertyInstance<T> Create(object master) => 
       new NotifyChangedInstance<T>(master, name);
   }
 }

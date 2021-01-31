@@ -13,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
       this.methodFieldInvoker = methodFieldInvoker;
     }
 
-    public MethodInvokerInstance CreateInstance(object master) => 
+    public MethodInvokerInstance Create(object master) => 
 	    new(master, methodInfo, methodFieldInvoker);
   }
 }

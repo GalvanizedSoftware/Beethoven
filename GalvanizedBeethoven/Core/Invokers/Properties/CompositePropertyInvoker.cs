@@ -12,8 +12,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
       this.definitions = definitions;
     }
 
-    public IPropertyInvokerInstance<T> CreateInstance(object master) =>
+    public IPropertyInvokerInstance<T> Create(object master) =>
       new CompositePropertyInvokerInstance<T>(
-        definitions.Select(definition => definition.CreateInstance(master)));
+        definitions.Select(definition => definition.Create(master)));
   }
 }

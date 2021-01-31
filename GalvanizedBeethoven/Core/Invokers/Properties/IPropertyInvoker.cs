@@ -2,6 +2,6 @@
 {
   public interface IPropertyInvoker<T>
   {
-    IPropertyInvokerInstance<T> CreateInstance(object master);
+    IPropertyInvokerInstance<T> Create(object master);
   }
 }

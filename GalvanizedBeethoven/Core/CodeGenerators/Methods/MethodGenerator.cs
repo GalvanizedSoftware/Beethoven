@@ -16,13 +16,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
     private readonly MethodInfo methodInfo;
     private readonly int methodIndex;
 
-    public MethodGenerator(GeneratorContext generatorContext) :
-      this(
-        generatorContext?.MemberInfo as MethodInfo, 
-        generatorContext?.MethodIndex ?? 0)
-    {
-    }
-
     public MethodGenerator(MethodInfo methodInfo, int methodIndex)
     {
       this.methodInfo = methodInfo;

@@ -4,7 +4,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
   internal class NotSupportedPropertyInvoker<T> : IPropertyInvoker<T>
   {
-    public IPropertyInvokerInstance<T> CreateInstance(object _) =>
+    public IPropertyInvokerInstance<T> Create(object _) =>
       new InvokerInstanceWrapper<T>(new NotSupportedInstance<T>());
   }
 }

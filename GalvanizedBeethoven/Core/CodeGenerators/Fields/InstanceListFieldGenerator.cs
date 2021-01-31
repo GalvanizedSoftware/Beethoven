@@ -4,12 +4,14 @@ using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.FieldInstances;
 using GalvanizedSoftware.Beethoven.Extensions;
 using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
+using static GalvanizedSoftware.Beethoven.Core.GeneratorHelper;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 {
   internal class InstanceListFieldGenerator<T> : ICodeGenerator where T : class
   {
-    private static readonly string instanceListType = typeof(InstanceList<T>).GetFullName();
+	  private const string CreateName = nameof(InstanceList<T>.Create);
+	  private static readonly string instanceListType = typeof(InstanceList<T>).GetFullName();
 
     public static InstanceListFieldGenerator<T> Create(MemberInfo factoryMemberInfo) =>
       new(GetFactory(factoryMemberInfo));
@@ -26,8 +28,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      yield return (FieldsCode,
-        $@"private {instanceListType} instanceList = {instanceListType}.Create({factoryCode});");
+	    yield return (FieldsCode,
+        $@"private {instanceListType} {InstanceListName} = {instanceListType}.{CreateName}({factoryCode});");
     }
 
     private static string GetFactory(MemberInfo factoryMemberInfo) =>

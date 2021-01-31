@@ -5,7 +5,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   public class InitialParameterValue<T> : IPropertyDefinition<T>
   {
-    public IPropertyInstance<T> CreateInstance(object master) =>
+    public IPropertyInstance<T> Create(object master) =>
       new InitialParameterValueInstance<T>();
   }
 }

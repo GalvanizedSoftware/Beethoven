@@ -13,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.checkFunc = checkFunc;
     }
 
-    public IPropertyInstance<T> CreateInstance(object master) =>
+    public IPropertyInstance<T> Create(object master) =>
       new ValidityCheckInstance<T>(checkFunc);
   }
 }

@@ -2,6 +2,7 @@
 using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 using System.Collections.Generic;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
 using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 using static GalvanizedSoftware.Beethoven.Core.GeneratorHelper;
 
@@ -20,8 +21,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      yield return (ConstructorCode,
-        $@"{invokerName} = {InstanceListName}.GetInstance<{invokerType}>(""{invokerName}"").CreateInstance(this);");
+	    yield return (ConstructorCode,
+        $@"{invokerName} = {InstanceListName}.GetInstance<{invokerType}>(""{invokerName}"")" + 
+        $@".{nameof(IMethodInvokerFactory.Create)}(this);");
     }
   }
 }

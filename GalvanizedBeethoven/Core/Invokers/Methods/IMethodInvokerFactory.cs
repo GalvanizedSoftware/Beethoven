@@ -2,7 +2,6 @@
 {
   public interface IMethodInvokerFactory
   {
-    // ReSharper disable once UnusedMember.Global
-    MethodInvokerInstance CreateInstance(object master);
+    MethodInvokerInstance Create(object master);
   }
 }
