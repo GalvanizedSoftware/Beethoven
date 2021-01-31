@@ -56,8 +56,8 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       GenericMethods2 genericMethods2 = new GenericMethods2();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       IGenericMethods instance = beethovenFactory.Generate<IGenericMethods>(
-        FuncMethod.Create("Simple", genericMethods2.SimpleString),
-        FuncMethod.Create("Simple", genericMethods2.SimpleInt),
+        FuncMethod.Create("Simple", genericMethods2.SimpleString).BreakFlowControl(),
+        FuncMethod.Create("Simple", genericMethods2.SimpleInt).BreakFlowControl(),
         genericMethods2);
       Assert.AreEqual(5, instance.Simple<int>());
       Assert.AreEqual("abcd", instance.Simple<string>());
