@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Generic;
 using GalvanizedSoftware.Beethoven.Generic.Methods;
-using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-	public abstract class MethodDefinition : DefaultDefinition, IDefinitions
+	public abstract class MethodDefinition : DefaultDefinition
 	{
 		protected MethodDefinition(string name, IMethodMatcher methodMatcher)
 		{
@@ -35,10 +32,5 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 			MethodMatcher.IsMatchIgnoreGeneric(memberInfo as MethodInfo, Name);
 
 		public override ICodeGenerator GetGenerator(GeneratorContext _) => null;
-
-		public IEnumerable<IDefinition> GetDefinitions<T>() where T : class
-		{
-			yield return this;
-		}
 	}
 }
