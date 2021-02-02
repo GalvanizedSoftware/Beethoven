@@ -36,7 +36,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
           .Select(i => tmp1));
       text2 = new string(text2.Reverse().ToArray());
       returnValue = text1.Length;
-      return true;
+      return false;
     }
 
     // Note to get value from previous call, text1 has to be ref not out (luckily both are valid)

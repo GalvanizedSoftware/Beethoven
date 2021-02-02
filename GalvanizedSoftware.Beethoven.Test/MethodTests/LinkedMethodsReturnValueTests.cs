@@ -55,21 +55,20 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
       Assert.Fail();
     }
 
-    [TestMethod]
-    public void LinkedMethodsReturnValueTest4()
-    {
-      CustomImplentation implementation = new CustomImplentation();
-      BeethovenFactory beethovenFactory = new BeethovenFactory();
-      ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
-        LinkedMethodsReturnValue.Create<ITestMethods>(nameof(ITestMethods.OutAndRef))
-          .MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
-          .InvertResult()
-          .Action(Assert.Fail));
-      string text2 = "wetwt";
-      instance.OutAndRef(out string _, ref text2, 5);
-    }
+		[TestMethod]
+		public void LinkedMethodsReturnValueTest4()
+		{
+			CustomImplentation implementation = new CustomImplentation();
+			BeethovenFactory beethovenFactory = new BeethovenFactory();
+			ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
+				LinkedMethodsReturnValue.Create<ITestMethods>(nameof(ITestMethods.OutAndRef))
+					.MappedMethod(implementation, nameof(CustomImplentation.OutAndRef))
+					.Action(Assert.Fail));
+			string text2 = "wetwt";
+			instance.OutAndRef(out string _, ref text2, 5);
+		}
 
-    [TestMethod]
+		[TestMethod]
     public void LinkedMethodsReturnValueTest5()
     {
       CustomImplentation implementation = new CustomImplentation();

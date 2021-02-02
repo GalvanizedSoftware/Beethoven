@@ -57,7 +57,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Add(new MappedMethod(Name, instance, Name));
 
     public LinkedMethodsReturnValue InvertResult() => 
-        Add(new InvertResultMethod(Name));
+	    Add(new InvertResultMethod(Name));
 
     public LinkedMethodsReturnValue SkipIf(Func<bool> condition) =>
       Add(FlowControlMethodInverted.Create(Name, condition));
