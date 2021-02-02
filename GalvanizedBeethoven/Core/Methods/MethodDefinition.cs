@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Linq;
+using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
@@ -32,5 +34,16 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 			MethodMatcher.IsMatchIgnoreGeneric(memberInfo as MethodInfo, Name);
 
 		public override ICodeGenerator GetGenerator(GeneratorContext _) => null;
+
+		protected bool IsFlowControlType(MethodInfo realMethodInfo, MethodInfo internalMethodInfo)
+		{
+			ParameterInfo[] realParameters = realMethodInfo.GetParameters();
+			Type realReturnType = realMethodInfo.ReturnType;
+			ParameterInfo[] internalParameters = internalMethodInfo.GetParameters();
+			ParameterInfo internalLastParameter = internalParameters.LastOrDefault();
+			return (realParameters.Length + 1 == internalParameters.Length &&
+			        internalLastParameter?.ParameterType == realReturnType.MakeByRefType());
+
+		}
 	}
 }
