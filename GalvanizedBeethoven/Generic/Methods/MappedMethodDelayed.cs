@@ -12,7 +12,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
   {
     private readonly Func<object, object> creatorFunc;
     private readonly MethodInfo methodInfo;
-    private object instance;
 
     public MappedMethodDelayed(MethodInfo methodInfo, Func<object, object> creatorFunc) :
       this(methodInfo?.Name, methodInfo, creatorFunc)
