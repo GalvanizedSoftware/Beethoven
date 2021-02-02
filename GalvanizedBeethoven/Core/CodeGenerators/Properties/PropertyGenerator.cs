@@ -37,16 +37,14 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 			);
 			return invokerGenerators.Generate()
 				.Concat(
-					GeneratePropertyCode().TagCode(PropertiesCode));
+					PropertiesCode.EnumerateCode
+					(
+						$@"public {propertyType.GetFullName()} {propertyInfoName}",
+						"{",
+						$"get => {invokerName}.{InvokeGetterName}();".Format(1),
+						$"set => {invokerName}.{InvokeSetterName}(value);".Format(1),
+			      "}"
+					));
 		}
-
-		private IEnumerable<string> GeneratePropertyCode()
-		{
-			yield return $@"public {propertyType.GetFullName()} {propertyInfoName}";
-			yield return "{";
-			yield return $"get => {invokerName}.{InvokeGetterName}();".Format(1);
-			yield return $"set => {invokerName}.{InvokeSetterName}(value);".Format(1);
-      yield return "}";
-    }
   }
 }

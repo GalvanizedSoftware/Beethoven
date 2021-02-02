@@ -20,10 +20,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
 			typeName = type.GetFullName();
 		}
 
-		public IEnumerable<(CodeType, string)?> Generate()
-		{
-			yield return (ConstructorCode,
+		public IEnumerable<(CodeType, string)?> Generate() =>
+			ConstructorCode.EnumerateCode(
 				$@"{fieldName} = {InstanceListName}.{GetInstanceName}<{typeName}>(""{fieldName}"");");
-		}
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using System.Collections.Generic;
 using GalvanizedSoftware.Beethoven.Extensions;
-using System.Linq;
 using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 
@@ -18,16 +17,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       methodInfo = generatorContext?.MemberInfo as MethodInfo;
     }
 
-    public IEnumerable<(CodeType, string)?> Generate()
-    {
-      return GenerateLocal().Select(code => ((CodeType, string)?)(MethodsCode, code));
-      IEnumerable<string> GenerateLocal()
-      {
-        foreach (string line in new MethodSignatureGenerator(methodInfo).GenerateDeclaration())
-          yield return line;
-        yield return "=>".Format(1);
-        yield return $"{fieldName}.;".Format(1);
-      }
-    }
+    public IEnumerable<(CodeType, string)?> Generate() =>
+	    MethodsCode.EnumerateCode
+	    (
+		    new MethodSignatureGenerator(methodInfo).GenerateDeclaration(),
+		    "=>".Format(1),
+		    $"{fieldName}.;".Format(1)
+	    );
   }
 }

@@ -21,10 +21,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       invokerType = typeof(IPropertyInvoker<>).MakeGenericType(propertyType).GetFullName();
     }
 
-    public IEnumerable<(CodeType, string)?> Generate()
-    {
-	    yield return (ConstructorFields,
+    public IEnumerable<(CodeType, string)?> Generate() =>
+	    ConstructorFields.EnumerateCode(
 		    $@"{invokerName} = {InstanceListName}.{GetInstanceName}<{invokerType}>(""{invokerName}"").{CreateName}(this);");
-    }
   }
 }

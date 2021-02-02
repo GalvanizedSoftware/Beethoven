@@ -17,9 +17,8 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
       this.fieldName = fieldName ?? throw new NullReferenceException();
     }
 
-    public IEnumerable<(CodeType, string)?> Generate()
-    {
-      yield return (FieldsCode, $"private {type.GetFullName()} {fieldName};");
-    }
+    public IEnumerable<(CodeType, string)?> Generate() => 
+	    FieldsCode.EnumerateCode(
+		    $"private {type.GetFullName()} {fieldName};");
   }
 }

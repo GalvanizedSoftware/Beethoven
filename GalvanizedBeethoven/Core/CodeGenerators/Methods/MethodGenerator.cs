@@ -11,57 +11,53 @@ using static GalvanizedSoftware.Beethoven.Core.CodeGenerators.CodeType;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
 {
-  internal class MethodGenerator : ICodeGenerator
-  {
-    private readonly MethodInfo methodInfo;
-    private readonly int methodIndex;
+	internal class MethodGenerator : ICodeGenerator
+	{
+		private readonly MethodInfo methodInfo;
+		private readonly string invokerName;
 
-    public MethodGenerator(MethodInfo methodInfo, int methodIndex)
-    {
-      this.methodInfo = methodInfo;
-      this.methodIndex = methodIndex;
-    }
+		public MethodGenerator(MethodInfo methodInfo, int methodIndex)
+		{
+			this.methodInfo = methodInfo;
+			string methodName = $"{methodInfo?.Name}{methodIndex}";
+			invokerName = $"invoker{methodName}";
+		}
 
-    public IEnumerable<(CodeType, string)?> Generate()
-    {
-      string methodName = $"{methodInfo?.Name}{methodIndex}";
-      string invokerName = $"invoker{methodName}";
-      CodeGeneratorList invokerGenerators = new
-        (
-        new FieldDeclarationGenerator(typeof(MethodInvokerInstance), invokerName),
-        new MethodInvokerGenerator(invokerName)
-        );
-      return invokerGenerators.Generate()
-        .Concat(
-          GenerateLocal()
-            .Select(code => ((CodeType, string)?)(MethodsCode, code)));
-      IEnumerable<string> GenerateLocal()
-      {
-        ParameterInfo[] parameters = methodInfo.GetParametersSafe().ToArray();
-        Type returnType = methodInfo?.ReturnType;
-        MethodSignatureGenerator methodSignatureGenerator = new(methodInfo);
-        foreach (string line in methodSignatureGenerator.GenerateDeclaration())
-          yield return line;
-        yield return "{";
-        string parametersName = $"{invokerName}Parameters";
-        ParametersGenerator parametersGenerator = new(parameters, parametersName);
-        yield return parametersGenerator.GeneratePreInvoke().Format(1);
-        string returnValueName = $"{invokerName}Result";
-        yield return $"object {returnValueName} = {invokerName}.Invoke({GetGenericTypes()}, {parametersName});".Format(1);
-        foreach (string line in parametersGenerator.GeneratePostInvoke())
-          yield return line.Format(1);
-        if (returnType != typeof(void))
-          yield return $"return ({returnType.GetFullName()}){returnValueName};".Format(1);
-        yield return "}";
-        yield return "";
-      }
-    }
+		public IEnumerable<(CodeType, string)?> Generate()
+		{
+			CodeGeneratorList invokerGenerators = new(
+				new FieldDeclarationGenerator(typeof(MethodInvokerInstance), invokerName),
+				new MethodInvokerGenerator(invokerName));
+			return invokerGenerators.Generate()
+				.Concat(MethodsCode.EnumerateCode(GenerateLocal()));
+		}
 
-    private string GetGenericTypes() =>
-      "new System.Type[]" +
-      $"{{{string.Join(", ", methodInfo.GetGenericArguments().Select(GetTypeof))}}}";
+		private IEnumerable<string> GenerateLocal()
+		{
+			ParameterInfo[] parameters = methodInfo.GetParametersSafe().ToArray();
+			Type returnType = methodInfo?.ReturnType;
+			MethodSignatureGenerator methodSignatureGenerator = new(methodInfo);
+			foreach (string line in methodSignatureGenerator.GenerateDeclaration())
+				yield return line;
+			yield return "{";
+			string parametersName = $"{invokerName}Parameters";
+			ParametersGenerator parametersGenerator = new(parameters, parametersName);
+			yield return parametersGenerator.GeneratePreInvoke().Format(1);
+			string returnValueName = $"{invokerName}Result";
+			yield return $"object {returnValueName} = {invokerName}.Invoke({GetGenericTypes()}, {parametersName});".Format(1);
+			foreach (string line in parametersGenerator.GeneratePostInvoke())
+				yield return line.Format(1);
+			if (returnType != typeof(void))
+				yield return $"return ({returnType.GetFullName()}){returnValueName};".Format(1);
+			yield return "}";
+			yield return "";
+		}
 
-    private static string GetTypeof(Type type) =>
-      $"typeof({type.GetFullName()})";
-  }
+		private string GetGenericTypes() =>
+			"new System.Type[]" +
+			$"{{{string.Join(", ", methodInfo.GetGenericArguments().Select(GetTypeof))}}}";
+
+		private static string GetTypeof(Type type) =>
+			$"typeof({type.GetFullName()})";
+	}
 }

@@ -26,11 +26,9 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Fields
       this.factoryCode = factoryCode;
     }
 
-    public IEnumerable<(CodeType, string)?> Generate()
-    {
-	    yield return (FieldsCode,
-        $@"private {instanceListType} {InstanceListName} = {instanceListType}.{CreateName}({factoryCode});");
-    }
+    public IEnumerable<(CodeType, string)?> Generate() =>
+	    FieldsCode.EnumerateCode(
+		    $@"private {instanceListType} {InstanceListName} = {instanceListType}.{CreateName}({factoryCode});");
 
     private static string GetFactory(MemberInfo factoryMemberInfo) =>
       factoryMemberInfo switch

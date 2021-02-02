@@ -4,7 +4,7 @@ namespace GalvanizedSoftware.Beethoven.Core
 {
 	internal static class Enumerable
 	{
-		internal static IEnumerable<T> SingleEnumerable<T>(T value)
+		internal static IEnumerable<T> Single<T>(T value)
 		{
 			yield return value;
 		}
