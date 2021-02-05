@@ -20,9 +20,9 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
     {
       object flowReturnValue = false;
       foreach (IInvoker invoker in invokers)
-        if (!invoker.Invoke(localInstance, ref flowReturnValue, parameters, genericArguments, masterMethodInfo))
-          break;
-      return !(bool)flowReturnValue;
+        if (invoker.Invoke(localInstance, ref flowReturnValue, parameters, genericArguments, masterMethodInfo))
+          return false;
+      return true;
     }
   }
 }
