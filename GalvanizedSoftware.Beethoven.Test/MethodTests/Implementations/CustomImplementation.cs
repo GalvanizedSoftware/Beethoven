@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
 {
-  class CustomImplentation
+	internal class CustomImplementation
   {
     internal int GetLength(string text1, string text2, int count)
     {
@@ -35,7 +35,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
         Enumerable.Range(0, count)
           .Select(i => tmp1));
       text2 = new string(text2.Reverse().ToArray());
-      returnValue = text1.Length;
+      returnValue += text1.Length;
       return false;
     }
 
@@ -43,7 +43,7 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests.Implementations
     public bool OutAndRef1(ref string text1, ref string text2, int count, ref int returnValue)
     {
       returnValue += 1;
-      return false;
+      return true;
     }
   }
 }
