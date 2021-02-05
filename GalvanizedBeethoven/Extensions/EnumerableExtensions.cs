@@ -4,6 +4,7 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
@@ -40,18 +41,18 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         action(item.Item1, item.Item2);
     }
 
-    internal static (CodeType, string)[] GenerateCode(this IEnumerable<IDefinition> definitions, GeneratorContext generatorContext) =>
+    internal static (CodeType, string)[] GenerateCode(this IEnumerable<IDefinition> definitions, MemberInfo memberInfo) =>
       definitions
-        .GetGenerators(generatorContext)
+        .GetGenerators(memberInfo)
         .SelectMany(generator => generator.Generate())
         .SkipNull()
         .ToArray();
 
-    internal static IEnumerable<ICodeGenerator> GetGenerators(
-      this IEnumerable<IDefinition> definitions, GeneratorContext generatorContext) =>
+    internal static IEnumerable<ICodeGenerator> GetGenerators(this IEnumerable<IDefinition> definitions, 
+	    MemberInfo memberInfo) =>
       definitions
-        .Where(definition => definition.CanGenerate(generatorContext.MemberInfo))
-        .Select(definition => definition.GetGenerator(generatorContext))
+        .Where(definition => definition.CanGenerate(memberInfo))
+        .Select(definition => definition.GetGenerator(memberInfo))
         .SkipNull();
 
     public static IEnumerable<T> SkipNull<T>(this IEnumerable<T> enumerable) where T : class

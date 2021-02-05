@@ -33,7 +33,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
 		public override bool CanGenerate(MemberInfo memberInfo) =>
 			MethodMatcher.IsMatchIgnoreGeneric(memberInfo as MethodInfo, Name);
 
-		public override ICodeGenerator GetGenerator(GeneratorContext _) => null;
+		public override ICodeGenerator GetGenerator(MemberInfo memberInfo) => null;
 
 		protected bool IsFlowControlType(MethodInfo realMethodInfo, MethodInfo internalMethodInfo)
 		{

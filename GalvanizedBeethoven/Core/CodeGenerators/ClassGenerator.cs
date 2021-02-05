@@ -24,7 +24,6 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
     private readonly PropertyGenerators propertiesGenerator;
     private readonly MethodGenerators methodGenerators;
     private readonly EventGenerators eventGenerators;
-    private readonly GeneratorContext generatorContext;
 
     public ClassGenerator(MemberInfoList memberInfoList, Type interfaceType, NameDefinition nameDefinition, IDefinition[] definitions)
     {
@@ -36,12 +35,11 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
       methodGenerators = new MethodGenerators(
         memberInfoList.MethodInfos, memberInfoList.MethodIndexes, definitions);
       eventGenerators = new EventGenerators(memberInfoList.EventInfos, definitions);
-      generatorContext = new GeneratorContext();
     }
 
     public IEnumerable<string> Generate()
     {
-      (CodeType, string)[] code = definitions.GenerateCode(generatorContext)
+      (CodeType, string)[] code = definitions.GenerateCode(null)
         .Concat(Generate(propertiesGenerator))
         .Concat(Generate(methodGenerators))
         .Concat(Generate(eventGenerators))
@@ -71,7 +69,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 
     private IEnumerable<(CodeType, string)> Generate(ICodeGenerators codeGenerators) =>
       codeGenerators
-        .GetGenerators(generatorContext)
+        .GetGenerators()
         .SelectMany(codeGenerator => codeGenerator.Generate())
         .SkipNull();
   }

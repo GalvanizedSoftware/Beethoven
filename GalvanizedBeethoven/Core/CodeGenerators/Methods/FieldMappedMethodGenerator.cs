@@ -11,10 +11,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
     private readonly string fieldName;
     private readonly MethodInfo methodInfo;
 
-    public FieldMappedMethodGenerator(string fieldName, GeneratorContext generatorContext)
+    public FieldMappedMethodGenerator(string fieldName, MemberInfo memberInfo)
     {
       this.fieldName = fieldName;
-      methodInfo = generatorContext?.MemberInfo as MethodInfo;
+      methodInfo = memberInfo as MethodInfo;
     }
 
     public IEnumerable<(CodeType, string)?> Generate() =>

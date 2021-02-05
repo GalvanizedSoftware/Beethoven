@@ -9,7 +9,7 @@ namespace GalvanizedSoftware.Beethoven.Interfaces
   {
     int SortOrder { get; }
     bool CanGenerate(MemberInfo memberInfo);
-    ICodeGenerator GetGenerator(GeneratorContext generatorContext);
+    ICodeGenerator GetGenerator(MemberInfo memberInfo);
     IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo);
   }
 }

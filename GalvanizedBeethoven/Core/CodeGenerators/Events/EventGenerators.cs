@@ -17,12 +17,12 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
       this.definitions = definitions.ToArray();
     }
 
-    public IEnumerable<ICodeGenerator> GetGenerators(GeneratorContext generatorContext)
+    public IEnumerable<ICodeGenerator> GetGenerators()
     {
       foreach (EventInfo eventInfo in eventInfos)
         yield return new EventGenerator(          
           definitions,
-          generatorContext.CreateLocal(eventInfo))
+          eventInfo)
           .CreateCodeGenerator();
       yield return new NotifyEventGenerator(eventInfos);
     }

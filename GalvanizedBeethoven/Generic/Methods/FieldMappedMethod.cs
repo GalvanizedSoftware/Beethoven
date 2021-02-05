@@ -23,7 +23,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public override bool CanGenerate(MemberInfo memberInfo) =>
       methodMatcher.IsMatchIgnoreGeneric(memberInfo as MethodInfo, memberInfo?.Name);
 
-    public override ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
-      new FieldMappedMethodGenerator(fieldName, generatorContext);
+    public override ICodeGenerator GetGenerator(MemberInfo memberInfo) =>
+      new FieldMappedMethodGenerator(fieldName, memberInfo);
   }
 }

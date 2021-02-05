@@ -19,7 +19,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       methodGeneratorFactory = new(definitions);
     }
 
-    public IEnumerable<ICodeGenerator> GetGenerators(GeneratorContext generatorContext) =>
+    public IEnumerable<ICodeGenerator> GetGenerators() =>
       methodInfos
         .Select(CreateFactory);
 

@@ -17,6 +17,6 @@ namespace GalvanizedSoftware.Beethoven.Generic.Events
     public override bool CanGenerate(MemberInfo memberInfo) =>
 
       (memberInfo as EventInfo)?.Name == name;
-    public override ICodeGenerator GetGenerator(GeneratorContext _) => new SimpleEventGenerator<T>(name);
+    public override ICodeGenerator GetGenerator(MemberInfo memberInfo) => new SimpleEventGenerator<T>(name);
   }
 }

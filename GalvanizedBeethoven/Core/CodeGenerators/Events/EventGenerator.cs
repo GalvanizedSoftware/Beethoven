@@ -2,6 +2,7 @@
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Linq;
+using System.Reflection;
 using GalvanizedSoftware.Beethoven.Generic.Events;
 
 namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
@@ -9,19 +10,19 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
   internal class EventGenerator
   {
     private readonly IDefinition[] definitions;
-    private readonly GeneratorContext generatorContext;
+    private readonly EventInfo eventInfo;
 
-    public EventGenerator(IDefinition[] definitions, GeneratorContext generatorContext)
+    public EventGenerator(IDefinition[] definitions, EventInfo eventInfo)
     {
-      this.generatorContext = generatorContext;
+	    this.eventInfo = eventInfo;
       this.definitions = definitions;
     }
 
     internal ICodeGenerator CreateCodeGenerator() =>
       definitions
-        .GetGenerators(generatorContext)
+        .GetGenerators(eventInfo)
         .FirstOrDefault() ??
-        new DefaultEvent().GetGenerator(generatorContext);
+        new DefaultEvent().GetGenerator(eventInfo);
   }
 }
 

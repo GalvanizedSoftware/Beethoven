@@ -19,7 +19,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
 		public override int SortOrder => 2;
 
-		public override ICodeGenerator GetGenerator(GeneratorContext generatorContext) => 
+		public override ICodeGenerator GetGenerator(MemberInfo memberInfo) => 
 			new MethodNotImplementedGenerator(methodInfo);
 	}
 }

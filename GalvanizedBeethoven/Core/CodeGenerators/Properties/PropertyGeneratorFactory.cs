@@ -10,13 +10,11 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
   internal class PropertyGeneratorFactory
   {
     private readonly PropertyInfo propertyInfo;
-    private readonly GeneratorContext generatorContext;
     private readonly IDefinition[] definitions;
 
-    public PropertyGeneratorFactory(GeneratorContext generatorContext, PropertyInfo propertyInfo, IEnumerable<IDefinition> definitions)
+    public PropertyGeneratorFactory(PropertyInfo propertyInfo, IEnumerable<IDefinition> definitions)
     {
       this.propertyInfo = propertyInfo;
-      this.generatorContext = generatorContext.CreateLocal(propertyInfo);
       this.definitions = definitions
         .Where(definition => definition.CanGenerate(propertyInfo))
         .ToArray();
@@ -30,7 +28,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
     };
 
     private ICodeGenerator GetSingleGenerator(IDefinition definition) =>
-      definition.GetGenerator(generatorContext);
+      definition.GetGenerator(propertyInfo);
 
     private ICodeGenerator GetMultiGenerator()
     {

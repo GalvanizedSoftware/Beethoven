@@ -17,10 +17,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       this.definitions = definitions;
     }
 
-    public IEnumerable<ICodeGenerator> GetGenerators(GeneratorContext generatorContext) =>
+    public IEnumerable<ICodeGenerator> GetGenerators() =>
       propertyInfos
         .Select(
-          propertyInfo => new PropertyGeneratorFactory(generatorContext, propertyInfo, definitions)
+          propertyInfo => new PropertyGeneratorFactory(propertyInfo, definitions)
             .Create());
   }
 }

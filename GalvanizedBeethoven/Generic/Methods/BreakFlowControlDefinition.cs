@@ -26,8 +26,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 		public override bool CanGenerate(MemberInfo memberInfo) => 
 			master.CanGenerate(memberInfo);
 
-		public override ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
-			master.GetGenerator(generatorContext);
+		public override ICodeGenerator GetGenerator(MemberInfo memberInfo) =>
+			master.GetGenerator(memberInfo);
 
 		public override int SortOrder => master.SortOrder;
 	}

@@ -22,7 +22,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
     public override bool CanGenerate(MemberInfo memberInfo) =>
       memberInfo.IsMatch(propertyInfo);
 
-    public override ICodeGenerator GetGenerator(GeneratorContext _) =>
+    public override ICodeGenerator GetGenerator(MemberInfo memberInfo) =>
       new FieldMappedPropertyGenerator( propertyInfo, fieldName);
   }
 }

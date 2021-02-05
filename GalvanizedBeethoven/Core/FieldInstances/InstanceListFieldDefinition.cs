@@ -23,7 +23,7 @@ namespace GalvanizedSoftware.Beethoven.Core.FieldInstances
       this.factory = factory;
     }
 
-    public override ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
+    public override ICodeGenerator GetGenerator(MemberInfo memberInfo) =>
       factory();
   }
 }
