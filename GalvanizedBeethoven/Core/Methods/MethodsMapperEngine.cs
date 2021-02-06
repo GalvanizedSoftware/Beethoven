@@ -7,21 +7,27 @@ using GalvanizedSoftware.Beethoven.Extensions;
 
 namespace GalvanizedSoftware.Beethoven.Core.Methods
 {
-  internal class MethodsMapperEngine
-  {
-    private readonly MethodInfo[] interfaceMethods;
+	internal class MethodsMapperEngine
+	{
+		private readonly MethodInfo[] interfaceMethods;
 
-    public MethodsMapperEngine(Type mainType)
-    {
-      interfaceMethods = mainType.GetAllMethodsAndInherited().ToArray();
-    }
+		public static MethodsMapperEngine Create<T>() =>
+			new(typeof(T));
 
-    public IEnumerable<MappedMethod> GenerateMappings(object baseObject, Type baseType) =>
-      baseType
-        .GetAllTypes()
-        .SelectMany(type => type.GetNotSpecialMethods())
-        .Intersect(interfaceMethods, new ExactMethodComparer())
-        .Select(methodInfo => new MappedMethod(methodInfo, baseObject))
-        .ToArray();
-  }
+		private MethodsMapperEngine(Type mainType)
+		{
+			interfaceMethods = mainType.GetAllMethodsAndInherited().ToArray();
+		}
+
+		public IEnumerable<MappedMethod> GenerateMappings(object baseObject, Type baseType) =>
+			GetMethodInfos(baseType)
+				.Select(methodInfo => new MappedMethod(methodInfo, baseObject))
+				.ToArray();
+
+		public IEnumerable<MethodInfo> GetMethodInfos(Type baseType) =>
+			baseType
+				.GetAllTypes()
+				.SelectMany(type => type.GetNotSpecialMethods())
+				.Intersect(interfaceMethods, new ExactMethodComparer());
+	}
 }

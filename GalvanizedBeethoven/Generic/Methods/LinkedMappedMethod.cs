@@ -8,17 +8,17 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class MappedMethodDelayed : MethodDefinition
+  public class LinkedMappedMethod : MethodDefinition
   {
     private readonly Func<object, object> creatorFunc;
     private readonly MethodInfo methodInfo;
 
-    public MappedMethodDelayed(MethodInfo methodInfo, Func<object, object> creatorFunc) :
+    public LinkedMappedMethod(MethodInfo methodInfo, Func<object, object> creatorFunc) :
       this(methodInfo?.Name, methodInfo, creatorFunc)
     {
     }
 
-    private MappedMethodDelayed(string mainName, MethodInfo methodInfo, Func<object, object> creatorFunc) :
+    private LinkedMappedMethod(string mainName, MethodInfo methodInfo, Func<object, object> creatorFunc) :
       base(mainName, new MatchMethodInfoExact(methodInfo))
     {
       this.methodInfo = methodInfo;
