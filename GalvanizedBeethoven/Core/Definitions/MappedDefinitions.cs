@@ -29,7 +29,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Definitions
       {
         case null:
         case IDefinition:
-        case IEnumerable<IDefinition>:
+        case IDefinitions:
           break;
         default:
           yield return instance;
