@@ -11,19 +11,14 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Methods
     private readonly MethodInfo methodInfo;
     private object instance;
 
-    public MappedInvokerDelayed(MethodInfo methodInfo, Func<object, object> creatorFunc) :
-      this(methodInfo?.Name, methodInfo, creatorFunc)
-    {
-    }
-
-    private MappedInvokerDelayed(string mainName, MethodInfo methodInfo, Func<object, object> creatorFunc)
+    public MappedInvokerDelayed(MethodInfo methodInfo, Func<object, object> creatorFunc)
     {
       this.methodInfo = methodInfo;
       this.creatorFunc = creatorFunc;
     }
 
-    public object GetInstance(object value) =>
-      instance ?? (instance = creatorFunc(value));
+    private object GetInstance(object value) =>
+      instance ??= creatorFunc(value);
 
     public bool Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
       MethodInfo _)
