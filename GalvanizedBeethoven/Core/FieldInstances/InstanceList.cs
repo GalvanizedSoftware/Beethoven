@@ -8,11 +8,9 @@ namespace GalvanizedSoftware.Beethoven.Core.FieldInstances
 {
   public class InstanceList<T> where T : class
   {
-	  // ReSharper disable once UnusedMember.Global
 	  public static InstanceList<T> Create(IFactoryDefinition<T> factoryDefinition) =>
       new(new(factoryDefinition.PartDefinitions));
 
-	  // ReSharper disable once UnusedMember.Global
 	  public static InstanceList<T> Create(string id) =>
       new(TypeDefinitionList.Get<T>(id).PartDefinitions);
 
