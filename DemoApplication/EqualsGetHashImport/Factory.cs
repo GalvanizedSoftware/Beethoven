@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GalvanizedSoftware.Beethoven.Generic.Methods;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport
@@ -13,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport
         new DefaultProperty()
           .InitialValue(new byte[0])
           .SetterGetter(),
-        new EqualsGetHash<IValueHolder>(ValuesGetterFunc));
+        LinkedMappedMethods.Create(ComparerCreator));
       if (name != null)
         valueHolder.Name = name;
       valueHolder.Value = value;
@@ -21,6 +22,9 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport
         valueHolder.Data = data;
       return valueHolder;
     }
+
+    private static IEqualsGetHash ComparerCreator(object instance) =>
+	    new EqualsGetHash<IValueHolder>(ValuesGetterFunc, (IValueHolder)instance);
 
     private static IEnumerable<object> ValuesGetterFunc(IValueHolder arg)
     {
