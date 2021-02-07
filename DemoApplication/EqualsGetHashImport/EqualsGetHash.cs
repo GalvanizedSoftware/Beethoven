@@ -5,7 +5,7 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport
 {
-  public class EqualsGetHash<T> : IBindingParent, IEqualsGetHash where T : class
+  public class EqualsGetHash<T> : IEqualsGetHash where T : class
   {
     private readonly Func<T, IEnumerable<object>> valuesGetterFunc;
     private T master;
@@ -36,11 +36,6 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.EqualsGetHashImport
         return valuesGetterFunc(master)
           .Aggregate(17, (hash, obj) => hash * 23 + obj?.GetHashCode() ?? 0);
       }
-    }
-
-    public void Bind(object target)
-    {
-      master = target as T;
     }
   }
 }
