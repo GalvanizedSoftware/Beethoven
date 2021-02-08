@@ -2,15 +2,15 @@
 using System.ComponentModel;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
-  internal class NotifyChangedInstance<T> : IPropertyInstance<T>
+  internal class NotifyChangedInvoker<T> : IPropertyInvoker<T>
   {
     private const string PropertyChangedName = nameof(INotifyPropertyChanged.PropertyChanged);
     private readonly PropertyChangedEventArgs eventArgs;
     private readonly IGeneratedClass master;
 
-    public NotifyChangedInstance(object master, string name)
+    public NotifyChangedInvoker(object master, string name)
     {
       this.master = master as IGeneratedClass ?? throw new NullReferenceException();
       eventArgs = new PropertyChangedEventArgs(name);

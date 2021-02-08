@@ -1,13 +1,13 @@
 ﻿using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
-  public class InitialValueInstance<T> : IPropertyInstance<T>
+  public class InitialValueInvoker<T> : IPropertyInvoker<T>
   {
     private readonly T value;
     private bool valueSet;
 
-    public InitialValueInstance(T value)
+    public InitialValueInvoker(T value)
     {
       this.value = value;
     }

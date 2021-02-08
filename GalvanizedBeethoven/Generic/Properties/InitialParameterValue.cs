@@ -1,11 +1,11 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
+﻿using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   public class InitialParameterValue<T> : IPropertyDefinition<T>
   {
-    public IPropertyInstance<T> Create(object master) =>
-      new InitialParameterValueInstance<T>();
+    public IPropertyInvoker<T> Create(object master) =>
+      new InitialParameterValueInvoker<T>();
   }
 }

@@ -1,6 +1,6 @@
 ﻿namespace GalvanizedSoftware.Beethoven.Interfaces
 {
-  public interface IPropertyInstance<T>
+  public interface IPropertyInvoker<T>
   {
     bool InvokeGetter(ref T returnValue);
     bool InvokeSetter(T newValue);

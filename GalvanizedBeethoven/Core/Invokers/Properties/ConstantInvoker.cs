@@ -1,14 +1,14 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
-  public class ConstantInstance<T> : IPropertyInstance<T>
+  public class ConstantInvoker<T> : IPropertyInvoker<T>
   {
     private readonly Action<T> errorHandler;
     private readonly T value;
 
-    public ConstantInstance(T value, Action<T> errorHandler = null)
+    public ConstantInvoker(T value, Action<T> errorHandler = null)
     {
       this.value = value;
       this.errorHandler = errorHandler ??

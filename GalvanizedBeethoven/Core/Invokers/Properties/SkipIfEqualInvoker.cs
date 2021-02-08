@@ -1,8 +1,8 @@
 ﻿using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
-  internal class SkipIfEqualInstance<T> : IPropertyInstance<T>
+  internal class SkipIfEqualInvoker<T> : IPropertyInvoker<T>
   {
     private T oldValue;
 

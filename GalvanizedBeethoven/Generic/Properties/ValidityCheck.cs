@@ -1,5 +1,5 @@
 ﻿using System;
-using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
@@ -13,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.checkFunc = checkFunc;
     }
 
-    public IPropertyInstance<T> Create(object master) =>
-      new ValidityCheckInstance<T>(checkFunc);
+    public IPropertyInvoker<T> Create(object master) =>
+      new ValidityCheckInvoker<T>(checkFunc);
   }
 }

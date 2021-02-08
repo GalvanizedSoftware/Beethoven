@@ -1,8 +1,8 @@
 ﻿using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
-  public class SetterGetterInstance<T> : IPropertyInstance<T>
+  public class SetterGetterInvoker<T> : IPropertyInvoker<T>
   {
     private T value;
 

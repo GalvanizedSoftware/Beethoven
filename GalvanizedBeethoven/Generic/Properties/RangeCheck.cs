@@ -1,5 +1,5 @@
 ﻿using System;
-using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
@@ -15,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.maximum = maximum;
     }
 
-    public IPropertyInstance<T> Create(object master) =>
-      new RangeCheckInstance<T>(minimum, maximum);
+    public IPropertyInvoker<T> Create(object master) =>
+      new RangeCheckInvoker<T>(minimum, maximum);
   }
 }

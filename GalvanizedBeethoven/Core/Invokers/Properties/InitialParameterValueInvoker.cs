@@ -1,8 +1,8 @@
 ﻿using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
-  public class InitialParameterValueInstance<T> : IPropertyInstance<T>
+  public class InitialParameterValueInvoker<T> : IPropertyInvoker<T>
   {
     private bool valueSet;
 

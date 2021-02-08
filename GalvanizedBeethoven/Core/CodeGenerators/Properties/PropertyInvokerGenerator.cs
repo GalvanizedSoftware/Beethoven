@@ -10,7 +10,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 {
   internal class PropertyInvokerGenerator : ICodeGenerator
   {
-	  private const string CreateName = nameof(IPropertyInvoker<object>.Create);
+	  private const string CreateName = nameof(PropertyInvokerFactory<object>.Create);
 	  private const string GetInstanceName = @"GetInstance";
 	  private readonly string invokerName;
     private readonly string invokerType;
@@ -18,7 +18,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
     public PropertyInvokerGenerator(string invokerName, Type propertyType)
     {
       this.invokerName = invokerName;
-      invokerType = typeof(IPropertyInvoker<>).MakeGenericType(propertyType).GetFullName();
+      invokerType = typeof(PropertyInvokerFactory<>).MakeGenericType(propertyType).GetFullName();
     }
 
     public IEnumerable<(CodeType, string)?> Generate() =>

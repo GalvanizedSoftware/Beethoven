@@ -1,13 +1,13 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
-  public class DelegatedGetterInstance<T> : IPropertyInstance<T>
+  public class DelegatedGetterInvoker<T> : IPropertyInvoker<T>
   {
     private readonly Func<T> delegateFunc;
 
-    public DelegatedGetterInstance(Func<T> delegateFunc)
+    public DelegatedGetterInvoker(Func<T> delegateFunc)
     {
       this.delegateFunc = delegateFunc;
     }

@@ -1,13 +1,13 @@
-﻿using GalvanizedSoftware.Beethoven.Interfaces;
-using System;
+﻿using System;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
-  public class ValidityCheckInstance<T> : IPropertyInstance<T>
+  public class ValidityCheckInvoker<T> : IPropertyInvoker<T>
   {
     private readonly Func<T, bool> checkFunc;
 
-    public ValidityCheckInstance(Func<T, bool> checkFunc)
+    public ValidityCheckInvoker(Func<T, bool> checkFunc)
     {
       this.checkFunc = checkFunc;
     }

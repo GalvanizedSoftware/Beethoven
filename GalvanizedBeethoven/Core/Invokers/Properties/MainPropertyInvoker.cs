@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
-  internal class CompositePropertyInvokerInstance<T> : IPropertyInvokerInstance<T>
+	public class MainPropertyInvoker<T>
   {
-    private readonly IPropertyInstance<T>[] implementation;
+    private readonly IPropertyInvoker<T>[] implementation;
 
-    public CompositePropertyInvokerInstance(IEnumerable<IPropertyInstance<T>> instances)
+    public MainPropertyInvoker(IEnumerable<IPropertyInvoker<T>> instances)
     {
       implementation = instances.ToArray();
     }
@@ -16,7 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
     public T InvokeGetter()
     {
       T value = default(T);
-      foreach (IPropertyInstance<T> definition in implementation)
+      foreach (IPropertyInvoker<T> definition in implementation)
         if (!definition.InvokeGetter(ref value))
           return value;
       return value;
@@ -24,7 +24,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 
     public void InvokeSetter(T newValue)
     {
-      foreach (IPropertyInstance<T> definition in implementation)
+      foreach (IPropertyInvoker<T> definition in implementation)
         if (!definition.InvokeSetter(newValue))
           return;
     }

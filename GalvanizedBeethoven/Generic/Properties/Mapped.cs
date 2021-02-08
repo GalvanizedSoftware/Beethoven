@@ -1,4 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
+﻿using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
@@ -14,8 +14,8 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       main = target;
     }
 
-    public IPropertyInstance<T> Create(object master) =>
-      new MappedInstance<T>(main, name);
+    public IPropertyInvoker<T> Create(object master) =>
+      new MappedInvoker<T>(main, name);
 
     public PropertyDefinition CreateMasterProperty() =>
       new PropertyDefinition<T>(new PropertyDefinition<T>(name), this);

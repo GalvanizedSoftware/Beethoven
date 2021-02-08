@@ -1,11 +1,11 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
+﻿using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   internal class SkipIfEqual<T> : IPropertyDefinition<T>
   {
-    public IPropertyInstance<T> Create(object master) =>
-      new SkipIfEqualInstance<T>();
+    public IPropertyInvoker<T> Create(object master) =>
+      new SkipIfEqualInvoker<T>();
   }
 }

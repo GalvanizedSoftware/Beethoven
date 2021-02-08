@@ -1,13 +1,13 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
-  public class DelegatedSetterInstance<T> : IPropertyInstance<T>
+  public class DelegatedSetterInvoker<T> : IPropertyInvoker<T>
   {
     private readonly Action<T> delegateAction;
 
-    public DelegatedSetterInstance(Action<T> delegateAction)
+    public DelegatedSetterInvoker(Action<T> delegateAction)
     {
       this.delegateAction = delegateAction;
     }

@@ -1,5 +1,5 @@
 ﻿using System;
-using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.errorHandler = errorHandler;
     }
 
-    public IPropertyInstance<T> Create(object master) => 
-      new ConstantInstance<T>(value, errorHandler);
+    public IPropertyInvoker<T> Create(object master) => 
+      new ConstantInvoker<T>(value, errorHandler);
   }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
-using GalvanizedSoftware.Beethoven.Core.Invokers.Factories;
-using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
@@ -40,11 +39,11 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
         .Concat(propertyDefinitions
           .Where(definition => definition != null))
         .ToArray();
-      invokerFactory = () => PropertyInvokerFactory.Create<T>(definitions);
+      invokerFactory = () => PropertyInvokerFactory<T>.Create(definitions);
     }
 
-    public IPropertyInstance<T> Create(object master) =>
-      new MultiplePropertyInstance<T>(
+    public IPropertyInvoker<T> Create(object master) =>
+      new MultiplePropertyInvoker<T>(
         definitions.Select(definition => definition.Create(master)));
   }
 }

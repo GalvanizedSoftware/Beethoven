@@ -1,11 +1,9 @@
-﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
+﻿using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
-using System.Reflection;
 using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Generic;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Generic.Fields
 {
   internal class FieldMappedInstance : DefaultDefinition
   {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using GalvanizedSoftware.Beethoven.Extensions;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Generic.Fields
 {
   public class FieldMappedInstances : IDefinitions
   {

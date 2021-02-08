@@ -1,4 +1,4 @@
-﻿using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
+﻿using GalvanizedSoftware.Beethoven.Core.Invokers.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
@@ -12,7 +12,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.name = name;
     }
 
-    public IPropertyInstance<T> Create(object master) => 
-      new NotifyChangedInstance<T>(master, name);
+    public IPropertyInvoker<T> Create(object master) => 
+      new NotifyChangedInvoker<T>(master, name);
   }
 }

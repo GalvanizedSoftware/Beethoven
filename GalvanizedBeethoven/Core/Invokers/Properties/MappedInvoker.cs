@@ -3,15 +3,15 @@ using System.Reflection;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using static GalvanizedSoftware.Beethoven.Core.ReflectionConstants;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
-  public class MappedInstance<T> : IPropertyInstance<T>
+  public class MappedInvoker<T> : IPropertyInvoker<T>
   {
     private readonly object main;
     private readonly MethodInfo getMethod;
     private readonly MethodInfo setMethod;
 
-    public MappedInstance(object target, string name)
+    public MappedInvoker(object target, string name)
     {
       main = target;
       PropertyInfo propertyInfo = target?.GetType().GetProperty(name, ResolveFlags);

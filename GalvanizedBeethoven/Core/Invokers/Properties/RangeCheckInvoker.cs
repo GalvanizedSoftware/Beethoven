@@ -1,14 +1,14 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
-  public class RangeCheckInstance<T> : IPropertyInstance<T> where T : IComparable
+  public class RangeCheckInvoker<T> : IPropertyInvoker<T> where T : IComparable
   {
     private readonly T maximum;
     private readonly T minimum;
 
-    public RangeCheckInstance(T minimum, T maximum)
+    public RangeCheckInvoker(T minimum, T maximum)
     {
       this.minimum = minimum;
       this.maximum = maximum;

@@ -17,15 +17,15 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
 		private readonly string invokerName;
 		private readonly string propertyInfoName;
 		private readonly Type invokerInstanceType;
-		private const string InvokeGetterName = nameof(IPropertyInvokerInstance<object>.InvokeGetter);
-		private const string InvokeSetterName = nameof(IPropertyInvokerInstance<object>.InvokeSetter);
+		private const string InvokeGetterName = nameof(MainPropertyInvoker<object>.InvokeGetter);
+		private const string InvokeSetterName = nameof(MainPropertyInvoker<object>.InvokeSetter);
 
 		internal PropertyGenerator(PropertyInfo propertyInfo)
 		{
 			propertyType = propertyInfo.PropertyType;
 			propertyInfoName = propertyInfo.Name;
 			invokerName = $"invoker{propertyInfoName}";
-			invokerInstanceType = typeof(IPropertyInvokerInstance<>).MakeGenericType(propertyType);
+			invokerInstanceType = typeof(MainPropertyInvoker<>).MakeGenericType(propertyType);
 		}
 
 		public IEnumerable<(CodeType, string)?> Generate()

@@ -1,16 +1,16 @@
 ﻿using System;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
-namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
+namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
 {
-  public class LazyCreatorInstance<T> : IPropertyInstance<T>
+  public class LazyCreatorInvoker<T> : IPropertyInvoker<T>
   {
     private readonly Func<T> valueCreator;
     private T value;
     private bool valueCreated;
     private bool valueSet;
 
-    public LazyCreatorInstance(Func<T> valueCreator)
+    public LazyCreatorInvoker(Func<T> valueCreator)
     {
       this.valueCreator = valueCreator;
     }
