@@ -40,7 +40,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
         .Concat(propertyDefinitions
           .Where(definition => definition != null))
         .ToArray();
-      invokerFactory = () => (object)PropertyInvokerFactory.Create<T>(definitions);
+      invokerFactory = () => PropertyInvokerFactory.Create<T>(definitions);
     }
 
     public IPropertyInstance<T> Create(object master) =>
