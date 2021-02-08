@@ -11,7 +11,7 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic
 {
-  public class LinkedObjects : IDefinitions, IBindingParent
+  public class LinkedObjects : IBindingParent, IImports
   {
     private readonly Dictionary<object, MethodInfo[]> implementationMethods;
     private readonly ExactMethodComparer methodComparer = new();
@@ -88,15 +88,18 @@ namespace GalvanizedSoftware.Beethoven.Generic
 
     public IEnumerable<IDefinition> GetDefinitions<T>() where T : class
     {
-      foreach (PropertyDefinition property in GetProperties<T>())
-        yield return property;
-      foreach (MethodDefinition method in GetMethods<T>())
-        yield return method;
-    }
+			foreach (PropertyDefinition property in GetProperties<T>())
+				yield return property;
+			foreach (MethodDefinition method in GetMethods<T>())
+				yield return method;
+		}
 
     public void Bind(object target) => 
       partDefinitions
         .OfType<IBindingParent>()
         .ForEach(bindingParent => bindingParent.Bind(target));
+
+    public IEnumerable<object> GetImports()=> 
+	    partDefinitions;
   }
 }

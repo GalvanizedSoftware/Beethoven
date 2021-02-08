@@ -13,6 +13,12 @@ namespace GalvanizedSoftware.Beethoven.Core.Definitions
 		internal LinkedDefinitions(IEnumerable<object> newPartDefinitions)
 		{
 			object[] allInstances = newPartDefinitions.ToArray();
+			allInstances = allInstances
+				.Concat(allInstances
+					.OfType<IImports>()
+					.SelectMany(imports => imports.GetImports())
+				)
+				.ToArray();
 			IDefinition[] mapped = new MappedDefinitions<T>(allInstances)
 				.GetDefinitions<T>()
 				.ToArray();
