@@ -7,7 +7,9 @@ namespace DefinitionLibrary
 {
   public class FactoryDefinitions : IFactoryDefinition<IApproverChain>
   {
-    [Factory]
+	  private const string approveName = nameof(IApproverChain.Approve);
+
+	  [Factory]
     public FactoryDefinitions()
     {
     }
@@ -20,7 +22,7 @@ namespace DefinitionLibrary
     {
       get
       {
-        yield return LinkedMethodsReturnValue.Create<IApproverChain>(nameof(IApproverChain.Approve))
+        yield return LinkedMethodsReturnValue.Create<IApproverChain>(approveName)
           .AutoMappedMethod(new Myself()).InvertResult()
           .AutoMappedMethod(new LocalManager()).InvertResult()
           .AutoMappedMethod(new Level2Manager()).InvertResult()
