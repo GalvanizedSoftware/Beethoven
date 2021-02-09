@@ -74,5 +74,16 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         .Select(index => index < 0 ? null : parameters[index])
         .ToArray();
     }
+
+    internal static bool IsFlowControlType(this MethodInfo realMethodInfo, MethodInfo internalMethodInfo)
+    {
+	    ParameterInfo[] realParameters = realMethodInfo.GetParameters();
+	    Type realReturnType = realMethodInfo.ReturnType;
+	    ParameterInfo[] internalParameters = internalMethodInfo.GetParameters();
+	    ParameterInfo internalLastParameter = internalParameters.LastOrDefault();
+	    return (realParameters.Length + 1 == internalParameters.Length &&
+	            internalLastParameter?.ParameterType == realReturnType.MakeByRefType());
+
+    }
   }
 }

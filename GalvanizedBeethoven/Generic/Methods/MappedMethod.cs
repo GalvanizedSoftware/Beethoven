@@ -51,7 +51,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
 
 		public override IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo) =>
 			Enumerable.Single(
-				IsFlowControlType(memberInfo as MethodInfo, methodInfo) ? (IInvoker)
+				(memberInfo as MethodInfo).IsFlowControlType(methodInfo) ? (IInvoker)
 					new MappedFlowControlInvoker(instance, methodInfo) :
 					new MappedInvoker(instance, methodInfo));
 	}
