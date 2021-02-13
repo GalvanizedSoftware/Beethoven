@@ -24,13 +24,13 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Extending
       this.addAccountAction = addAccountAction;
     }
 
-    public IApproverChain CreateChain(IEnumerable<IApprover> approvers)
-    {
-      return beethovenFactory.Generate<IApproverChain>(approvers
+    public IApproverChain CreateChain(IEnumerable<IApprover> approvers) =>
+      beethovenFactory.Generate<IApproverChain>(approvers
         .Select(WrapApprover)
         .Aggregate(LinkedMethodsReturnValue.Create<IApproverChain>(nameof(IApproverChain.Approve)),
-          (value, approver) => value.AutoMappedMethod(approver)));
-    }
+          (value, approver) => 
+            value.AutoMappedMethod(approver)
+            .InvertResult()));
 
     // A new composed class wrapping each approver
     private IApprover WrapApprover(IApprover approver)
@@ -51,8 +51,7 @@ namespace GalvanizedSoftware.Beethoven.DemoApp.Extending
       return beethovenFactory.Generate<IApprover>(
         LinkedMethodsReturnValue.Create<IApprover>(nameof(IApprover.Approve))
           .AutoMappedMethod(approver)
-          .InvertResult()
-          .SkipIfResultCondition<bool>(value => value)
+          .SkipIfResultCondition<string>(string.IsNullOrEmpty)
           .PartialMatchMethod(new MailApprover(approver, mailService, currentResultAction))
       );
     }
