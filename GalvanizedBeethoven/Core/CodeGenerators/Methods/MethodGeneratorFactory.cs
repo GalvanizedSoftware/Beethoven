@@ -15,16 +15,13 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods
       this.definitions = definitions.ToArray();
     }
 
-    internal ICodeGenerator Create(MethodInfo methodInfo, int index)
-    {
-      IDefinition[] matchingDefinitions = definitions
-        .Where(definition => definition.CanGenerate(methodInfo))
-        .ToArray();
-      return matchingDefinitions.Length switch
-      {
-        0 => new MethodNotImplementedGenerator(methodInfo),
-        _ => new MethodGenerator(methodInfo, index),
-      };
-    }
+    internal ICodeGenerator Create(MethodInfo methodInfo, int index) =>
+      definitions
+          .Count(definition => definition.CanGenerate(methodInfo))
+          switch
+          {
+            0 => new MethodNotImplementedGenerator(methodInfo),
+            _ => new MethodGenerator(methodInfo, index),
+          };
   }
 }
