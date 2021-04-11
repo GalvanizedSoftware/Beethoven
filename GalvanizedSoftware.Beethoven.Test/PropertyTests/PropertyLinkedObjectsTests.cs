@@ -6,10 +6,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
 {
+  [Ignore]
   [TestClass]
   public class PropertyLinkedObjectsTests
   {
-
     [TestMethod]
     public void TestMethodPropertyLinkedObjects1()
     {
