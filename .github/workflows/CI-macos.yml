@@ -2,9 +2,9 @@ name: Continuous Integration (macOS)
 
 on:
   push:
-    branches: [ master,CodeGeneration ]
-  pull_request:
-    branches: [ master ]
+    branches:
+      - master
+      - develop
 
 jobs:
   build:
