@@ -1,8 +1,17 @@
 mode: ContinuousDelivery
+assembly-versioning-scheme: MajorMinorPatch
 assembly-informational-format: '{LegacySemVer}'
 branches:
+  master:
+    is-release-branch: true
   release:
-    tag: 'rc'
+    is-release-branch: true
+    tag: useBranchName
+  hotfix:
+    is-release-branch: true
+    tag: useBranchName
+  develop:
+    tag: develop
 ignore:
   sha: []
 merge-message-formats: {}
