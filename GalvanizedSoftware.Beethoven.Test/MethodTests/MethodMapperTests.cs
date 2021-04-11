@@ -12,10 +12,10 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     [TestMethod]
     public void MethodMapperSimpleTest1()
     {
-      CustomImplentation customImplentation = new CustomImplentation();
+      CustomImplementation customImplementation = new CustomImplementation();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
-       new MappedMethod(nameof(ITestMethods.WithParameters), customImplentation, nameof(customImplentation.GetLength)));
+       new MappedMethod(nameof(ITestMethods.WithParameters), customImplementation, nameof(customImplementation.GetLength)));
       Assert.AreEqual(10, instance.WithParameters("w", "sd", 7));
     }
 
@@ -23,11 +23,11 @@ namespace GalvanizedSoftware.Beethoven.Test.MethodTests
     [ExpectedException(typeof(MissingMethodException))]
     public void MethodMapperSimpleTest2()
     {
-      CustomImplentation customImplentation = new CustomImplentation();
+      CustomImplementation customImplementation = new CustomImplementation();
       BeethovenFactory beethovenFactory = new BeethovenFactory();
       ITestMethods instance = beethovenFactory.Generate<ITestMethods>(
         new MappedMethod(nameof(ITestMethods.WithParameters), 
-          customImplentation, nameof(customImplentation.GetLength2)));
+          customImplementation, nameof(customImplementation.GetLength2)));
       Assert.AreEqual(10, instance.WithParameters("w", "sd", 7));
     }
   }

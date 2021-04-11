@@ -15,7 +15,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.maximum = maximum;
     }
 
-    public IPropertyInstance<T> CreateInstance(object master) =>
+    public IPropertyInstance<T> Create(object master) =>
       new RangeCheckInstance<T>(minimum, maximum);
   }
 }

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+
+  <Import Project="BeethovenBuildTask.props" />
+
+  <Target Name="MyTasks" AfterTargets="">
+    <MyExternalTask MyParameter="Foobar"></MyExternalTask>
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj" />
+    <!--<PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.8.0"/>-->
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.8.0" />
+  </ItemGroup>
+
+</Project>

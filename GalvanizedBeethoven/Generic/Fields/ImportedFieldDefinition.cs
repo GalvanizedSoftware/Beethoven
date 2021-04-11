@@ -1,17 +1,15 @@
 ﻿using GalvanizedSoftware.Beethoven.Generic.Methods;
 using GalvanizedSoftware.Beethoven.Generic.Properties;
 using GalvanizedSoftware.Beethoven.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Fields
 {
-  internal class ImportedFieldDefinition : IDefinitions, IMainTypeUser
+  internal class ImportedFieldDefinition : IDefinitions, IFieldMaps
   {
     private readonly string fieldName;
-    private readonly IDefinitions master;
-    private Type mainType;
+    private readonly FieldDefinition master;
 
     internal ImportedFieldDefinition(FieldDefinition master, string fieldName)
     {
@@ -19,13 +17,13 @@ namespace GalvanizedSoftware.Beethoven.Generic.Fields
       this.fieldName = fieldName;
     }
 
-    public void Set(Type setMainType) =>
-      mainType = setMainType;
-
-    public IEnumerable<IDefinition> GetDefinitions() =>
+    public IEnumerable<IDefinition> GetDefinitions<T>() where T : class =>
        master
-        .GetDefinitions()
-        .Concat(new FieldMappedMethods(fieldName, mainType).GetDefinitions())
-        .Concat(new FieldMappedProperties(fieldName, mainType).GetDefinitions());
+        .GetDefinitions<T>()
+        .Concat(new FieldMappedMethods(fieldName, typeof(T)).GetDefinitions<T>())
+        .Concat(new FieldMappedProperties(fieldName, typeof(T)).GetDefinitions<T>());
+
+    public IEnumerable<(string, object)> GetFields() => 
+	    master.GetFields();
   }
 }

@@ -1,31 +1,22 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
 using GalvanizedSoftware.Beethoven.Core.Methods;
+using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
   public class InvertResultMethod : MethodDefinition
   {
-    private readonly MethodDefinition method;
-
-    public InvertResultMethod(MethodDefinition method) : 
-      base(method?.Name, method?.MethodMatcher)
+    public InvertResultMethod(string name) :
+      base(name, new MatchFlowControl())
     {
-      this.method = method;
     }
 
-    public override void Invoke(object localInstance, ref object returnValue, object[] parameters, Type[] genericArguments,
-      MethodInfo methodInfo)
+    public override IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo)
     {
-      method.Invoke(localInstance, ref returnValue, parameters, genericArguments, methodInfo);
-      returnValue = InvertValue(returnValue);
-    }
-    
-    private static bool InvertValue(object value)
-    {
-      if (!(value is bool boolValue))
-        throw new ArgumentException("Method must return bool to use InvertResultMethod");
-      return !boolValue;
+      yield return new InvertResultInvoker();
     }
   }
 }

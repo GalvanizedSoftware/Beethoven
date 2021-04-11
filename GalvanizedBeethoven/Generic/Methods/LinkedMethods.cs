@@ -1,9 +1,10 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.Methods;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
-using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -46,17 +47,16 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       Add(new MappedMethod(Name, instance));
 
     public LinkedMethods SkipIf(Func<bool> condition) =>
-      Add(FlowControlMethod.Create(Name, () => !condition()));
+      Add(FlowControlMethodInverted.Create(Name, condition));
 
     public LinkedMethods SkipIf<T1>(Func<T1, bool> condition) =>
-      Add(FlowControlMethod.Create<T1>(Name, arg1 => !condition(arg1)));
+      Add(FlowControlMethodInverted.Create(Name, condition));
 
     public LinkedMethods SkipIf<T1, T2>(Func<T1, T2, bool> condition) =>
-      Add(FlowControlMethod.Create<T1, T2>(Name, (arg1, arg2) => !condition(arg1, arg2)));
+      Add(FlowControlMethodInverted.Create(Name, condition));
 
     public LinkedMethods SkipIf(object instance, string targetName) =>
-      Add(new PartialMatchMethod(Name, instance, targetName))
-        .InvertResult();
+      Add(new PartialMatchMethod(Name, instance, targetName).ToInvertedFlowControl());
 
     public LinkedMethods PartialMatchMethod(object instance, string targetName) =>
       Add(new PartialMatchMethod(Name, instance, targetName));
@@ -67,41 +67,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public LinkedMethods PartialMatchMethod<TMain>(object instance, string mainParameterName) =>
       Add(new PartialMatchMethod(Name, instance, typeof(TMain), mainParameterName));
 
-    public LinkedMethods InvertResult()
-    {
-      int index = methodList.Length - 1;
-      methodList[index] = new InvertResultMethod(methodList[index]);
-      return this;
-    }
-
-    public override void Invoke(object localInstance, ref object returnAction, object[] parameterValues,
-      Type[] genericArguments,
-      MethodInfo methodInfo)
-    {
-      (Type, string)[] parameterTypeAndNames = methodInfo.GetParameterTypeAndNames();
-      foreach (MethodDefinition method in methodList)
-      {
-        if (!InvokeFirstMatch(localInstance, method, parameterValues, parameterTypeAndNames, genericArguments, methodInfo))
-          break;
-      }
-    }
-
-    private static bool InvokeFirstMatch(object localInstance,
-      MethodDefinition method, object[] parameters, (Type, string)[] parameterTypes,
-      Type[] genericArguments, MethodInfo methodInfo)
-    {
-      Type returnType = methodInfo?.ReturnType;
-      if (method.MethodMatcher.IsMatchCheck(parameterTypes, genericArguments, returnType))
-      {
-        object returnValue = null;
-        method.Invoke(localInstance, ref returnValue, parameters, genericArguments, methodInfo);
-        return true;
-      }
-      if (!method.MethodMatcher.IsMatchCheck(parameterTypes, genericArguments, typeof(bool).MakeByRefType()))
-        throw new MissingMethodException();
-      object result = true;
-      method.Invoke(localInstance, ref result, parameters, genericArguments, methodInfo);
-      return (bool)result;
-    }
+    public override IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo) => 
+      methodList.SelectMany(definition => definition.GetInvokers(memberInfo));
   }
 }

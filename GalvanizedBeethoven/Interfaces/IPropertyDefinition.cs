@@ -2,6 +2,6 @@
 {
   public interface IPropertyDefinition<T>
   {
-    IPropertyInstance<T> CreateInstance(object master);
+    IPropertyInstance<T> Create(object master);
   }
 }

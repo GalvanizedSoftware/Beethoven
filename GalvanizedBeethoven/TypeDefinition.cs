@@ -3,9 +3,11 @@ using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.Definitions;
+using GalvanizedSoftware.Beethoven.Core.FieldInstances;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
+using static System.Guid;
 using static System.Reflection.Assembly;
 
 namespace GalvanizedSoftware.Beethoven
@@ -13,47 +15,50 @@ namespace GalvanizedSoftware.Beethoven
   public class TypeDefinition<T> where T : class
   {
     public static TypeDefinition<T> Create(params object[] newPartDefinitions) =>
-      new(new PartDefinitions(newPartDefinitions), null, null);
-
-    public static TypeDefinition<T> CreateNamed(string className, params object[] newPartDefinitions) =>
-      new(new PartDefinitions(newPartDefinitions), null, className);
+      new(new(newPartDefinitions), null, null, null);
 
     private readonly NameDefinition nameDefinition;
-    private readonly PartDefinitions partDefinitions;
     private static readonly Assembly mainAssembly = typeof(T).Assembly;
 
-    internal static TypeDefinition<T> CreateFromFactoryDefinition(IFactoryDefinition<T> factoryDefinition) =>
+    internal static TypeDefinition<T> CreateFromFactoryDefinition(IFactoryDefinition<T> factoryDefinition, MemberInfo factoryMemberInfo) =>
       factoryDefinition == null ? null :
-        new TypeDefinition<T>(new PartDefinitions(
-          factoryDefinition.PartDefinitions),
+        new TypeDefinition<T>(new (factoryDefinition.PartDefinitions),
           factoryDefinition.Namespace,
-          factoryDefinition.ClassName);
+          factoryDefinition.ClassName,
+          factoryMemberInfo);
 
-    private TypeDefinition(PartDefinitions partDefinitions, string classNamespace, string className) :
-      this(partDefinitions, GetNameDefinition(classNamespace, className))
+    private TypeDefinition(PartDefinitions partDefinitions, string classNamespace, string className, MemberInfo factoryMemberInfo) :
+      this(partDefinitions, GetNameDefinition(classNamespace, className), factoryMemberInfo)
     {
     }
 
-    private static MemberInfoList MemberInfoList { get; } = new(typeof(T));
+    private static MemberInfoList MemberInfoList { get; } = MemberInfoListCache.Get<T>();
+
+    internal PartDefinitions PartDefinitions { get; }
+
+    private TypeDefinition(PartDefinitions partDefinitions, NameDefinition nameDefinition,
+      MemberInfo factoryMemberInfo)
+    {
+      PartDefinitions = partDefinitions
+        .Set(InstanceListFieldDefinition<T>.Create(factoryMemberInfo, Id));
+      this.nameDefinition = nameDefinition;
+      //PartDefinitions.SetMainTypeUser(typeof(T));
+      TypeDefinitionList.Add(Id, this);
+    }
+
+    public string Id { get; } = NewGuid().ToString("N");
+
+    private TypeDefinition(TypeDefinition<T> previousDefinition, object[] newPartDefinitions) :
+      this(previousDefinition.PartDefinitions.Concat(newPartDefinitions),
+           previousDefinition.nameDefinition, null)
+    {
+    }
 
     private static NameDefinition GetNameDefinition(string classNamespace, string className) =>
       new(
         className ?? $"{typeof(T).GetFormattedName()}Implementation",
         classNamespace ?? $"{typeof(T).Namespace}"
       );
-
-    private TypeDefinition(PartDefinitions partDefinitions, NameDefinition nameDefinition)
-    {
-      this.partDefinitions = partDefinitions;
-      this.nameDefinition = nameDefinition;
-      partDefinitions.SetMainTypeUser(typeof(T));
-    }
-
-    private TypeDefinition(TypeDefinition<T> previousDefinition, object[] newPartDefinitions) :
-      this(previousDefinition.partDefinitions.Concat(newPartDefinitions),
-           previousDefinition.nameDefinition)
-    {
-    }
 
     public TypeDefinition<T> Add(params object[] newImplementationObjects) =>
        new(this, newImplementationObjects);
@@ -67,8 +72,8 @@ namespace GalvanizedSoftware.Beethoven
     public T CreateNew(params object[] parameters) =>
       CompileInternal(GetCallingAssembly()).Create(parameters);
 
-    private TypeDefinitionGeneratorOfT<T> CreateGenerator() =>
-      new(MemberInfoList, nameDefinition, partDefinitions);
+    internal TypeDefinitionGeneratorOfT<T> CreateGenerator() =>
+      new(MemberInfoList, nameDefinition, PartDefinitions);
 
     internal CompiledTypeDefinition<T> CompileInternal(Assembly callingAssembly)
     {

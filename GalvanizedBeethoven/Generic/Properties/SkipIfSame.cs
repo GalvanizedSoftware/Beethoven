@@ -5,7 +5,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
   internal class SkipIfEqual<T> : IPropertyDefinition<T>
   {
-    public IPropertyInstance<T> CreateInstance(object master) =>
+    public IPropertyInstance<T> Create(object master) =>
       new SkipIfEqualInstance<T>();
   }
 }

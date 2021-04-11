@@ -14,7 +14,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       main = target;
     }
 
-    public IPropertyInstance<T> CreateInstance(object master) =>
+    public IPropertyInstance<T> Create(object master) =>
       new MappedInstance<T>(main, name);
 
     public PropertyDefinition CreateMasterProperty() =>

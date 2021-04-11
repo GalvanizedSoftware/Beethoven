@@ -9,7 +9,6 @@
     <Description>Fluent-style class implementation / composition. Automapping, duck-typing, auto-implementation and more ...</Description>
     <PackageTags>composition;dynamic creation;duck typing;auto interface implementation</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.7.0.0</Version>
     <Copyright>Copyright 2019-2019 Galvanized Software</Copyright>
     <PackageProjectUrl>https://github.com/GalvanizedSoftware/Beethoven</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GalvanizedSoftware/Beethoven</RepositoryUrl>
@@ -22,6 +21,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Core\LinkedDefinition\**" />
+    <EmbeddedResource Remove="Core\LinkedDefinition\**" />
+    <None Remove="Core\LinkedDefinition\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GitVersion.MsBuild" Version="5.6.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
     <PackageReference Include="System.Reflection.Metadata" Version="5.0.0" />
   </ItemGroup>

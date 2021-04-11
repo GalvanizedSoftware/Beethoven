@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Core;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
@@ -9,21 +10,26 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Events
 {
-  public class DefaultEvent : IDefinition
+  public class DefaultEvent : DefaultDefinition
   {
     private static readonly MethodInfo createMethodInfo =
       typeof(DefaultEvent).GetMethod(nameof(CreateGeneric), ReflectionConstants.ResolveFlags);
 
-    public int SortOrder => 2;
+    public override int SortOrder => 2;
 
-    public bool CanGenerate(MemberInfo memberInfo) =>
+    public override bool CanGenerate(MemberInfo memberInfo) =>
       memberInfo is EventInfo;
 
-    public ICodeGenerator GetGenerator(GeneratorContext generatorContext)
+    public override ICodeGenerator GetGenerator(MemberInfo memberInfo)
     {
-      EventInfo eventInfo = generatorContext?.MemberInfo as EventInfo;
+      EventInfo eventInfo = memberInfo as EventInfo;
       return eventInfo == null ? null :
         Create(eventInfo.EventHandlerType, eventInfo.Name);
+    }
+
+    public override IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo)
+    {
+      yield break;
     }
 
     private ICodeGenerator Create(Type type, string name) =>

@@ -13,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Core
     public BoundTypeDefinitionOfT(NameDefinition nameDefinition, TypeDefinitionGeneratorOfT<T> generator)
     {
       this.nameDefinition = nameDefinition;
-      bindingParents = new BindingParents(generator.AllDefinitions);
+      bindingParents = new(generator.Definitions);
     }
 
     internal CompiledTypeDefinition<T> Link(Assembly assembly) => 

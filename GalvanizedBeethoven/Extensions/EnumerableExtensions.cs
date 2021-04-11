@@ -4,20 +4,13 @@ using GalvanizedSoftware.Beethoven.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace GalvanizedSoftware.Beethoven.Extensions
 {
   public static class EnumerableExtensions
   {
-    public static IEnumerable<T> SkipLast<T>(this IEnumerable<T> enumerable)
-    {
-      T[] array = enumerable.ToArray();
-      int length = array.Length;
-      for (int i = 0; i < length - 1; i++)
-        yield return array[i];
-    }
-
-    public static bool AllAndNonEmpty<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate = null)
+	  public static bool AllAndNonEmpty<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate = null)
     {
       if (source == null)
         return false;
@@ -32,13 +25,7 @@ namespace GalvanizedSoftware.Beethoven.Extensions
       return result;
     }
 
-    public static IEnumerable<T> ExceptIndex<T>(this IEnumerable<T> enumerable, int skipIndex) =>
-      enumerable.Where((_, i) => i != skipIndex);
-
-    internal static string ToString(this IEnumerable<char> chars) =>
-      new(chars.ToArray());
-
-    internal static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
+	  internal static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
     {
       if (collection == null)
         return;
@@ -54,37 +41,19 @@ namespace GalvanizedSoftware.Beethoven.Extensions
         action(item.Item1, item.Item2);
     }
 
-    internal static IDefinition[] GetAllDefinitions(this IEnumerable<object> collection) =>
-      collection
-        .SelectMany(GetAllDefinitions)
-        .Distinct()
-        .OrderBy(definition => definition.SortOrder)
-        .ToArray();
-
-    private static IEnumerable<IDefinition> GetAllDefinitions(object part) =>
-      part switch
-      {
-        IDefinitions definitions => definitions.GetDefinitions(),
-        IDefinition definition => new[] { definition },
-        _ => Enumerable.Empty<IDefinition>()
-      };
-
-    internal static (CodeType, string)[] GenerateCode(this IEnumerable<IDefinition> definitions, GeneratorContext generatorContext) =>
+    internal static (CodeType, string)[] GenerateCode(this IEnumerable<IDefinition> definitions, MemberInfo memberInfo) =>
       definitions
-        .GetGenerators(generatorContext)
+        .GetGenerators(memberInfo)
         .SelectMany(generator => generator.Generate())
         .SkipNull()
         .ToArray();
 
-    internal static IEnumerable<ICodeGenerator> GetGenerators(
-      this IEnumerable<IDefinition> definitions, GeneratorContext generatorContext) =>
+    internal static IEnumerable<ICodeGenerator> GetGenerators(this IEnumerable<IDefinition> definitions, 
+	    MemberInfo memberInfo) =>
       definitions
-        .Where(definition => definition.CanGenerate(generatorContext.MemberInfo))
-        .Select(definition => definition.GetGenerator(generatorContext))
+        .Where(definition => definition.CanGenerate(memberInfo))
+        .Select(definition => definition.GetGenerator(memberInfo))
         .SkipNull();
-
-    internal static IEnumerable<(CodeType, string)?> TagCode(this IEnumerable<string> codeLines, CodeType tag) =>
-      codeLines.Select(code => ((CodeType, string)?)(tag, code));
 
     public static IEnumerable<T> SkipNull<T>(this IEnumerable<T> enumerable) where T : class
     {

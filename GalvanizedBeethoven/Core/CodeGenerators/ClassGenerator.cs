@@ -17,16 +17,17 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
   internal class ClassGenerator
   {
     internal static readonly string GeneratedClassName = typeof(IGeneratedClass).FullName;
+    private readonly Type interfaceType;
     private readonly NameDefinition nameDefinition;
     private readonly IDefinition[] definitions;
     private readonly ConstructorGenerator constructorGenerator;
     private readonly PropertyGenerators propertiesGenerator;
     private readonly MethodGenerators methodGenerators;
     private readonly EventGenerators eventGenerators;
-    private readonly GeneratorContext generatorContext;
 
     public ClassGenerator(MemberInfoList memberInfoList, Type interfaceType, NameDefinition nameDefinition, IDefinition[] definitions)
     {
+      this.interfaceType = interfaceType;
       this.nameDefinition = nameDefinition;
       this.definitions = definitions;
       constructorGenerator = new ConstructorGenerator(nameDefinition.ClassName);
@@ -34,19 +35,18 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
       methodGenerators = new MethodGenerators(
         memberInfoList.MethodInfos, memberInfoList.MethodIndexes, definitions);
       eventGenerators = new EventGenerators(memberInfoList.EventInfos, definitions);
-      generatorContext = new GeneratorContext(nameDefinition.ClassName, interfaceType);
     }
 
     public IEnumerable<string> Generate()
     {
-      (CodeType, string)[] code = definitions.GenerateCode(generatorContext)
+      (CodeType, string)[] code = definitions.GenerateCode(null)
         .Concat(Generate(propertiesGenerator))
         .Concat(Generate(methodGenerators))
         .Concat(Generate(eventGenerators))
         .ToArray();
       yield return $"namespace {nameDefinition.ClassNamespace}";
       yield return "{";
-      yield return $"public class {nameDefinition.ClassName} : {generatorContext.InterfaceType.GetFullName()}, {GeneratedClassName}".Format(1);
+      yield return $"public class {nameDefinition.ClassName} : {interfaceType.GetFullName()}, {GeneratedClassName}".Format(1);
       yield return "{".Format(1);
       yield return Generate(code, FieldsCode);
       yield return GenerateConstructorCode(code);
@@ -69,7 +69,7 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators
 
     private IEnumerable<(CodeType, string)> Generate(ICodeGenerators codeGenerators) =>
       codeGenerators
-        .GetGenerators(generatorContext)
+        .GetGenerators()
         .SelectMany(codeGenerator => codeGenerator.Generate())
         .SkipNull();
   }

@@ -7,16 +7,10 @@ namespace GalvanizedSoftware.Beethoven.Extensions
 {
   internal static class StringExtensions
   {
-    internal const string OneIndent = "\t";
-
-    internal static string Indent(this string text, int indentCount) =>
-      string.Join("", Enumerable.Repeat(OneIndent, indentCount)) + text;
+	  private const string OneIndent = "\t";
 
     internal static string Format(this string text, int indentCount) =>
       Format(text.Split(new[] { NewLine }, RemoveEmptyEntries), indentCount);
-
-    internal static IEnumerable<string> SplitToLines(this string text) =>
-      text.Split(new[] { NewLine }, None);
 
     internal static string Format(this IEnumerable<string> lines, int indentCount)
     {

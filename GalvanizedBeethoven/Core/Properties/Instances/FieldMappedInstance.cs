@@ -1,13 +1,13 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties;
-using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Reflection;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Generic;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
 {
-  internal class FieldMappedInstance : IDefinition
+  internal class FieldMappedInstance : DefaultDefinition
   {
     private readonly PropertyInfo propertyInfo;
     private readonly string fieldName;
@@ -18,12 +18,10 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties.Instances
       this.fieldName = fieldName;
     }
 
-    public int SortOrder => 2;
+    public override bool CanGenerate(MemberInfo memberInfo) =>
 
-    public bool CanGenerate(MemberInfo memberInfo) =>
       memberInfo.IsMatch(propertyInfo);
-
-    public ICodeGenerator GetGenerator(GeneratorContext _) =>
+    public override ICodeGenerator GetGenerator(MemberInfo memberInfo) =>
       new FieldMappedPropertyGenerator(propertyInfo, fieldName);
   }
 }

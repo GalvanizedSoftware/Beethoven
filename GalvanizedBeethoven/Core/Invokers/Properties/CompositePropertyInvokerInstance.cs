@@ -22,7 +22,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Properties
       return value;
     }
 
-    void IPropertyInvokerInstance<T>.InvokeSetter(T newValue)
+    public void InvokeSetter(T newValue)
     {
       foreach (IPropertyInstance<T> definition in implementation)
         if (!definition.InvokeSetter(newValue))

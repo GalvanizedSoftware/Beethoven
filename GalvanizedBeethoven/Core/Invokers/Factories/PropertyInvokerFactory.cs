@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Invokers.Factories
         .MakeGenericMethod(type)
         .Invoke(type, new object[] { definitions });
 
-    private static object Create<T>(IEnumerable<object> definitions) =>
+    public static IPropertyInvoker<T> Create<T>(IEnumerable<object> definitions) =>
       new CompositePropertyInvoker<T>(definitions
         .OfType<IPropertyDefinition<T>>()
         .ToArray());

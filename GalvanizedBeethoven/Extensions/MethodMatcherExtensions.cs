@@ -35,11 +35,5 @@ namespace GalvanizedSoftware.Beethoven.Extensions
     public static bool IsMatchCheck(this IMethodMatcher methodMatcher, (Type, string)[] parameterTypeAndNames,
       Type[] genericArguments, Type returnType) =>
       methodMatcher?.IsMatch(parameterTypeAndNames, genericArguments, returnType) == true;
-
-    internal static bool IsMatch(this IMethodMatcher methodMatcher, MethodInfo methodInfo, Type[] genericArguments) =>
-      methodMatcher.IsMatch(
-        methodInfo.GetParameterTypeAndNames(),
-        genericArguments,
-        methodInfo.ReturnType);
   }
 }

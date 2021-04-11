@@ -7,7 +7,8 @@ using Unity;
 
 namespace GalvanizedSoftware.Beethoven.Test.CompositeTests.Implementations
 {
-  internal class IocFactory
+	// ReSharper disable once ClassNeverInstantiated.Global
+	internal class IocFactory
   {
     private readonly BeethovenFactory beethovenFactory;
 

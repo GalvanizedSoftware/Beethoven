@@ -20,7 +20,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.errorHandler = errorHandler;
     }
 
-    public IPropertyInstance<T> CreateInstance(object master) => 
+    public IPropertyInstance<T> Create(object master) => 
       new ConstantInstance<T>(value, errorHandler);
   }
 }

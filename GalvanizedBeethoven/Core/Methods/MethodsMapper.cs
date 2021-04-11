@@ -10,7 +10,7 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
   internal class MethodsMapper<T> : IEnumerable<MethodDefinition>, IDefinitions
   {
 
-    private static readonly MethodsMapperEngine methodsMapperEngine = new(typeof(T));
+    private static readonly MethodsMapperEngine methodsMapperEngine = MethodsMapperEngine.Create<T>();
     private readonly MappedMethod[] methods;
 
     public MethodsMapper(object baseObject)
@@ -21,7 +21,8 @@ namespace GalvanizedSoftware.Beethoven.Core.Methods
         .ToArray();
     }
 
-    public IEnumerable<IDefinition> GetDefinitions() => methods;
+    public IEnumerable<IDefinition> GetDefinitions<TMaster>() where TMaster : class => 
+	    methods;
 
     public IEnumerator<MethodDefinition> GetEnumerator() => methods.AsEnumerable().GetEnumerator();
 

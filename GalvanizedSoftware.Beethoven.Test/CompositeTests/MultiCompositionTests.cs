@@ -58,5 +58,22 @@ namespace GalvanizedSoftware.Beethoven.Test.CompositeTests
       personCollection.Add(factory.CreatePerson("John", "Smith"));
       personCollection.CollectionChanged += (sender, args) => Trace.WriteLine($"sender: {sender}, type: {args.Action}");
     }
+
+    //[TestMethod]
+    public void MultiCompositionTest5()
+    {
+      Factory factory = new();
+      IPersonCollection personCollection = factory.CreatePersonCollection();
+      personCollection.Add(factory.CreatePerson("John", "Smith"));
+      IPerson person = factory.CreatePerson("Alice", "Smith");
+      personCollection.Add(person);
+      personCollection.Add(factory.CreatePerson("Johnny", "Smith"));
+      personCollection.Add(factory.CreatePerson("JJ", "Smith"));
+      object instance = null;
+      personCollection.CollectionChanged += (currentInstance, _) => instance = currentInstance;
+      personCollection.Remove(person);
+      Assert.IsNotNull(instance);
+      Assert.AreEqual(personCollection, instance);
+    }
   }
 }

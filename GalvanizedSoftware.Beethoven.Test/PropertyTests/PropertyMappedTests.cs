@@ -164,8 +164,8 @@ namespace GalvanizedSoftware.Beethoven.Test.PropertyTests
     [TestMethod]
     public void TestMethodPropertyPropertyMapped13()
     {
-      TypeDefinition<ITestProperties> typeDefinition = TypeDefinition<ITestProperties>.Create(FieldDefinition
-        .CreateFromFactory(() => new MappedTestClass())
+      TypeDefinition<ITestProperties> typeDefinition = TypeDefinition<ITestProperties>.Create(
+	      FieldDefinition.CreateFromFactory(() => new MappedTestClass())
         .ImportInMain());
       ITestProperties test = typeDefinition.CreateNew();
       test.Property1 = 42;

@@ -3,12 +3,11 @@ using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators;
 using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Methods;
-using GalvanizedSoftware.Beethoven.Interfaces;
 using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
-  public class FieldMappedMethod : IDefinition
+  public class FieldMappedMethod : DefaultDefinition
   {
     private readonly string fieldName;
     private readonly IMethodMatcher methodMatcher;
@@ -19,12 +18,12 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
       methodMatcher = new MatchMethodInfoExact(methodInfo);
     }
 
-    public int SortOrder => 2;
+    public override int SortOrder => 2;
 
-    public bool CanGenerate(MemberInfo memberInfo) =>
+    public override bool CanGenerate(MemberInfo memberInfo) =>
       methodMatcher.IsMatchIgnoreGeneric(memberInfo as MethodInfo, memberInfo?.Name);
 
-    public ICodeGenerator GetGenerator(GeneratorContext generatorContext) =>
-      new FieldMappedMethodGenerator(fieldName, generatorContext);
+    public override ICodeGenerator GetGenerator(MemberInfo memberInfo) =>
+      new FieldMappedMethodGenerator(fieldName, memberInfo);
   }
 }

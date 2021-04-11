@@ -10,17 +10,19 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Constructor
   {
     private readonly string fieldName;
     private readonly Type type;
+    private readonly string parameterName;
 
-    public ParameterFieldGenerator(Type type, string fieldName)
+    public ParameterFieldGenerator(Type type, string fieldName, string parameterName = null)
     {
       this.type = type ?? throw new NullReferenceException();
-      this.fieldName = fieldName;
+      this.fieldName = fieldName ?? throw new NullReferenceException();
+      this.parameterName = parameterName ?? fieldName;
     }
 
     public IEnumerable<(CodeType, string)?> Generate()
     {
-      yield return (ConstructorSignature, $"{type.GetFullName()} {fieldName}");
-      yield return (ConstructorCode, $"this.{fieldName} = {fieldName};");
+      yield return (ConstructorSignature, $"{type.GetFullName()} {parameterName}");
+      yield return (ConstructorCode, $"this.{fieldName} = {parameterName};");
     }
   }
 }

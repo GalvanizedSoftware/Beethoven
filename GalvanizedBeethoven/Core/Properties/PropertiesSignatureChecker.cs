@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GalvanizedSoftware.Beethoven.Core.Properties
 {
-  internal class PropertiesSignatureChecker<T>
+  internal class PropertiesSignatureChecker<T> where T : class
   {
     private readonly Dictionary<string, Type> properties;
 
@@ -17,11 +17,11 @@ namespace GalvanizedSoftware.Beethoven.Core.Properties
         .ToDictionary(info => info.Name, info => info.PropertyType);
     }
 
-    public static void CheckSignatures(IDefinitions wrappers) => 
+    public static void CheckSignatures(IDefinitions wrappers) =>
       new PropertiesSignatureChecker<T>().CheckSignaturesInternal(wrappers);
 
-    private void CheckSignaturesInternal(IDefinitions wrappers) => 
-      CheckProperty(wrappers.GetDefinitions().OfType<PropertyDefinition>().ToArray());
+    private void CheckSignaturesInternal(IDefinitions wrappers) =>
+      CheckProperty(wrappers.GetDefinitions<T>().OfType<PropertyDefinition>().ToArray());
 
     private void CheckProperty(PropertyDefinition[] propertyWrappers)
     {

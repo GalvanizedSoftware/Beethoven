@@ -8,15 +8,15 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Events
   internal class SimpleEventGenerator<T> : ICodeGenerator
   {
     private readonly string name;
+    private static readonly string fullName = typeof(T).GetFullName();
 
     public SimpleEventGenerator(string name)
     {
       this.name = name;
     }
 
-    public IEnumerable<(CodeType, string)?> Generate()
-    {
-      yield return (EventsCode, $@"public event {typeof(T).GetFullName()} {name};");
-    }
+    public IEnumerable<(CodeType, string)?> Generate() => 
+	    EventsCode.EnumerateCode(
+		    $@"public event {fullName} {name};");
   }
 }

@@ -1,31 +1,30 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using GalvanizedSoftware.Beethoven.Extensions;
-using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Core.Definitions
 {
-  class PartDefinitions
+  internal class PartDefinitions : IEnumerable<object>
   {
     private readonly object[] partDefinitions;
 
-    public PartDefinitions(IEnumerable<object> newPartDefinitions)
+    internal PartDefinitions(IEnumerable<object> newPartDefinitions)
     {
       partDefinitions = newPartDefinitions.ToArray();
     }
 
-    internal PartDefinitions Concat(object[] concatPartDefinitions) =>
+    internal PartDefinitions Concat(params object[] concatPartDefinitions) =>
       new(partDefinitions.Concat(concatPartDefinitions));
 
-    internal void SetMainTypeUser(Type mainType) =>
-      partDefinitions.OfType<IMainTypeUser>().SetAll(mainType);
+    public PartDefinitions Set<T>(T definition) where T : class =>
+      new(partDefinitions
+        .Where(o => o is not T)
+        .Append(definition));
 
-    internal object[] GetAll<T>() where T : class =>
-      partDefinitions
-        .Concat(
-          new WrapperGenerator<T>(partDefinitions)
-          .GetDefinitions())
-          .ToArray();
+    public IEnumerator<object> GetEnumerator() => 
+      ((IEnumerable<object>) partDefinitions).GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator() => 
+      GetEnumerator();
   }
 }

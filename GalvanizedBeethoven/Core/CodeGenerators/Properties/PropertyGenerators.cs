@@ -1,5 +1,4 @@
 ﻿using GalvanizedSoftware.Beethoven.Core.CodeGenerators.Interfaces;
-using GalvanizedSoftware.Beethoven.Extensions;
 using GalvanizedSoftware.Beethoven.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +17,10 @@ namespace GalvanizedSoftware.Beethoven.Core.CodeGenerators.Properties
       this.definitions = definitions;
     }
 
-    public IEnumerable<ICodeGenerator> GetGenerators(GeneratorContext generatorContext) =>
+    public IEnumerable<ICodeGenerator> GetGenerators() =>
       propertyInfos
         .Select(
-          propertyInfo => new PropertyGeneratorFactory(generatorContext, propertyInfo, definitions)
-            .Create()
-            .WrapLocal(generatorContext, propertyInfo));
+          propertyInfo => new PropertyGeneratorFactory(propertyInfo, definitions)
+            .Create());
   }
 }

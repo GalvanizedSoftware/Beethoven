@@ -13,7 +13,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       this.delegateFunc = delegateFunc;
     }
 
-    public IPropertyInstance<T> CreateInstance(object master) =>
+    public IPropertyInstance<T> Create(object master) =>
       new DelegatedGetterInstance<T>(delegateFunc);
   }
 }

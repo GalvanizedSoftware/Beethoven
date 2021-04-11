@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Methods;
 using GalvanizedSoftware.Beethoven.Core.Methods;
 using GalvanizedSoftware.Beethoven.Core.Methods.MethodMatchers;
 using GalvanizedSoftware.Beethoven.Extensions;
+using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Methods
 {
@@ -20,16 +23,16 @@ namespace GalvanizedSoftware.Beethoven.Generic.Methods
     public static FlowControlMethod Create<T1, T2>(string name, Func<T1, T2, bool> func) =>
       new(name, func);
 
-    internal FlowControlMethod(string name, Delegate func) :
+    private FlowControlMethod(string name, Delegate func) :
       base(name, new MatchFlowControl())
     {
       this.func = func ?? throw new NullReferenceException();
       localParameters = func.Method.GetParameterTypeAndNames();
     }
 
-    public override void Invoke(object _, ref object returnValue,
-      object[] parameters, Type[] __, MethodInfo masterMethodInfo) =>
-      returnValue = func.DynamicInvoke(
-        masterMethodInfo.GetLocalParameters(parameters, localParameters));
+    public override IEnumerable<IInvoker> GetInvokers(MemberInfo memberInfo)
+    {
+      yield return new FlowControlInvoker(func);
+    }
   }
 }

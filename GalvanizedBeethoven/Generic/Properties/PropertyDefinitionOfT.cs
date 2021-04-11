@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Linq;
+using GalvanizedSoftware.Beethoven.Core.Invokers.Factories;
 using GalvanizedSoftware.Beethoven.Core.Properties.Instances;
 using GalvanizedSoftware.Beethoven.Interfaces;
 
 namespace GalvanizedSoftware.Beethoven.Generic.Properties
 {
-  public sealed class PropertyDefinition<T> : PropertyDefinition, IPropertyDefinition<T>
+  public class PropertyDefinition<T> : PropertyDefinition, IPropertyDefinition<T>
   {
     private readonly IPropertyDefinition<T>[] definitions;
 
@@ -15,10 +16,7 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       definitions = Array.Empty<IPropertyDefinition<T>>();
     }
 
-    public PropertyDefinition(PropertyDefinition<T> previous) :
-      this(previous, Array.Empty<IPropertyDefinition<T>>())
-    {
-    }
+    public override int SortOrder { get; } = 1;
 
     public PropertyDefinition(PropertyDefinition<T> previous,
       IPropertyDefinition<T> propertyDefinition) :
@@ -36,17 +34,17 @@ namespace GalvanizedSoftware.Beethoven.Generic.Properties
       params IDefinition[] additionalDefinitions) :
       base(previous, additionalDefinitions)
     {
-      definitions = previous?
+      SortOrder = previous.SortOrder;
+      definitions = previous
         .definitions
         .Concat(propertyDefinitions
           .Where(definition => definition != null))
         .ToArray();
+      invokerFactory = () => (object)PropertyInvokerFactory.Create<T>(definitions);
     }
 
-    internal override object[] Definitions => definitions.OfType<object>().ToArray();
-
-    public IPropertyInstance<T> CreateInstance(object master) =>
+    public IPropertyInstance<T> Create(object master) =>
       new MultiplePropertyInstance<T>(
-        definitions.Select(definition => definition.CreateInstance(master)));
+        definitions.Select(definition => definition.Create(master)));
   }
 }
