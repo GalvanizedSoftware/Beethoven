@@ -6,9 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\GalvanizedBeethoven\GalvanizedSoftware.Beethoven.csproj" />
-    <!--<ProjectReference Include="..\..\GalvanizedSoftware.Beethoven.Build\GalvanizedSoftware.Beethoven.Build.csproj"
-                      OutputItemType="Analyzer"
-                      ReferenceOutputAssembly="false"/>-->
   </ItemGroup>
 
 </Project>
