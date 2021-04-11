@@ -13,6 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        all_commits: true
+        all_tags: true
 
     - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
