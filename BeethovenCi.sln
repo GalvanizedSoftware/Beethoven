@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\manual-publish.yml = .github\workflows\manual-publish.yml
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefinitionLibrary", "Test\DefinitionLibrary\DefinitionLibrary.csproj", "{7FF7EB33-1CF4-4DAE-B8FF-9A435CF4589B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImplementationLibrary", "Test\ImplementationLibrary\ImplementationLibrary.csproj", "{84457A40-5979-4BC3-A358-B5294E981FBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{427D067D-91CF-43C3-BD58-111311C2234F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{427D067D-91CF-43C3-BD58-111311C2234F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{427D067D-91CF-43C3-BD58-111311C2234F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FF7EB33-1CF4-4DAE-B8FF-9A435CF4589B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FF7EB33-1CF4-4DAE-B8FF-9A435CF4589B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FF7EB33-1CF4-4DAE-B8FF-9A435CF4589B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FF7EB33-1CF4-4DAE-B8FF-9A435CF4589B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84457A40-5979-4BC3-A358-B5294E981FBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84457A40-5979-4BC3-A358-B5294E981FBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84457A40-5979-4BC3-A358-B5294E981FBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84457A40-5979-4BC3-A358-B5294E981FBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
